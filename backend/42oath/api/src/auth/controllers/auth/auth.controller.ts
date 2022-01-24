@@ -1,19 +1,19 @@
 import { Controller, Get, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
-import { AuthentificatedGuard, DiscordAuthGuard } from './guards';
+import { AuthentificatedGuard, IntraAuthGuard } from './guards';
 
 
 @Controller('auth')
 export class AuthController {
 
     @Get('login')
-    @UseGuards(DiscordAuthGuard)
+    @UseGuards(IntraAuthGuard)
     login() {
         return;
     }
 
     @Get('redirect')
-        @UseGuards(DiscordAuthGuard)
+        @UseGuards(IntraAuthGuard)
     redirect(@Res() res: Response) {
         res.sendStatus(200);
     }

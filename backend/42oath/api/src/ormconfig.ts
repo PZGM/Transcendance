@@ -17,7 +17,7 @@ const config: ConnectionOptions = {
     port: 5432,
     username: 'postgres',
     password: '123456',
-    database: 'discord',
+    database: '42user',
     entities,
 
     // We are using migrations, synchronize should be set to false.

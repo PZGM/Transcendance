@@ -5,15 +5,21 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({ name: 'discord_id ', unique: true })
-    discordId: string;
+    @Column({ name: 'intra_id ', unique: true })
+    intraId: string;
 
     @Column()
-    username: string;
+    login: string;
 
     @Column()
-    discriminator: string;
+    firstName: string;
 
-    @Column({ nullable: true })
-    avatar: string;
+    @Column()
+    lastName: string;
+
+    @Column()
+    img_url: string;
+
+
+
 }

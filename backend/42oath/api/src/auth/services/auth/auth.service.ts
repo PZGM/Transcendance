@@ -14,8 +14,8 @@ export class AuthService implements AuthentificationProvider {
 
     async validateUser(details: UserDetails) {
         //ca serait googd practice de faire un service mais osef
-        const { discordId } = details;
-        const user = await this.userRepo.findOne({ discordId });
+        const { intraId } = details;
+        const user = await this.userRepo.findOne({ intraId });
         console.log(user);
         if (user) return user;
         return this.createUser(details);
@@ -27,8 +27,8 @@ export class AuthService implements AuthentificationProvider {
         return this.userRepo.save(user);
     }
 
-    findUser(discordId: string) : Promise<User | undefined>{
-        return this.userRepo.findOne({ discordId });
+    findUser(intraId: string) : Promise<User | undefined>{
+        return this.userRepo.findOne({ intraId });
     }
 
     
