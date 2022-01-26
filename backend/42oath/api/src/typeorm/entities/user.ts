@@ -20,6 +20,4 @@ export class User {
     @Column()
     img_url: string;
 
-
-
 }

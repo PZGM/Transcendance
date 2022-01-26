@@ -13,7 +13,6 @@ export class AuthService implements AuthentificationProvider {
     ) {}
 
     async validateUser(details: UserDetails) {
-        //ca serait googd practice de faire un service mais osef
         const { intraId } = details;
         const user = await this.userRepo.findOne({ intraId });
         console.log(user);

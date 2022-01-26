@@ -6,6 +6,7 @@ import * as passport from 'passport'
 import { getRepository } from 'typeorm';
 import { TypeORMSession } from './typeorm/entities/session';
 import { TypeormStore } from 'connect-typeorm'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   dotenv.config();
@@ -26,6 +27,12 @@ async function bootstrap() {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+    //swagger
+    const config = new DocumentBuilder().setTitle('Transcendance API').setDescription('http://ssh.billyboy.fr:3000/').setVersion('0.01').build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('/documentation', app, document);
+
   await app.listen(3000);
 }
 bootstrap();
