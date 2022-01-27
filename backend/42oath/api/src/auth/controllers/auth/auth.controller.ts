@@ -1,6 +1,8 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
+import { Request } from 'express'
+import { read } from 'fs';
 import { AuthentificatedGuard, FranceConnectAuthGuard, IntraAuthGuard, OpenIdAuthGuard } from './guards';
 
 @ApiTags('Auth')
@@ -50,5 +52,7 @@ export class AuthController {
     }
 
     @Get('logout')
-    logout() {}
-}
+    logout(@Req() request: Request) {
+    // request.session.destroy()
+    }
+ }

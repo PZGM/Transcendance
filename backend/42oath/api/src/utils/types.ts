@@ -8,4 +8,9 @@ export type UserDetails = {
     img_url: string;
 }
 
+export interface CustomRequest extends Request {
+
+    user: User;
+  }
+
 export type Done = (err: Error, user: User) => void;
