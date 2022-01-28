@@ -1,9 +1,23 @@
 import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Component } from "react";
 import {UserAPI} from "../api/Users.api";
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+
+
+// fetch('https://jsonplaceholder.typicode.com/todos/1').then((response) => {
+// 	response = response.json()
+// 	response.then((result) => {
+// 		console.log(result)
+// 	})
+// })
+
+
+fetch('http://ssh.billyboy.fr:3000/api/users/me')
+  .then(response => {return response.json()})
+  .then(json => console.log(json))
 
 export default function Header() {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -36,6 +50,7 @@ export default function Header() {
 	  }, []);
 
 
+	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
 
 
 	return (
