@@ -1,16 +1,13 @@
 
 
 export class UserAPI {
-	public static async getLogin() {
-		const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
-			method: "GET",
-			credentials: "include",
-			mode: "no-cors"
-		})
-		
-		const data = await resp.json();
-		return data;
-	}
+		public static async getUser() {
+			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+				console.log(resp);
+			 return resp
+		}
 }
 
 

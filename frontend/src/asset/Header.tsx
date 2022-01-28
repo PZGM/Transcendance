@@ -15,11 +15,36 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 // })
 
 
-fetch('http://ssh.billyboy.fr:3000/api/users/me')
-  .then(response => {return response.json()})
-  .then(json => console.log(json))
+// fetch('http://ssh.billyboy.fr:3000/api/users/me', {credentials: 'include'})
+//   .then(response => {return response.json()})
+//   .then(json => console.log(json))
+
+
 
 export default function Header() {
+	const [login, setLogin] = useState(null);
+	const [avatar, setAvatar] = useState(null);
+
+	// useEffect(() => {
+	// 	getLogin();
+
+	// 	async function getLogin() {
+	// 		const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+	// 			method: "GET",
+	// 			credentials: "include",
+	// 			mode: "no-cors"
+	// 		})
+			
+	// 		const data = await resp.json();
+	// 		setUser(data);
+	// 	}
+	// },[]);
+
+		// fetch('http://ssh.billyboy.fr:3000/api/users/me', {credentials: 'include'})
+		// .then(response => {return response.json()})
+		// .then(json => this.setState({post: json}))
+
+
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   
@@ -39,17 +64,19 @@ export default function Header() {
 	  };
 
 
-	  const [login,setLogin] = useState([]);
 	  useEffect(() => {
-			async function fetchLogin() {
-				const resp = await UserAPI.getLogin();
-				
-				setLogin(resp);
+			async function fetchUser() {
+
+				const resp = await UserAPI.getUser();
+				setLogin(resp.login);
+				setAvatar(resp.img_url);
+
 			}
-			fetchLogin();
-	  }, []);
+			fetchUser();
+	  }, [login, avatar]);
 
 
+	  console.log(avatar);
 	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
 
 
@@ -72,7 +99,7 @@ export default function Header() {
 
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-					<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+					<Avatar alt="Semy Sharp" src='https://cdn.intra.42.fr/users/braimbau.jpg' />
 				</IconButton>
 				<Menu
 				sx={{ mt: '45px' }}
@@ -90,7 +117,12 @@ export default function Header() {
 				open={Boolean(anchorElUser)}
 				onClose={handleCloseUserMenu}
 				>
-				{login.map((login) => {
+					{
+						<div>
+							<Typography>{login}</Typography>
+						</div>
+					}
+				{/* {login.map((login) => {
 					return (
 						<MenuItem onClick={handleCloseUserMenu}>
 							<Typography textAlign="center">{login}</Typography>
@@ -98,7 +130,7 @@ export default function Header() {
 					)
 				})
 
-				}
+				} */}
 				{/* {settings.map((setting) => (
 					<MenuItem onClick={handleCloseUserMenu}>
 					<Typography textAlign="center">yo</Typography>

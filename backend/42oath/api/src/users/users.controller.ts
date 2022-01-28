@@ -45,7 +45,7 @@ export class UsersController {
     }
 
     @Get('/:id')
-    @UseGuards(AuthentificatedGuard)
+    // @UseGuards(AuthentificatedGuard)
     public async getOne(@Param('id') userId: number) {
         const user = await this.userService.getOne(userId);
         if (user)
