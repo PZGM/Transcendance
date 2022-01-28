@@ -9,7 +9,6 @@ export class UserAPI {
 		})
 		
 		const data = await resp.json();
-		
 		return data;
 	}
 }

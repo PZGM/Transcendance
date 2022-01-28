@@ -11,8 +11,8 @@ export default function ConnectButton() {
             startIcon={<Avatar variant="square" src={logo}/>}
             target="_blank"
             component="a"
-            // {/* href="http://68.183.43.160:3000/profil"> */}
-            href="http://ssh.billyboy.fr:3000/api/auth/login">
+            // href="http://ssh.billyboy.fr:3000/api/auth/login">
+            href="http://68.183.43.160:3000/profil">
                 Connect
             </Button>
         </Box>
