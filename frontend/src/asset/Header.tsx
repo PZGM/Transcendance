@@ -99,7 +99,7 @@ export default function Header() {
 
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-					<Avatar alt="Semy Sharp" src='https://cdn.intra.42.fr/users/braimbau.jpg' />
+					<Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' />
 				</IconButton>
 				<Menu
 				sx={{ mt: '45px' }}
