@@ -11,7 +11,7 @@ export default function ConnectButton() {
             startIcon={<Avatar variant="square" src={logo}/>}
             target="_blank"
             component="a"
-            href="http://ssh.billyboy.fr:3000/api/auth/login">
+            href={process.env.REACT_APP_URL_AUTH}>
                 Connect
             </Button>
         </Box>

@@ -1,11 +1,29 @@
-
+export const URL_ME = () => {
+	return process.env.REACT_APP_URL_ME; // will return API URL in .env file.
+  };
 
 export class UserAPI {
 		public static async getUser() {
-			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
-				console.log(resp);
+				console.log("mdr");
+			 return resp
+		}
+
+		public static async EditLogin(UserID: number) {
+			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+				method: "PUT",
+				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+				console.log("mdr");
+			 return resp
+		}
+		
+		public static async EditAvatar(UserID: number) {
+			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+				method: "PUT",
+				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+				console.log("mdr");
 			 return resp
 		}
 }
