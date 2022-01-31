@@ -2,7 +2,7 @@
 
 export class UserAPI {
 		public static async getUser() {
-			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+			const resp = await fetch("https://ssh.billyboy.fr:3333/api/users/me", {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
 				console.log(resp);

@@ -22,8 +22,8 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
 export default function Header() {
-	const [login, setLogin] = useState(null);
-	const [avatar, setAvatar] = useState(null);
+	const [login, setLogin] = useState<string|undefined>(undefined);
+	const [avatar, setAvatar] = useState<string|undefined>(undefined);
 
 	// useEffect(() => {
 	// 	getLogin();
@@ -77,7 +77,7 @@ export default function Header() {
 
 
 	  console.log(avatar);
-	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
+	// fetch('https://ssh.billyboy.fr:3333/api/users/me')
 
 
 	return (
@@ -99,7 +99,7 @@ export default function Header() {
 
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-					<Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' />
+					<Avatar alt="Semy Sharp" src={avatar} />
 				</IconButton>
 				<Menu
 				sx={{ mt: '45px' }}
