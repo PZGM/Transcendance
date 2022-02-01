@@ -1,48 +1,17 @@
-import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, Container } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useEffect, useState, Component } from "react";
 import {UserAPI} from "../api/Users.api";
+import Profil_Card from "./Profile_Card";
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-
-
-// fetch('https://jsonplaceholder.typicode.com/todos/1').then((response) => {
-// 	response = response.json()
-// 	response.then((result) => {
-// 		console.log(result)
-// 	})
-// })
-
-
-// fetch('http://ssh.billyboy.fr:3000/api/users/me', {credentials: 'include'})
-//   .then(response => {return response.json()})
-//   .then(json => console.log(json))
 
 
 
 export default function Header() {
-	const [login, setLogin] = useState<string|undefined>(undefined);
-	const [avatar, setAvatar] = useState<string|undefined>(undefined);
-
-	// useEffect(() => {
-	// 	getLogin();
-
-	// 	async function getLogin() {
-	// 		const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
-	// 			method: "GET",
-	// 			credentials: "include",
-	// 			mode: "no-cors"
-	// 		})
-			
-	// 		const data = await resp.json();
-	// 		setUser(data);
-	// 	}
-	// },[]);
-
-		// fetch('http://ssh.billyboy.fr:3000/api/users/me', {credentials: 'include'})
-		// .then(response => {return response.json()})
-		// .then(json => this.setState({post: json}))
+	const [login, setLogin] = useState(null);
+	const [avatar, setAvatar] = useState(null);
+	const [user, setUser] = useState(null);
 
 
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -64,20 +33,32 @@ export default function Header() {
 	  };
 
 
-	  useEffect(() => {
-			async function fetchUser() {
+	useEffect(() => {
+		async function fetchUser() {
 
-				const resp = await UserAPI.getUser();
-				setLogin(resp.login);
-				setAvatar(resp.img_url);
+			const resp = await UserAPI.getUser();
+			setUser(resp);
+		}
+		fetchUser();
+	}, [user]);
+	//   useEffect(() => {
+	// 		async function fetchUser() {
 
-			}
-			fetchUser();
-	  }, [login, avatar]);
+	// 			const resp = await UserAPI.getUser();
+	// 			setLogin(resp.login);
+	// 			setAvatar(resp.img_url);
+
+	// 		}
+	// 		fetchUser();
+	//   }, [login, avatar]);
 
 
-	  console.log(avatar);
-	// fetch('https://ssh.billyboy.fr:3333/api/users/me')
+	  console.log("yo");
+	//   console.log(avatar);
+	//   console.log(login);
+	  console.log(user);
+	  console.log("merde");
+	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
 
 
 	return (
@@ -93,49 +74,19 @@ export default function Header() {
 				onClick={handleOpenNavMenu}
 				color="inherit"
 				>
-				<MenuIcon />
+					<MenuIcon />
 				</IconButton>
 			</Box>
 
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-					<Avatar alt="Semy Sharp" src={avatar} />
+					<Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' />
+					{/* <Avatar alt="Semy Sharp" src='{user.url_img}' /> */}
 				</IconButton>
-				<Menu
-				sx={{ mt: '45px' }}
-				id="menu-appbar"
-				anchorEl={anchorElUser}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
-				keepMounted
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
-				open={Boolean(anchorElUser)}
-				onClose={handleCloseUserMenu}
-				>
+				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'right'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu} >
 					{
-						<div>
-							<Typography>{login}</Typography>
-						</div>
+						<Profil_Card/>
 					}
-				{/* {login.map((login) => {
-					return (
-						<MenuItem onClick={handleCloseUserMenu}>
-							<Typography textAlign="center">{login}</Typography>
-						</MenuItem>
-					)
-				})
-
-				} */}
-				{/* {settings.map((setting) => (
-					<MenuItem onClick={handleCloseUserMenu}>
-					<Typography textAlign="center">yo</Typography>
-					</MenuItem>
-				))} */}
 				</Menu>
 			</Box>
 		</Toolbar>
