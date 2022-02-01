@@ -17,7 +17,7 @@ const config: ConnectionOptions = {
     port: 5432,
     username: 'postgres',
     password: '123456',
-    database: '42user',
+    database: 'transcendance',
     entities,
 
     // We are using migrations, synchronize should be set to false.
