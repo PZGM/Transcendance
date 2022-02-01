@@ -9,7 +9,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 
 export default function Header() {
-	const [login, setLogin] = useState(null);
+	const [login, setLogin] = useState<string | undefined>(undefined);
 	const [avatar, setAvatar] = useState(null);
 	const [user, setUser] = useState(null);
 
@@ -37,26 +37,16 @@ export default function Header() {
 		async function fetchUser() {
 
 			const resp = await UserAPI.getUser();
-			setUser(resp);
+			setLogin(resp.login);
+			setAvatar(resp.img_url);
 		}
 		fetchUser();
-	}, [user]);
-	//   useEffect(() => {
-	// 		async function fetchUser() {
-
-	// 			const resp = await UserAPI.getUser();
-	// 			setLogin(resp.login);
-	// 			setAvatar(resp.img_url);
-
-	// 		}
-	// 		fetchUser();
-	//   }, [login, avatar]);
-
+	}, [login, avatar]);
 
 	  console.log("yo");
 	//   console.log(avatar);
 	//   console.log(login);
-	  console.log(user);
+	//   console.log(user);
 	  console.log("merde");
 	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
 
@@ -80,12 +70,12 @@ export default function Header() {
 
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-					<Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' />
-					{/* <Avatar alt="Semy Sharp" src='{user.url_img}' /> */}
+					{/* <Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' /> */}
+					<Avatar alt="Semy Sharp" src='{avatar}' />
 				</IconButton>
 				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'right'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu} >
 					{
-						<Profil_Card/>
+						<Profil_Card Login={login}/>
 					}
 				</Menu>
 			</Box>
