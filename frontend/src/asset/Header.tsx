@@ -9,7 +9,7 @@ import Profil_Card from "./Profile_Card";
 
 export default function Header() {
 	const [login, setLogin] = useState<string | undefined>(undefined);
-	const [avatar, setAvatar] = useState(null);
+	const [avatar, setAvatar] = useState<string | undefined>(undefined);
 	const [user, setUser] = useState(null);
 
 
@@ -43,6 +43,7 @@ export default function Header() {
 	}, [login, avatar]);
 
 	  console.log("yo");
+	  console.log(avatar);
 	  console.log("merde");
 
 
@@ -66,7 +67,7 @@ export default function Header() {
 			<Box sx={{ flexGrow: 0 }}>
 				<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
 					{/* <Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' /> */}
-					<Avatar alt="Semy Sharp" src='{avatar}' />
+					<Avatar alt="Semy Sharp" src={avatar} />
 				</IconButton>
 				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'left'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu} >
 					{

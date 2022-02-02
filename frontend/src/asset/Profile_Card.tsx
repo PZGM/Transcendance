@@ -63,8 +63,11 @@ export default function Profil_Card({Login}:Login) {
 		  const uploadFile = async function (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
 			if (fileSelected) {
 				const formData = new FormData();
-				formData.append("image", fileSelected, fileSelected.name);
-				const response = await axios.post(`${process.env.REACT_APP_UPLOAD_AVATAR}`, formData);
+				formData.append("file", fileSelected, fileSelected.name);
+				const response = await axios.post(`${process.env.REACT_APP_UPLOAD_AVATAR}`, formData, { withCredentials: true });
+
+				UserAPI.EditAvatar(response.data);
+
 				return response.data;
 			}
 		};

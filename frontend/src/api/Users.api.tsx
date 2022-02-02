@@ -18,6 +18,18 @@ export class UserAPI {
 				console.log("mdr");
 			 return resp
 		}
+
+		public static async EditAvatar(avatar_url: string) {
+			console.log(`${process.env.REACT_APP_UPDATE_AVATAR}`);
+
+			const resp = await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
+				method: "PUT",
+				headers: { 'Content-Type': 'multipart/form-data' },
+				body: JSON.stringify({ image: avatar_url }),
+				credentials: "include"})
+				console.log("edit avatar");
+			 return resp;
+		}
 		
 		public static async UploadAvatar(UserID: number) {
 			const resp = await fetch(`${process.env.REACT_APP_UPLOAD_AVATAR}`, {
