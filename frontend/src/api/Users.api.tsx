@@ -19,9 +19,9 @@ export class UserAPI {
 			 return resp
 		}
 		
-		public static async EditAvatar(UserID: number) {
-			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
-				method: "PUT",
+		public static async UploadAvatar(UserID: number) {
+			const resp = await fetch(`${process.env.REACT_APP_UPLOAD_AVATAR}`, {
+				method: "POST",
 				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
 				console.log("mdr");
 			 return resp

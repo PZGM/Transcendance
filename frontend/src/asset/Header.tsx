@@ -1,9 +1,8 @@
-import { AppBar, Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography, Container } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Menu, Toolbar } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState } from "react";
 import {UserAPI} from "../api/Users.api";
 import Profil_Card from "./Profile_Card";
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 
 
@@ -44,11 +43,7 @@ export default function Header() {
 	}, [login, avatar]);
 
 	  console.log("yo");
-	//   console.log(avatar);
-	//   console.log(login);
-	//   console.log(user);
 	  console.log("merde");
-	// fetch('http://ssh.billyboy.fr:3000/api/users/me')
 
 
 	return (
@@ -73,9 +68,11 @@ export default function Header() {
 					{/* <Avatar alt="Semy Sharp" src='https://upload.wikimedia.org/wikipedia/commons/f/f1/Charles_Darwin_portrait.jpg' /> */}
 					<Avatar alt="Semy Sharp" src='{avatar}' />
 				</IconButton>
-				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'right'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu} >
+				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'left'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu} >
 					{
-						<Profil_Card Login={login}/>
+						<Box>
+							<Profil_Card Login={login}/>
+						</Box>
 					}
 				</Menu>
 			</Box>
