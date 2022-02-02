@@ -1,7 +1,8 @@
-import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Request } from 'express'
+import { CustomRequest } from 'src/utils/types';
 import { AuthentificatedGuard, IntraAuthGuard } from './guards';
 
 @ApiTags('Auth')
@@ -21,13 +22,17 @@ export class AuthController {
     }
 
     @Get('status')
-        @UseGuards(AuthentificatedGuard)
-    status() {
-        return 'ok';
+    @UseGuards(AuthentificatedGuard)
+    status(@Req() request: CustomRequest) {
+        return `Logged in as ${request.user.login}`;
     }
 
-    @Get('logout')
-    logout(@Req() request: Request) {
-    // request.session.destroy()
+    @UseGuards(AuthentificatedGuard)
+    @Post('logout')
+    async logOut(@Req() request: Request) {
+        request.logOut();
+        request.session.cookie.maxAge = 0;
     }
- }
+  
+}
+

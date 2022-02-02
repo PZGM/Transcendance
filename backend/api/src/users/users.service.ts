@@ -32,15 +32,41 @@ export class UsersService {
         return null; 
     }
 
-private entityToDTO(user: User): UserDTO {
-    const userDTO = new UserDTO();
-    userDTO.id = user.id;
-    userDTO.intraID  = user.intraId;
-    userDTO.login = user.login;
-    userDTO.firstName = user.firstName;
-    userDTO.lastName = user.lastName;
-    userDTO.img_url = user.img_url;
+    public async updateImage(userId: number, image: string) {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        userDTO.img_url = image;
+        const user: User = this.DTOToEntity(userDTO);
+        await this.userRepository.save(user);
+    }
 
-    return userDTO;
-}
+    public async updateLogin(userId: number, login: string) {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        userDTO.login = login;
+        const user: User = this.DTOToEntity(userDTO);
+        await this.userRepository.save(user);
+    }
+
+    private entityToDTO(user: User): UserDTO {
+        const userDTO = new UserDTO();
+        userDTO.id = user.id;
+        userDTO.intraID  = user.intraId;
+        userDTO.login = user.login;
+        userDTO.firstName = user.firstName;
+        userDTO.lastName = user.lastName;
+        userDTO.img_url = user.img_url;
+
+        return userDTO;
+    }
+
+    private DTOToEntity(userDTO: UserDTO): User {
+        const user = new User();
+        user.id = userDTO.id;
+        user.intraId  = userDTO.intraID;
+        user.login = userDTO.login;
+        user.firstName = userDTO.firstName;
+        user.lastName = userDTO.lastName;
+        user.img_url = userDTO.img_url;
+
+        return user;
+    }
 }

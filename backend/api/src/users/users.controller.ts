@@ -1,9 +1,10 @@
-import { Controller, Get, NotFoundException, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
 import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
-import { User } from 'src/typeorm';
 import { UsersService } from './users.service';
+
+
 
 @ApiTags('Users')
 @Controller('users')
@@ -11,42 +12,10 @@ export class UsersController {
 
     constructor(private readonly userService: UsersService) {}
 
-    @Get('/me')
-    @UseGuards(AuthentificatedGuard)
-    public async getSelf(@Req() request: CustomRequest) {
-        console.log(typeof(request));
-        const userId: number = request.user.id;
-        const user = await this.userService.getOne(userId);
-        if (user)
-            return user;  
-        throw new NotFoundException();
-    }
-
-    @Get('/me/login')
-    @UseGuards(AuthentificatedGuard)
-    public async getSelfLogin(@Req() request: CustomRequest) {
-        console.log(typeof(request));
-        const userId: number = request.user.id;
-        const login = await this.userService.getUserLogin(userId);
-        if (login)
-            return login;  
-        throw new NotFoundException();
-    }
-
-    @Get('/me/image')
-    @UseGuards(AuthentificatedGuard)
-    public async getSelfImage(@Req() request: CustomRequest) {
-        console.log(typeof(request));
-        const userId: number = request.user.id;
-        const image = await this.userService.getUserImage(userId);
-        if (image)
-            return image;  
-        throw new NotFoundException();
-    }
-
     @Get('/:id')
-    // @UseGuards(AuthentificatedGuard)
-    public async getOne(@Param('id') userId: number) {
+    @UseGuards(AuthentificatedGuard)
+    public async getOne(@Req() request: CustomRequest, @Param('id') id: string) {
+        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const user = await this.userService.getOne(userId);
         if (user)
             return user;  
@@ -55,7 +24,8 @@ export class UsersController {
 
     @Get('/:id/login')
     @UseGuards(AuthentificatedGuard)
-    public async getLogin(@Param('id') userId: number) {
+    public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {
+        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const login = await this.userService.getUserLogin(userId);
         if (login)
             return login;
@@ -65,12 +35,23 @@ export class UsersController {
 
     @Get('/:id/image')
     @UseGuards(AuthentificatedGuard)
-    public async getImage(@Param('id') userId: number) {
+    public async getImage(@Req() request: CustomRequest, @Param('id') id: string) {
+        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const img = await this.userService.getUserImage(userId);
         if (img)
             return img;
         throw new NotFoundException();
     }
 
-    
+    @Put('/update/image')
+    @UseGuards(AuthentificatedGuard)
+    public async updateImage(@Req() request: CustomRequest, @Body() updateImageRequest: {image: string}) {
+        const ret =  await this.userService.updateImage(request.user.id, updateImageRequest.image);
+    }
+
+    @Put('/update/login')
+    @UseGuards(AuthentificatedGuard)
+    public async updateLogin(@Req() request: CustomRequest, @Body() updateLoginRequest: {login: string}) {
+        const ret =  await this.userService.updateLogin(request.user.id, updateLoginRequest.login);
+    }
 }
