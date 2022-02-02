@@ -4,7 +4,9 @@ import { UserAPI } from "../api/Users.api";
 import { useEffect, useState } from "react";
 
 
-
+type Login = {
+	Login?: string
+}
 
 const icon = (
 	<Paper sx={{ m: 1 }} elevation={4}>
@@ -23,9 +25,8 @@ const icon = (
   );
 
   
-export default function Profil_Card() {
+export default function Profil_Card({Login}:Login) {
 	const [login, setLogin] = useState(null);
-
 	useEffect(() => {
 		async function fetchUser() {
 
@@ -45,6 +46,14 @@ export default function Profil_Card() {
 		  setChecked((prev) => !prev);
 		};
 	
+
+
+		const [show, setShow] = useState(false);
+	  
+		const handleClick = () => {
+		  setShow(!show);
+		};
+
 	return(
 		<div>
 			<Box sx={{
@@ -54,10 +63,11 @@ export default function Profil_Card() {
 				bgcolor: 'background.paper',
 			}}>
 				{/* il faudrait faire un truc pour que quand on click sur le editicon que le typography devienne un textfield puis en validant ca change le login dans la database*/}
-				<Button color="primary" aria-label="upload picture" component="span" startIcon={<EditIcon />} onClick={handleChange}/>
+				<Button color="primary" aria-label="upload picture" component="span" startIcon={<EditIcon />} onClick={handleClick}/>
 					<Box>
-						<TextField id="outlined-required" label="Nickname" defaultValue={login}/>
-						<Typography>qwertyuiop</Typography>
+					{show ? <TextField id="outlined-required" label="Nickname" defaultValue={Login}/> : <Typography>qwertyuiop</Typography>}
+						{/* <TextField id="outlined-required" label="Nickname" defaultValue={Login}/> */}
+						{/* <Typography>{Login}</Typography> */}
 					</Box>
 			</Box>
 		</div>
