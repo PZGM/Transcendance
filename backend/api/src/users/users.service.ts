@@ -37,6 +37,7 @@ export class UsersService {
         userDTO.img_url = image;
         const user: User = this.DTOToEntity(userDTO);
         await this.userRepository.save(user);
+        console.log(`img : ${user.img_url}`)
     }
 
     public async updateLogin(userId: number, login: string) {

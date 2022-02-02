@@ -46,12 +46,15 @@ export class UsersController {
     @Put('/update/image')
     @UseGuards(AuthentificatedGuard)
     public async updateImage(@Req() request: CustomRequest, @Body() updateImageRequest: {image: string}) {
+        console.log(updateImageRequest);
         const ret =  await this.userService.updateImage(request.user.id, updateImageRequest.image);
+        console.log('call update avatar')
     }
 
     @Put('/update/login')
     @UseGuards(AuthentificatedGuard)
     public async updateLogin(@Req() request: CustomRequest, @Body() updateLoginRequest: {login: string}) {
         const ret =  await this.userService.updateLogin(request.user.id, updateLoginRequest.login);
+        console.log('call update login')
     }
 }

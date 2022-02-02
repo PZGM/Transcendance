@@ -11,33 +11,30 @@ export class UserAPI {
 			 return resp
 		}
 
-		public static async EditLogin(UserID: number) {
-			const resp = await fetch("http://ssh.billyboy.fr:3000/api/users/me", {
+		public static async updateLogin(login: string) {
+
+			console.log(`${process.env.REACT_APP_UPDATE_LOGIN}`);
+
+			const resp = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
 				method: "PUT",
-				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
-				console.log("mdr");
-			 return resp
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ login: login }),
+				credentials: "include"})
+			 return resp;
 		}
 
-		public static async EditAvatar(avatar_url: string) {
+		public static async updateAvatar(avatar_url: string) {
 			console.log(`${process.env.REACT_APP_UPDATE_AVATAR}`);
 
 			const resp = await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
 				method: "PUT",
-				headers: { 'Content-Type': 'multipart/form-data' },
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ image: avatar_url }),
 				credentials: "include"})
-				console.log("edit avatar");
+				console.log(JSON.stringify({ image: avatar_url }));
 			 return resp;
 		}
 		
-		public static async UploadAvatar(UserID: number) {
-			const resp = await fetch(`${process.env.REACT_APP_UPLOAD_AVATAR}`, {
-				method: "POST",
-				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
-				console.log("mdr");
-			 return resp
-		}
 }
 
 
