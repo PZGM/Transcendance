@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profil from './components/Accueil';
+import { Home } from './components/Home';
 
 
 const rootElement = document.getElementById("root");
@@ -13,6 +14,7 @@ ReactDOM.render(
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="profile" element={<Profil />} />
+      <Route path="home" element={<Home />} />
       {/* <Route path="invoices" element={<Invoices />} /> */}
     </Routes>
   </BrowserRouter>,
