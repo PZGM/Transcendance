@@ -1,10 +1,9 @@
 import { Avatar, Box, Button } from "@mui/material";
 import logo from '../42_Logo.svg.png';
-
+import React, {useEffect, useState} from "react";
 
 
 export default function ConnectButton() {
-
     return (
         <Box mt={42}>
             <Button variant="contained" sx={{ fontWeight: 'bold',fontSize: 'h8.fontSize' }} style={{backgroundColor:'#424242'}} 

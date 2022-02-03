@@ -4,6 +4,8 @@ import { UserAPI } from "../api/Users.api";
 import { ChangeEvent, useEffect, useState } from "react";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from "axios";
+import AvatarEditor from 'react-avatar-editor'
+
 
 type ProfileCardProps = {
 	login?: string,
@@ -62,13 +64,22 @@ export default function Profil_Card({login, updateHeaderState}:ProfileCardProps)
 					{/* faire un tag onChange pour pouvoir changer la valeur dans la DB */}
 			</Box>
 			<Box m={1} sx={{display: 'flex', flexDirection: 'row',}}>
-					<Input type="file" hidden onChange={handleImageChange}/>
+					<Input type="file" hidden onChange={handleImageChange}></Input>
 				<Button color="primary" aria-label="upload picture" component="span" endIcon={< AddPhotoAlternateIcon/>} onClick={updateImage}>
 					{/* {showAvatar ? <Input type="file" hidden/> : <Box><T></></Box>/>} */}
 				</Button>
 
 				{/* <Avatar alt="Semy Sharp" src={this.state.avatar} /> */}
 			</Box>
+			<AvatarEditor
+			image={(fileSelected) ? fileSelected : 'null'}
+			width={350}
+			height={350}
+			border={50}
+			borderRadius={1000}
+			color={[0, 0, 0, 0.5]} // RGBA
+			scale={2}
+			rotate={0}/>
 		</div>
 	)
 }
