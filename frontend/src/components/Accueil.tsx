@@ -11,7 +11,7 @@ export default function Profil() {
 	return (
 		<div className="App">
 			<Helmet>
-				<style>{'body { background-color: white; }'}</style>
+				<style>{'body { background-color: black; }'}</style>
 			</Helmet>
 			<Header/>
 		

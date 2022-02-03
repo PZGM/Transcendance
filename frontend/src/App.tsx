@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import { Helmet } from 'react-helmet';
 import ConnectButton from './asset/ConnectButton';
-import FranceConnect from './asset/FranceConnect';
 
 
 
@@ -16,7 +15,6 @@ function App() {
 				<style>{'body { background-color: black; }'}</style>
 			</Helmet>
 			<ConnectButton/>
-			<FranceConnect/>
 
 
 			
