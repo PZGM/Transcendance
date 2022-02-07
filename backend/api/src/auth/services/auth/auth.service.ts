@@ -22,7 +22,6 @@ export class AuthService implements AuthentificationProvider {
     }
     
     async createUser(details: UserDetails) {
-        console.log('tkt bro je te fait un user, tkt meme pas');
         const user = this.userRepo.create(details);
         return this.userRepo.save(user);
     }

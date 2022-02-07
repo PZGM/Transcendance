@@ -2,8 +2,9 @@ import { AppBar, Avatar, Box, IconButton, Menu, Toolbar, Typography } from "@mui
 import MenuIcon from '@mui/icons-material/Menu';
 import React, { useEffect, useState, Component } from "react";
 import {UserAPI} from "../api/Users.api";
-import Profil_Card from "./Profile_Card";
+import { ProfileCard } from "./Profile_Card";
 import { FenceTwoTone } from "@mui/icons-material";
+import { CustomAvatar } from "../components/CustomAvatar";
 
 interface HeaderProps {};
   
@@ -67,36 +68,37 @@ export class Header extends Component<HeaderProps, HeaderState>{
 
 	render () {
 		return (
-			<AppBar position="static">
-				<Box>
-					<Toolbar>
-						<Box sx={{ flexGrow: 1, display: { xs: 'flex'} }}>
-							<IconButton 
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={this.handleOpenNavMenu}
-							color="inherit"
-							>
-								<MenuIcon />
-							</IconButton> 
-						</Box> 
-						<Box sx={{ flexGrow: 0 }}>
-							<IconButton onClick={this.handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Semy Sharp" src={this.state.avatar} />
-							</IconButton>
-							<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={this.state.anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'left'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(this.state.anchorElUser)} onClose={this.handleCloseUserMenu} >  
-								{ 
-									<Box>
-										<Profil_Card login={this.state.login} updateHeaderState={this.updateHeaderState}></Profil_Card>
-									</Box>
-								}
-							</Menu> 
-						</Box> 
-					</Toolbar> 
-				</Box>
-			</AppBar>
+			<CustomAvatar id={1} ></CustomAvatar>
+			// <AppBar position="static">
+			// 	<Box>
+			// 		<Toolbar>
+			// 			<Box sx={{ flexGrow: 1, display: { xs: 'flex'} }}>
+			// 				<IconButton 
+			// 				size="large"
+			// 				aria-label="account of current user"
+			// 				aria-controls="menu-appbar"
+			// 				aria-haspopup="true"
+			// 				onClick={this.handleOpenNavMenu}
+			// 				color="inherit"
+			// 				>
+			// 					<MenuIcon />
+			// 				</IconButton> 
+			// 			</Box> 
+			// 			<Box sx={{ flexGrow: 0 }}>
+			// 				<IconButton onClick={this.handleOpenUserMenu} sx={{ p: 0 }}>
+			// 					<Avatar alt="Semy Sharp" src={this.state.avatar} />
+			// 				</IconButton>
+			// 				<Menu sx={{ mt: '45px' }} id="menu-appbar" anchorEl={this.state.anchorElUser} anchorOrigin={{vertical: 'top',horizontal: 'left'}} keepMounted transformOrigin={{vertical: 'top',horizontal: 'right',}} open={Boolean(this.state.anchorElUser)} onClose={this.handleCloseUserMenu} >  
+			// 					{ 
+			// 						<Box>
+			// 							<ProfileCard login={this.state.login} updateHeaderState={this.updateHeaderState}></ProfileCard>
+			// 						</Box>
+			// 					}
+			// 				</Menu> 
+			// 			</Box> 
+			// 		</Toolbar> 
+			// 	</Box>
+			// </AppBar>
 		);
 	}
 }
