@@ -26,8 +26,8 @@ export class StatusController {
     @Put('/users/:id')
     // @UseGuards(AuthentificatedGuard)
     public async updateLogin(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
-        console.log(updateStatusRequest.status)
         this.statusService.updateStatus(id, updateStatusRequest.status);
+        this.statusService.reportActivity(id);
     }
 
 

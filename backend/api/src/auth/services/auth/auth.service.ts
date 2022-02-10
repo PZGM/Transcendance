@@ -15,7 +15,6 @@ export class AuthService implements AuthentificationProvider {
     async validateUser(details: UserDetails) {
         const { intraId } = details;
         const user = await this.userRepo.findOne({ intraId });
-        console.log(user);
         if (user)
             return user;
         return this.createUser(details);

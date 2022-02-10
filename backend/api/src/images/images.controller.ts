@@ -32,7 +32,6 @@ export class ImagesController {
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', storage))
     uploadFile(@UploadedFile() file): string {
-        console.log('img uploaded in backend');
         return (process.env.IMAGES_PATH_URL + path.parse(file.path).name + path.parse(file.path).ext);
     }
 

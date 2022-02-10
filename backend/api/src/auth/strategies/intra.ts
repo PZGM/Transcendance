@@ -26,6 +26,5 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
     };
 
     return this.authService.validateUser(details);
-    //console.log(profile)
     }
 }
