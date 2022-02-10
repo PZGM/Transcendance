@@ -1,5 +1,8 @@
-import { Controller, Sse } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Param, Put, Req, Sse, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Observable, interval, map } from 'rxjs';
+import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { CustomRequest } from 'src/utils/types';
 import { StatusService } from './status.service';
 
 export interface MessageEvent {
@@ -9,13 +12,23 @@ export interface MessageEvent {
     retry?: number;
   }
 
+@ApiTags('Status')
 @Controller('status')
 export class StatusController {
-    constructor(private readonly userService: StatusService) {}
-
-    @Sse('/user')
-    sse(): Observable<MessageEvent> {
-        return interval(2000).pipe(map((_) => ({ data: { status: Math.floor(Math.random() * 4) } })));
+    constructor(private readonly statusService: StatusService) {}
+    
+    @Sse('users/:id')
+    @UseGuards(AuthentificatedGuard)
+    public getUserStatus(@Param('id') id: number): Observable<MessageEvent> {
+        return this.statusService.getStatusObservable(id);
     }
-}
 
+    @Put('/users/:id')
+    // @UseGuards(AuthentificatedGuard)
+    public async updateLogin(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
+        console.log(updateStatusRequest.status)
+        this.statusService.updateStatus(id, updateStatusRequest.status);
+    }
+
+
+}

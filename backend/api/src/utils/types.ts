@@ -6,6 +6,7 @@ export type UserDetails = {
     lastName: string,
     intraId: string;
     img_url: string;
+    status: number;
 }
 
 export interface CustomRequest extends Request {
