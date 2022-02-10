@@ -6,6 +6,7 @@ import '../style/style.css'
 import {UserAPI} from "../api/Users.api";
 import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
+import { Link, NavLink } from "react-router-dom";
 
 const drawerWidth = 500;
 
@@ -18,6 +19,13 @@ interface HomeState {
 	login?: string,
 }
 
+
+export const get_env = () : string => {
+	let str = process.env.REACT_APP_SETTINGS;
+	if (str)
+		return str;
+	return '';// will return API URL in .env file.
+  };
 
 // const Ava = styled('Ava')({
 // 	display: 'flex',
@@ -74,10 +82,10 @@ export class Home extends Component<HomeProps, HomeState> {
 				anchor="right"
 				>
 
-					{/* options genereal */}
-					<Button sx={{width: '100%', height: '5%',backgroundColor: 'yellow'}} href={process.env.REACT_APP_SETTINGS}>
+					{/* options genereal need trouver un moyen d'ouvrir les settings sans refresh la page*/}
+					<Button component={Link} to={process.env.REACT_APP_PROFILE as string} sx={{width: '100%', height: '5%',backgroundColor: 'yellow'}}>
 						<Avatar variant='circular' alt="Semy Sharp" src={this.state.avatar} sx={{ }}/>
-						<Typography>yo</Typography>
+						{/* <Typography>yo</Typography> */}
 					</Button>
 					<Box sx={{height:'95%'}}>
 						{/* Channels et  */}
