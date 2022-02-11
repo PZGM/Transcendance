@@ -5,6 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Profil from './components/Accueil';
+import { Home } from './components/Home';
+import { Menu } from './components/Menu';
+import { Profile } from './menu/profile/Profile';
+import { Friends } from './menu/friends/Friends';
+import { Settings } from './menu/settings/Settings';
+import { History } from './menu/match_history/History';
+import { Achievement } from './menu/achievement/Achievement';
 
 
 const rootElement = document.getElementById("root");
@@ -12,7 +19,13 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="profile" element={<Profil />} />
+      {/* <Route path="profile" element={<Profil />} /> */}
+      <Route path="home" element={<Home />} />
+      <Route path="profile" element={<Profile/>} />
+      <Route path="friends" element={<Friends/>} />
+      <Route path="settings" element={<Settings/>} />
+      <Route path="history" element={<History/>} />
+      <Route path="achievement" element={<Achievement/>} />
       {/* <Route path="invoices" element={<Invoices />} /> */}
     </Routes>
   </BrowserRouter>,
