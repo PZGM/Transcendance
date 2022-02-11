@@ -4,7 +4,6 @@ import React, { useEffect, useState, Component } from "react";
 import {UserAPI} from "../api/Users.api";
 import { ProfileCard } from "./Profile_Card";
 import { FenceTwoTone } from "@mui/icons-material";
-import { CustomAvatar } from "../components/CustomAvatar";
 
 interface HeaderProps {};
   
@@ -68,7 +67,7 @@ export class Header extends Component<HeaderProps, HeaderState>{
 
 	render () {
 		return (
-			<CustomAvatar id={1} ></CustomAvatar>
+			<div></div>
 			// <AppBar position="static">
 			// 	<Box>
 			// 		<Toolbar>
