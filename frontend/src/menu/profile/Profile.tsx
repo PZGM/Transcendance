@@ -40,7 +40,7 @@ export class Profile extends Component<ProfileProps> {
 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
 								</Grid>
 							</Box>
-							<Box m="auto">
+							<Box m="auto"  width="70%">
 									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
 									<Button>AFREIRE-</Button>
 								<Box sx={{ p: 1, border: '3px solid grey' }}  width={200}>

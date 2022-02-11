@@ -37,7 +37,7 @@ export class Achievement extends Component<AchievementProps> {
 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
 								</Grid>
 							</Box>
-							<Box m="auto">
+							<Box m="auto"  width="70%">
                                 
 							</Box>
 						</Grid>

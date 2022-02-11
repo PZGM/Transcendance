@@ -49,8 +49,8 @@ export class Friends extends Component<FriendsProps> {
 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
 								</Grid>
 							</Box>
-							<Box m="auto">
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width="115%" height="100%">
+							<Box m="auto" width="70%">
+								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%" height="100%">
 									<TextField fullWidth label="Search User"/>
 									<FixedSizeList
 										height={400}
