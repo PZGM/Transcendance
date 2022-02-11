@@ -32,11 +32,14 @@ export class UsersService {
         return null;
     }
 
-    public async setUserStatus(userId: number, status: number) {
+    public async setUserStatus(userId: number, status: number): Promise<boolean> {
         const userDTO: UserDTO|null = await this.getOne(userId);
+        if (!userDTO)
+            return false;
         userDTO.status = status;
         const user: User = this.DTOToEntity(userDTO);
         await this.userRepository.save(user);
+        return true;
     }
 
     public async getUserImage(userId: number): Promise<string|null> {

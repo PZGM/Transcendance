@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Param, Put, Req, Sse, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Put, Req, Sse, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Observable, interval, map } from 'rxjs';
 import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
@@ -24,9 +24,15 @@ export class StatusController {
     }
 
     @Put('/users/:id')
-    // @UseGuards(AuthentificatedGuard)
-    public async updateLogin(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
+    @UseGuards(AuthentificatedGuard)
+    public async updateStatus(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
         this.statusService.updateStatus(id, updateStatusRequest.status);
+        this.statusService.reportActivity(id);
+    }
+
+    @Get('/users/activity/:id')
+    @UseGuards(AuthentificatedGuard)
+    public async reportActivity(@Param('id') id: number) {
         this.statusService.reportActivity(id);
     }
 

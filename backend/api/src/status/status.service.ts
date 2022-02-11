@@ -22,18 +22,13 @@ export class StatusService {
     }
 
     reportActivity(id: number) : void {
-        console.log('ACTIVITY REPORTED');
         this.activeUsers.set(id, Date.now());
     }
 
     checkUsersActivity() : void {
-        console.log('CHECK USERS')
         let now: number = Date.now();
         this.activeUsers.forEach((date: number, id: number) => {
-            console.log('check user');
-            console.log(now - date);
             if (now - date > (+ process.env.TIME_BEFORE_DISC as number)) {
-                console.log(`USER DELETED & key = ${id}`);
                 this.updateStatus(id, statusEnum.disconected);
                 this.activeUsers.delete(id);
             }
