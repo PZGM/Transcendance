@@ -22,6 +22,8 @@ export class Settings extends Component<SettingsProps> {
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
+				<Button component={Link} to={process.env.REACT_APP_HOME as string} sx={{width: '100%', height: '5%',backgroundColor: 'yellow'}}>
+				</Button>
 
 				<Box m="20%" display="flex" width={widthBox} height={heightBox} bgcolor="lightblue" sx={{border: '3px solid grey' }}>
 					<Card sx={{ width: "100%", height: "100%" }} style={{ justifyContent: "center", display: "flex" }}>

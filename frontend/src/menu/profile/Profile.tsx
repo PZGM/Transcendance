@@ -9,9 +9,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FolderIcon from '@mui/icons-material/Folder';
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import { createTheme } from '@mui/material/styles';
+
 
 const widthBox = 700;
 const heightBox = 500;
+
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: '#E50033',
+		}
+	},
+	overrides: {
+		MuiButton: {
+			label: {
+				color: 'red',
+			},
+		},
+	}
+});
+
 
 
 interface ProfileProps {
@@ -27,6 +45,9 @@ export class Profile extends Component<ProfileProps> {
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
+
+				<Button variant="contained" component={Link} to={process.env.REACT_APP_HOME as string} sx={{width: '100%', height: '5%'}} color="primary">
+				</Button>
 
 				<Box m="20%" display="flex" width={widthBox} height={heightBox} bgcolor="lightblue" sx={{border: '3px solid grey' }}>
 					<Card sx={{ width: "100%", height: "100%" }} style={{ justifyContent: "center", display: "flex" }}>
