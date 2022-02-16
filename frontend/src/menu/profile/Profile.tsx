@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, Grid, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { Avatar, Box, Button, Card, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Component } from "react";
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -33,7 +33,7 @@ export class Profile extends Component<ProfileProps> {
 						<Grid container direction="row-reverse"   justifyContent="space-evenly"  alignItems="stretch">
 							<Box m="auto">
 								<Grid container direction="column" justifyContent="space-evenly" alignItems="center">
-								<Button component={Link} to={process.env.REACT_APP_PROFILE as string}>Profile</Button>
+									<Button component={Link} to={process.env.REACT_APP_PROFILE as string}>Profile</Button>
 									<Button component={Link} to={process.env.REACT_APP_FRIENDS as string}>Friends</Button>
 									<Button component={Link} to={process.env.REACT_APP_SETTINGS as string}>Settings</Button>
 									<Button component={Link} to={process.env.REACT_APP_HISTORY as string}>Match History</Button>
@@ -41,51 +41,53 @@ export class Profile extends Component<ProfileProps> {
 								</Grid>
 							</Box>
 							<Box m="auto"  width="70%">
-									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
-									<Button>AFREIRE-</Button>
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width={200}>
-									<List>
-										<ListItem>
-											<ListItemIcon>
-												<GamepadIcon />
-											</ListItemIcon>
-											<ListItemText primary="GAMES"/>
-											<ListItemText>50</ListItemText>
-										</ListItem>
-										
-										<ListItem>
-											<ListItemIcon>
-												<EmojiEventsIcon />
-											</ListItemIcon>
-											<ListItemText primary="WINS"/>
-											<ListItemText>2</ListItemText>
-										</ListItem>
+								<Grid container direction="column" justifyContent="center" alignItems="center">
+									<Avatar  variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{diaplay:"flex"}}/>
+									<Typography align="center">AFREIRE-</Typography>
+									<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
+										<List>
+											<ListItem>
+												<ListItemIcon>
+													<GamepadIcon />
+												</ListItemIcon>
+												<ListItemText primary="GAMES"/>
+												<ListItemText>50</ListItemText>
+											</ListItem>
+											
+											<ListItem>
+												<ListItemIcon>
+													<EmojiEventsIcon />
+												</ListItemIcon>
+												<ListItemText primary="WINS"/>
+												<ListItemText>2</ListItemText>
+											</ListItem>
 
-										<ListItem>
-											<ListItemIcon>
-												<FaceIcon />
-											</ListItemIcon>
-											<ListItemText primary="SHOTS"/>
-											<ListItemText>40</ListItemText>
-										</ListItem>
+											<ListItem>
+												<ListItemIcon>
+													<FaceIcon />
+												</ListItemIcon>
+												<ListItemText primary="SHOTS"/>
+												<ListItemText>40</ListItemText>
+											</ListItem>
 
-										<ListItem>
-											<ListItemIcon>
-												<CancelIcon />
-											</ListItemIcon>
-											<ListItemText primary="ACCURACY"/>
-											<ListItemText>5%</ListItemText>
-										</ListItem>
+											<ListItem>
+												<ListItemIcon>
+													<CancelIcon />
+												</ListItemIcon>
+												<ListItemText primary="ACCURACY"/>
+												<ListItemText>5%</ListItemText>
+											</ListItem>
 
-										<ListItem>
-											<ListItemIcon>
-												<StarIcon />
-											</ListItemIcon>
-											<ListItemText primary="RANK"/>
-											<ListItemText>1st</ListItemText>
-										</ListItem>
-									</List>
-								</Box>
+											<ListItem>
+												<ListItemIcon>
+													<StarIcon />
+												</ListItemIcon>
+												<ListItemText primary="RANK"/>
+												<ListItemText>1st</ListItemText>
+											</ListItem>
+										</List>
+									</Box>
+								</Grid>
 							</Box>
 						</Grid>
 					</Card>

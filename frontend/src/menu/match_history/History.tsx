@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, ListItem, ListItemButton, ListItemText, Grid, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, ListItem, ListItemButton, ListItemText, Grid, Typography, Divider } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -18,6 +18,7 @@ function renderRow(props: ListChildComponentProps) {
 	  <ListItem style={style} key={index} component="div" disablePadding>
 		<ListItemButton>
 		  <ListItemText primary={`Item ${index + 1}`} />
+		  <Divider/>
 		</ListItemButton>
 	  </ListItem>
 	);

@@ -2,15 +2,15 @@ import { Avatar, Box, Button, Card, Grid, Typography } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-
+import { FirstRow } from "./First_Row";
+import { ThirdRow } from "./Third_Row";
+import { SecondRow } from "./Second_Row";
 
 const widthBox = 700;
 const heightBox = 500;
 
 interface AchievementProps {
 };
-
-
 
 export class Achievement extends Component<AchievementProps> {
 	constructor(props: AchievementProps) {
@@ -38,7 +38,13 @@ export class Achievement extends Component<AchievementProps> {
 								</Grid>
 							</Box>
 							<Box m="auto"  width="70%">
-                                
+								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
+									<Grid container direction="column" justifyContent="space-between" alignItems="center">
+										<FirstRow/>
+										<SecondRow/>
+										<ThirdRow/>
+									</Grid>
+								</Box>
 							</Box>
 						</Grid>
 					</Card>
