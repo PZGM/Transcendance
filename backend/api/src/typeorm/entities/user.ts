@@ -22,4 +22,5 @@ export class User {
 
     @Column()
     status?: number;
+
 }

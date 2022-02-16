@@ -7,6 +7,7 @@ import {UserAPI} from "../api/Users.api";
 import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import { Link, NavLink } from "react-router-dom";
+import { MiniStatus } from "../asset/MiniStatus";
 
 const drawerWidth = 500;
 
@@ -103,6 +104,8 @@ export class Home extends Component<HomeProps, HomeState> {
 							</IconButton>
 						</Box>
 					</Box>
+					<MiniStatus id={1} ></MiniStatus>
+					<MiniStatus id={2} ></MiniStatus>
 				</Drawer>
 			</div>
 		)
