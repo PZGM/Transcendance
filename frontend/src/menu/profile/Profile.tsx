@@ -21,13 +21,6 @@ const theme = createTheme({
 			main: '#E50033',
 		}
 	},
-	overrides: {
-		MuiButton: {
-			label: {
-				color: 'red',
-			},
-		},
-	}
 });
 
 
