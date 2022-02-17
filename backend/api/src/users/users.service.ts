@@ -25,6 +25,23 @@ export class UsersService {
         return null;
     }
 
+    public async getUserStatus(userId: number): Promise<number|null> {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        if (userDTO)
+            return userDTO.status;
+        return null;
+    }
+
+    public async setUserStatus(userId: number, status: number): Promise<boolean> {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        if (!userDTO)
+            return false;
+        userDTO.status = status;
+        const user: User = this.DTOToEntity(userDTO);
+        await this.userRepository.save(user);
+        return true;
+    }
+
     public async getUserImage(userId: number): Promise<string|null> {
         const userDTO: UserDTO|null = await this.getOne(userId);
         if (userDTO)
@@ -37,7 +54,6 @@ export class UsersService {
         userDTO.img_url = image;
         const user: User = this.DTOToEntity(userDTO);
         await this.userRepository.save(user);
-        console.log(`img : ${user.img_url}`)
     }
 
     public async updateLogin(userId: number, login: string) {
@@ -55,6 +71,7 @@ export class UsersService {
         userDTO.firstName = user.firstName;
         userDTO.lastName = user.lastName;
         userDTO.img_url = user.img_url;
+        userDTO.status = user.status;
 
         return userDTO;
     }
@@ -67,6 +84,7 @@ export class UsersService {
         user.firstName = userDTO.firstName;
         user.lastName = userDTO.lastName;
         user.img_url = userDTO.img_url;
+        user.status = userDTO.status;
 
         return user;
     }

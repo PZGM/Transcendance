@@ -12,23 +12,27 @@ import { Friends } from './menu/friends/Friends';
 import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
+import { StatusDetector } from './components/StatusDetector'
 
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      {/* <Route path="profile" element={<Profil />} /> */}
-      <Route path="home" element={<Home />} />
-      <Route path="profile" element={<Profile/>} />
-      <Route path="friends" element={<Friends/>} />
-      <Route path="settings" element={<Settings/>} />
-      <Route path="history" element={<History/>} />
-      <Route path="achievement" element={<Achievement/>} />
-      {/* <Route path="invoices" element={<Invoices />} /> */}
-    </Routes>
-  </BrowserRouter>,
+  <StatusDetector>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          {/* <Route path="profile" element={<Profil />} /> */}
+          <Route path="home" element={<Home />} />
+          <Route path="profile" element={<Profile/>} />
+          <Route path="friends" element={<Friends/>} />
+          <Route path="settings" element={<Settings/>} />
+          <Route path="history" element={<History/>} />
+          <Route path="achievement" element={<Achievement/>} />
+          {/* <Route path="invoices" element={<Invoices />} /> */}
+        </Routes>
+    </BrowserRouter>
+  </StatusDetector>
+,
   rootElement
 );
 
