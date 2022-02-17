@@ -21,10 +21,10 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
         firstName : name.givenName,
         lastName : name.familyName,
         intraId,
-        img_url : photos[0].value
+        img_url : photos[0].value,
+        status: 0
     };
 
     return this.authService.validateUser(details);
-    //console.log(profile)
     }
 }

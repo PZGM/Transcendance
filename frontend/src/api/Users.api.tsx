@@ -3,26 +3,24 @@ export const URL_ME = () => {
   };
 
 export class UserAPI {
+
+		//getters
 		public static async getUser() {
 			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
-				console.log("mdr");
 			 return resp
 		}
 
-		public static async updateLogin(login: string) {
 
-			console.log(`${process.env.REACT_APP_UPDATE_LOGIN}`);
-
-			const resp = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
-				method: "PUT",
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ login: login }),
-				credentials: "include"})
-			 return resp;
+		public static async getUserById(id: number) {
+			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+			return resp
 		}
 
+		//updaters
 		public static async updateAvatar(avatar_url: string) {
 			console.log(`${process.env.REACT_APP_UPDATE_AVATAR}`);
 
@@ -33,6 +31,32 @@ export class UserAPI {
 				credentials: "include"})
 				console.log(JSON.stringify({ image: avatar_url }));
 			 return resp;
+		}
+
+		public static async updateLogin(login: string) {
+			const resp = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ login: login }),
+				credentials: "include"})
+			 return resp;
+		}
+
+		public static async updateStatus(id: number, status: number) {
+			const resp = await fetch((process.env.REACT_APP_UPDATE_STATUS as string) + id, {
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ status: status }),
+				credentials: "include"})
+			 return resp;
+		}
+		
+		//status
+		public static async reportActivity(id: number) {
+			const resp = await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
+				method: "GET",
+				credentials: "include"})
+			return resp;
 		}
 		
 }

@@ -20,4 +20,7 @@ export class User {
     @Column()
     img_url: string;
 
+    @Column()
+    status?: number;
+
 }
