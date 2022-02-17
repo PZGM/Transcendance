@@ -8,7 +8,12 @@ export class UserAPI {
 		public static async getUser() {
 			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
-				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
 			 return resp
 		}
 
@@ -16,7 +21,12 @@ export class UserAPI {
 		public static async getUserById(id: number) {
 			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}`, {
 				method: "GET",
-				credentials: "include"}).then(response => {return response.json()}).then(json => {return json})
+				credentials: "include"})
+				.then(response => {return response.json()}).then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
 			return resp
 		}
 
