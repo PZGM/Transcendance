@@ -1,0 +1,37 @@
+.dac {
+    position: relative;
+  }
+
+  .dac:after {
+    top: 3px;
+    opacity: 0.5;
+    right: -3px;
+    bottom: -3px;
+    left: 3px;
+    position: absolute;
+    z-index: -1;
+    background-color: inherit;
+    content: '';
+  }
+
+  .bdac {
+    position: relative;
+    border: 2px solid red;
+    margin-top: 5px;
+    padding-bottom: 8px;
+    width: min-content
+  }
+
+  .bdac:before {
+    top: 0px;
+    opacity: 0.5;
+    right: 0px;
+    bottom: -4px;
+    left: 0px;
+    position: absolute;
+    z-index: -1;
+    border: inherit;
+    content: '';
+    width: inherit;
+    height: inherit;
+  }

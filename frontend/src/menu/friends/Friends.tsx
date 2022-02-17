@@ -3,6 +3,7 @@ import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
+import { UserDisplay } from "./UserDisplay";
 
 const widthBox = 700;
 const heightBox = 500;
@@ -15,11 +16,7 @@ function renderRow(props: ListChildComponentProps) {
 	const { index, style } = props;
   
 	return (
-	  <ListItem style={style} key={index} component="div" disablePadding>
-		<ListItemButton>
-		  <ListItemText primary={`Item ${index + 1}`} />
-		</ListItemButton>
-	  </ListItem>
+			<UserDisplay id={index + 1}/>
 	);
   }
 
@@ -52,13 +49,13 @@ export class Friends extends Component<FriendsProps> {
 								</Grid>
 							</Box>
 							<Box m="auto" width="70%">
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%" height="100%">
+								<Box sx={{ p: 1, border: '3px solid grey', backgroundColor: 'black'}}  width="100%" height="100%">
 									<TextField fullWidth label="Search User"/>
 									<FixedSizeList
 										height={400}
-										width="100%"
+										width='100%'
 										itemSize={46}
-										itemCount={200}
+										itemCount={4}
 										overscanCount={5}
 									>
 										{renderRow}

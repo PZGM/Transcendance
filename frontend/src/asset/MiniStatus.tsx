@@ -20,7 +20,7 @@ interface StatusData {
 
 export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 
-	source: any;
+	eventSource: any;
 
 	constructor(props: MiniStatusProps) {
 		super(props);
@@ -42,8 +42,8 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 
 	componentDidMount()  {
 		this.fetchStatus();
-		this.source = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
-		this.source.onmessage = (e: { data: string; }) => {
+		this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
+		this.eventSource.onmessage = (e: { data: string; }) => {
 			let jsonObj: any = JSON.parse(e.data);
 			let status: StatusData = jsonObj as StatusData;
 			if (status.status < 0 || status.status > 4)
@@ -52,7 +52,7 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 				status: status.status,
 			})
 		};
-		this.source.onerror = (e: any) => {
+		this.eventSource.onerror = (e: any) => {
 			this.setState({
 				status: 0,
 			})
@@ -60,7 +60,7 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 	}
 
 	componentWillUnmount() {
-		this.source.close();
+		this.eventSource.close();
 	}
 
 	render () {
@@ -71,7 +71,7 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 			[3, 'lime'],
 			[4, 'royalblue']]);
 		let description = new Map<number, string>([
-			[0, 'unknow status'],
+			[0, 'unknow'],
 			[1, 'disconnected'],
 			[2, 'idle'],
 			[3, 'connected'],
