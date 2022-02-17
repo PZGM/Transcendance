@@ -34,6 +34,8 @@ export class Friends extends Component<FriendsProps> {
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
+				<Button component={Link} to={process.env.REACT_APP_HOME as string} sx={{width: '100%', height: '5%',backgroundColor: 'yellow'}}>
+				</Button>
 
 				<Box m="20%" display="flex" width={widthBox} height={heightBox} bgcolor="lightblue" sx={{border: '3px solid grey' }}>
 					<Card sx={{ width: "100%", height: "100%" }} style={{ justifyContent: "center", display: "flex" }}>
@@ -49,8 +51,8 @@ export class Friends extends Component<FriendsProps> {
 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
 								</Grid>
 							</Box>
-							<Box m="auto">
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width="115%" height="100%">
+							<Box m="auto" width="70%">
+								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%" height="100%">
 									<TextField fullWidth label="Search User"/>
 									<FixedSizeList
 										height={400}
