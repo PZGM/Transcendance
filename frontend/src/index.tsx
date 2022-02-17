@@ -13,6 +13,7 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
+import './asset/fonts/Arcade.ttf';
 
 
 const rootElement = document.getElementById("root");
