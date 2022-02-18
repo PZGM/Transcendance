@@ -13,8 +13,43 @@ code {
 }
 
 @font-face {
-  font-family: "Arcade";
-  src: local("Arcade"),
-   url("./asset/fonts/Arcade.ttf") format("truetype");
+  font-family: "arcade";
+  src: local("arcade"),
+   url("./asset/fonts/arcade.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "backto1982";
+  src: local("backto1982"),
+   url("./asset/fonts/backto1982.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "bit5x3";
+  src: local("bit5x3"),
+   url("./asset/fonts/bit5x3.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "bit5x5";
+  src: local("bit5x5"),
+   url("./asset/fonts/bit5x5.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "bit9x9";
+  src: local("bit9x9"),
+   url("./asset/fonts/bit9x9.ttf") format("truetype");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "manaspc";
+  src: local("manaspc"),
+   url("./asset/fonts/manaspc.ttf") format("truetype");
   font-weight: normal;
 }
