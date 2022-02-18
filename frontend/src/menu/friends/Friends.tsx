@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Card, Grid, ListItem, ListItemButton, ListItemText, styled, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Grid, InputBase, ListItem, ListItemButton, ListItemText, styled, TextField, Typography } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -17,7 +17,9 @@ function renderRow(props: ListChildComponentProps) {
 	const { index, style } = props;
   
 	return (
-			<UserDisplay id={index + 1}/>
+		<div style={style}>
+			<UserDisplay id={index + 1} index={index}/>
+		</div>
 	);
   }
 
@@ -51,12 +53,16 @@ export class Friends extends Component<FriendsProps> {
 							<Box m="auto" width="70%">
 								<Box sx={{p: 1, border: '3px solid grey', backgroundColor: 'black'}}  width="100%" height="100%">
 									<Box mr='2px'>
-										<TextField fullWidth className={styles.input} placeholder='Search user' ></TextField>
+									<InputBase
+										fullWidth
+										className={styles.input}
+										placeholder="Search Friend"
+									/>
 									</Box>
 									<FixedSizeList
 										height={400}
 										width='100%'
-										itemSize={46}
+										itemSize={75}
 										itemCount={4}
 										overscanCount={5}
 									>

@@ -3,9 +3,11 @@ import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { MiniStatus } from "../../asset/MiniStatus";
 import styles from './../../style/dac.module.css'
+import './../../asset/fonts/Fonts.css'
 
 type UserDisplayProps = {
 	id: number;
+	index: number;
 }
 
 interface UserDisplayState {
@@ -65,39 +67,42 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 		this.eventSource.close();
 	}
 
-	render () {
-		console.log('render')
+	getColor(status: number) {
 		let colors = new Map<number, string>([
 			[0, 'grey'],
 			[1, 'red'],
-			[2, 'gold'],
-			[3, 'limegreen'],
-			[4, 'royalblue']]);
+			[2, 'yellow'],
+			[3, 'green'],
+			[4, 'blue']]);
+		return getComputedStyle(document.documentElement).getPropertyValue(`--${colors.get(status)}`)
+	}
+
+	render () {
 		let description = new Map<number, string>([
 			[0, 'unknow'],
-			[1, 'disconnected'],
-			[2, 'idle'],
+			[1, 'disco'],
+			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
 		return (
-			<Box mr='2px' className={styles.bdac}>
+			<Box mr='2px' className={styles.bdac} sx={{borderColor: this.getColor(this.props.index % 5)}}>
             <ListItem 
             key={this.props.id}
 			secondaryAction	={
-			<Stack spacing={1} direction="row" >
-				<Button className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: colors.get(this.state.status)}}>
+			<Stack spacing={1} direction="row">
+				<Button className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: this.getColor(this.state.status)}}>
 					<Typography variant="button" color='white'>
-							{description.get(this.state.status)}
+					<div className='bit5x5'> {description.get(this.state.status)} </div>
 					</Typography>
 				</Button>
 				<Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'grey'}} >
 				<Typography variant="button" color='white'>
-						send message
+					<div className='bit5x5'> Send Message </div>
 					</Typography>
 				</Button>                    
 				<Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'red'}} >
-				<Typography variant="button" color='white'>
-						Remove friend
+					<Typography variant="button" color='white'>
+					<div className='bit5x5'> Remove Friend </div>
 					</Typography>
 				</Button>
 			</Stack>
@@ -105,11 +110,11 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1} >
 				<Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
 				<Typography variant="button" color='white'>
-								{this.state.login}
+					<div className='bit9x9'> {this.state.login} </div>
 				</Typography>
 			</Stack>
         </ListItem>
-		</Box>
+		 </Box>
 		);
 	}
 }
