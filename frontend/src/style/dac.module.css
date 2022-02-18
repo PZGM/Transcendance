@@ -3,11 +3,11 @@
   }
 
   .dac:after {
-    top: 3px;
+    top: 2px;
     opacity: 0.5;
-    right: -3px;
-    bottom: -3px;
-    left: 3px;
+    right: -2px;
+    bottom: -2px;
+    left: 2px;
     position: absolute;
     z-index: -1;
     background-color: inherit;
@@ -18,14 +18,14 @@
     position: relative;
     border: 2px solid red;
     margin-top: 5px;
-    padding-bottom: 8px;
-    width: min-content
+    padding-bottom: 5px;
+    padding-top: 5px;
   }
 
   .bdac:before {
     top: 0px;
     opacity: 0.5;
-    right: 0px;
+    right: -4px;
     bottom: -4px;
     left: 0px;
     position: absolute;
@@ -35,3 +35,77 @@
     width: inherit;
     height: inherit;
   }
+
+  .input fieldset {
+    border: 2px solid yellow;
+    padding-bottom: 5px;
+    border-radius: 0%;
+  }
+
+  .input input {
+    color: white;
+  }
+
+  .input:before{
+    top: 1.7px;
+    opacity: 0.5;
+    bottom: -2px;
+    left: 2px;
+    right: -2px;
+    position: absolute;
+    z-index: 1;
+
+    width: inherit -4px;
+    height: inherit;
+    position: absolute;
+    content: '';
+    border: 2px solid yellow;
+    pointer-events: none;
+  }
+
+  /* .input fieldset:before{
+    top: 0px;
+    opacity: 0.5;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    z-index: 1;
+
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    content: '';
+    border: 3px solid blue
+  } */
+
+  /* .input label:before{
+    top: 0px;
+    opacity: 0.5;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    z-index: 1;
+
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    content: '';
+    border: 5px solid green
+  } */
+
+
+  /* .input:before fieldset {
+    top: 0px;
+    opacity: 0.5;
+    right: -4px;
+    bottom: -4px;
+    left: 0px;
+    position: absolute;
+    z-index: -1;
+    border: inherit;
+    content: '';
+    width: inherit;
+    height: inherit;
+  } */

@@ -1,9 +1,10 @@
-import { Avatar, Box, Button, Card, Grid, ListItem, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Card, Grid, ListItem, ListItemButton, ListItemText, styled, TextField, Typography } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserDisplay } from "./UserDisplay";
+import styles from './../../style/dac.module.css'
 
 const widthBox = 700;
 const heightBox = 500;
@@ -19,7 +20,6 @@ function renderRow(props: ListChildComponentProps) {
 			<UserDisplay id={index + 1}/>
 	);
   }
-
 
 export class Friends extends Component<FriendsProps> {
 	constructor(props: FriendsProps) {
@@ -49,8 +49,10 @@ export class Friends extends Component<FriendsProps> {
 								</Grid>
 							</Box>
 							<Box m="auto" width="70%">
-								<Box sx={{ p: 1, border: '3px solid grey', backgroundColor: 'black'}}  width="100%" height="100%">
-									<TextField fullWidth label="Search User"/>
+								<Box sx={{p: 1, border: '3px solid grey', backgroundColor: 'black'}}  width="100%" height="100%">
+									<Box mr='2px'>
+										<TextField fullWidth className={styles.input} placeholder='Search user' ></TextField>
+									</Box>
 									<FixedSizeList
 										height={400}
 										width='100%'

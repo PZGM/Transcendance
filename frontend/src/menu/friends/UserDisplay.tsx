@@ -80,37 +80,34 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[3, 'connected'],
 			[4, 'playing']]);
 		return (
-			<Box mr='2px'>
-            <ListItem className={styles.bdac}
+			<Box mr='2px' className={styles.bdac}>
+            <ListItem 
             key={this.props.id}
-            secondaryAction={
-                <Stack spacing={1} direction="row">
-                     <Button className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: colors.get(this.state.status)}}>
-                        <Typography variant="button" color='white'>
-                                {description.get(this.state.status)}
-                         </Typography>
-                     </Button>
-                     <Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'grey'}} >
-                     <Typography variant="button" color='white'>
-                            send message
-                        </Typography>
-                     </Button>                    
-                     <Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'red'}} >
-                     <Typography variant="button" color='white'>
-                             Remove friend
-                         </Typography>
-                     </Button>
-                </Stack>
-
-            }
-            disablePadding
-        >
-            <ListItemButton>
-            <ListItemAvatar>
-                <Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
-            </ListItemAvatar>
-            <ListItemText primary={this.state.login} />
-            </ListItemButton>
+			secondaryAction	={
+			<Stack spacing={1} direction="row" >
+				<Button className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: colors.get(this.state.status)}}>
+					<Typography variant="button" color='white'>
+							{description.get(this.state.status)}
+					</Typography>
+				</Button>
+				<Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'grey'}} >
+				<Typography variant="button" color='white'>
+						send message
+					</Typography>
+				</Button>                    
+				<Button className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:'red'}} >
+				<Typography variant="button" color='white'>
+						Remove friend
+					</Typography>
+				</Button>
+			</Stack>
+			}>
+			<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1} >
+				<Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
+				<Typography variant="button" color='white'>
+								{this.state.login}
+				</Typography>
+			</Stack>
         </ListItem>
 		</Box>
 		);
