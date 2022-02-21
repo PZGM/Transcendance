@@ -23,4 +23,6 @@ export class User {
     @Column()
     status?: number;
 
+    @Column("int", {array:true, default: []})
+    friends: number[];
 }

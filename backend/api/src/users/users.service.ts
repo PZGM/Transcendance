@@ -49,6 +49,20 @@ export class UsersService {
         return null; 
     }
 
+    public async getFriends(userId: number): Promise<number[]|null> {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        if (userDTO)
+            return userDTO.friends ;
+        return null; 
+    }
+
+    public async updateFriends(userId: number, friends: number[]) {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        userDTO.friends = friends;
+        const user: User = this.DTOToEntity(userDTO);
+        await this.userRepository.save(user);
+    }
+
     public async updateImage(userId: number, image: string) {
         const userDTO: UserDTO|null = await this.getOne(userId);
         userDTO.img_url = image;
@@ -72,6 +86,7 @@ export class UsersService {
         userDTO.lastName = user.lastName;
         userDTO.img_url = user.img_url;
         userDTO.status = user.status;
+        userDTO.friends = user.friends;
 
         return userDTO;
     }
@@ -85,6 +100,7 @@ export class UsersService {
         user.lastName = userDTO.lastName;
         user.img_url = userDTO.img_url;
         user.status = userDTO.status;
+        user.friends = userDTO.friends;
 
         return user;
     }
