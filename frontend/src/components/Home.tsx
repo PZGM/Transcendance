@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import { Link, NavLink } from "react-router-dom";
 import { MiniStatus } from "../asset/MiniStatus";
+import logo from '../42_Logo.svg.png';
 
 const drawerWidth = 500;
 
@@ -72,6 +73,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
+
 
 				<Drawer 
 				sx={{

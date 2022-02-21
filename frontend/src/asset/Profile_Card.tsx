@@ -54,26 +54,6 @@ export class ProfileCard extends Component<ProfileCardProps, ProfileCardState>{
 		}
 	};
 
-	// updateImage = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-	// 	if (this.editor) {
-	// 		const canvas = this.editor.getImageScaledToCanvas();
-		
-	// 		if (canvas.toBlob) {
-	// 			canvas.toBlob(async function (blob: any) {
-	// 				const formData = new FormData();
-	// 				formData.append("file", blob, 'name.jpg');
-	// 				const response = await axios.post(`${process.env.REACT_APP_UPLOAD_AVATAR}`, formData, { withCredentials: true });
-	// 				UserAPI.updateAvatar(response.data);
-	// 				return response.data;
-	//  				// this.props.updateHeaderState({ avatar: response.data });
-	// 			}, 'image/jpeg')
-	// 			console.log('bonjour')
-	// 			console.log(ret);
-	// 		  }
-		
-	// 	}
-	// };
-
 	handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const log = e.target.value;
 

@@ -14,9 +14,6 @@ interface HeaderState {
 	anchorElNav?: null | HTMLElement,
   }
 
-
-
-
 export class Header extends Component<HeaderProps, HeaderState>{
 	constructor(props: HeaderProps) {
 		super(props);
