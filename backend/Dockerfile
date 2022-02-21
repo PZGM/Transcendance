@@ -3,19 +3,16 @@ WORKDIR /app
 
 RUN npm install -g npm
 
-# install dependencies
-COPY ./api/package*.json ./
+COPY ./api/package*.json .
+
 RUN npm install
 
-# copy rest
-COPY ./api .
+#changer path secret dans main
 
-# compile
-RUN npm run build
+COPY ./secrets .
+COPY ./api .s
 
 # run server
-EXPOSE 3333
+EXPOSE 3333 5432 3001
 
-CMD yarn typeorm:migrate Init && yarn typeorm:run
-
-CMD [ "npm", "start" ]
+CMD yarn typeorm:migrate Init && yarn typeorm:run && yarn start:dev

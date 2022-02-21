@@ -18,8 +18,8 @@ async function bootstrap() {
 
   //https
   const httpsOptions = {
-    key: fs.readFileSync('../../secrets/key.pem'),
-    cert: fs.readFileSync('../../secrets/certificate.pem'),
+    key: fs.readFileSync('./../secrets/key.pem'),
+    cert: fs.readFileSync('./../secrets/certificate.pem'),
   };
 
   const server = express();

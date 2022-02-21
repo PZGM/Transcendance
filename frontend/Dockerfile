@@ -2,14 +2,17 @@ FROM node:16-alpine
 
 WORKDIR /app
 
-# install dependecies
+RUN npm install -g npm
+
 COPY ./package*.json ./
+
 RUN npm install
 
-# copy rest
-COPY . .
+#changer path secret dans package.json
+COPY . . 
 
-# compile
+EXPOSE 3000
+
 RUN npm run build
 
 
