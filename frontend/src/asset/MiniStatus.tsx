@@ -19,23 +19,31 @@ interface StatusData {
 }
 
 export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
+
+	source: any;
+
 	constructor(props: MiniStatusProps) {
 		super(props);
 		this.state = {status: 0}
 	}
 
 	async fetchStatus() {
-		const resp = await UserAPI.getUserById(this.props.id);
-		this.setState({
-			status: (resp) ? resp.status : 0,
-		})
-	}
+		try {
+			const resp = await UserAPI.getUserById(this.props.id);
+			this.setState({
+				status: (resp) ? resp.status : 0,
+			})
+		}
+		catch (e) {
+			console.log('hey salut');
+		}
 
+	}
 
 	componentDidMount()  {
 		this.fetchStatus();
-		const source: any = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
-		source.onmessage = (e: { data: string; }) => {
+		this.source = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
+		this.source.onmessage = (e: { data: string; }) => {
 			let jsonObj: any = JSON.parse(e.data);
 			let status: StatusData = jsonObj as StatusData;
 			if (status.status < 0 || status.status > 4)
@@ -44,11 +52,15 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 				status: status.status,
 			})
 		};
-		source.onerror = (e: any) => {
+		this.source.onerror = (e: any) => {
 			this.setState({
 				status: 0,
 			})
 		}
+	}
+
+	componentWillUnmount() {
+		this.source.close();
 	}
 
 	render () {
