@@ -100,7 +100,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
-								<Grid container direction="column" justifyContent="space-evenly" alignItems="center">
+							<Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2}>
 									<Stack direction="row" justifyContent="flex-end" alignItems="flex-start" sx={{width: "100%"}}>
 										<Button component={Link} to={process.env.REACT_APP_HOME as string} sx={{backgroundColor: 'red'}}><CloseIcon/></Button>
 									</Stack>
@@ -112,7 +112,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 									<Button component={Link} to={process.env.REACT_APP_SETTINGS as string}>Settings</Button>
 									<Button component={Link} to={process.env.REACT_APP_HISTORY as string}>Match History</Button>
 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
-								</Grid>
+									<Box></Box>
+								</Stack>
 						</Box>
 						<Box width="70%">
 							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
