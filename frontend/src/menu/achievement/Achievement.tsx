@@ -24,7 +24,7 @@ export class Achievement extends Component<AchievementProps> {
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
 
-				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
+				<Box m="10%" p="10px" display="flex" width="auto" height="auto" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
 							<Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2}>
@@ -43,15 +43,15 @@ export class Achievement extends Component<AchievementProps> {
 								</Stack>
 						</Box>
 						<Box width="70%">
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-									<Grid container direction="column" justifyContent="space-between" alignItems="center">
-										<FirstRow/>
-										<SecondRow/>
-										<ThirdRow/>
-									</Grid>
-								</Box>
+							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
+								<Grid container direction="column" justifyContent="space-between" alignItems="center">
+									<FirstRow/>
+									<SecondRow/>
+									<ThirdRow/>
+								</Grid>
 							</Box>
-						</Grid>
+						</Box>
+					</Grid>
 				</Box>
             </div>
         );

@@ -10,7 +10,7 @@ function App() {
 	
 	
 	return (
-		<div className="App">
+		<div className="App" min-height="1000px">
 			<Helmet>
 				<style>{'body { background-color: black; }'}</style>
 			</Helmet>
