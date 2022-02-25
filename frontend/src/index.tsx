@@ -14,7 +14,12 @@ import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 
-import './asset/fonts/bit9x9.ttf'
+import './asset/fonts/arcade.ttf';
+import './asset/fonts/backto1982.ttf';
+import './asset/fonts/bit5x3.ttf';
+import './asset/fonts/bit5x5.ttf';
+import './asset/fonts/bit9x9.ttf';
+import './asset/fonts/manaspc.ttf';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
