@@ -58,7 +58,7 @@ export class Friends extends Component<FriendsProps> {
 									placeholder="Search Friend"
 								/>
 								<FixedSizeList
-									height="auto"
+									height={800}
 									width='100%'
 									itemSize={75}
 									itemCount={15}

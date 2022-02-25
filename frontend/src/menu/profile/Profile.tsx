@@ -21,11 +21,7 @@ const theme = createTheme({
 		primary: {
 			main: '#E50033',
 		}
-<<<<<<< HEAD
-	},
-=======
 	}
->>>>>>> 920aa95c18c32eb15fb72c2be96e12229a8ae18a
 });
 
 

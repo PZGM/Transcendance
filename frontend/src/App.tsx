@@ -11,9 +11,6 @@ function App() {
 	
 	return (
 		<div className="App">
-			<div className="font-face-gm" >
-				<h1 style={{ color: 'red' }}>ft_transcendence</h1>
-			</div>
 			<Helmet>
 				<style>{'body { background-color: black; }'}</style>
 			</Helmet>
