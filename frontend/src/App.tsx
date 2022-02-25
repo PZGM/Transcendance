@@ -35,11 +35,11 @@ function App() {
 				<div>
 					<img
 						src={require('./asset/images/afreire_braimbau.png')}
-						className='fit1'>
+						className='fit'>
 					</img>
 					<img
 						src={require('./asset/images/fmanetti_selgrabl.png')}
-						className='fit2'>
+						className='fit'>
 					</img>
 				</div>
 			</Stack>

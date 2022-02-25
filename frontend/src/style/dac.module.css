@@ -8,6 +8,7 @@
 	--grey: #b6d2e1;
 	--blue: #0075fd;
 	--azur: #03c7d8;
+  --magenta: #8e00ae;
   }
   
 /* custom scroll bar */
@@ -101,6 +102,10 @@
     padding: 5px;
     border-radius: 0%;
     margin-bottom: 8px;
+  }
+
+  input:focus::placeholder {
+    color: transparent;
   }
 
   .input:hover {
