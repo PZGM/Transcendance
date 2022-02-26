@@ -86,6 +86,18 @@ export class UserAPI {
 				body: JSON.stringify({ id: id }),
 				credentials: "include"})
 			}
+
+		public static async searchFriend(search: string) {
+			const resp = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
+			 return resp
+		}
 }
 
 

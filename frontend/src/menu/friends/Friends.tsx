@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserDisplay } from "./UserDisplay";
+import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
 import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
@@ -35,12 +36,22 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	  return listItems;
 	}
 
+	renderSearchRows(list) {
+		const listItems = list.map((id: number) =>
+			<div key={id}>
+				<AddUserDisplay id={id} index={this.index} addFriend={this.addFriend}/>
+			</div>
+	  );
+	  return listItems;
+	}
+
 	constructor(props: FriendsProps) {
 		super(props);
 		this.state = {friends: [], searchResults: [], searchField: undefined};
 		this.renderRows = this.renderRows.bind(this);
 		this.deleteFriend = this.deleteFriend.bind(this);
-		this.add1 = this.add1.bind(this);
+		this.renderSearchRows = this.renderSearchRows.bind(this);
+		this.addFriend = this.addFriend.bind(this);
 	}
 
 	deleteFriend(id:number) {
@@ -52,16 +63,13 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		});
 	}
 
-	add1() {
-		UserAPI.addFriend(1);
+	addFriend(id:number) {
 		let newFriends: number[] = this.state.friends;
-		newFriends.push(1);
-
+		newFriends.push(id)
 		this.setState({
 			friends: newFriends
 		});
 	}
-	
 
 	async fetchUser() {
 		try {
@@ -94,7 +102,6 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 				width: '100vw',
 				backgroundRepeat: 'norepeat'
 			}}>
-				<Button onClick={this.add1}>Add 1</Button>
 				<Stack
 					direction="column"
 					justifyContent="space-between"
@@ -112,15 +119,18 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 									inputProps={{min: 0, style: { textAlign: 'center' }}}
 									className={styles.input}
 									placeholder="Search Friend"
-									onChange={(e) => {this.setState({searchField: e.target.value})}}
+									onChange={ async (e) => {
+										this.setState({searchField: e.target.value});
+										if (!e.target.value || e.target.value == '')
+											return;
+										let ret = await UserAPI.searchFriend(e.target.value);
+										this.setState({searchResults: ret});
+									}
+								}
 								/>
 								<List style={{height: '100%',  overflow: 'auto'}}>
-									{this.state.searchField && <ListSubheader>{'Search'}</ListSubheader>}
-									{this.state.searchField && this.renderRows(this.state.friends)}
-									<ListSubheader>{'Friends'}</ListSubheader>
-									{this.renderRows(this.state.friends)}
-									<ListSubheader>{'Suggestion'}</ListSubheader>
-									{this.renderRows(this.state.friends)}
+									{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
+									{!this.state.searchField && this.renderRows(this.state.friends)}
 								</List>
 							</Box>
 
@@ -145,157 +155,3 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		);
 	};
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Avatar, Box, Button, Card, Grid, InputBase, ListItem, ListItemButton, ListItemText, styled, TextField, Typography } from "@mui/material";
-// import { Component } from "react";
-// import { Helmet } from "react-helmet";
-// import { Link } from "react-router-dom";
-// import { FixedSizeList, ListChildComponentProps } from "react-window";
-// import { UserDisplay } from "./UserDisplay";
-// import styles from './../../style/dac.module.css'
-// import { UserAPI } from "../../api/Users.api";
-
-// const widthBox = 700;
-// const heightBox = 500;
-
-// interface FriendsProps {
-// };
-
-// interface FriendsState {
-// 	friends: number[];
-// }
-
-
-
-// export class Friends extends Component<FriendsProps, FriendsState> {
-// 	constructor(props: FriendsProps) {
-// 		super(props);
-// 		this.state = {friends: []};
-// 		this.renderRow = this.renderRow.bind(this);
-// 	}
-
-// 	renderRow(props: ListChildComponentProps) {
-// 		const { index, style } = props;
-	  
-// 		return (
-// 			<div style={style}>
-// 				<UserDisplay id={this.state.friends[index]} index={index}/>
-// 			</div>
-// 		);
-// 	  }
-
-// 	add1() {
-// 		UserAPI.addFriend(1);
-// 	}
-	
-// 	add2() {
-// 		UserAPI.addFriend(2);
-
-// 	}
-	
-// 	add3() {
-// 		UserAPI.addFriend(3);
-// 	}
-	
-// 	add4() {
-// 		UserAPI.addFriend(4);
-// 	}
-	
-
-// 	async fetchUser() {
-// 		try {
-// 			const resp = await UserAPI.getUser();
-// 			this.setState({
-// 				friends: resp.friends,
-// 			})
-// 			console.log(`friends : ${this.state.friends}`)
-// 		}
-// 		catch (e) {
-// 			console.log(e);
-// 		}
-
-// 	}
-
-// 	componentDidMount()  {
-// 		this.fetchUser();
-// 	}
-
-// 	componentWillUnmount() {
-// 	}
-
-
-
-// 	render (){
-// 		return(
-// 			<div>
-// 				<Helmet>
-// 					<style>{'body { background-color: black; }'}</style>
-// 				</Helmet>
-// 				<Button onClick={this.add1}>Add 1</Button>
-// 				<Button onClick={this.add2}>Add 2</Button>
-// 				<Button onClick={this.add3}>Add 3</Button>
-// 				<Button onClick={this.add4}>Add 4</Button>
-
-// 				<Button component={Link} to={process.env.REACT_APP_HOME as string} sx={{width: '100%', height: '5%',backgroundColor: 'yellow'}}>
-// 				</Button>
-
-// 				<Box m="20%" display="flex" width={widthBox} height={heightBox} bgcolor="lightblue" sx={{border: '3px solid grey' }}>
-// 					<Card sx={{ width: "100%", height: "100%" }} style={{ justifyContent: "center", display: "flex" }}>
-// 						<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-// 							<Box m="auto">
-// 								<Grid container direction="column" justifyContent="space-evenly" alignItems="center">
-// 									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
-// 									<Typography>AFREIRE-</Typography>
-// 									<Button component={Link} to={process.env.REACT_APP_PROFILE as string}>Profile</Button>
-// 									<Button component={Link} to={process.env.REACT_APP_FRIENDS as string}>Friends</Button>
-// 									<Button component={Link} to={process.env.REACT_APP_SETTINGS as string}>Settings</Button>
-// 									<Button component={Link} to={process.env.REACT_APP_HISTORY as string}>Match History</Button>
-// 									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
-// 								</Grid>
-// 							</Box>
-// 							<Box m="auto" width="70%">
-// 								<Box sx={{p: 1, border: '3px solid grey', backgroundColor: 'black'}}  width="100%" height="100%">
-// 									<Box mr='2px'>
-// 									<InputBase
-// 										fullWidth
-// 										className={styles.input}
-// 										placeholder="Search Friend"
-// 									/>
-// 									</Box>
-// 									<FixedSizeList
-// 										height={400}
-// 										width='100%'
-// 										itemSize={75}
-// 										itemCount={this.state.friends.length}
-// 										overscanCount={5}
-// 									>
-// 										{this.renderRow}
-// 									</FixedSizeList>
-// 								</Box>
-// 							</Box>
-// 						</Grid>
-// 					</Card>
-// 				</Box>
-// 			</div>
-// 		);
-// 	};
-// }
