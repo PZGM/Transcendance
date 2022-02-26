@@ -56,6 +56,23 @@ export class UsersService {
         return null; 
     }
 
+    public async findFriends(search: string, userId: number): Promise<number[]|null> {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        let results = await this.userRepository
+        .createQueryBuilder().select()
+        .where('login ILIKE :searchQuery', {searchQuery: `%${search}%`})
+        .getMany()
+
+        let friends = userDTO.friends;
+        let resultsId = results.map(item => item.id);
+        resultsId = resultsId.filter( ( el ) => !friends.includes( el ) );
+
+
+        if (resultsId)
+            return resultsId ;
+        return null; 
+    }
+
     public async updateFriends(userId: number, friends: number[]) {
         const userDTO: UserDTO|null = await this.getOne(userId);
         userDTO.friends = friends;
@@ -70,11 +87,14 @@ export class UsersService {
         await this.userRepository.save(user);
     }
 
-    public async updateLogin(userId: number, login: string) {
+    public async updateLogin(userId: number, login: string) : Promise<number> {
+        if (! await this.login_available(login))
+            return 1;
         const userDTO: UserDTO|null = await this.getOne(userId);
         userDTO.login = login;
         const user: User = this.DTOToEntity(userDTO);
         await this.userRepository.save(user);
+        return 0;
     }
 
     private entityToDTO(user: User): UserDTO {
@@ -103,5 +123,11 @@ export class UsersService {
         user.friends = userDTO.friends;
 
         return user;
+    }
+
+    private async login_available(login: string) : Promise<number> {
+        if ( (await this.userRepository.count({login: login})) != 0)
+            return 0;
+        return 1;
     }
 }
