@@ -13,7 +13,7 @@ import { entities } from './typeorm/';
 // Check typeORM documentation for more information.
 const config: ConnectionOptions = {
     type: 'postgres',
-    host: 'localhost',
+    host: 'db',
     port: 5432,
     username: 'postgres',
     password: '123456',

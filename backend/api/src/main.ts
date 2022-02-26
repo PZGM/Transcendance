@@ -18,8 +18,8 @@ async function bootstrap() {
 
   //https
   const httpsOptions = {
-    key: fs.readFileSync('./../secrets/key.pem'),
-    cert: fs.readFileSync('./../secrets/certificate.pem'),
+    key: fs.readFileSync('./secrets/key.pem'),
+    cert: fs.readFileSync('./secrets/certificate.pem'),
   };
 
   const server = express();
@@ -47,7 +47,7 @@ async function bootstrap() {
   app.use(passport.session());
 
     //swagger
-    const config = new DocumentBuilder().setTitle('Transcendance API').setDescription('http://ssh.billyboy.fr:3000/').setVersion('0.01').build();
+    const config = new DocumentBuilder().setTitle('Transcendance API').setDescription('http://serv.pizzagami.fr:3000/').setVersion('0.01').build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('/documentation', app, document);
 

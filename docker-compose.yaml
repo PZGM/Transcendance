@@ -24,6 +24,9 @@ services:
         depends_on:
           - db
         restart: unless-stopped
+        ports:
+            - 3333:3333
+            - 3001:3001
 
   # frontend
     frontend:
@@ -32,10 +35,12 @@ services:
         env_file:
           - ./frontend/.env 
         restart: unless-stopped
+        ports:
+          - 3000:3000
 
     adminer:
         image: adminer
         restart: always
         ports:
-            - 8888:8080
+            - 8444:8080
 
