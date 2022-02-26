@@ -8,6 +8,7 @@ import './../../asset/fonts/Fonts.css'
 type UserDisplayProps = {
 	id: number;
 	index: number;
+	deleteFriend;
 }
 
 interface UserDisplayState {
@@ -21,11 +22,16 @@ interface StatusData {
 }
 
 export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
+	removeFriend() {
+		UserAPI.removeFriend(this.props.id);
+		this.props.deleteFriend(this.props.id);
+	}
 
 	eventSource: any;
 
 	constructor(props: UserDisplayProps) {
 		super(props);
+		this.removeFriend = this.removeFriend.bind(this);
 		this.state = {status: 0, avatar: undefined, login: undefined}
 	}
 
@@ -39,7 +45,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			})
 		}
 		catch (e) {
-			console.log('hey salut');
+			console.log(e);
 		}
 
 	}
@@ -80,7 +86,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 	render () {
 		let description = new Map<number, string>([
 			[0, 'unknow'],
-			[1, 'disco'],
+			[1, 'offline'],
 			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
@@ -100,7 +106,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							<div className='bit5x5'> Send Message </div>
 							</Typography>
 						</ButtonBase>                    
-						<ButtonBase centerRipple className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(1)}} >
+						<ButtonBase onClick={this.removeFriend} centerRipple className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(1)}} >
 							<Typography variant="button" color='white'>
 							<div className='bit5x5'> Remove Friend </div>
 							</Typography>

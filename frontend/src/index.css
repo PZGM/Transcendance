@@ -13,43 +13,50 @@ code {
 }
 
 @font-face {
-  font-family: "arcade";
-  src: local("arcade"),
-   url("./asset/fonts/arcade.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Manaspace';
+    src: url('./asset/fonts/ManaspaceReg.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: "backto1982";
-  src: local("backto1982"),
-   url("./asset/fonts/backto1982.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Bit5x5';
+    src: url('./asset/fonts/Bit5x5.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: "bit5x3";
-  src: local("bit5x3"),
-   url("./asset/fonts/bit5x3.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Bit5x3';
+    src: url('./asset/fonts/Bit5x3.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: "bit5x5";
-  src: local("bit5x5"),
-   url("./asset/fonts/bit5x5.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Back to 1982';
+    src: url('./asset/fonts/Backto1982.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: "bit9x9";
-  src: local("bit9x9"),
-   url("./asset/fonts/bit9x9.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Arcade';
+    src: url('./asset/fonts/Arcade.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: "manaspc";
-  src: local("manaspc"),
-   url("./asset/fonts/manaspc.ttf") format("truetype");
-  font-weight: normal;
+    font-family: 'Bit9x9';
+    src: url('./asset/fonts/Bit9x9.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
+

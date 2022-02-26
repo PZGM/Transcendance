@@ -68,7 +68,24 @@ export class UserAPI {
 				credentials: "include"})
 			return resp;
 		}
-		
+
+		//friends
+
+		public static async addFriend(id: number) {
+			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: id }),
+				credentials: "include"})
+		}
+
+		public static async removeFriend(id: number) {
+			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+				method: "DELETE",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ id: id }),
+				credentials: "include"})
+			}
 }
 
 

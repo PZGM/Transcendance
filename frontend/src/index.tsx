@@ -14,7 +14,7 @@ import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 
-import './asset/fonts/bit9x9.ttf'
+// import './asset/fonts/bit9x9.ttf'
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
