@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -42,4 +43,23 @@
   display: flex;
   width: 15vm;
   /* display: none; */
+}
+
+.fit { /* set relative picture size */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.fit1 { /* set relative picture size */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.fit2 { /* set relative picture size */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.test {
+  height: 100vh;
 }

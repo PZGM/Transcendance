@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body } from '@nestjs/common';
+import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
 import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
@@ -53,5 +53,7 @@ export class UsersController {
     @UseGuards(AuthentificatedGuard)
     public async updateLogin(@Req() request: CustomRequest, @Body() updateLoginRequest: {login: string}) {
         const ret =  await this.userService.updateLogin(request.user.id, updateLoginRequest.login);
+        if (ret)
+          throw new ConflictException();
     }
 }
