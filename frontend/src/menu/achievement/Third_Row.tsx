@@ -1,48 +1,28 @@
 import { Box, Card, Grid, Typography } from "@mui/material";
 import { Component } from "react";
-import DoneIcon from '@mui/icons-material/Done';
+import Display from "./Display";
 
 const spacer = "10px";
 
 interface ThirdRowProps {
+	value: number,
 };
 
-export class ThirdRow extends Component<ThirdRowProps> {
+export class CupRow extends Component<ThirdRowProps> {
 	render (){
 		return(
             <div>
 				<Grid container direction="row" justifyContent="space-around" alignItems="center">
 					<Card sx={{width:"120px", border: '3px solid grey',p: 1 }}>
-						<Grid container direction="column" justifyContent="space-between" alignItems="center">
-							<Typography align="center">Win 1 tournament</Typography>
-							<Box sx={{border: '3px solid grey', backgroundColor: 'white',}}  width="115px" height="10px"></Box>
-							<Typography align="center">0%</Typography>
-							<Box sx={{border: '3px solid grey' }}  width="20px" height="20px">
-							{/* <DoneIcon/> */}
-							</Box>
-						</Grid>
+						<Display desc={"Win 1 tournament"} max={1} val={this.props.value}/>
 					</Card>
 					<Box width={spacer}></Box>
 					<Card sx={{width:"120px", border: '3px solid grey',p: 1 }}>
-						<Grid container direction="column" justifyContent="space-between" alignItems="center">
-							<Typography align="center">Win 5 tournament</Typography>
-							<Box sx={{border: '3px solid grey', backgroundColor: 'white',}}  width="115px" height="10px"></Box>
-							<Typography align="center">0%</Typography>
-							<Box sx={{border: '3px solid grey' }}  width="20px" height="20px">
-							{/* <DoneIcon/> */}
-							</Box>
-						</Grid>
+						<Display desc={"Win 5 tournament"} max={5} val={this.props.value}/>
 					</Card>
 					<Box width={spacer}></Box>
 					<Card sx={{width:"120px", border: '3px solid grey',p: 1 }}>
-						<Grid container direction="column" justifyContent="space-between" alignItems="center">
-							<Typography align="center">Win 10 tournament</Typography>
-							<Box sx={{border: '3px solid grey', backgroundColor: 'white',}}  width="115px" height="10px"></Box>
-							<Typography align="center">0%</Typography>
-							<Box sx={{border: '3px solid grey' }}  width="20px" height="20px">
-							{/* <DoneIcon/> */}
-							</Box>
-						</Grid>
+						<Display desc={"Win 10 tournament"} max={10} val={this.props.value}/>
 					</Card>
 				</Grid>
             </div>
