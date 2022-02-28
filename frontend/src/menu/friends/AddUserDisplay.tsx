@@ -1,9 +1,12 @@
-import { ListSubheader, Avatar, Box, Button, ButtonBase, ButtonGroup, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
+import { ListSubheader, Avatar, Box, Button, ButtonBase, ButtonGroup, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, Stack, Typography, Fade } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { MiniStatus } from "../../asset/MiniStatus";
 import styles from './../../style/dac.module.css'
 import './../../asset/fonts/Fonts.css'
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import DoneIcon from '@mui/icons-material/Done';
+
 
 type AddUserDisplayProps = {
 	id: number;
@@ -14,38 +17,46 @@ type AddUserDisplayProps = {
 interface AddUserDisplayState {
     avatar?: string;
     login?: string;
+	done: boolean;
 }
 
 export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDisplayState>{
-	addFriend() {
-		UserAPI.addFriend(this.props.id);
-		this.props.addFriend(this.props.id);
-	}
 
 	eventSource: any;
+	_isMounted: boolean;
 
 	constructor(props: AddUserDisplayProps) {
 		super(props);
+		this._isMounted = false;
 		this.addFriend = this.addFriend.bind(this);
-		this.state = {avatar: undefined, login: undefined}
+		this.state = {avatar: undefined, login: undefined, done: false}
 	}
 
 	async fetchUser() {
-		try {
-			const resp = await UserAPI.getUserById(this.props.id);
-			this.setState({
-                avatar: (resp) ? resp.img_url : undefined,
-                login: (resp) ? resp.login : undefined,
-			})
-		}
-		catch (e) {
-			console.log(e);
-		}
+		const resp = await UserAPI.getUserById(this.props.id);
+		this._isMounted && this.setState({
+			avatar: (resp) ? resp.img_url : undefined,
+			login: (resp) ? resp.login : undefined,
+		})
 
 	}
 
+	async addFriend() {
+		if (this.state.done)
+			return;
+		this.setState({done: true})
+		let ret = await UserAPI.addFriend(this.props.id);
+		console.log(ret);
+		this.props.addFriend(this.props.id);
+	}
+
 	componentDidMount()  {
+		this._isMounted = true;
 		this.fetchUser();
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 
 	getColor(status: number) {
@@ -65,11 +76,16 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 					key={this.props.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-					
-						<ButtonBase onClick={this.addFriend} centerRipple className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(3)}} >
-							<Typography variant="button" color='white'>
-							<div className='bit5x5'> Add Friend </div>
-							</Typography>
+						<ButtonBase onClick={this.addFriend} centerRipple className={styles.dac} style={{width: '140px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(3)}} >
+							<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+								{(this.state.done) ?
+									<DoneIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/> :
+									<PersonAddIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/>
+								}
+								<Typography variant="button" color='white'>
+								<div className='bit5x5'>{(this.state.done) ? 'Added' : 'Add Friend'}</div>
+								</Typography>
+							</Stack>
 						</ButtonBase>
 					</Stack>
 					}>
@@ -86,3 +102,4 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 		);
 	}
 }
+

@@ -80,7 +80,7 @@
   }
 
   .bdac:before {
-    border-style: inset;
+    border-style: inherit;
     opacity: 0.5;
     top: 0px;
     right: -4px;

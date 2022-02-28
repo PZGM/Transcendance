@@ -22,10 +22,8 @@ interface FriendsState {
 	searchField?: string;
 }
 
-
-
-
 export class Friends extends Component<FriendsProps, FriendsState> {
+	userAPI = new UserAPI();
 	index:number = 0;
 	renderRows(list) {
 		const listItems = list.map((id: number) =>
@@ -69,6 +67,14 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		this.setState({
 			friends: newFriends
 		});
+	}
+
+	async onSearch(search:string) {
+		this.setState({searchField: search});
+		if (!search || search === '')
+			return;
+		let ret = await UserAPI.searchFriend(search);
+		this.setState({searchResults: ret});
 	}
 
 	async fetchUser() {
@@ -119,13 +125,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 									inputProps={{min: 0, style: { textAlign: 'center' }}}
 									className={styles.input}
 									placeholder="Search Friend"
-									onChange={ async (e) => {
-										this.setState({searchField: e.target.value});
-										if (!e.target.value || e.target.value == '')
-											return;
-										let ret = await UserAPI.searchFriend(e.target.value);
-										this.setState({searchResults: ret});
-									}
+									onChange={ async (e) => {this.onSearch(e.target.value)}
 								}
 								/>
 								<List style={{height: '100%',  overflow: 'auto'}}>

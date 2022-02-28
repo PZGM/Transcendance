@@ -22,35 +22,33 @@ interface StatusData {
 }
 
 export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
+
+	eventSource: any;
+	_isMounted: boolean;
+
+	constructor(props: UserDisplayProps) {
+		super(props);
+		this._isMounted = false;
+		this.removeFriend = this.removeFriend.bind(this);
+		this.state = {status: 0, avatar: undefined, login: undefined}
+	}
+
 	removeFriend() {
 		UserAPI.removeFriend(this.props.id);
 		this.props.deleteFriend(this.props.id);
 	}
 
-	eventSource: any;
-
-	constructor(props: UserDisplayProps) {
-		super(props);
-		this.removeFriend = this.removeFriend.bind(this);
-		this.state = {status: 0, avatar: undefined, login: undefined}
-	}
-
 	async fetchUser() {
-		try {
 			const resp = await UserAPI.getUserById(this.props.id);
-			this.setState({
+			this._isMounted && this.setState({
 				status: (resp) ? resp.status : 0,
                 avatar: (resp) ? resp.img_url : undefined,
                 login: (resp) ? resp.login : undefined,
 			})
-		}
-		catch (e) {
-			console.log(e);
-		}
-
 	}
 
 	componentDidMount()  {
+		this._isMounted = true;
 		this.fetchUser();
 		this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
 		this.eventSource.onmessage = (e: { data: string; }) => {
@@ -71,6 +69,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 
 	componentWillUnmount() {
 		this.eventSource.close();
+		this._isMounted = false;
 	}
 
 	getColor(status: number) {
