@@ -15,4 +15,4 @@ COPY ./api .
 # run server
 EXPOSE 3333 5432 3001
 
-CMD  yarn typeorm:migrate Init && yarn typeorm:run ; yarn start:dev && exit 0;
+CMD  rm -rf ./src/migrations && yarn typeorm:migrate Init && yarn typeorm:run ; yarn start:dev;

@@ -16,7 +16,7 @@ then
 	export front=3000
 	export http=3001
 	export https=3333
-	export db=5432
+	export db=3432
 	export adminer=3888
 	export client_id=f0a2ad126cf0cf8efe2ef0f4112fa0b3bba245e61fe0d6695680edff7810464d
 	export client_secret=bced843a0688e6965579e4722a5e0ebba759f935be48e2a1d2f9910be108bf82
@@ -48,10 +48,7 @@ then
 	option="-d"
 fi
 
-if [ $0 = "-r" ] || [[ $# = 1  &&  $1 = "-r" ]] || [[ $# = 2  &&  $2 = "-r" ]]
-then
 	docker system prune -af
-fi
 
 docker build -t back "./backend" 
 docker build -t front "./frontend"
