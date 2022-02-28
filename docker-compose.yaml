@@ -1,0 +1,46 @@
+version: "3.3"
+services:
+      # database
+    db:
+            image: postgres
+            restart: always
+            environment:
+                POSTGRES_PASSWORD: 123456
+            ports:
+                - 5432:5432
+            volumes:
+                - ./init.sql://docker-entrypoint-initdb.d/init.sql
+
+      # backend
+    backend:
+        image: back
+        container_name: pzgm-backend
+        environment:
+          - TZ=Europe/Amsterdam
+        env_file:
+          - ./backend/api/.env
+        links:
+          - db
+        depends_on:
+          - db
+        restart: unless-stopped
+        ports:
+            - 3333:3333
+            - 3001:3001
+
+  # frontend
+    frontend:
+        image: front
+        container_name: pzgm-frontend
+        env_file:
+          - ./frontend/.env 
+        restart: unless-stopped
+        ports:
+          - 3000:3000
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8444:8080
+

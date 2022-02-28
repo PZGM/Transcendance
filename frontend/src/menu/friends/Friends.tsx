@@ -9,6 +9,7 @@ import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
 import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
+import CloseIcon from '@mui/icons-material/Close';
 
 const widthBox = 700;
 const heightBox = 500;
@@ -137,6 +138,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 							<Box m="2%" width='20%'>
 								<Grid container direction="column" justifyContent="space-evenly" alignItems="center">
 									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
+									{/* <Typography>{this.state.login}</Typography> */}
 									<Typography>AFREIRE-</Typography>
 									<Button component={Link} to={process.env.REACT_APP_PROFILE as string}><div className='arcademenu'>Profile</div></Button>
 									<Button component={Link} to={process.env.REACT_APP_FRIENDS as string}><div className='arcademenu'>Friends</div></Button>
