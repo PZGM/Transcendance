@@ -19,9 +19,6 @@ services:
           - TZ=Europe/Amsterdam
           - https=${https}
           - http=${http}
-          - adminer={adminer}
-          - db=${db}
-          - front=${front}
           - client_id=${client_id}
           - client_secret=${client_secret}
         env_file:
@@ -43,9 +40,6 @@ services:
           - TZ=Europe/Amsterdam
           - https=${https}
           - http=${http}
-          - adminer={adminer}
-          - db=${db}
-          - front=${front}
           - client_id=${client_id}
           - client_secret=${client_secret}
         env_file:
