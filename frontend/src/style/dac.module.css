@@ -1,0 +1,145 @@
+/* custom colors */
+
+:root {
+	--green: #13d590;
+	--red: #e50033;
+	--pink: #f48ee1;
+	--yellow: #dacb17;
+	--grey: #b6d2e1;
+	--blue: #0075fd;
+	--azur: #03c7d8;
+  }
+  
+/* custom scroll bar */
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  background: black; 
+}
+ 
+::-webkit-scrollbar-thumb {
+  border: 4px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  background-color: #AAAAAA;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 4px solid 555;
+  background-clip: padding-box;
+  background-color: #AAAAAA;
+}
+
+/* buttons */
+
+.dac {
+    position: relative;
+  }
+
+  .dac:hover {
+    top: 2px;
+    right: -2px;
+    bottom: -2px;
+    left: 2px;
+  }
+
+  .dac:hover:after {
+    top: 0px;
+    right: -0px;
+    bottom: -0px;
+    left: 0px;
+    opacity: 0.5;
+    position: absolute;
+    z-index: -1;
+    background-color: inherit;
+    content: '';
+  }
+
+  .dac:after {
+    top: 2px;
+    opacity: 0.5;
+    right: -2px;
+    bottom: -2px;
+    left: 2px;
+    position: absolute;
+    z-index: -1;
+    background-color: inherit;
+    content: '';
+  }
+
+  /* User display */
+
+  .bdac {
+    position: relative;
+    border: 2px solid;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+
+  .bdac:before {
+    border-style: inherit;
+    opacity: 0.5;
+    top: 0px;
+    right: -4px;
+    bottom: -4px;
+    left: 0px;
+    position: absolute;
+    z-index: -1;
+    border: inherit;
+    content: '';
+    width: inherit;
+    height: inherit;
+  }
+
+  /* search bar */
+
+  .input {
+    border: 2px solid var(--yellow);
+    padding: 5px;
+    border-radius: 0%;
+    margin-bottom: 8px;
+  }
+
+  .input:hover {
+    border: 2px solid var(--yellow);
+    padding: 5px;
+    border-radius: 0%;
+    top: 2px;
+    left: 2px;
+  }
+
+  .input input {
+    color: white;
+    font-family: 'bit5x5';
+    font-size: larger;
+  }
+
+  .input:hover:after {
+    border: none;
+  }
+
+  .input:after{
+    opacity: 0.5;
+    top: 0px;
+    bottom: -4px;
+    left: 0px;
+    right: -4px;
+    position: absolute;
+    z-index: 1;
+
+    width: inherit -4px;
+    height: inherit;
+    position: absolute;
+    content: '';
+    border: 2px solid var(--yellow);
+    pointer-events: none;
+  }
+
+  .invisibleButton {
+    padding: 0;
+    margin: 0;
+  }
+

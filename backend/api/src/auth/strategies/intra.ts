@@ -22,7 +22,8 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
         lastName : name.familyName,
         intraId,
         img_url : photos[0].value,
-        status: 0
+        status: 0,
+        friends: [],
     };
 
     return this.authService.validateUser(details);

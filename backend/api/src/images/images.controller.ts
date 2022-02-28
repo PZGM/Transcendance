@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Delete, Get, NotFoundException, Param, Post, Res, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
@@ -6,6 +6,7 @@ import path = require('path');
 import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ImagesService } from './images.service';
 import { v4 as uuidv4 } from 'uuid';
+import { PrimaryColumnCannotBeNullableError } from 'typeorm';
 
 
 export const storage = {
@@ -31,14 +32,27 @@ export class ImagesController {
     @UseGuards(AuthentificatedGuard)
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', storage))
-    uploadFile(@UploadedFile() file): string {
+    uploadImage(@UploadedFile() file): string {
         return (process.env.IMAGES_PATH_URL + path.parse(file.path).name + path.parse(file.path).ext);
     }
 
     @UseGuards(AuthentificatedGuard)
     @Get('/:path')
-    display(@Res() res, @Param('path') path: string){
+    getImage(@Res() res, @Param('path') path: string){
         res.sendFile(path,{ root: './uploads/images' })
+    }
+
+    // @UseGuards(AuthentificatedGuard)
+    @Delete('/:path')
+    removeImage(@Param('path') path: string){
+        try {
+            const fs = require('fs');
+            fs.unlinkSync('./uploads/images/' + path);
+            return 'Image deleted';
+          } catch(err) {
+            console.error(err);
+            throw new NotFoundException();
+          }
     }
 
 }

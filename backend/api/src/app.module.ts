@@ -7,9 +7,10 @@ import { ChatModule } from './chat/chat.module';
 import { PassportModule } from '@nestjs/passport';
 import { ImagesModule } from './images/images.module';
 import { StatusModule } from './status/status.module';
+import { FriendsModule } from './friends/friends.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule],
+  imports: [AuthModule,UsersModule, ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule],
   controllers: [],
   providers: [],
 })
