@@ -7,7 +7,7 @@ services:
             environment:
                 POSTGRES_PASSWORD: 123456
             ports:
-                - 5432:5432
+                - ${db}:5432
             volumes:
                 - ./init.sql://docker-entrypoint-initdb.d/init.sql
 
@@ -17,6 +17,13 @@ services:
         container_name: pzgm-backend
         environment:
           - TZ=Europe/Amsterdam
+          - https=${https}
+          - http=${http}
+          - adminer={adminer}
+          - db=${db}
+          - front=${front}
+          - client_id=${client_id}
+          - client_secret=${client_secret}
         env_file:
           - ./backend/api/.env
         links:
@@ -25,22 +32,31 @@ services:
           - db
         restart: unless-stopped
         ports:
-            - 3333:3333
-            - 3001:3001
+            - ${https}:3333
+            - ${http}:3001
 
   # frontend
     frontend:
         image: front
         container_name: pzgm-frontend
+        environment:
+          - TZ=Europe/Amsterdam
+          - https=${https}
+          - http=${http}
+          - adminer={adminer}
+          - db=${db}
+          - front=${front}
+          - client_id=${client_id}
+          - client_secret=${client_secret}
         env_file:
           - ./frontend/.env 
         restart: unless-stopped
         ports:
-          - 3000:3000
+          - ${front}:3000
 
     adminer:
         image: adminer
         restart: always
         ports:
-            - 8444:8080
+            - ${adminer}:8080
 
