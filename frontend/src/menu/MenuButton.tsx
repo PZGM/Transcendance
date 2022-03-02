@@ -1,5 +1,4 @@
-import { Avatar, Box, Button, Grid, LinearProgress, Stack, Typography } from "@mui/material";
-import DoneIcon from '@mui/icons-material/Done';
+import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import CloseIcon from '@mui/icons-material/Close';
 

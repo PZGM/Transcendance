@@ -1,14 +1,8 @@
-import { Avatar, Box, Button, Card, ListItem, ListItemButton, ListItemText, Grid, Typography, Divider, Stack } from "@mui/material";
+import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
-import CloseIcon from '@mui/icons-material/Close';
 import MenuButton from "../MenuButton";
-
-
-const widthBox = 700;
-const heightBox = 500;
 
 interface HistoryProps {
 };
@@ -28,9 +22,6 @@ function renderRow(props: ListChildComponentProps) {
 
 
 export class History extends Component<HistoryProps> {
-	constructor(props: HistoryProps) {
-		super(props);
-	}
 	render (){
 		return(
             <div>

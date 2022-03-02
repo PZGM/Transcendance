@@ -24,7 +24,7 @@ export class StatusDetector extends Component<HeaderProps>{
 	}
 
 	sendActivity = () => {
-		if (this.idle == false)
+		if (this.idle === false)
 			UserAPI.reportActivity(this.id);
 	}
 

@@ -107,7 +107,7 @@ export class UserAPI {
 
 		public static async addFriend(id: number) {
 			let ret = true;
-			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+			await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 			method: "POST",
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ id: id }),
@@ -121,7 +121,7 @@ export class UserAPI {
 		}
 
 		public static async removeFriend(id: number) {
-			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+			await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 				method: "DELETE",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ id: id }),

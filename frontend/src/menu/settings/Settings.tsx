@@ -1,12 +1,8 @@
-import { Avatar, Box, Button, Card, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { ChangeEvent, Component } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
-import MyEditor from "./../../asset/Editor";
-import CloseIcon from '@mui/icons-material/Close';
-import { sizing } from '@mui/system';
 import MenuButton from "../MenuButton";
 
 type SettingsProps = {
