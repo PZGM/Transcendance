@@ -39,6 +39,31 @@ export class UserAPI {
 			return resp
 		}
 
+		public static async getProfile() {
+			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
+			 return resp
+		}
+
+		public static async getAchievement() {
+			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
+			 return resp
+		}
+
+
 		//updaters
 		public static async updateAvatar(avatar_url: string) {
 			console.log(`${process.env.REACT_APP_UPDATE_AVATAR}`);
@@ -82,7 +107,7 @@ export class UserAPI {
 
 		public static async addFriend(id: number) {
 			let ret = true;
-			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+			await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 			method: "POST",
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ id: id }),
@@ -96,7 +121,7 @@ export class UserAPI {
 		}
 
 		public static async removeFriend(id: number) {
-			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+			await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 				method: "DELETE",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ id: id }),
