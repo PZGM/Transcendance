@@ -10,8 +10,8 @@ function App() {
 	
 	
 	return (
-		<div className="App">
 
+		<div className="App">
 			<Helmet>
 				<style>{'body { background-color: black; }'}</style>
 			</Helmet>
