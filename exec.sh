@@ -53,13 +53,13 @@ then
 	docker system prune -af
 fi
 
-if [[ "$#"  -ge "1"  &&   $1 = "-k" ]] || [[ "$#"  -ge "2"   &&   $2 = "-k" ]] || [[ "$#"  -ge "3"  &&  $3 = "-k" ]] || [[ "$#"  -ge "4"  &&  $3 = "-k" ]]
-then
+#if [[ "$#"  -ge "1"  &&   $1 = "-k" ]] || [[ "$#"  -ge "2"   &&   $2 = "-k" ]] || [[ "$#"  -ge "3"  &&  $3 = "-k" ]] || [[ "$#"  -ge "4"  &&  $3 = "-k" ]]
+#then
 	docker build -t back "./backend" 
 	docker build -t front "./frontend"
 	docker-compose up $option --remove-orphans
-else
-	docker-compose -f db.yaml  up -d --remove-orphans
-	cd frontend && (npm run start&)
-	cd ../backend/api && rm -rf .src/migrations && yarn typeorm:migrate Init #&& yarn typeorm:run ; #yarn start:dev;
-fi
+#else
+#	docker-compose -f db.yaml  up -d --remove-orphans
+#	cd frontend && (npm run start&)
+#	cd ../backend/api && rm -rf .src/migrations && yarn typeorm:migrate Init #&& yarn typeorm:run ; #yarn start:dev;
+#fi
