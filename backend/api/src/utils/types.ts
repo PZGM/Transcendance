@@ -7,6 +7,7 @@ export type UserDetails = {
     intraId: string;
     img_url: string;
     status: number;
+    friends: number[];
 }
 
 export interface CustomRequest extends Request {

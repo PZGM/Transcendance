@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+      # database
+    db:
+            image: postgres
+            restart: always
+            environment:
+                POSTGRES_PASSWORD: 123456
+            ports:
+                - ${db}:5432
+            volumes:
+                - ./init.sql://docker-entrypoint-initdb.d/init.sql
+
+      # backend
+    backend:
+        image: back
+        container_name: pzgm-backend
+        environment:
+          - TZ=Europe/Amsterdam
+          - https=${https}
+          - http=${http}
+          - client_id=${client_id}
+          - client_secret=${client_secret}
+        env_file:
+          - ./backend/api/.env
+        links:
+          - db
+        depends_on:
+          - db
+        restart: unless-stopped
+        ports:
+            - ${https}:3333
+            - ${http}:3001
+
+  # frontend
+    frontend:
+        image: front
+        container_name: pzgm-frontend
+        environment:
+          - TZ=Europe/Amsterdam
+          - https=${https}
+          - http=${http}
+          - client_id=${client_id}
+          - client_secret=${client_secret}
+        env_file:
+          - ./frontend/.env 
+        restart: unless-stopped
+        ports:
+          - ${front}:3000
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - ${adminer}:8080
+

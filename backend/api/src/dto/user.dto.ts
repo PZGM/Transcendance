@@ -6,5 +6,6 @@ export class UserDTO {
     firstName: string;
     lastName: string;
     img_url: string;
-    status: number
+    status: number;
+    friends: number[];
 }
