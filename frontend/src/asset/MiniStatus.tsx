@@ -1,9 +1,6 @@
-import Badge, { BadgeProps } from '@mui/material/Badge';
 import { Component } from "react";
-import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import * as React from 'react';
-import { Avatar, Box, Tooltip } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import { UserAPI } from '../api/Users.api';
 
 type MiniStatusProps = {

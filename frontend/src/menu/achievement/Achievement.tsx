@@ -1,11 +1,9 @@
-import { Avatar, Box, Stack, Button, Card, Grid, Typography } from "@mui/material";
+import { Box, Grid} from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
 import { MatchRow } from "./First_Row";
 import { RowRow } from "./Second_Row";
 import { CupRow } from "./Third_Row";
-import CloseIcon from '@mui/icons-material/Close';
 import { UserAPI } from "../../api/Users.api";
 import MenuButton from "../MenuButton";
 

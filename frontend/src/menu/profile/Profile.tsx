@@ -1,16 +1,11 @@
-import { Avatar, Box, Button, Stack, Card, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { Avatar, Box, Stack, Grid, Typography } from "@mui/material";
 import { Component } from "react";
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FolderIcon from '@mui/icons-material/Folder';
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import { createTheme } from '@mui/material/styles';
-import CloseIcon from '@mui/icons-material/Close';
 import { UserAPI } from "../../api/Users.api";
 import MenuButton from "../MenuButton";
 

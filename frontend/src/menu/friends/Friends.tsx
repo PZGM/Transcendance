@@ -1,19 +1,11 @@
-import { Avatar, Box, Button, Card, Grid, Stack, InputBase, ListItem, ListItemButton, ListItemText, styled, TextField, Typography, List, ListSubheader } from "@mui/material";
-import { sizing } from '@mui/system';
+import { Box, Grid, Stack, InputBase, List} from "@mui/material";
 import { Component } from "react";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
 import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
-import CloseIcon from '@mui/icons-material/Close';
 import MenuButton from "../MenuButton";
-
-const widthBox = 700;
-const heightBox = 500;
 
 interface FriendsProps {
 };
@@ -122,7 +114,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 					<Grid container sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'white', height: '80vh', width: '100wh', overflow: 'auto' }}>
 						<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '92%', overflow: 'auto'}}>
 							<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-							<List style={{height: '100%',  overflow: 'auto'}}>
+							<List style={{height: '92%',  overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>

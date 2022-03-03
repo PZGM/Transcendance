@@ -1,16 +1,13 @@
-import { Box, Container, Drawer, Grid, Typography, Avatar, Button, TextField, IconButton } from "@mui/material";
-import React, { useEffect, useState, Component } from "react";
+import { Box, Drawer, Typography, Avatar, Button, TextField, IconButton } from "@mui/material";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import '../App.css';
 import '../style/style.css'
 import {UserAPI} from "../api/Users.api";
-import { styled } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MiniStatus } from "../asset/MiniStatus";
-import logo from '../42_Logo.svg.png';
 
-const drawerWidth = 500;
 
 interface HomeProps {
 };
