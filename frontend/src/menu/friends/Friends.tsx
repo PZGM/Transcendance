@@ -26,20 +26,21 @@ interface FriendsState {
 
 export class Friends extends Component<FriendsProps, FriendsState> {
 	userAPI = new UserAPI();
-	index:number = 0;
 	renderRows(list) {
+		let index:number = 0;
 		const listItems = list.map((id: number) =>
 			<div key={id}>
-				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>
+				<UserDisplay id={id} index={index++} deleteFriend={this.deleteFriend}/>
 			</div>
 	  );
 	  return listItems;
 	}
 
 	renderSearchRows(list) {
+		let index:number = 0;
 		const listItems = list.map((id: number) =>
 			<div key={id}>
-				<AddUserDisplay id={id} index={this.index} addFriend={this.addFriend}/>
+				<AddUserDisplay id={id} index={index++} addFriend={this.addFriend}/>
 			</div>
 	  );
 	  return listItems;

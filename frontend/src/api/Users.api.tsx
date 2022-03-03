@@ -66,8 +66,6 @@ export class UserAPI {
 
 		//updaters
 		public static async updateAvatar(avatar_url: string) {
-			console.log(`${process.env.REACT_APP_UPDATE_AVATAR}`);
-
 			const resp = await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },

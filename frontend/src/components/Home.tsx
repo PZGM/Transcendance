@@ -106,9 +106,6 @@ export class Home extends Component<HomeProps, HomeState> {
 							</IconButton>
 						</Box>
 					</Box>
-					<MiniStatus id={1} ></MiniStatus>
-					<MiniStatus id={2} ></MiniStatus>
-					<MiniStatus id={3} ></MiniStatus>
 				</Drawer>
 			</div>
 		)
