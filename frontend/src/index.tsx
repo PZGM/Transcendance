@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './components/Home';
+import { Home } from './home/Home';
 import { Profile } from './menu/profile/Profile';
 import { Friends } from './menu/friends/Friends';
 import { Settings } from './menu/settings/Settings';
