@@ -1,5 +1,6 @@
 import { ButtonBase, Typography } from "@mui/material";
 import { Component} from "react";
+import { UserAPI } from "../api/Users.api";
 
 
 
@@ -24,6 +25,8 @@ export class Profile extends Component<ProfileProps> {
             <>
                 <Typography>{`Yo je suis le profile de ${this.props.id}`}</Typography>
                 <ButtonBase onClick={ () => {this.props.updateDisplay(0);}}> Go to chat </ButtonBase>
+                <ButtonBase onClick={ () => { UserAPI.logout()}} > Logout</ButtonBase>
+
 
             </>
 

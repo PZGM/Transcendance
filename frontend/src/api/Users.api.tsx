@@ -138,4 +138,10 @@ export class UserAPI {
 				// })
 			 return resp
 		}
+
+		public static async logout() {
+			await fetch(`${process.env.REACT_APP_LOGOUT}`, {
+			method: "POST",
+			credentials: "include"})
+		}
 }
