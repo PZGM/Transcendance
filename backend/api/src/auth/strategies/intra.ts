@@ -24,6 +24,7 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
         img_url : photos[0].value,
         status: 0,
         friends: [],
+        twofaSecret: undefined
     };
 
     return this.authService.validateUser(details);

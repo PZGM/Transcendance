@@ -5,6 +5,7 @@ import { IntraStrategy } from './strategies/intra';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/typeorm';
 import { SessionSerializer } from './utils/serializer';
+import { TwofaService } from './services/twofa/twofa.service';
 
 @Module({
   providers: [
@@ -13,7 +14,8 @@ import { SessionSerializer } from './utils/serializer';
     {
     provide: 'AUTH_SERVICE',
     useClass: AuthService
-  }],
+  },
+    TwofaService,],
   controllers: [AuthController],
   imports: [
     TypeOrmModule.forFeature([User])
