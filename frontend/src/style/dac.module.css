@@ -98,7 +98,7 @@
   /* search bar */
 
   .input {
-    border: 2px solid var(--yellow);
+    border: 0.1vw solid var(--yellow);
     padding: 5px;
     border-radius: 0%;
     margin-bottom: 8px;

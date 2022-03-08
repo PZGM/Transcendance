@@ -22,25 +22,32 @@ export class Friends extends Component<FriendsProps> {
 		return(
 			<div style={{
 				backgroundImage: `url(${background})`,
-				// backgroundPosition: 'center',
+				backgroundPosition: 'center',
 				backgroundSize: 'cover',
 				height: '100vh',
 				width: '100vw',
-				backgroundRepeat: 'norepeat'
+				backgroundRepeat: 'norepeat',
 			}}>
-				<Stack
+				{/* <Stack
 					direction="column"
 					justifyContent="space-between"
 					alignItems="center"
-					className="test"
-					sx={{mx: '10%'}}
-				>
-				<Grid container></Grid>
-				<Grid container justifyContent="space-between" alignItems="stretch"
-					sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'black'}}>
+					sx={{height: '100vh', mx: '30%'}}
+				> */}
+				<div style={{
+					height: '100vh',
+					// width: '100%',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center"
+				}}>
+				<Grid container justifyContent="space-between" alignItems="stretch"  wrap="nowrap"
+					sx={{	m:'2', border: '0.5vw solid rgba(0, 70, 109, 1)', outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black', minWidth: "1000px", minHeigth: "400px",
+								maxWidth: "1300px", maxHeigth: "600px"}}>
 							
-						<Grid item xs={8}>
-							{/* <Box m="2%" width='100%' sx={{p: 1, border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}> */}
+						<Grid item xs={6}
+							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
 								<InputBase
 									fullWidth
 									inputProps={{min: 0, style: { textAlign: 'center' }}}
@@ -53,13 +60,13 @@ export class Friends extends Component<FriendsProps> {
                                     <UserDisplay id={3} index={2}/>
 
                                 </List>
-							{/* </Box> */}
 						</Grid>
 
-						<Grid item xs={2}>
+						<Grid item xs={5}
+							sx={{m: 3}} >
 							{/* <Box m='2%' width='100%' sx={{p: 1, border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}> */}
 								<Grid container direction="column" justifyContent="center" alignItems="center">
-									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
+									{/* <Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/> */}
 									{/* <Typography>{this.state.login}</Typography> */}
 									<Typography>AFREIRE-</Typography>
 									<Button component={Link} to={process.env.REACT_APP_PROFILE as string}><div className='arcademenu'>Profile</div></Button>
@@ -73,9 +80,9 @@ export class Friends extends Component<FriendsProps> {
 								
 
 				</Grid>
-				<Grid container></Grid>
 
-				</Stack>
+				</div>
+				{/* </Stack> */}
 			</div>
 		);
 	};

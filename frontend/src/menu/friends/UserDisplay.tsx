@@ -90,7 +90,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 					key={this.props.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-						<ButtonBase centerRipple className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: this.getColor(this.state.status)}}>
+						<ButtonBase centerRipple className={styles.dac} style={{width: '5vw', height: '3vw', borderRadius: 0, backgroundColor: this.getColor(this.state.status)}}>
 							<Typography variant="button" color='white'>
 							<div className='bit5x5'> {description.get(this.state.status)} </div>
 							</Typography>
