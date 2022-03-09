@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/typeorm';
 import { SessionSerializer } from './utils/serializer';
 import { TwofaService } from './services/twofa/twofa.service';
+import { UsersModule } from 'src/users/users.module';
+import { TwofaController } from './controllers/twofa/twofa.controller';
 
 @Module({
   providers: [
@@ -16,9 +18,11 @@ import { TwofaService } from './services/twofa/twofa.service';
     useClass: AuthService
   },
     TwofaService,],
-  controllers: [AuthController],
+  controllers: [AuthController, TwofaController],
   imports: [
-    TypeOrmModule.forFeature([User])
+    TypeOrmModule.forFeature([User]),
+    UsersModule
   ]
+
 })
 export class AuthModule {}

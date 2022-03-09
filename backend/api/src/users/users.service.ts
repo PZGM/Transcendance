@@ -97,6 +97,13 @@ export class UsersService {
         return 0;
     }
 
+    public async updateSecret(userId: number, secret: string) {
+        const userDTO: UserDTO|null = await this.getOne(userId);
+        userDTO.twofaSecret = secret;
+        const user: User = this.DTOToEntity(userDTO);
+        await this.userRepository.save(user);
+    }
+
     private entityToDTO(user: User): UserDTO {
         const userDTO = new UserDTO();
         userDTO.id = user.id;
@@ -130,4 +137,8 @@ export class UsersService {
             return 0;
         return 1;
     }
+
+    async setTwofaSecret(secret: string, userId: number) {
+        this.updateSecret(userId, secret)
+      }
 }

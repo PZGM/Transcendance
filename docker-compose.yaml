@@ -13,8 +13,8 @@ services:
 
       # backend
     backend:
-        image: back
-        container_name: pzgm-backend
+        image: ${USER}back
+        container_name: ${USER}-backend
         environment:
           - TZ=Europe/Amsterdam
           - https=${https}
@@ -34,8 +34,8 @@ services:
 
   # frontend
     frontend:
-        image: front
-        container_name: pzgm-frontend
+        image: ${USER}front
+        container_name: ${USER}-frontend
         environment:
           - TZ=Europe/Amsterdam
           - https=${https}
@@ -53,4 +53,3 @@ services:
         restart: always
         ports:
             - ${adminer}:8080
-

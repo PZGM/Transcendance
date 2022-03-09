@@ -13,11 +13,11 @@ then
 	export client_secret=8f76f1fdbe01fab8ab9e950c0f480c8330c7732d47250f62c4c1ffbb3491a5bc
 elif [[ "$#"  -ge "1"  &&   $1 = "-b" ]] || [[ "$#"  -ge  "2"   &&  $2 = "-b" ]] || [[ "$#"  -ge  "3"  &&  $3 = "-b" ]] || [[ "$#"  -ge "4"  &&  $3 = "-b" ]]
 then
-	export front=3000
-	export http=3001
-	export https=3333
-	export db=3432
-	export adminer=3888
+	export front=7000
+	export http=7001
+	export https=7333
+	export db=7432
+	export adminer=7888
 	export client_id=f0a2ad126cf0cf8efe2ef0f4112fa0b3bba245e61fe0d6695680edff7810464d
 	export client_secret=bced843a0688e6965579e4722a5e0ebba759f935be48e2a1d2f9910be108bf82
 elif [[ "$#"  -ge  "1"  &&  $1 = "-f" ]] || [[ "$#"  -ge  "2"  &&  $2 = "-f" ]] || [[ "$#"  -ge  "3"  &&  $3 = "-f" ]] || [[ "$#"  -ge "4"  &&  $3 = "-f" ]]
@@ -55,9 +55,9 @@ fi
 
 #if [[ "$#"  -ge "1"  &&   $1 = "-k" ]] || [[ "$#"  -ge "2"   &&   $2 = "-k" ]] || [[ "$#"  -ge "3"  &&  $3 = "-k" ]] || [[ "$#"  -ge "4"  &&  $3 = "-k" ]]
 #then
-	docker build -t back "./backend" 
-	docker build -t front "./frontend"
-	docker-compose up $option --remove-orphans
+	docker build -t ${USER}back "./backend" 
+	docker build -t ${USER}front "./frontend"
+	docker-compose up $option
 #else
 #	docker-compose -f db.yaml  up -d --remove-orphans
 #	cd frontend && (npm run start&)
