@@ -34,9 +34,11 @@ export class MyInfos extends Component<MyInfosProps> {
 
 	render () {
 		return (
-            <ButtonBase className="chibre" component={Link} to={process.env.REACT_APP_PROFILE as string} >
-                <Avatar className="chibre" variant='circular' alt="Semy Sharp" src={this.props.avatar}/>
-                <Typography>{this.props.login}</Typography>
+            <ButtonBase className="chibre" component={Link} to={process.env.REACT_APP_PROFILE as string} sx={{margin: 1}}>
+                <Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+					<Avatar className="chibre" variant='circular' alt="Semy Sharp" src={this.props.avatar}/>
+					<Typography>{this.props.login}</Typography>
+				</Stack>
             </ButtonBase>
 		)
 	}
