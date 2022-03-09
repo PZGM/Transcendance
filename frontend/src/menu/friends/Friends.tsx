@@ -18,21 +18,21 @@ interface FriendsState {
 
 export class Friends extends Component<FriendsProps, FriendsState> {
 	userAPI = new UserAPI();
+	index:number = 0;
 	renderRows(list) {
-		let index:number = 0;
+		list = [1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,11,1,1,1,11,1,11,1,1,11,1,1,1,]
 		const listItems = list.map((id: number) =>
 			<div key={id}>
-				<UserDisplay id={id} index={index++} deleteFriend={this.deleteFriend}/>
+				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>
 			</div>
 	  );
 	  return listItems;
 	}
 
 	renderSearchRows(list) {
-		let index:number = 0;
 		const listItems = list.map((id: number) =>
 			<div key={id}>
-				<AddUserDisplay id={id} index={index++} addFriend={this.addFriend}/>
+				<AddUserDisplay id={id} index={this.index} addFriend={this.addFriend}/>
 			</div>
 	  );
 	  return listItems;
@@ -111,10 +111,10 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 					sx={{mx: '10%'}}
 				>
 					<Grid container></Grid>
-					<Grid container sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'white', height: '80vh', width: '100wh', overflow: 'auto' }}>
-						<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '92%', overflow: 'auto'}}>
+					<Grid container sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'white', width: '100wh', overflow: 'auto' }}>
+						<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '70vh', overflow: 'auto'}}>
 							<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-							<List style={{height: '92%',  overflow: 'auto'}}>
+							<List style={{height: "100% -100px",overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>
@@ -129,3 +129,4 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		);
 	};
 }
+// - 1.4375em
