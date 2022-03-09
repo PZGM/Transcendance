@@ -2,6 +2,7 @@ version: "3.3"
 services:
       # database
     db:
+            container_name: ${USER}_db
             image: postgres
             restart: always
             environment:
@@ -49,6 +50,7 @@ services:
           - ${front}:3000
 
     adminer:
+        container_name: ${USER}-adminer
         image: adminer
         restart: always
         ports:
