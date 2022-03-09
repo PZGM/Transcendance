@@ -50,6 +50,12 @@ fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-r" ]] || [[ "$#"  -ge "2"   &&   $2 = "-r" ]] || [[ "$#"  -ge "3"  &&  $3 = "-r" ]] || [[ "$#"  -ge "4"  &&  $3 = "-r" ]]
 then
+	docker rm -f $(docker ps | grep ${USER})
+	docker rmi -f $(docker images | grep ${USER})
+fi
+
+if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]]
+then
 	docker system prune -af
 fi
 
