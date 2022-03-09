@@ -57,7 +57,7 @@ fi
 #then
 	docker build -t ${USER}back "./backend" 
 	docker build -t ${USER}front "./frontend"
-	docker-compose up $option
+	docker-compose -p ${USER}compose up $option
 #else
 #	docker-compose -f db.yaml  up -d --remove-orphans
 #	cd frontend && (npm run start&)
