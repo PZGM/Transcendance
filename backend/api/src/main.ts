@@ -40,7 +40,7 @@ async function bootstrap() {
       secret: 'j7lSA4XYLLNBgGedfaDa',
       resave: false,
       saveUninitialized: false,
-      store: new TypeormStore().connect(sessionRepo)
+      store: new TypeormStore().connect(sessionRepo),      
     }),
   );
   app.use(passport.initialize());
@@ -59,7 +59,7 @@ async function bootstrap() {
 
     await app.init();
   
-    http.createServer(server).listen(process.env.http);
-    https.createServer(httpsOptions, server).listen(process.env.https);
+    http.createServer(server).listen(3001);
+    https.createServer(httpsOptions, server).listen(3333);
 }
 bootstrap();

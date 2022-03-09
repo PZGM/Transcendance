@@ -11,6 +11,7 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
+import { NotFound } from './menu/NotFound';
 
 // import './asset/fonts/bit9x9.ttf'
 
@@ -27,6 +28,8 @@ ReactDOM.render(
           <Route path="settings" element={<Settings/>} />
           <Route path="history" element={<History/>} />
           <Route path="achievement" element={<Achievement/>} />
+          <Route path="*" element={<NotFound/>} />
+
           {/* <Route path="invoices" element={<Invoices />} /> */}
         </Routes>
     </BrowserRouter>

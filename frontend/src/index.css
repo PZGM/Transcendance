@@ -61,3 +61,10 @@ code {
     font-display: swap;
 }
 
+@font-face {
+    font-family: 'lemon';
+    src: url('./asset/fonts/lemon.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

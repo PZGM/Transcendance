@@ -1,4 +1,3 @@
-
 export class UserDTO {
     id: number;
     intraID: string;
@@ -8,4 +7,6 @@ export class UserDTO {
     img_url: string;
     status: number;
     friends: number[];
+    twofaSecret?: string;
+    twofa: boolean;
 }

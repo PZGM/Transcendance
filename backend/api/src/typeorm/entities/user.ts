@@ -25,4 +25,10 @@ export class User {
 
     @Column("int", {array:true, default: []})
     friends: number[];
+
+    @Column({ nullable: true })
+    public twofaSecret?: string;
+
+    @Column({default: false})
+    public twofa: boolean;
 }

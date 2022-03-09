@@ -55,4 +55,3 @@ services:
         restart: always
         ports:
             - ${adminer}:8080
-

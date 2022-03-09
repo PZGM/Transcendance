@@ -11,7 +11,6 @@ export type UserDetails = {
 }
 
 export interface CustomRequest extends Request {
-
     user: User;
   }
 
