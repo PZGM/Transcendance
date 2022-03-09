@@ -1,19 +1,11 @@
-import { Avatar, Box, Button, Card, Grid, Stack, InputBase, ListItem, ListItemButton, ListItemText, styled, TextField, Typography, List, ListSubheader } from "@mui/material";
-import { sizing } from '@mui/system';
+import { Box, Grid, Stack, InputBase, List} from "@mui/material";
 import { Component } from "react";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
 import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
-import CloseIcon from '@mui/icons-material/Close';
 import MenuButton from "../MenuButton";
-
-const widthBox = 700;
-const heightBox = 500;
 
 interface FriendsProps {
 };
@@ -28,6 +20,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	userAPI = new UserAPI();
 	index:number = 0;
 	renderRows(list) {
+		list = [1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,11,1,1,1,11,1,11,1,1,11,1,1,1,]
 		const listItems = list.map((id: number) =>
 			<div key={id}>
 				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>
@@ -117,44 +110,23 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 					className="test"
 					sx={{mx: '10%'}}
 				>
-				<Grid container></Grid>
-				<Grid container
-					sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'black', height: '80vh', width: '100wh', overflow: 'auto' }}>
-							
-							<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '100%', overflow: 'auto'}}>
-								<InputBase
-									fullWidth
-									inputProps={{min: 0, style: { textAlign: 'center' }}}
-									className={styles.input}
-									placeholder="Search Friend"
-									onChange={ async (e) => {this.onSearch(e.target.value)}
-								}
-								/>
-								<List style={{height: '100%',  overflow: 'auto'}}>
-									{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
-									{!this.state.searchField && this.renderRows(this.state.friends)}
-								</List>
-							</Box>
-
-							<Box m="2%" width='20%'>
-								<Grid container direction="column" justifyContent="space-evenly" alignItems="center">
-									<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
-									{/* <Typography>{this.state.login}</Typography> */}
-									<Typography>AFREIRE-</Typography>
-									<Button component={Link} to={process.env.REACT_APP_PROFILE as string}><div className='arcademenu'>Profile</div></Button>
-									<Button component={Link} to={process.env.REACT_APP_FRIENDS as string}><div className='arcademenu'>Friends</div></Button>
-									<Button component={Link} to={process.env.REACT_APP_SETTINGS as string}><div className='arcademenu'>Settings</div></Button>
-									<Button component={Link} to={process.env.REACT_APP_HISTORY as string}><div className='arcademenu'>Match History</div></Button>
-									<Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}><div className='arcademenu'>Achievments</div></Button>
-								</Grid>
-							</Box>
-								
-
-				</Grid>
-				<Grid container></Grid>
-
+					<Grid container></Grid>
+					<Grid container sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'white', width: '100wh', overflow: 'auto' }}>
+						<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '70vh', overflow: 'auto'}}>
+							<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+							<List style={{height: "100% -100px",overflow: 'auto'}}>
+								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
+								{!this.state.searchField && this.renderRows(this.state.friends)}
+							</List>
+						</Box>
+						<Box mt="2%" width='30%'>
+							<MenuButton/>
+						</Box>
+					</Grid>
+					<Grid container></Grid>
 				</Stack>
 			</div>
 		);
 	};
 }
+// - 1.4375em

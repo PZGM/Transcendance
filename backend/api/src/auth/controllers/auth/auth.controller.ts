@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards, Redirect } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Request } from 'express'
@@ -16,9 +16,10 @@ export class AuthController {
     }
 
     @Get('redirect')
-        @UseGuards(IntraAuthGuard)
+    @UseGuards(IntraAuthGuard)
     redirect(@Res() res: Response) {
-        res.sendStatus(200);
+        res.redirect(process.env.PROFILE_URL);
+
     }
 
     @Get('status')

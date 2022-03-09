@@ -1,7 +1,6 @@
-import { ListSubheader, Avatar, Box, Button, ButtonBase, ButtonGroup, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, ButtonBase, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import { MiniStatus } from "../../asset/MiniStatus";
 import styles from './../../style/dac.module.css'
 import './../../asset/fonts/Fonts.css'
 
@@ -83,6 +82,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 	}
 
 	render () {
+		console.log(`index = ${this.props.index}`)
 		let description = new Map<number, string>([
 			[0, 'unknow'],
 			[1, 'offline'],
@@ -125,3 +125,5 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 		);
 	}
 }
+
+// 

@@ -79,19 +79,21 @@
     padding-top: 5px;
   }
 
-  .bdac:before {
-    border-style: inherit;
+  .bdac:after{
     opacity: 0.5;
     top: 0px;
-    right: -4px;
     bottom: -4px;
     left: 0px;
+    right: -4px;
     position: absolute;
-    z-index: -1;
-    border: inherit;
-    content: '';
-    width: inherit;
+    z-index: 1;
+
+    width: inherit -4px;
     height: inherit;
+    position: absolute;
+    content: '';
+    border: inherit;
+    pointer-events: none;
   }
 
   /* search bar */
@@ -136,6 +138,7 @@
     content: '';
     border: 2px solid var(--yellow);
     pointer-events: none;
+
   }
 
   .invisibleButton {

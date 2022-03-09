@@ -16,23 +16,25 @@ export class StatusDetector extends Component<HeaderProps>{
 		setInterval(this.sendActivity.bind(this), 3000)
 	}
 
-	async fetchUser() {
+	async fetchUser(){
 		const resp = await UserAPI.getUser();
+		if (resp.id == undefined)
+			return;
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
-	}
-
-	sendActivity = () => {
-		if (this.idle == false)
-			UserAPI.reportActivity(this.id);
-	}
-
-	componentDidMount()  {
-		this.fetchUser();
 		this.activityDetector = createActivityDetector({timeToIdle: 1000, ignoredEventsWhenIdle: [], initialState: 'idle'})
 		this.activityDetector.on('idle', this.onIdle)
 		this.activityDetector.on('active', this.onActive)
+	}
+
+	sendActivity = () => {
+		if (this.idle === false)
+			UserAPI.reportActivity(this.id);
+	}
+
+	componentDidMount() {
+		this.fetchUser()
 	}
 
     componentWillUnmount() {

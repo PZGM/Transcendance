@@ -1,6 +1,5 @@
 import { Box, Grid, LinearProgress, Typography } from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
-const boul = false;
 
 
 export default function Display(props) {
@@ -23,7 +22,7 @@ export default function Display(props) {
 				{( val / max) * 100 - ( val / max) * 100 % 1 }%
 			</Typography>
 			<Box sx={{border: '3px solid grey' }}  width="20px" height="20px">
-				{(val == max) ? <DoneIcon/> : <></>}
+				{(val === max) ? <DoneIcon/> : <></>}
 			</Box>
 		</Grid>
 	);
