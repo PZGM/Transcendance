@@ -9,15 +9,17 @@ import { AuthentificationProvider } from './auth';
 export class AuthService implements AuthentificationProvider {
 
     constructor(
-        @InjectRepository(User) private userRepo: Repository<User>
-    ) {}
+        @InjectRepository(User) private userRepo: Repository<User>,
+    ) {
+
+    }
 
     async validateUser(details: UserDetails) {
         const { intraId } = details;
-        const user = await this.userRepo.findOne({ intraId });
-        if (user)
-            return user;
-        return this.createUser(details);
+        let user = await this.userRepo.findOne({ intraId });
+        if (!user) 
+            user = await this.createUser(details);
+        return user;
     }
     
     async createUser(details: UserDetails) {

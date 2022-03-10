@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Request } from 'express'
 import { CustomRequest } from 'src/utils/types';
-import { AuthentificatedGuard, IntraAuthGuard } from './guards';
+import { AuthentificatedGuard, FullyAuthentificatedGuard, IntraAuthGuard } from './guards';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -23,7 +23,7 @@ export class AuthController {
     }
 
     @Get('status')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     status(@Req() request: CustomRequest) {
         return `Logged in as ${request.user.login}`;
     }

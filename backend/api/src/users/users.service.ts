@@ -114,6 +114,8 @@ export class UsersService {
         userDTO.img_url = user.img_url;
         userDTO.status = user.status;
         userDTO.friends = user.friends;
+        userDTO.twofaSecret = user.twofaSecret;
+        userDTO.twofa = user.twofa;
 
         return userDTO;
     }
@@ -128,6 +130,8 @@ export class UsersService {
         user.img_url = userDTO.img_url;
         user.status = userDTO.status;
         user.friends = userDTO.friends;
+        user.twofa = userDTO.twofa;
+        user.twofaSecret = userDTO.twofaSecret;
 
         return user;
     }
@@ -138,7 +142,16 @@ export class UsersService {
         return 1;
     }
 
-    async setTwofaSecret(secret: string, userId: number) {
-        this.updateSecret(userId, secret)
+    async turnOnTwofa(userId: number) {
+        return this.userRepository.update(userId, {
+          twofa: true
+        });
+      }
+
+      async turnOffTwofa(userId: number) {
+        return this.userRepository.update(userId, {
+          twofa: false,
+          twofaSecret: null
+        });
       }
 }

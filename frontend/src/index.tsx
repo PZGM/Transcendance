@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -12,8 +12,8 @@ import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { NotFound } from './menu/NotFound';
-
-// import './asset/fonts/bit9x9.ttf'
+import { Twofa } from './twofa';
+import { UserAPI } from './api/Users.api';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
@@ -27,6 +27,7 @@ ReactDOM.render(
           <Route path="friends" element={<Friends/>} />
           <Route path="settings" element={<Settings/>} />
           <Route path="history" element={<History/>} />
+          <Route path="2fa" element={<Twofa/>} />
           <Route path="achievement" element={<Achievement/>} />
           <Route path="*" element={<NotFound/>} />
 

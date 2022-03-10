@@ -11,6 +11,7 @@ export type UserDetails = {
 }
 
 export interface CustomRequest extends Request {
+    session: any;
     user: User;
   }
 

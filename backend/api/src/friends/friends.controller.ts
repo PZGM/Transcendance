@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { CustomRequest } from 'src/utils/types';
 import { FriendsService } from './friends.service';
 import { UsersService } from './../users/users.service';
@@ -11,7 +11,7 @@ export class FriendsController {
     constructor(private readonly userService: UsersService) {}
 
     @Get()
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async getFriends(@Req() request: CustomRequest) {
         const userId: number = request.user.id;
         let friends: number[] = await this.userService.getFriends(userId);
@@ -21,7 +21,7 @@ export class FriendsController {
     }
 
     @Post()
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async addFriend(@Req() request: CustomRequest, @Body() addFriendRequest: {id: number}) {
         const userId: number = request.user.id;
         let friends: number[] = await this.userService.getFriends(userId);
@@ -33,7 +33,7 @@ export class FriendsController {
 
 
     @Get('/search/:search')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async searchFriends(@Req() request: CustomRequest, @Param('search') search: string) {
         const userId: number = request.user.id;
         let searchResults: number[] = await this.userService.findFriends(search, userId);
@@ -43,7 +43,7 @@ export class FriendsController {
     }
 
     @Delete()
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async deleteFriend(@Req() request: CustomRequest, @Body() deleteFriendRequest: {id: number}) {
         const userId: number = request.user.id;
         let friends: number[] = await this.userService.getFriends(userId);

@@ -144,4 +144,43 @@ export class UserAPI {
 			method: "POST",
 			credentials: "include"})
 		}
+
+		//2FA
+
+		public static async turnTwofaOn(code: string) {
+			const resp = await fetch((process.env.REACT_APP_TURN_ON_2FA as string), {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ twofaCode: code }),
+				credentials: "include"})
+			 return resp;
+		}
+
+		public static async authenticateTwofa(code: string) {
+			const resp = await fetch((process.env.REACT_APP_LOGIN_IN_2FA as string), {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ twofaCode: code }),
+				credentials: "include"})
+			 return resp;
+		}
+
+		public static async turnTwofaOff() {
+			const resp = await fetch((process.env.REACT_APP_TURN_OFF_2FA as string), {
+				method: "POST",
+				credentials: "include"})
+			 return resp;
+		}
+
+		public static async isTwofaEnabled() {
+			const resp = await fetch(`${process.env.REACT_APP_2FA_ENABLED}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
+			 return resp
+		}
 }

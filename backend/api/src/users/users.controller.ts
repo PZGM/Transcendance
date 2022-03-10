@@ -1,7 +1,7 @@
 import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
-import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { UsersService } from './users.service';
 
 
@@ -13,7 +13,7 @@ export class UsersController {
     constructor(private readonly userService: UsersService) {}
 
     @Get('/:id')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async getOne(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const user = await this.userService.getOne(userId);
@@ -23,7 +23,7 @@ export class UsersController {
     }
 
     @Get('/:id/login')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const login = await this.userService.getUserLogin(userId);
@@ -34,7 +34,7 @@ export class UsersController {
     }
 
     @Get('/:id/image')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async getImage(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
         const img = await this.userService.getUserImage(userId);
@@ -44,13 +44,13 @@ export class UsersController {
     }
 
     @Put('/update/image')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async updateImage(@Req() request: CustomRequest, @Body() updateImageRequest: {image: string}) {
         const ret =  await this.userService.updateImage(request.user.id, updateImageRequest.image);
     }
 
     @Put('/update/login')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     public async updateLogin(@Req() request: CustomRequest, @Body() updateLoginRequest: {login: string}) {
         const ret =  await this.userService.updateLogin(request.user.id, updateLoginRequest.login);
         if (ret)
