@@ -11,7 +11,8 @@ import { MiniStatus } from "../asset/MiniStatus";
 import { height } from "@mui/system";
 import { MyInfos } from "./MyInfos";
 import { Profile } from "./Profile";
-import { Chat } from "./Chat";
+import { Chat } from "./gestion_chat/Chat";
+import { CUmenu } from "./C_U_menu/C_U_menu";
 
 
 interface HomeProps {
@@ -75,8 +76,9 @@ export class Home extends Component<HomeProps, HomeState> {
 	display() {
 		if (this.state.display == 0)
 			return <Chat updateDisplay={this.updateDisplay}></Chat>
-		else
-			return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
+		if (this.state.display == 2)
+			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
 	}
 
 	render () {
