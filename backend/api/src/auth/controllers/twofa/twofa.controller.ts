@@ -78,7 +78,13 @@ export class TwofaController {
     @Get('enabled')
     @UseGuards(AuthentificatedGuard)
     async enabled(@Req() request: CustomRequest) {
-        return request.user.twofa;
+        return await this.userService.isTwofaEnabled(request.user.id);
+    }
+
+    @Get('fully-authentificated')
+    @UseGuards(FullyAuthentificatedGuard)
+    isFullyAuthentificated(@Req() request: CustomRequest) {
+        return true;
     }
 
 }

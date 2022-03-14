@@ -4,6 +4,10 @@ import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserAPI } from "./api/Users.api";
 import MenuButton from "./menu/MenuButton";
+import { Navigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 interface TwofaProps {
 };
@@ -11,24 +15,22 @@ interface TwofaProps {
 interface TwofaState {
     input: string;
     twofa: boolean;
+    redirect: boolean;
 }
 
 export class Twofa extends Component<TwofaProps, TwofaState> {
 
     constructor(props: TwofaProps) {
 		super(props);
-		this.state = {input : '', twofa: false};
+		this.state = {input : '', twofa: false, redirect: false};
         this.onChange = this.onChange.bind(this);
-        this.onEnable = this.onEnable.bind(this);
         this.onValidation = this.onValidation.bind(this);
         this.fetch2fa = this.fetch2fa.bind(this);
         this.fetch2fa();
 	}
 
     async fetch2fa() {
-        console.log("i'm fetching");
         try {
-            console.log("i'm trying")
             const resp = await UserAPI.isTwofaEnabled();
             console.log(`resp : ${resp}`);
             this.setState({
@@ -47,41 +49,38 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
         })
     }
 
-    onEnable() {
-        UserAPI.turnTwofaOn(this.state.input);
-    }
-
     onDisable() {
         UserAPI.turnTwofaOff();
     }
 
-    onValidation() {
-        UserAPI.authenticateTwofa(this.state.input);
+    async onValidation() {
+        const isValid = await UserAPI.authenticateTwofa(this.state.input);
+        if (isValid)
+            this.setState({redirect: true});
+        else
+            toast.error("Invalid code", {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
     }
 
 	render (){
 		return(
             <div>
+                <ToastContainer />
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
-				
+                { this.state.redirect ? (<Navigate to="/profile"/>) : null }
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
 							<MenuButton/>
 						</Box>
-                        <Typography>{(this.state.twofa) ? 'Twofa is on' : 'Twofa is off'}</Typography>
+                        <Typography>{(this.state.twofa) ? 'Twofa is enabled' : "Twofa isn't enabled"}</Typography>
 						<Box width="70%">
                             <InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} placeholder="enter code" onChange={ async (e) => {this.onChange(e.target.value)}}/>
-                            <Button onClick={this.onEnable}>
-                                enable 2FA
-                            </Button>
                             <Button onClick={this.onValidation}>
                                 login 2FA
-                            </Button>
-                            <Button onClick={this.onDisable}>
-                                disable 2FA
                             </Button>
                             <Button onClick={this.fetch2fa}>
                                 check state

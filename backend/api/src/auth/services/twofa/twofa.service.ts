@@ -17,7 +17,7 @@ export class TwofaService {
         const secret = authenticator.generateSecret();
      
         const otpauthUrl = authenticator.keyuri(user.id.toString(), 'Transcendance', secret);
-     
+       
         await this.usersService.updateSecret(user.id, secret);
      
         return {

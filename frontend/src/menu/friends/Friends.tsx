@@ -20,7 +20,6 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	userAPI = new UserAPI();
 	index:number = 0;
 	renderRows(list) {
-		list = [1,1,1,1,1,11,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,11,1,1,1,11,1,11,1,1,11,1,1,1,]
 		const listItems = list.map((id: number) =>
 			<div key={id}>
 				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>

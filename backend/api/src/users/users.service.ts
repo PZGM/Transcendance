@@ -99,6 +99,7 @@ export class UsersService {
 
     public async updateSecret(userId: number, secret: string) {
         const userDTO: UserDTO|null = await this.getOne(userId);
+        userDTO.twofa = false;
         userDTO.twofaSecret = secret;
         const user: User = this.DTOToEntity(userDTO);
         await this.userRepository.save(user);
@@ -154,4 +155,14 @@ export class UsersService {
           twofaSecret: null
         });
       }
+
+      public async isTwofaEnabled(userId: number): Promise<boolean|null> {
+        try {
+            const user: User = await this.userRepository.findOneOrFail(userId);
+            return this.entityToDTO(user).twofa;
+        }
+        catch (e) {
+            return null;
+        }
+    }
 }

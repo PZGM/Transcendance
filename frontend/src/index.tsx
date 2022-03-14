@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Home } from './home/Home';
 import { Profile } from './menu/profile/Profile';
 import { Friends } from './menu/friends/Friends';
@@ -13,7 +13,7 @@ import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { NotFound } from './menu/NotFound';
 import { Twofa } from './twofa';
-import { UserAPI } from './api/Users.api';
+
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
@@ -21,7 +21,6 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          {/* <Route path="profile" element={<Profil />} /> */}
           <Route path="home" element={<Home />} />
           <Route path="profile" element={<Profile/>} />
           <Route path="friends" element={<Friends/>} />

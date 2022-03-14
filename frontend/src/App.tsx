@@ -25,7 +25,7 @@ function App() {
 
             	<img
                 src={require('./asset/images/42.gif')}
-                onClick={() => window.open(process.env.REACT_APP_URL_AUTH)}
+                onClick={() => window.open(process.env.REACT_APP_URL_AUTH, '_self')}
 				className='fit'
 				alt=""/>
 
