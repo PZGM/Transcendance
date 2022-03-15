@@ -85,6 +85,9 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
                 fileSelected: undefined,
                 edit: false,
             })
+			toast.success('Avatar successfuly updated', {
+				position: toast.POSITION.BOTTOM_CENTER
+			})
 		}
 	};
 
@@ -92,33 +95,36 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
     render() {
         return (
-			<Stack direction="column" justifyContent="space-between" alignItems="baseline">
-				<Stack direction="row" justifyContent="space-between" alignItems="baseline">
-					{ !this.state.edit && <Avatar  src={this.props.avatar} /> }
-					{ !this.state.edit && <Button onClick={this.edit} variant="contained" style={{borderRadius: 0}} >Edit</Button>}
+			<>
+				<ToastContainer />
+				<Stack direction="column" justifyContent="space-between" alignItems="baseline">
+					<Stack direction="row" justifyContent="space-between" alignItems="baseline">
+						{ !this.state.edit && <Avatar  src={this.props.avatar} /> }
+						{ !this.state.edit && <Button onClick={this.edit} variant="contained" style={{borderRadius: 0}} >Edit</Button>}
+					</Stack>
+					<Stack direction="row" justifyContent="space-between" alignItems="baseline" width='100%'>
+						{ this.state.edit && <Input type="file" hidden onChange={this.handleImageChange}></Input>}
+						{(this.state.fileSelected) &&
+								<>
+									<AvatarEditor
+										ref={this.setEditorRef}
+										image={(this.state.fileSelected) ? this.state.fileSelected : 'null'}
+										width={175}
+										height={175}
+										border={50}
+										borderRadius={1000}
+										color={[0, 0, 0, 0.5]} // RGBA
+										scale={this.state.scale}
+										rotate={0} />
+									<IconButton color="primary" onClick={this.zoomIn}><AddCircleOutlineIcon /></IconButton>
+									<IconButton color="primary" onClick={this.zoomOut}><RemoveCircleOutlineIcon /></IconButton>
+									<IconButton color="primary" onClick={this.updateImage}><CheckCircleOutlineIcon /></IconButton>
+								</>
+						}
+						{this.state.edit && <IconButton color="primary" onClick={this.cancel}><HighlightOffIcon /></IconButton>}
+					</Stack>
 				</Stack>
-				<Stack direction="row" justifyContent="space-between" alignItems="baseline" width='100%'>
-					{ this.state.edit && <Input type="file" hidden onChange={this.handleImageChange}></Input>}
-					{(this.state.fileSelected) &&
-							<>
-							<AvatarEditor
-								ref={this.setEditorRef}
-								image={(this.state.fileSelected) ? this.state.fileSelected : 'null'}
-								width={175}
-								height={175}
-								border={50}
-								borderRadius={1000}
-								color={[0, 0, 0, 0.5]} // RGBA
-								scale={this.state.scale}
-								rotate={0} />
-							<IconButton color="primary" onClick={this.zoomIn}><AddCircleOutlineIcon /></IconButton>
-							<IconButton color="primary" onClick={this.zoomOut}><RemoveCircleOutlineIcon /></IconButton>
-							<IconButton color="primary" onClick={this.updateImage}><CheckCircleOutlineIcon /></IconButton>
-							</>
-					}
-					{this.state.edit && <IconButton color="primary" onClick={this.cancel}><HighlightOffIcon /></IconButton>}
-				</Stack>
-			</Stack>
+			</>
         )
     }
 }

@@ -39,16 +39,18 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
     }
     
     async updateLogin() {
-        console.log(this.state.input);
-        console.log(this.props.login);
         if (this.state.input == this.props.login)
             toast.error("This is already your login", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         else if (this.state.input != '') {
             let isValid = await UserAPI.updateLogin(this.state.input);
-            if (isValid)
+            if (isValid) {
                 this.props.updateParentState({ login: this.state.input });
+                toast.success(`Login updated to ${this.state.input}`, {
+                    position: toast.POSITION.BOTTOM_CENTER
+                })
+            }
             else
                 toast.error("Invalid new login", {
                     position: toast.POSITION.BOTTOM_CENTER
@@ -61,7 +63,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
             <>
                 <ToastContainer />
                 <Stack direction="row" justifyContent="space-between" alignItems="baseline">
-                    <TextField defaultValue={this.props.login} onChange={this.handleChangeLogin} />
+                    <TextField placeholder={this.props.login} onChange={this.handleChangeLogin} />
                     <Button onClick={this.updateLogin} variant="contained" style={{borderRadius: 0}} >Edit</Button>
                 </Stack>
             </>
