@@ -102,28 +102,42 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 				width: '100vw',
 				backgroundRepeat: 'norepeat'
 			}}>
-				<Stack
+				{/* <Stack
 					direction="column"
 					justifyContent="space-between"
 					alignItems="center"
 					className="test"
 					sx={{mx: '10%'}}
-				>
-					<Grid container></Grid>
-					<Grid container sx={{border: '10px solid rgba(0, 70, 109, 1)', outline: '10px solid rgba(0, 80, 117, 1)', backgroundColor: 'white', width: '100wh', overflow: 'auto' }}>
-						<Box m="2%" width='60%' sx={{p: '10px', border: '9px solid rgba(142, 0, 172, 1)', outline: '9px solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black', height: '70vh', overflow: 'auto'}}>
-							<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-							<List style={{height: "100% -100px",overflow: 'auto'}}>
+				> */}
+				<div style={{
+					height: '100vh',
+					// width: '100%',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center"
+				}}>
+					<Grid container justifyContent="space-between" alignItems="stretch"  wrap="nowrap"
+					sx={{	m:'2', border: '0.5vw solid rgba(0, 70, 109, 1)', outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black', minWidth: "1000px", minHeigth: "400px",
+								maxWidth: "1300px", maxHeigth: "600px"}}>
+
+						<Grid item xs={6}
+							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
+								<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+								<List style={{height: "100% -100px",overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>
-						</Box>
-						<Box mt="2%" width='30%'>
+						</Grid>
+
+						<Grid item xs={5} sx={{m: 3}} >
 							<MenuButton/>
-						</Box>
+						
+						</Grid>
+
 					</Grid>
-					<Grid container></Grid>
-				</Stack>
+				{/* </Stack> */}
+				</div>
 			</div>
 		);
 	};
