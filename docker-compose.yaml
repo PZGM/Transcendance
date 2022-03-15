@@ -2,7 +2,7 @@ version: "3.3"
 services:
       # database
     db:
-            container_name: ${USER}_db
+            container_name: ${USER}-db
             image: postgres
             restart: always
             environment:

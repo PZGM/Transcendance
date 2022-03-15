@@ -1,20 +1,24 @@
-import { Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { ChangeEvent, Component } from "react";
 import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
 import MenuButton from "../MenuButton";
+import { AvatarSettings } from "./AvatarSettings";
+import { LoginSettings } from "./LoginSettings";
+import { TwofaSettings } from "./TwofaSettings";
+
+
 
 type SettingsProps = {
 	login?: string,
-	updateHeaderState?: any
 };
 
 interface SettingsState {
 	fileSelected?: File;
 	loginSelected?: string;
 	scale: number;
-	avatar?: string,
+	avatar: string,
 	login?: string,
 }
 
@@ -23,7 +27,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 
 	constructor(props: SettingsProps) {
 		super(props);
-		this.state = {avatar: undefined, login: undefined, fileSelected: undefined, loginSelected: undefined, scale: 1}
+		this.updateState = this.updateState.bind(this);
+		this.state = {avatar: '', login: undefined, fileSelected: undefined, loginSelected: undefined, scale: 1}
 	}
 
 	async fetchUser() {
@@ -48,17 +53,16 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		})
 	};
 
-	updateImage = async (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-		if (this.editor) {
-			const canvas = this.editor.getImageScaledToCanvas();
-			var blob: Blob = await new Promise(resolve => canvas.toBlob(resolve));
-			const formData = new FormData();
-			formData.append("file", blob, 'name.jpg');
-			const response = await axios.post(`${process.env.REACT_APP_UPLOAD_AVATAR}`, formData, { withCredentials: true });
-			UserAPI.updateAvatar(response.data);
-			this.props.updateHeaderState({ avatar: response.data });
-		}
-	};
+	async updateState({login, avatar}) {
+		if (login)
+			this.setState({
+				login: login,
+			})
+		if (avatar)
+		this.setState({
+			avatar: avatar,
+		})
+	}
 
 	handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const log = e.target.value;
@@ -72,21 +76,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		if (this.state.loginSelected) {
 			UserAPI.updateLogin(this.state.loginSelected);
 		}
-		this.props.updateHeaderState({ login: this.state.loginSelected });
 	}
-
-	zoomIn = () => {
-		this.setState({
-			scale: (this.state.scale * 1.1 < 8) ? this.state.scale * 1.1 : 8
-		})
-	}
-
-	zoomOut = () => {
-		this.setState({
-			scale: (this.state.scale * 0.9 > 1) ? this.state.scale * 0.9 : 1
-		})
-	}
-	setEditorRef = (editor: any) => (this.editor = editor)
 
 	render (){
 		return(
@@ -94,7 +84,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 				<Helmet>
 					<style>{'body { background-color: black; }'}</style>
 				</Helmet>
-
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%" minWidth={"100px"}>
@@ -103,34 +92,11 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 						<Box width="70%" minWidth={"350px"}>
 							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
 								<Grid container direction="column" justifyContent="space-between" alignItems="center">
-									<Grid container direction="row" justifyContent="space-between" alignItems="baseline">
-										<Typography>NICKNAME</Typography>
-										<TextField label={this.state.login} variant="standard" defaultValue={this.state.login} onChange={this.handleChangeLogin}></TextField>
-										<Button  variant="contained" style={{borderRadius: 0}} onClick={this.updateLogin}>EDIT</Button>
-									</Grid>
-									<Box height="20px"></Box>
-									<Grid container direction="row" justifyContent="space-between" alignItems="baseline">
-										<Typography>AVATAR</Typography>
-										<Avatar variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{ }}/>
-										<Button variant="contained" style={{borderRadius: 0}} >EDIT</Button>
-									</Grid>
-									<Box height="20px"></Box>
-									<Grid container direction="row" justifyContent="space-between" alignItems="baseline">
-										<Typography>2FA</Typography>
-										<Button variant="contained" style={{borderRadius: 0}} >ON</Button>
-										<Button variant="contained" style={{borderRadius: 0}} >OFF</Button>
-									</Grid>
-									<Box height="20px"></Box>
-									<Grid container direction="row" justifyContent="space-between" alignItems="baseline">
-										<Typography>STATUS</Typography>
-										<Button variant="contained" style={{borderRadius: 0}} >VISIBLE</Button>
-									</Grid>
-									<Box height="20px"></Box>
-									<Grid container direction="column" justifyContent="space-between" alignItems="center">
-										<Typography>OTHER AUTH METHODS</Typography>
-										<Button  variant="contained" style={{width: '100%', height: '100%',borderRadius: 0}}>GOOGLE</Button>
-										<Button  variant="contained" style={{width: '100%', height: '100%',borderRadius: 0}}>META</Button>
-									</Grid>
+									<LoginSettings login={this.state.login} updateParentState={this.updateState}/>
+									<Box height='20px'/>
+									<AvatarSettings avatar={this.state.avatar} updateParentState={this.updateState}/>
+									<Box height='20px'/>
+									<TwofaSettings/>
 								</Grid>
 							</Box>
 						</Box>

@@ -3,10 +3,12 @@
     "@types/react-avatar-editor": "^10.3.6"
   },
   "dependencies": {
+    "@types/react-toastify": "^4.1.0",
     "cancelable-promise": "^4.2.1",
     "netstat": "^0.0.2",
     "otplib": "^12.0.1",
     "qrcode": "^1.5.0",
-    "react-avatar-editor": "^12.0.0"
+    "react-avatar-editor": "^12.0.0",
+    "react-toastify": "^8.2.0"
   }
 }

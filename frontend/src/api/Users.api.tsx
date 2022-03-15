@@ -66,39 +66,47 @@ export class UserAPI {
 
 		//updaters
 		public static async updateAvatar(avatar_url: string) {
+			let ret = true;
 			const resp = await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ image: avatar_url }),
 				credentials: "include"})
-				console.log(JSON.stringify({ image: avatar_url }));
-			 return resp;
+				.then(handleErrors)
+			return ret;
 		}
 
 		public static async updateLogin(login: string) {
+			let ret = true;
 			const resp = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ login: login }),
 				credentials: "include"})
-			 return resp;
+				.then(handleErrors)
+			return ret;
 		}
 
 		public static async updateStatus(id: number, status: number) {
-			const resp = await fetch((process.env.REACT_APP_UPDATE_STATUS as string) + id, {
+			await fetch((process.env.REACT_APP_UPDATE_STATUS as string) + id, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ status: status }),
 				credentials: "include"})
-			 return resp;
 		}
 		
 		//status
 		public static async reportActivity(id: number) {
-			const resp = await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
+			let ret = true;
+			await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
 				method: "GET",
 				credentials: "include"})
-			return resp;
+				.then(handleErrors)
+				.catch(err => {
+					console.log(err);
+					ret = false;
+				})
+			return ret;
 		}
 
 		//friends
@@ -143,5 +151,70 @@ export class UserAPI {
 			await fetch(`${process.env.REACT_APP_LOGOUT}`, {
 			method: "POST",
 			credentials: "include"})
+		}
+
+		//2FA
+
+		public static async turnTwofaOn(code: string) {
+			let ret = true;
+			const resp = await fetch((process.env.REACT_APP_TURN_ON_2FA as string), {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ twofaCode: code }),
+				credentials: "include"})
+				.then(handleErrors)
+				.catch(err => {
+					console.log('error A catched')
+					ret = false;
+				})
+			 return ret;
+		}
+
+		public static async authenticateTwofa(code: string) : Promise<boolean> {
+			let ret = true;
+			const resp = await fetch((process.env.REACT_APP_LOGIN_IN_2FA as string), {
+				method: "POST",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ twofaCode: code }),
+				credentials: "include"})
+				.then(handleErrors)
+				.catch(err => {
+					console.log('error A catched')
+					ret = false;
+				})
+			 return ret;
+		}
+
+		public static async turnTwofaOff() {
+			const resp = await fetch((process.env.REACT_APP_TURN_OFF_2FA as string), {
+				method: "POST",
+				credentials: "include"})
+			 return resp;
+		}
+
+		public static async isTwofaEnabled() {
+			const resp = await fetch(`${process.env.REACT_APP_2FA_ENABLED}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				// .then(handleErrors)
+				// .catch(err => {
+				// 	console.log('error catched')
+				// 	console.log(err)
+				// 	return null;
+				// })
+			 return resp
+		}
+
+		public static async getTwofaQR() {
+			const resp = await fetch(`${process.env.REACT_APP_2FA_GENERATE}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+				.then(handleErrors)
+				.catch(err => {
+					return null;
+				})
+			 return resp
 		}
 }

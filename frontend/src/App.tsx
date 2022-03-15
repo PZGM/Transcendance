@@ -32,7 +32,6 @@ function App() {
 				onClick={() => window.open(process.env.REACT_APP_URL_AUTH, "_self")}
 				style={{width: '20%'}}
 				/>
-
 				<div>
 					<img
 						src={require('./asset/images/afreire_braimbau.png')}

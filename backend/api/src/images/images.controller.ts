@@ -3,7 +3,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import path = require('path');
-import { AuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ImagesService } from './images.service';
 import { v4 as uuidv4 } from 'uuid';
 import { PrimaryColumnCannotBeNullableError } from 'typeorm';
@@ -29,20 +29,20 @@ export class ImagesController {
     
     constructor(private readonly userService: ImagesService) {}
 
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', storage))
     uploadImage(@UploadedFile() file): string {
         return (process.env.IMAGES_PATH_URL + path.parse(file.path).name + path.parse(file.path).ext);
     }
 
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     @Get('/:path')
     getImage(@Res() res, @Param('path') path: string){
         res.sendFile(path,{ root: './uploads/images' })
     }
 
-    // @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     @Delete('/:path')
     removeImage(@Param('path') path: string){
         try {

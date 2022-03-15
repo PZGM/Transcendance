@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Req, Res, UseGuards, Redirect } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, UseGuards, Redirect, Session } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Request } from 'express'
 import { CustomRequest } from 'src/utils/types';
-import { AuthentificatedGuard, IntraAuthGuard } from './guards';
+import { AuthentificatedGuard, FullyAuthentificatedGuard, IntraAuthGuard } from './guards';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -17,13 +17,16 @@ export class AuthController {
 
     @Get('redirect')
     @UseGuards(IntraAuthGuard)
-    redirect(@Res() res: Response) {
-        res.redirect(process.env.PROFILE_URL);
-
+    redirect(@Res() res: Response, @Req() request: CustomRequest, @Session() session: Record<string, any>,
+    ) {
+        if (!request.user.twofa || session.istwofa)
+            res.redirect(process.env.PROFILE_URL);
+        else
+            res.redirect(process.env.TWOFA_URL);
     }
 
     @Get('status')
-    @UseGuards(AuthentificatedGuard)
+    @UseGuards(FullyAuthentificatedGuard)
     status(@Req() request: CustomRequest) {
         return `Logged in as ${request.user.login}`;
     }
