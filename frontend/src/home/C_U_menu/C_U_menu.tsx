@@ -11,6 +11,7 @@ interface CUmenuProps {
     updateDisplay: any;
 };
 
+let height_Box = "41.5vh"
 
 export class CUmenu extends Component<CUmenuProps> {
 	constructor(props: CUmenuProps) {
@@ -21,18 +22,19 @@ export class CUmenu extends Component<CUmenuProps> {
 	}
 
 	renderRows(list) {
-		list = [1,1,1,1,1,1,1,1,1,11,1,1,1,1,]
+		list = [1,1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((id: number) =>
 			<div key={id}>
 				{/* <UserDisplay id={id} index={0} deleteFriend={this.deleteFriend}/> */}
 				<Box width="346px" className={styles.bdac} sx={{color:'test'}}>
 					<Stack  direction="row" spacing={2}>
-						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+						<Stack direction='row' justifyContent="center"  alignItems="center" spacing={1}>
+							<Box/>
 							<Typography variant="button" color='white'>
 								<div className='bit5x5'> 42 </div>
 							</Typography>
 						</Stack>
-						<Stack direction='row' justifyContent="space-between"  alignItems="flex-end" spacing={1}>
+						<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1} width="100%">
 							<ButtonBase centerRipple className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: "red"}}>
 								<Typography variant="button" color='white'>
 								<div className='bit5x5'> MUTE </div>
@@ -65,26 +67,22 @@ export class CUmenu extends Component<CUmenuProps> {
 					</IconButton>
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Typography>ACTIVE CHANNELS :</Typography>
-						<Box height="200px" sx={{overflow: 'auto'}}>
-							<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+							<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box}>
 								<List style={{height: "100% -100px", overflow: 'auto'}}>
 									{this.renderRows([])}
 									{/* {this.renderRows(this.state.friends)} */}
 								</List>
 							</Stack>
-						</Box>
 					</Stack>
 
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<Typography>CHATS :</Typography>
-						<Box height="200px" sx={{overflow: 'auto'}}>
-							<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+							<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box}>
 								<List style={{height: "100% -100px", overflow: 'auto'}}>
 									{this.renderRows([])}
 									{/* {this.renderRows(this.state.friends)} */}
 								</List>
 							</Stack>
-						</Box>
 					</Stack>
 				</Stack>
             </>
@@ -92,3 +90,6 @@ export class CUmenu extends Component<CUmenuProps> {
 		)
 	}
 }
+
+
+//Cette doit etre appeler en appuyant sur le channel dans selecter (le 42 dans les slides)

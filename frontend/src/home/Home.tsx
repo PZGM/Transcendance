@@ -13,6 +13,10 @@ import { MyInfos } from "./MyInfos";
 import { Profile } from "./Profile";
 import { Chat } from "./gestion_chat/Chat";
 import { CUmenu } from "./C_U_menu/C_U_menu";
+import { ChannelInfo } from "./channel_info/Channel_info";
+import { UserInfo } from "./User_info/User_info";
+import { ChannelInfoAdmin } from "./Channel_info_admin/Channel_info_admin";
+import { AddUserChannel } from "./Channel_info_admin/Add_user_channel";
 
 
 interface HomeProps {
@@ -78,6 +82,14 @@ export class Home extends Component<HomeProps, HomeState> {
 			return <Chat updateDisplay={this.updateDisplay}></Chat>
 		if (this.state.display == 2)
 			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		if (this.state.display == 3)
+			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		if (this.state.display == 4)
+			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		if (this.state.display == 5)
+			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		if (this.state.display == 6)
+			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
 		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
 	}
 
