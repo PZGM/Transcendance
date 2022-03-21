@@ -1,0 +1,30 @@
+.arcade {
+	font-family: "Arcade";
+}
+  
+.backto1982 {
+	font-family: "Backto1982";
+}
+
+.bit5x3 {
+	font-family: "Bit5x3";
+}
+
+.bit5x5 {
+	line-height: 1em;
+	font-family: "Bit5x5";
+}
+
+.bit5x5out {
+	font-family: "Bit5x5";
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
+}
+
+.bit9x9 {
+	font-family: "Bit9x9";
+}
+
+.manaspace {
+	font-family: "Manaspace";
+}   
