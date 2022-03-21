@@ -1,6 +1,12 @@
 .arcade {
 	font-family: "Arcade";
 }
+
+.arcademenu {
+	font-family: "Arcade";
+	color: white;
+	font-size: 100px;
+}
   
 .backto1982 {
 	font-family: "Backto1982";

@@ -1,7 +1,7 @@
 import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import styles from './../../style/buttons.module.css'
+import style from './../../style/buttons.module.css'
 import './../../asset/fonts/fonts.module.css'
 
 type UserDisplayProps = {
@@ -90,37 +90,41 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[3, 'connected'],
 			[4, 'playing']]);
 		return (
-				<Box mr='2px' className={styles.bdac} sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
+				<Box	mr='2px'
+						className={style.bdac}
+						sx={{	color:'test',
+								borderColor: this.getColor(this.props.index % 5)}}
+				>
 					<ListItem 
 					key={this.props.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-						<div	className={styles.button}
+						<div	className={style.button}
 								style={{	width: '100px',
 											height: '50px',
-											backgroundColor: this.getColor(this.state.status),
+											backgroundColor: this.getColor(this.state.status)
 										}}
 						>
-								{description.get(this.state.status)}
+							{description.get(this.state.status)}
 						</div>
 						
-						<div 	className={styles.button}
+						<div 	className={style.button}
 								style={{	width: '90px',
 											height: '50px',
 											backgroundColor: this.getColor(0),
 										}}
 						>
-								Send Message
+							Send Message
 						</div>                    
 						
-						<div	className={styles.button}
+						<div	className={style.button}
 								onClick={this.removeFriend}
 								style={{	width: '90px',
 											height: '50px',
 											backgroundColor: this.getColor(1),
 										}}
 						>
-								Remove Friend
+							Remove Friend
 						</div>
 					
 					</Stack>

@@ -94,27 +94,35 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 
 	render (){
 		return(
+			// Background
 			<div style={{
-				backgroundImage: `url(${background})`,
-				backgroundSize: 'cover',
-				height: '100vh',
-				width: '100vw',
-				backgroundRepeat: 'norepeat'
-			}}>
+						backgroundImage: `url(${background})`,
+						backgroundSize: 'cover',
+						height: '100vh',
+						width: '100vw',
+						backgroundRepeat: 'norepeat'
+						}}
+			>
+				{/* Grid */}
 				<div style={{
 					height: '100vh',
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center"
 				}}>
-					<Grid container justifyContent="space-between" alignItems="stretch"  wrap="nowrap"
-					sx={{	m:'2',
-							border: '0.5vw solid rgba(0, 70, 109, 1)',
-							outline: '0.5vw solid rgba(0, 80, 117, 1)',
-							backgroundColor: 'black',
-							width: "1300px",
-							heigth: "1200px"
-						}}>
+					<Grid container
+						justifyContent="space-between"
+						alignItems="stretch"
+						wrap="nowrap"
+						sx={{
+								border: '0.5vw solid rgba(0, 70, 109, 1)',
+								outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black',
+								height: 'undefined',
+								width: 'undefined',
+								minWidth: "700px", minHeight: "700px",
+								maxWidth: "1500px", maxHeight: "1400px"
+							}}>
 
 						<Grid item xs={6}
 							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
@@ -130,10 +138,8 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 						</Grid>
 
 					</Grid>
-				{/* </Stack> */}
 				</div>
 			</div>
 		);
 	};
 }
-// - 1.4375em

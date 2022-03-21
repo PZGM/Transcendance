@@ -1,7 +1,6 @@
 import './App.css';
 import { Stack } from "@mui/material";
-import buttons from './style/buttons.module.css'
-import './asset/fonts/fonts.module.css'
+import style from './style/buttons.module.css'
 
 function App() {
 
@@ -34,7 +33,7 @@ function App() {
 							fontSize: '3vw',
 							border: '0.2vw solid white'
 						}}
-					className={buttons.conn_button}
+					className={style.conn_button}
 					
 				>
 					<Stack
