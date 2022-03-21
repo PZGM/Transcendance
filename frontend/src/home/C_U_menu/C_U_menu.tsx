@@ -58,7 +58,7 @@ export class CUmenu extends Component<CUmenuProps> {
 	render () {
 		return (
             <>
-                <Selecter></Selecter>
+                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
                 {/* <Typography>{`Yo je suis le profile dsdfsdgdsfgsdfgdse ${this.props.id}`}</Typography> */}
                 {/* <ButtonBase onClick={ () => {this.props.updateDisplay(0);}}> Go to chat </ButtonBase> */}
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={2}>

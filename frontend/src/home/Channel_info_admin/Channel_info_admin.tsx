@@ -94,7 +94,7 @@ export class ChannelInfoAdmin extends Component<ChannelInfoAdminProps> {
     render () {
         return (
             <>
-                <Selecter></Selecter>
+                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
                         <IconButton onClick={ () => {this.props.updateDisplay(0);}}>
