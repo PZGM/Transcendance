@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Game } from "./game";
 
 @Entity({ name: 'users' })
 export class User {
@@ -31,4 +32,8 @@ export class User {
 
     @Column({default: false})
     public twofa: boolean;
+
+    @OneToMany(() => Game, (game) => game.players)
+    @JoinTable()
+    games: Game[];
 }
