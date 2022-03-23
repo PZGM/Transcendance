@@ -2,7 +2,7 @@ import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider } from "@mui
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
-import MenuButton from "../MenuButton";
+import MenuButton from "../Menu";
 
 interface HistoryProps {
 };

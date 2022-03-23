@@ -5,7 +5,7 @@ import { MatchRow } from "./First_Row";
 import { RowRow } from "./Second_Row";
 import { CupRow } from "./Third_Row";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import MenuButton from "../Menu";
 
 type AchievementProps = {
 };

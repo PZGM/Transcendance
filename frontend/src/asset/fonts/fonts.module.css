@@ -8,8 +8,10 @@
 	font-size: 100px;
 }
   
-.backto1982 {
-	font-family: "Backto1982";
+.backto1982out {
+	font-family: Backto1982;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
 }
 
 .bit5x3 {

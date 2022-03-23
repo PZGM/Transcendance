@@ -4,8 +4,17 @@ import button from '../style/buttons.module.css'
 import React from "react";
 import { borderRadius } from "@mui/system";
 
+function MenuElement(props) {
+	return (
+		<button	className={button.menu}>
+					<Link 	style={{ textDecoration: 'none',
+									 color: 'white' }}
+							to={{pathname: `${props.url}`}}>{props.name}</Link>
+		</button>
+	)
+}
 
-export default function MenuButton() {
+export default function Menu() {
 
 	return (
 
@@ -29,21 +38,12 @@ export default function MenuButton() {
 					spacing={1}
 					sx={{width: "100%", height: "100%"}}>
 				
-				<button	className={button.menu}
-						onClick={() => window.open(process.env.REACT_APP_PROFILE, "_self")}>
-							Profile </button>
-				<button	className={button.menu}
-						onClick={() => window.open(process.env.REACT_APP_FRIENDS, "_self")}>
-							Friends </button>
-				<button	className={button.menu}
-						onClick={() => window.open(process.env.REACT_APP_SETTINGS, "_self")}>
-								Settings </button>
-				<button	className={button.menu}
-						onClick={() => window.open(process.env.REACT_APP_HISTORY, "_self")}>
-							Match History </button>
-				<button	className={button.menu}
-						onClick={() => window.open(process.env.REACT_APP_ACHIEVEMENT, "_self")}>
-							Achievement </button>
+				<MenuElement name={"Profile"} url={process.env.REACT_APP_PROFILE}/>
+				<MenuElement name={"Friends"} url={process.env.REACT_APP_FRIENDS}/>
+				<MenuElement name={"Settings"} url={process.env.REACT_APP_SETTINGS}/>
+				<MenuElement name={"Match History"} url={process.env.REACT_APP_HISTORY}/>
+				<MenuElement name={"Achievement"} url={process.env.REACT_APP_ACHIEVEMENT}/>
+				
 			</Stack>
 
 		</React.Fragment>

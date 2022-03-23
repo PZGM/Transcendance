@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserAPI } from "./api/Users.api";
-import MenuButton from "./menu/MenuButton";
+import MenuButton from "./menu/Menu";
 import { Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

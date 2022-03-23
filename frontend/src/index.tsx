@@ -14,6 +14,15 @@ import { StatusDetector } from './components/StatusDetector'
 import { NotFound } from './menu/NotFound';
 import { Twofa } from './twofa';
 
+// FONTS
+
+import './asset/fonts/Arcade.woff';
+import './asset/fonts/Backto1982.woff';
+import './asset/fonts/Bit5x3.woff';
+import './asset/fonts/Bit5x5.woff';
+import './asset/fonts/Bit9x9.woff';
+import './asset/fonts/lemon.woff';
+import './asset/fonts/ManaspaceReg.woff';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(

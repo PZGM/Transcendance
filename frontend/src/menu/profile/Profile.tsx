@@ -7,7 +7,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import MenuButton from "../Menu";
 
 type ProfileProps = {
 };

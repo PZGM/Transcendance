@@ -3,9 +3,9 @@ import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
-import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import MenuButton from "../Menu";
+import background from "./../../asset/images/background.jpg"
 
 interface FriendsProps {
 };
@@ -127,7 +127,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 						<Grid item xs={6}
 							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
 								<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-								<List style={{height: "100% -100px",overflow: 'auto'}}>
+								<List style={{height: "100% -100px", overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>
