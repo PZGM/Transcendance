@@ -94,32 +94,35 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 
 	render (){
 		return(
+			// Background
 			<div style={{
-				backgroundImage: `url(${background})`,
-				// backgroundPosition: 'center',
-				backgroundSize: 'cover',
-				height: '100vh',
-				width: '100vw',
-				backgroundRepeat: 'norepeat'
-			}}>
-				{/* <Stack
-					direction="column"
-					justifyContent="space-between"
-					alignItems="center"
-					className="test"
-					sx={{mx: '10%'}}
-				> */}
+						backgroundImage: `url(${background})`,
+						backgroundSize: 'cover',
+						height: '100vh',
+						width: '100vw',
+						backgroundRepeat: 'norepeat'
+						}}
+			>
+				{/* Grid */}
 				<div style={{
 					height: '100vh',
-					// width: '100%',
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center"
 				}}>
-					<Grid container justifyContent="space-between" alignItems="stretch"  wrap="nowrap"
-					sx={{	m:'2', border: '0.5vw solid rgba(0, 70, 109, 1)', outline: '0.5vw solid rgba(0, 80, 117, 1)',
-								backgroundColor: 'black', minWidth: "1000px", minHeigth: "400px",
-								maxWidth: "1300px", maxHeigth: "600px"}}>
+					<Grid container
+						justifyContent="space-between"
+						alignItems="stretch"
+						wrap="nowrap"
+						sx={{
+								border: '0.5vw solid rgba(0, 70, 109, 1)',
+								outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black',
+								height: 'undefined',
+								width: 'undefined',
+								minWidth: "700px", minHeight: "700px",
+								maxWidth: "1500px", maxHeight: "1400px"
+							}}>
 
 						<Grid item xs={6}
 							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
@@ -132,14 +135,11 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 
 						<Grid item xs={5} sx={{m: 3}} >
 							<MenuButton/>
-						
 						</Grid>
 
 					</Grid>
-				{/* </Stack> */}
 				</div>
 			</div>
 		);
 	};
 }
-// - 1.4375em

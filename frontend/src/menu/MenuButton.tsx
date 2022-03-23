@@ -1,21 +1,51 @@
-import { Grid } from '@mui/material';
-import { Avatar, Box, Button, Stack, Typography } from "@mui/material";
+import { ButtonBase, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import CloseIcon from '@mui/icons-material/Close';
+import button from '../style/buttons.module.css'
+import React from "react";
+import { borderRadius } from "@mui/system";
 
 
 export default function MenuButton() {
 
 	return (
-        <Grid container direction="column" justifyContent="center" alignItems="center">
-            {/* <Typography>{this.state.login}</Typography> */}
-            <Typography>AFREIRE-</Typography>
-            <Button component={Link} to={process.env.REACT_APP_PROFILE as string}>Profile</Button>
-            <Button component={Link} to={process.env.REACT_APP_FRIENDS as string}>Friends</Button>
-            <Button component={Link} to={process.env.REACT_APP_SETTINGS as string}>Settings</Button>
-            <Button component={Link} to={process.env.REACT_APP_HISTORY as string}>Match History</Button>
-            <Button component={Link} to={process.env.REACT_APP_ACHIEVEMENT as string}>Achievement</Button>
-            <Box></Box>
-        </Grid>
-);
+
+		<React.Fragment>
+
+			<div	onClick={() => window.open(process.env.REACT_APP_HOME, "_self")}
+					className={button.exit_button}
+					style={{backgroundColor: 'red',
+							float: 'right',
+							minHeight: '1vw', maxHeight: '2vw',
+							minWidth: '1vw', maxWidth: '2vw'
+						}}
+			>
+						<img	src={require('../asset/images/white_x.png')}
+								style={{width: '100%'}}/>
+			</div>
+
+			<Stack	direction="column"
+					justifyContent="space-evenly"
+					alignItems="center" 
+					spacing={1}
+					sx={{width: "100%", height: "100%"}}>
+				
+				<button	className={button.menu}
+						onClick={() => window.open(process.env.REACT_APP_PROFILE, "_self")}>
+							Profile </button>
+				<button	className={button.menu}
+						onClick={() => window.open(process.env.REACT_APP_FRIENDS, "_self")}>
+							Friends </button>
+				<button	className={button.menu}
+						onClick={() => window.open(process.env.REACT_APP_SETTINGS, "_self")}>
+								Settings </button>
+				<button	className={button.menu}
+						onClick={() => window.open(process.env.REACT_APP_HISTORY, "_self")}>
+							Match History </button>
+				<button	className={button.menu}
+						onClick={() => window.open(process.env.REACT_APP_ACHIEVEMENT, "_self")}>
+							Achievement </button>
+			</Stack>
+
+		</React.Fragment>
+	);
 }

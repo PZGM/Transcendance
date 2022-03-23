@@ -8,141 +8,104 @@
 	--grey: #b6d2e1;
 	--blue: #0075fd;
 	--azur: #03c7d8;
-  }
-  
+}
+
 /* custom scroll bar */
 
 ::-webkit-scrollbar {
-  width: 14px;
+	width: 14px;
 }
 
 ::-webkit-scrollbar-track {
-  background: black; 
+	background: black; 
 }
- 
+
 ::-webkit-scrollbar-thumb {
-  border: 4px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-  background-color: #AAAAAA;
+	border: 4px solid rgba(0, 0, 0, 0);
+	background-clip: padding-box;
+	background-color: #AAAAAA;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  border: 4px solid 555;
-  background-clip: padding-box;
-  background-color: #AAAAAA;
+	border: 4px solid 555;
+	background-clip: padding-box;
+	background-color: #AAAAAA;
 }
 
-/* buttons */
+/* User display */
 
-.dac {
-    position: relative;
-  }
+.bdac {
+	position: relative;
+	border: 2px solid;
+	margin-top: 5px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
 
-  .dac:hover {
-    top: 2px;
-    right: -2px;
-    bottom: -2px;
-    left: 2px;
-  }
+.bdac:after{
+	opacity: 0.5;
+	top: 0px;
+	bottom: -4px;
+	left: 0px;
+	right: -4px;
+	position: absolute;
+	z-index: 1;
 
-  .dac:hover:after {
-    top: 0px;
-    right: -0px;
-    bottom: -0px;
-    left: 0px;
-    opacity: 0.5;
-    position: absolute;
-    z-index: -1;
-    background-color: inherit;
-    content: '';
-  }
+	width: inherit -4px;
+	height: inherit;
+	position: absolute;
+	content: '';
+	border: inherit;
+	pointer-events: none;
+}
 
-  .dac:after {
-    top: 2px;
-    opacity: 0.5;
-    right: -2px;
-    bottom: -2px;
-    left: 2px;
-    position: absolute;
-    z-index: -1;
-    background-color: inherit;
-    content: '';
-  }
+/* search bar */
 
-  /* User display */
+.input {
+	border: 2px solid var(--yellow);
+	padding: 5px;
+	border-radius: 0%;
+	margin-bottom: 8px;
+}
 
-  .bdac {
-    position: relative;
-    border: 2px solid;
-    margin-top: 5px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-  }
+.input:hover {
+	border: 2px solid var(--yellow);
+	padding: 5px;
+	border-radius: 0%;
+	top: 2px;
+	left: 2px;
+}
 
-  .bdac:after{
-    opacity: 0.5;
-    top: 0px;
-    bottom: -4px;
-    left: 0px;
-    right: -4px;
-    position: absolute;
-    z-index: 1;
+.input input {
+	color: white;
+	font-family: 'bit5x5';
+	font-size: larger;
+}
 
-    width: inherit -4px;
-    height: inherit;
-    position: absolute;
-    content: '';
-    border: inherit;
-    pointer-events: none;
-  }
+.input:hover:after {
+	border: none;
+}
 
-  /* search bar */
+.input:after{
+	opacity: 0.5;
+	top: 0px;
+	bottom: -4px;
+	left: 0px;
+	right: -4px;
+	position: absolute;
+	z-index: 1;
 
-  .input {
-    border: 2px solid var(--yellow);
-    padding: 5px;
-    border-radius: 0%;
-    margin-bottom: 8px;
-  }
+	width: inherit -4px;
+	height: inherit;
+	position: absolute;
+	content: '';
+	border: 2px solid var(--yellow);
+	pointer-events: none;
 
-  .input:hover {
-    border: 2px solid var(--yellow);
-    padding: 5px;
-    border-radius: 0%;
-    top: 2px;
-    left: 2px;
-  }
+}
 
-  .input input {
-    color: white;
-    font-family: 'bit5x5';
-    font-size: larger;
-  }
-
-  .input:hover:after {
-    border: none;
-  }
-
-  .input:after{
-    opacity: 0.5;
-    top: 0px;
-    bottom: -4px;
-    left: 0px;
-    right: -4px;
-    position: absolute;
-    z-index: 1;
-
-    width: inherit -4px;
-    height: inherit;
-    position: absolute;
-    content: '';
-    border: 2px solid var(--yellow);
-    pointer-events: none;
-
-  }
-
-  .invisibleButton {
-    padding: 0;
-    margin: 0;
-  }
+.invisibleButton {
+	padding: 0;
+	margin: 0;
+}
 

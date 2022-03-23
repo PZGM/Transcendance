@@ -1,8 +1,8 @@
-import { Avatar, Box, ButtonBase, ListItem, Stack, Typography } from "@mui/material";
+import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import styles from './../../style/dac.module.css'
-import './../../asset/fonts/Fonts.css'
+import style from './../../style/buttons.module.css'
+import './../../asset/fonts/fonts.module.css'
 
 type UserDisplayProps = {
 	id: number;
@@ -90,36 +90,55 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[3, 'connected'],
 			[4, 'playing']]);
 		return (
-				<Box mr='2px' className={styles.bdac} sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
+				<Box	mr='2px'
+						className={style.bdac}
+						sx={{	color:'test',
+								borderColor: this.getColor(this.props.index % 5)}}
+				>
 					<ListItem 
 					key={this.props.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-						<ButtonBase centerRipple className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: this.getColor(this.state.status)}}>
-							<Typography variant="button" color='white'>
-							<div className='bit5x5'> {description.get(this.state.status)} </div>
-							</Typography>
-						</ButtonBase>
-						<ButtonBase centerRipple className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(0)}} >
-						<Typography variant="button" color='white'>
-							<div className='bit5x5'> Send Message </div>
-							</Typography>
-						</ButtonBase>                    
-						<ButtonBase onClick={this.removeFriend} centerRipple className={styles.dac} style={{width: '80px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(1)}} >
-							<Typography variant="button" color='white'>
-							<div className='bit5x5'> Remove Friend </div>
-							</Typography>
-						</ButtonBase>
+						<div	className={style.button}
+								style={{	width: '100px',
+											height: '50px',
+											backgroundColor: this.getColor(this.state.status)
+										}}
+						>
+							{description.get(this.state.status)}
+						</div>
+						
+						<div 	className={style.button}
+								style={{	width: '90px',
+											height: '50px',
+											backgroundColor: this.getColor(0),
+										}}
+						>
+							Send Message
+						</div>                    
+						
+						<div	className={style.button}
+								onClick={this.removeFriend}
+								style={{	width: '90px',
+											height: '50px',
+											backgroundColor: this.getColor(1),
+										}}
+						>
+							Remove Friend
+						</div>
+					
 					</Stack>
 					}>
-					<ButtonBase centerRipple>
+					
+					<div>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
 								<Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
 								<Typography variant="button" color={this.getColor(this.props.index % 5)}>
 									<div className='bit9x9'> {this.state.login} </div>
 								</Typography>
 						</Stack>
-					</ButtonBase>
+					</div>
+				
 				</ListItem>
 			</Box>
 		);
