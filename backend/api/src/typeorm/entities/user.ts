@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Channel } from "./channel";
-import { BlockedUsers } from "./blocked-user";
 
 @Entity({ name: 'users' })
 export class User {
@@ -33,10 +32,6 @@ export class User {
 
     @Column({default: false})
     public twofa: boolean;
-
-    @OneToMany(() => BlockedUsers, blockedUsers => blockedUsers.user)
-    @JoinTable()
-    blockedUsers: BlockedUsers[];
 
     @OneToMany(() => Channel, channel => channel.owner, {
         cascade: true,

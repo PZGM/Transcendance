@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Channel } from './entities/channels.entity';
+import { Channel } from 'src/typeorm/entities/channel';
 import { ChannelsController } from './channels.controller';
 import { ChannelsService } from './channels.service';
 

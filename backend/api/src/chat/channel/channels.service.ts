@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Channel } from './entities/channels.entity';
-import { CreateChannelDto } from './dto/create-channel.dto';
-import { UpdateChannelDto } from './dto/update-channel.dto';
+import { Channel } from 'src/typeorm/entities/channel';
+import { CreateChannelDto } from 'src/dto/chat.dto';
 
 @Injectable()
 export class ChannelsService {
@@ -33,7 +32,7 @@ export class ChannelsService {
     return this.channelsRepository.save(channel);
   }
 
-  async update(id: string, updateChannelDto: UpdateChannelDto) { 
+  async update(id: string, updateChannelDto: CreateChannelDto) { 
     const channel = await this.channelsRepository.preload({
       id: +id,
       ...updateChannelDto,
