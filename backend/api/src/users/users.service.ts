@@ -117,6 +117,8 @@ export class UsersService {
         userDTO.friends = user.friends;
         userDTO.twofaSecret = user.twofaSecret;
         userDTO.twofa = user.twofa;
+        userDTO.ownedChannels = user.ownedChannels;
+        userDTO.joinedChannels = user.joinedChannels;
 
         return userDTO;
     }
@@ -133,6 +135,8 @@ export class UsersService {
         user.friends = userDTO.friends;
         user.twofa = userDTO.twofa;
         user.twofaSecret = userDTO.twofaSecret;
+        user.ownedChannels = userDTO.ownedChannels;
+        user.joinedChannels = userDTO.joinedChannels;
 
         return user;
     }
