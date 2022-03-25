@@ -1,12 +1,10 @@
-import { Box, Grid, Stack, InputBase, List} from "@mui/material";
+import { Grid, Avatar} from "@mui/material";
 import { ChangeEvent, Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../Menu";
-import { AvatarSettings } from "./AvatarSettings";
-import { LoginSettings } from "./LoginSettings";
-import { TwofaSettings } from "./TwofaSettings";
+import Menu from "../Menu";
+import button from "../../style/buttons.module.css"
 import background from "./../../asset/images/background.jpg"
-import { height } from "@mui/system";
+import { rgbaToHsva } from "tsparticles";
 
 
 type SettingsProps = {
@@ -81,30 +79,33 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		
 		const GridItemStyle = {
 			color: 'white',
-			alignItems: 'center',
+			alignItems: 'stretch',
 			display: "flex",
-			justifyContent: 'center'
+			justifyContent: 'center',
+			fontFamily: 'Bit9x9',
+			fontSize: '30px'
 		};
 		
 		return(
 
+			// Background
 			<div style={{
 				backgroundImage: `url(${background})`,
 				backgroundSize: 'cover',
 				height: '100vh',
 				width: '100vw',
-				backgroundRepeat: 'norepeat'
+				backgroundRepeat: 'norepeat',
 				}}
 			>
+				{/* Window */}
 				<div style={{
 					height: '100vh',
 					display: "flex",
 					alignItems: "center",
-					justifyContent: "center"
+					justifyContent: "center",
 				}}>
 				<Grid	container
 						justifyContent="space-between"
-						alignItems="stretch"
 						wrap="nowrap"
 						sx={{
 								border: '0.5vw solid rgba(0, 70, 109, 1)',
@@ -124,43 +125,93 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 										backgroundColor: 'black'
 									}}
 						>
+							{/* Settings */}
 							<Grid container
 								direction="column"
 								justifyContent="space-between"
-								sx={{height: "100%", overflow: 'auto'}}
+								sx={{height: '100%'}}
 							>
 
 								<Grid container
 									direction="row"
 									justifyContent="space-between"
+									alignItems="center"
+									sx={{height: '33%'}}
 								>
 									<Grid item xs={4} sx={GridItemStyle}> NICKNAME </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> Username </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> editButton </Grid>
+									<Grid item xs={4} sx={GridItemStyle}> FMANETTI </Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										<div className={button.button}
+											style={{width: '100px',
+													height: '70px',
+													backgroundColor: 'rgb(20, 121, 249)',
+													fontFamily: 'backto1982',
+													fontSize: '20px'}}>
+											EDIT
+										</div>
+									</Grid>
 								</Grid>
 								<Grid container
-										direction="row"
-										justifyContent="space-between"
+									direction="row"
+									justifyContent="space-between"
+									alignItems="center"
+									sx={{height: '33%'}}
 								>
 									<Grid item xs={4} sx={GridItemStyle}> AVATAR </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> IMAGE </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> EDIT </Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										<Avatar	variant='circular'
+												alt="Semy Sharp"
+												src={this.state.avatar}
+												sx={{	diaplay: "flex",
+														width: '200px',
+														height: '200px'}}/>
+									</Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										<div className={button.button}
+											style={{width: '100px',
+													height: '70px',
+													backgroundColor: 'rgb(20, 121, 249)',
+													fontFamily: 'backto1982',
+													fontSize: '20px'}}>
+											EDIT
+										</div>
+									</Grid>
 								</Grid>
 								<Grid container
-										direction="row"
-										justifyContent="space-between"
+									direction="row"
+									justifyContent="space-between"
+									alignItems="center"
+									sx={{height: '33%'}}
 								>
 									<Grid item xs={4} sx={GridItemStyle}> 2FA </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> ON </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> OFF </Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										<div className={button.button}
+											style={{width: '100px',
+													height: '70px',
+													backgroundColor: 'rgb(20, 121, 249)',
+													fontFamily: 'backto1982',
+													fontSize: '30px'}}>
+											on
+										</div>
+									</Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										<div className={button.button}
+											style={{width: '100px',
+													height: '70px',
+													backgroundColor: 'rgb(20, 121, 249)',
+													fontFamily: 'backto1982',
+													fontSize: '30px'}}>
+											off
+										</div>
+									</Grid>
 								</Grid>
 
 							</Grid>
 
 						</Grid>
 
-						<Grid item xs={5} sx={{m: 3}} >
-							<MenuButton/>
+						<Grid item xs={5} sx={{m: 3, position: 'relative'}} >
+							<Menu/>
 						</Grid>
 				</Grid>
 
@@ -168,7 +219,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 				{/* <Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%" minWidth={"100px"}>
-							<MenuButton/>
+							<Menu/>
 						</Box>
 						<Box width="70%" minWidth={"350px"}>
 							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">

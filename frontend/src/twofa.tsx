@@ -3,7 +3,7 @@ import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserAPI } from "./api/Users.api";
-import MenuButton from "./menu/Menu";
+import Menu from "./menu/Menu";
 import { Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -74,7 +74,7 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
-							<MenuButton/>
+							<Menu/>
 						</Box>
                         <Typography>{(this.state.twofa) ? 'Twofa is enabled' : "Twofa isn't enabled"}</Typography>
 						<Box width="70%">

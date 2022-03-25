@@ -26,7 +26,8 @@
 /* Exit button */
 
 .exit_button {
-	position: relative;
+	position: absolute;
+	right: 0%;
 	text-align: center;
 	display: flex;
 	align-items: center;
@@ -71,12 +72,13 @@
 /* Menu buttons */
 
 .menu {
-	vertical-align: text-bottom;
 	color: white;
 	border-radius: 25px;
 	border: black;
-	width: 35vmin;
-	height: 6vh;
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
 	font-family: Arcade;
 	font-size: calc(30px + 1.5vw);
 	background-color: black;
@@ -84,10 +86,11 @@
 }
 
 .menu:hover {
-	vertical-align: sub;
 	border: 5px solid rgb(184, 99, 237);
-	width: 35vmin;
-	height: 6vh;
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
 	border-radius: 25px;
 	transform: translateY(0px);
 	background: linear-gradient(90deg, rgba(19, 129, 181), rgba(255,0,0,0) 100%);

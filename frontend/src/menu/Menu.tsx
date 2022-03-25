@@ -1,8 +1,7 @@
-import { ButtonBase, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import button from '../style/buttons.module.css'
 import React from "react";
-import { borderRadius } from "@mui/system";
 
 function MenuElement(props) {
 	return (
@@ -24,12 +23,14 @@ export default function Menu() {
 					className={button.exit_button}
 					style={{backgroundColor: 'red',
 							float: 'right',
-							minHeight: '1vw', maxHeight: '2vw',
-							minWidth: '1vw', maxWidth: '2vw'
+							height: 'undefined',
+							width: 'undefined',
+							minHeight: '1.5vw', maxHeight: '2vw',
+							minWidth: '1.5vw', maxWidth: '2vw'
 						}}
 			>
-						<img	src={require('../asset/images/white_x.png')}
-								style={{width: '100%'}}/>
+				<img	src={require('../asset/images/white_x.png')}
+						style={{width: '100%'}}/>
 			</div>
 
 			<Stack	direction="column"
