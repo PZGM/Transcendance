@@ -42,7 +42,7 @@ export class User {
     @ManyToMany(() => Channel, joinedChannels => joinedChannels.users)
     joinedChannels: Channel[];
 
-    @OneToMany(() => Game, (game) => game.players)
+    @ManyToMany(() => Game, (game) => game.players)
     @JoinTable()
     games: Game[];
 }

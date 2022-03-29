@@ -53,7 +53,6 @@ then
 	docker rmi -f ${USER}front
 	docker rmi -f ${USER}back
 	docker-compose -p ${USER}compose down
-	#docker network rm ${USER}compose_default
 fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]]

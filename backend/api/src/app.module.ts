@@ -15,7 +15,7 @@ import { AppController } from './app.controller';
 import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
-  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule],
+  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, Statu0sModule, FriendsModule, HistoryModule],
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })
