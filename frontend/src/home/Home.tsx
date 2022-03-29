@@ -17,6 +17,7 @@ import { ChannelInfo } from "./channel_info/Channel_info";
 import { UserInfo } from "./User_info/User_info";
 import { ChannelInfoAdmin } from "./Channel_info_admin/Channel_info_admin";
 import { AddUserChannel } from "./Channel_info_admin/Add_user_channel";
+import { ChannelEditPage } from "./Channel_info_admin/Channel_editing_page";
 
 
 interface HomeProps {
@@ -90,6 +91,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId}/>
 		if (this.state.display == 6)
 			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+		if (this.state.display == 7)
+			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}/>
 		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
 	}
 
