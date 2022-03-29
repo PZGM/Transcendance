@@ -7,9 +7,16 @@ import { PassportModule } from '@nestjs/passport';
 import { ImagesModule } from './images/images.module';
 import { StatusModule } from './status/status.module';
 import { FriendsModule } from './friends/friends.module';
-import { HistoryModule } from './history/history.module';
+import { AppGateway } from './app.gateway';
+import { ChannelsModule } from './chat/channel/channels.module';
+import { MessagesModule } from './chat/message/messages.module';
+import { AppService } from './app.service';
+import { AppController } from './app.controller';
+import { ChatGateway } from './chat/chat.gateway';
 
 @Module({
-  imports: [AuthModule,UsersModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule],
+  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, Statu0sModule, FriendsModule, HistoryModule],
+  controllers: [AppController],
+  providers: [AppService, AppGateway],
 })
 export class AppModule { }
