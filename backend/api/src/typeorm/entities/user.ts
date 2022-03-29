@@ -33,7 +33,7 @@ export class User {
     @Column({default: false})
     public twofa: boolean;
 
-    @OneToMany(() => Game, (game) => game.players)
+    @ManyToMany(() => Game, (game) => game.players)
     @JoinTable()
     games: Game[];
 }

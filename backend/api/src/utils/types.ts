@@ -10,6 +10,14 @@ export type UserDetails = {
     friends: number[];
 }
 
+export type GameDetails = {
+  winner: User;
+  loser: User;
+  winner_score: number,
+  loser_score: number;
+  duration: number;
+}
+
 export interface CustomRequest extends Request {
     session: any;
     user: User;

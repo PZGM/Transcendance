@@ -50,14 +50,9 @@ fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-r" ]] || [[ "$#"  -ge "2"   &&   $2 = "-r" ]] || [[ "$#"  -ge "3"  &&  $3 = "-r" ]] || [[ "$#"  -ge "4"  &&  $3 = "-r" ]] || [[ "$#"  -ge "5"  &&  $5 = "-r" ]]
 then
-	docker rm -f $(docker ps | grep ${USER})
-	docker rmi -f $(docker images | grep ${USER})
-fi
-
-if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]] || [[ "$#"  -ge "5"  &&  $5 = "-R" ]]
-then
-	docker rm -f $(docker ps | grep ${USER})
-	docker rmi -f $(docker images | grep ${USER})
+	docker rmi -f ${USER}front
+	docker rmi -f ${USER}back
+	docker-compose -p ${USER}compose down
 fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]]
@@ -67,16 +62,15 @@ fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-back" ]] || [[ "$#"  -ge "2"   &&   $2 = "-back" ]] || [[ "$#"  -ge "3"  &&  $3 = "-back" ]] || [[ "$#"  -ge "4"  &&  $3 = "-back" ]] || [[ "$#"  -ge "5"  &&  $5 = "-back" ]]
 then
-	docker rmi -f $(docker images | grep ${USER}back)
+	docker rmi -f ${USER}back
 	docker build -t ${USER}back "./backend"
 elif [[ "$#"  -ge "1"  &&   $1 = "-front" ]] || [[ "$#"  -ge "2"   &&   $2 = "-front" ]] || [[ "$#"  -ge "3"  &&  $3 = "-front" ]] || [[ "$#"  -ge "4"  &&  $3 = "-front" ]] || [[ "$#"  -ge "5"  &&  $5 = "-front" ]]
 then
-	docker rmi -f $(docker images | grep ${USER}front)
+	docker rmi -f ${USER}front
 	docker build -t ${USER}front "./frontend"
 else
 	docker build -t ${USER}back "./backend" 
 	docker build -t ${USER}front "./frontend"
 fi
 
-
-	docker-compose -p ${USER}compose up $option
+docker-compose -p ${USER}compose up $option

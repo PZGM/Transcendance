@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 import { User } from "..";
 
 @Entity({ name: 'game' })
@@ -9,12 +9,22 @@ export class Game {
     @Column()
     duration: number;
 
-    @ManyToMany(() => User, (user) => user.games)
+    @Column()
+    winnerId: number;
+
+    @Column()
+    loserId: number;
+
+    @Column()
+    winnerScore: number;
+
+    @Column()
+    loserScore: number;
+
+    @ManyToMany(() => User, (user) => user.games, {cascade: true
+    })
     players: User[];
 
-    @Column({ type: 'time' })
-    timeOnly: string;
- 
-    @Column({ type: 'date' })
-    dateOnly: string;
+    @CreateDateColumn()
+    createdDate: Date;
 }
