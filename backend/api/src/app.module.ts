@@ -13,9 +13,10 @@ import { MessagesModule } from './chat/message/messages.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { ChatGateway } from './chat/chat.gateway';
+import { HistoryModule } from './history/history.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, Statu0sModule, FriendsModule, HistoryModule],
+  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule],
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })
