@@ -10,6 +10,21 @@ export class UsersService {
     public async getOne(userId: number): Promise<User|null> {
         try {
             const user: User = await this.userRepository.findOneOrFail({
+                // relations: ['games', 'games.players'],
+                where: {
+                    id: userId
+                }
+            });
+            return user;
+        }
+        catch (e) {
+            return null;
+        }
+    }
+
+    public async getOneWithGames(userId: number): Promise<User|null> {
+        try {
+            const user: User = await this.userRepository.findOneOrFail({
                 relations: ['games', 'games.players'],
                 where: {
                     id: userId

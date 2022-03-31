@@ -11,10 +11,10 @@ export type UserDetails = {
 }
 
 export type GameDetails = {
-  winner: User;
-  loser: User;
-  winner_score: number,
-  loser_score: number;
+  winnerId: number;
+  loserId: number;
+  winnerScore: number,
+  loserScore: number;
   duration: number;
 }
 
