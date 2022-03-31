@@ -21,8 +21,7 @@ export class Game {
     @Column()
     loserScore: number;
 
-    @ManyToMany(() => User, (user) => user.games, {cascade: true
-    })
+    @ManyToMany(() => User, (user) => user.games, {cascade: true})
     players: User[];
 
     @CreateDateColumn()

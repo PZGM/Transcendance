@@ -13,7 +13,6 @@ interface NotFoundProps {
 
 export class NotFound extends Component<NotFoundProps> {
 	render (){
-        console.log('pas trouve bro');
 		return(
             <div>
 				<Helmet>

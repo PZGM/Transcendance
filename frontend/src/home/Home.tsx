@@ -70,7 +70,6 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	updateDisplay(type: number, id: any) {
-		console.log(`display [${type}]`)
 		this.setState({
 			display: type,
 			displayId: id,

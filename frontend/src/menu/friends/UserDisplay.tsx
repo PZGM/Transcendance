@@ -82,7 +82,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 	}
 
 	render () {
-		console.log(`index = ${this.props.index}`)
 		let description = new Map<number, string>([
 			[0, 'unknow'],
 			[1, 'offline'],
