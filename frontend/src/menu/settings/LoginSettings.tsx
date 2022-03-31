@@ -1,23 +1,18 @@
-import { Avatar, Button, Grid, IconButton, Input, InputBase, Stack, TextField, Typography } from "@mui/material";
-import { ChangeEvent, Component } from "react";
-import { Navigate } from "react-router-dom";
+import { Grid, InputBase } from "@mui/material";
+import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AvatarEditor from "react-avatar-editor";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import axios from "axios";
+import button from "../../style/buttons.module.css"
 
 type LoginSettingsProps = {
     login?: string,
-	updateParentState: any,
+	updateParentState: any
 };
 
 interface LoginSettingsState {
-	input: string;
+	input: string,
+    editing: boolean
 }
 
 export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsState> {
@@ -26,7 +21,8 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
         this.handleChangeLogin = this.handleChangeLogin.bind(this);
 		this.updateLogin = this.updateLogin.bind(this)
 		this.state = {
-            input: '',
+            input: this.props.login || '',
+            editing: false
         }
 	}
 
@@ -59,14 +55,60 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
     }
 
     render() {
+
+        const GridItemStyle = {
+			color: 'white',
+			alignItems: 'stretch',
+			display: "flex",
+			justifyContent: 'center',
+			fontFamily: 'Bit9x9',
+			fontSize: 'calc(10px + 1vw)'
+		};
+
         return (
-            <>
-                <ToastContainer />
-                <Stack direction="row" justifyContent="space-between" alignItems="baseline">
-                    <TextField placeholder={this.props.login} onChange={this.handleChangeLogin} />
-                    <Button onClick={this.updateLogin} variant="contained" style={{borderRadius: 0}} >Edit</Button>
-                </Stack>
-            </>
+            <Grid container
+									direction="row"
+									justifyContent="space-between"
+									alignItems="center"
+									sx={{height: '33%'}}
+								>
+									<Grid item xs={4} sx={GridItemStyle}> NICKNAME </Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+										{!this.state.editing && "Fmanetti"}
+                                        {this.state.editing &&
+                                            <InputBase autoFocus    defaultValue="FMANETTI"
+                                                                    sx={{fontFamily: 'Bit9x9',
+                                                                        fontSize: 'calc(10px + 1vw)',
+                                                                        color: 'white',
+                                                                        textAlign: 'center'}}
+                                                                    onChange={this.handleChangeLogin}
+                                                                    inputProps={{style: { textAlign: 'center' }}}
+                                            />
+                                        }
+									</Grid>
+									<Grid item xs={4} sx={GridItemStyle}>
+                                        {!this.state.editing &&
+                                            <div className={button.button}
+                                                style={{width: '100px',
+                                                        height: '70px',
+                                                        backgroundColor: 'rgb(20, 121, 249)',
+                                                        fontFamily: 'backto1982',
+                                                        fontSize: '20px'}}
+                                                onClick={ () => {this.setState({editing: true})}}>
+                                                EDIT
+                                            </div>}
+                                        {this.state.editing &&
+                                            <div className={button.button}
+                                                style={{width: '100px',
+                                                        height: '70px',
+                                                        backgroundColor: 'green',
+                                                        fontFamily: 'backto1982',
+                                                        fontSize: '20px'}}
+                                                onClick={() => {this.updateLogin()}}>
+                                                SAVE
+                                            </div>}
+									</Grid>
+								</Grid>
         )
     }
 }

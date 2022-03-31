@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, InputBase, List} from "@mui/material";
+import { Grid, InputBase, List} from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";

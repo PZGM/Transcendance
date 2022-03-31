@@ -1,10 +1,11 @@
-import { Grid, Avatar} from "@mui/material";
+import { Grid, Avatar, InputBase } from "@mui/material";
 import { ChangeEvent, Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
 import button from "../../style/buttons.module.css"
 import background from "./../../asset/images/background.jpg"
 import { rgbaToHsva } from "tsparticles";
+import { LoginSettings } from "./LoginSettings";
 
 
 type SettingsProps = {
@@ -17,6 +18,7 @@ interface SettingsState {
 	scale: number;
 	avatar: string,
 	login?: string,
+	editAvatar: boolean
 }
 
 export class Settings extends Component<SettingsProps, SettingsState> {
@@ -25,7 +27,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	constructor(props: SettingsProps) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
-		this.state = {avatar: '', login: undefined, fileSelected: undefined, loginSelected: undefined, scale: 1}
+		this.state = {avatar: '', login: undefined, fileSelected: undefined, loginSelected: undefined,
+					scale: 1, editAvatar: false }
 	}
 
 	async fetchUser() {
@@ -83,7 +86,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 			display: "flex",
 			justifyContent: 'center',
 			fontFamily: 'Bit9x9',
-			fontSize: '30px'
+			fontSize: 'calc(10px + 1vw)'
 		};
 		
 		return(
@@ -97,13 +100,14 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 				backgroundRepeat: 'norepeat',
 				}}
 			>
-				{/* Window */}
+				Window
 				<div style={{
 					height: '100vh',
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-				}}>
+					}}
+				>
 				<Grid	container
 						justifyContent="space-between"
 						wrap="nowrap"
@@ -113,8 +117,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 								backgroundColor: 'black',
 								height: 'undefined',
 								width: 'undefined',
-								minWidth: "700px", minHeight: "700px",
-								maxWidth: "1500px", maxHeight: "1400px"
+								minWidth: "800px", minHeight: "800px",
+								maxWidth: "1500px", maxHeight: "1500px"
 							}}>
 
 						<Grid	item xs={6}
@@ -132,25 +136,9 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 								sx={{height: '100%'}}
 							>
 
-								<Grid container
-									direction="row"
-									justifyContent="space-between"
-									alignItems="center"
-									sx={{height: '33%'}}
-								>
-									<Grid item xs={4} sx={GridItemStyle}> NICKNAME </Grid>
-									<Grid item xs={4} sx={GridItemStyle}> FMANETTI </Grid>
-									<Grid item xs={4} sx={GridItemStyle}>
-										<div className={button.button}
-											style={{width: '100px',
-													height: '70px',
-													backgroundColor: 'rgb(20, 121, 249)',
-													fontFamily: 'backto1982',
-													fontSize: '20px'}}>
-											EDIT
-										</div>
-									</Grid>
-								</Grid>
+								<LoginSettings	login={this.state.login}
+												updateParentState={this.updateState}
+								/>
 								<Grid container
 									direction="row"
 									justifyContent="space-between"
@@ -215,27 +203,27 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 						</Grid>
 				</Grid>
 
-
-				{/* <Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
-					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-						<Box width="25%" minWidth={"100px"}>
-							<Menu/>
-						</Box>
-						<Box width="70%" minWidth={"350px"}>
-							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-								<Grid container direction="column" justifyContent="space-between" alignItems="center">
-									<LoginSettings login={this.state.login} updateParentState={this.updateState}/>
-									<Box height='20px'/>
-									<AvatarSettings avatar={this.state.avatar} updateParentState={this.updateState}/>
-									<Box height='20px'/>
-									<TwofaSettings/>
-								</Grid>
-							</Box>
-						</Box>
-					</Grid>
-				</Box> */}
 				</div>
             </div>
         );
     };
 }
+
+/* <Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
+	<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
+		<Box width="25%" minWidth={"100px"}>
+			<Menu/>
+		</Box>
+		<Box width="70%" minWidth={"350px"}>
+			<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
+				<Grid container direction="column" justifyContent="space-between" alignItems="center">
+					<LoginSettings login={this.state.login} updateParentState={this.updateState}/>
+					<Box height='20px'/>
+					<AvatarSettings avatar={this.state.avatar} updateParentState={this.updateState}/>
+					<Box height='20px'/>
+					<TwofaSettings/>
+				</Grid>
+			</Box>
+		</Box>
+	</Grid>
+</Box> */
