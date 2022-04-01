@@ -45,7 +45,6 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 			return;
 		this.setState({done: true})
 		let ret = await UserAPI.addFriend(this.props.id);
-		console.log(ret);
 		this.props.addFriend(this.props.id);
 	}
 

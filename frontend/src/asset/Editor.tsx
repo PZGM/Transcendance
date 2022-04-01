@@ -9,7 +9,6 @@ class MyEditor extends React.Component {
   onClickSave = () => {
     if (this.editor) {
       const canvas = this.editor.getImage().toBlob();
-      console.log(canvas);
     }
   }
 
