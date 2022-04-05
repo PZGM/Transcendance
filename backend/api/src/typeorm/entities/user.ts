@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { Channel } from "./channel";
 import { Game } from "./game";
 
@@ -25,8 +25,11 @@ export class User {
     @Column()
     status?: number;
 
-    @Column("int", {array:true, default: []})
-    friends: number[];
+    @OneToMany(() => User, user => user.friended)
+    friends: User[];
+
+    @ManyToOne(() => User, user => user.friends)
+    friended: User[];
 
     @Column({ nullable: true })
     public twofaSecret?: string;

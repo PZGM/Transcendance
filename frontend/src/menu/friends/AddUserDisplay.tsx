@@ -5,56 +5,35 @@ import styles from './../../style/dac.module.css'
 import './../../asset/fonts/fonts.module.css'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DoneIcon from '@mui/icons-material/Done';
+import { UserDto } from "../../api/dto/user.dto";
 
 
 type AddUserDisplayProps = {
-	id: number;
+	user: UserDto;
 	index: number;
 	addFriend;
 }
 
 interface AddUserDisplayState {
-    avatar?: string;
-    login?: string;
 	done: boolean;
 }
 
 export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDisplayState>{
 
 	eventSource: any;
-	_isMounted: boolean;
 
 	constructor(props: AddUserDisplayProps) {
 		super(props);
-		this._isMounted = false;
 		this.addFriend = this.addFriend.bind(this);
-		this.state = {avatar: undefined, login: undefined, done: false}
-	}
-
-	async fetchUser() {
-		const resp = await UserAPI.getUserById(this.props.id);
-		this._isMounted && this.setState({
-			avatar: (resp) ? resp.img_url : undefined,
-			login: (resp) ? resp.login : undefined,
-		})
-
+		this.state = {done: false}
 	}
 
 	async addFriend() {
 		if (this.state.done)
 			return;
-		this.setState({done: true})
-		let ret = await UserAPI.addFriend(this.props.id);
-		this.props.addFriend(this.props.id);
-	}
-
-	componentDidMount()  {
-		this._isMounted = true;
-		this.fetchUser();
-	}
-
-	componentWillUnmount() {
-		this._isMounted = false;
+		this.setState({done: true});
+		let ret = await UserAPI.addFriend(this.props.user.id);
+		this.props.addFriend(this.props.user);
 	}
 
 	getColor(status: number) {
@@ -71,7 +50,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 		return (
 				<Box mr='2px' className={styles.bdac} sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
 					<ListItem 
-					key={this.props.id}
+					key={this.props.user.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
 						<ButtonBase onClick={this.addFriend} centerRipple className={styles.button} style={{width: '140px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(3)}} >
@@ -89,9 +68,9 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 					}>
 					<ButtonBase centerRipple>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-								<Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
+								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.img_url}/>
 								<Typography variant="button" color={this.getColor(this.props.index % 5)}>
-									<div className='bit9x9'> {this.state.login} </div>
+									<div className='bit9x9'> {this.props.user.login} </div>
 								</Typography>
 						</Stack>
 					</ButtonBase>

@@ -7,7 +7,7 @@ export type UserDetails = {
     intraId: string;
     img_url: string;
     status: number;
-    friends: number[];
+    friends: User[];
 }
 
 export type GameDetails = {

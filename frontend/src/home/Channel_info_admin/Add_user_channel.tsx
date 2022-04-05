@@ -68,19 +68,20 @@ export class AddUserChannel extends Component<AddUserChannelProps, AddUserChanne
 	}
 
 	renderSearchRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<AddUserDisplay id={id} index={0} addFriend={[]}/>
-			</div>
-	  );
-	  return listItems;
+		return <></>; //new implementation of AddUser
+	// 	const listItems = list.map((id: number) =>
+	// 		<div key={id}>
+	// 			<AddUserDisplay id={id} index={0} addFriend={[]}/>
+	// 		</div>
+	//   );
+	//   return listItems;
 	}
 	async onSearch(search:string) {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
 		let ret = await UserAPI.searchFriend(search);
-		this.setState({searchResults: ret});
+		// this.setState({searchResults: ret}); //new implementation of search
 	}
 
 
