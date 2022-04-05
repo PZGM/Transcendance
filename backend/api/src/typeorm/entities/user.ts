@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
+import { Channel } from "./channel";
+import { Game } from "./game";
 
 @Entity({ name: 'users' })
 export class User {
@@ -31,4 +33,16 @@ export class User {
 
     @Column({default: false})
     public twofa: boolean;
+
+    @OneToMany(() => Channel, channel => channel.owner, {
+        cascade: true,
+    })
+    ownedChannels: Channel[];
+
+    @ManyToMany(() => Channel, joinedChannels => joinedChannels.users)
+    joinedChannels: Channel[];
+
+    @ManyToMany(() => Game, (game) => game.players)
+    @JoinTable()
+    games: Game[];
 }

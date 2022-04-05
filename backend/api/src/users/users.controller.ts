@@ -3,6 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
 import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { UsersService } from './users.service';
+import { UserDto } from 'src/dto/user.dto';
+import { isNumber } from 'class-validator';
 
 
 
@@ -15,18 +17,22 @@ export class UsersController {
     @Get('/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async getOne(@Req() request: CustomRequest, @Param('id') id: string) {
-        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
+        const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
+
+        if (!isNumber(userId))
+            throw new NotFoundException();
         const user = await this.userService.getOne(userId);
         if (user)
-            return user;  
+            return new UserDto(user);  
         throw new NotFoundException();
     }
 
     @Get('/:id/login')
     @UseGuards(FullyAuthentificatedGuard)
     public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {
-        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
-        const login = await this.userService.getUserLogin(userId);
+        const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
+        if (!isNumber(userId))
+            throw new NotFoundException();        const login = await this.userService.getUserLogin(userId);
         if (login)
             return login;
         throw new NotFoundException();
@@ -36,8 +42,9 @@ export class UsersController {
     @Get('/:id/image')
     @UseGuards(FullyAuthentificatedGuard)
     public async getImage(@Req() request: CustomRequest, @Param('id') id: string) {
-        const userId: number = (id === 'me') ? request.user.id : id as unknown as number;
-        const img = await this.userService.getUserImage(userId);
+        const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
+        if (!isNumber(userId))
+            throw new NotFoundException();        const img = await this.userService.getUserImage(userId);
         if (img)
             return img;
         throw new NotFoundException();

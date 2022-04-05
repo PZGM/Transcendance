@@ -32,7 +32,7 @@ export class MiniStatus extends Component<MiniStatusProps, MiniStatusState>{
 			})
 		}
 		catch (e) {
-			console.log('hey salut');
+			console.log('error 62');
 		}
 
 	}

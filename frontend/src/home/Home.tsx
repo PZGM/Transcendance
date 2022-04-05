@@ -71,6 +71,7 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.fetchUser();
 	}
 
+
 	updateDisplay(type: number, id: any, numberBack: number) {
 		console.log(`display [${type}]`)
 		this.setState({

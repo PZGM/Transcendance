@@ -10,6 +10,14 @@ export const URL_ME = () => {
     return response;
 }
 
+type GameDetails = {
+	winnerId: number;
+	loserId: number;
+	winnerScore: number,
+	loserScore: number;
+	duration: number;
+  }
+
 export class UserAPI {
 
 
@@ -17,12 +25,14 @@ export class UserAPI {
 		public static async getUser() {
 			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
-				credentials: "include"}).then(response => {return response.json()})
+				credentials: "include"})
+				.then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
 					console.log('error catched')
 					return null;
 				})
+				console.log(resp)
 			 return resp
 		}
 
@@ -42,7 +52,8 @@ export class UserAPI {
 		public static async getProfile() {
 			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
-				credentials: "include"}).then(response => {return response.json()})
+				credentials: "include"})
+				.then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
 					console.log('error catched')
@@ -215,6 +226,32 @@ export class UserAPI {
 				.catch(err => {
 					return null;
 				})
+			 return resp
+		}
+
+		//history
+
+		public static async createNewGame(details: GameDetails) : Promise<boolean> {
+			let ret = true;
+			const resp = await fetch((process.env.REACT_APP_HISTORY_NEW_GAME as string), {
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(details),
+				credentials: "include"})
+				.then(handleErrors)
+				.catch(err => {
+					console.log('error P1 catched')
+					ret = false;
+				})
+			 return ret;
+		}
+
+		public static async getHistory() {
+			const resp = await fetch((process.env.REACT_APP_HISTORY_GET as string), {
+				method: "GET",
+				credentials: "include"})
+				.then(async response => {return response.json()})
+				.then(json => {return json})
 			 return resp
 		}
 }

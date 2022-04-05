@@ -31,8 +31,8 @@ then
 	export client_secret=a26f458f3c4b35522241a132a4479e2d8514f8607a158183ea5bb87e6123169e
 elif [[ "$#"  -ge "1"  &&  $1 = "-s" ]] || [[ "$#"  -ge "2"  &&  $2 = "-s" ]] || [[ "$#"  -ge "3"  &&  $3 = "-s" ]] || [[ "$#"  -ge "4"  &&  $3 = "-f" ]] || [[ "$#"  -ge "5"  &&  $5 = "-s" ]]
 then
-	export front=6000
-	export http=6001
+	export front=6200
+	export http=6201
 	export https=6333
 	export db=6432
 	export adminer=6888
@@ -50,14 +50,9 @@ fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-r" ]] || [[ "$#"  -ge "2"   &&   $2 = "-r" ]] || [[ "$#"  -ge "3"  &&  $3 = "-r" ]] || [[ "$#"  -ge "4"  &&  $3 = "-r" ]] || [[ "$#"  -ge "5"  &&  $5 = "-r" ]]
 then
-	docker rm -f $(docker ps | grep ${USER})
-	docker rmi -f $(docker images | grep ${USER})
-fi
-
-if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]] || [[ "$#"  -ge "5"  &&  $5 = "-R" ]]
-then
-	docker rm -f $(docker ps | grep ${USER})
-	docker rmi -f $(docker images | grep ${USER})
+	docker rmi -f ${USER}front
+	docker rmi -f ${USER}back
+	docker-compose -p ${USER}compose down
 fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-R" ]] || [[ "$#"  -ge "2"   &&   $2 = "-R" ]] || [[ "$#"  -ge "3"  &&  $3 = "-R" ]] || [[ "$#"  -ge "4"  &&  $3 = "-R" ]]
@@ -65,18 +60,24 @@ then
 	docker system prune -af
 fi
 
-if [[ "$#"  -ge "1"  &&   $1 = "-back" ]] || [[ "$#"  -ge "2"   &&   $2 = "-back" ]] || [[ "$#"  -ge "3"  &&  $3 = "-back" ]] || [[ "$#"  -ge "4"  &&  $3 = "-back" ]] || [[ "$#"  -ge "5"  &&  $5 = "-back" ]]
+
+if [[ "$#"  -ge "1"  &&   $1 = "-fb" ]] || [[ "$#"  -ge "2"   &&   $2 = "-fb" ]] || [[ "$#"  -ge "3"  &&  $3 = "-fb" ]] || [[ "$#"  -ge "4"  &&  $3 = "-fb" ]] || [[ "$#"  -ge "5"  &&  $5 = "-fb" ]]
 then
-	docker rmi -f $(docker images | grep ${USER}back)
+	docker rmi -f ${USER}front
+	docker rmi -f ${USER}back
+	docker build -t ${USER}back "./backend" 
+	docker build -t ${USER}front "./frontend"
+elif [[ "$#"  -ge "1"  &&   $1 = "-back" ]] || [[ "$#"  -ge "2"   &&   $2 = "-back" ]] || [[ "$#"  -ge "3"  &&  $3 = "-back" ]] || [[ "$#"  -ge "4"  &&  $3 = "-back" ]] || [[ "$#"  -ge "5"  &&  $5 = "-back" ]]
+then
+	docker rmi -f ${USER}back
 	docker build -t ${USER}back "./backend"
 elif [[ "$#"  -ge "1"  &&   $1 = "-front" ]] || [[ "$#"  -ge "2"   &&   $2 = "-front" ]] || [[ "$#"  -ge "3"  &&  $3 = "-front" ]] || [[ "$#"  -ge "4"  &&  $3 = "-front" ]] || [[ "$#"  -ge "5"  &&  $5 = "-front" ]]
 then
-	docker rmi -f $(docker images | grep ${USER}front)
+	docker rmi -f ${USER}front
 	docker build -t ${USER}front "./frontend"
 else
 	docker build -t ${USER}back "./backend" 
 	docker build -t ${USER}front "./frontend"
 fi
 
-
-	docker-compose -p ${USER}compose up $option
+docker-compose -p ${USER}compose up $option
