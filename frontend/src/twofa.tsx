@@ -32,11 +32,9 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
     async fetch2fa() {
         try {
             const resp = await UserAPI.isTwofaEnabled();
-            console.log(`resp : ${resp}`);
             this.setState({
                 twofa: resp,
             })
-            console.log(`twofa : ${this.state.twofa}`)
         }
         catch (e) {
             console.log(e);

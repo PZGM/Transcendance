@@ -24,6 +24,7 @@ export class AuthService implements AuthentificationProvider {
     
     async createUser(details: UserDetails) {
         const user = this.userRepo.create(details);
+        user.friends = [];
         return this.userRepo.save(user);
     }
 

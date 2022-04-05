@@ -1,3 +1,5 @@
+import { UserDto } from "./dto/user.dto";
+
 export const URL_ME = () => {
 	return process.env.REACT_APP_URL_ME; // will return API URL in .env file.
   };
@@ -32,7 +34,6 @@ export class UserAPI {
 					console.log('error catched')
 					return null;
 				})
-				console.log(resp)
 			 return resp
 		}
 
@@ -146,15 +147,18 @@ export class UserAPI {
 			}
 
 		public static async searchFriend(search: string) {
-			const resp = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()})
 				.then(json => {return json})
-    			// .then(handleErrors)
-				// .catch(err => {
-				// 	console.log(err)
-				// 	return null;
-				// })
+			 return resp
+		}
+
+		public static async getFriends() {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+				method: "GET",
+				credentials: "include"}).then(async response => {return await response.json()})
+				.then(json => {return json})
 			 return resp
 		}
 
