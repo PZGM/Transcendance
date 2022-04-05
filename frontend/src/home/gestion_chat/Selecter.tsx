@@ -27,7 +27,7 @@ export class Selecter extends Component<SelecterProps> {
 					<Stack direction="row" justifyContent="center" alignItems="center" spacing={1} sx={{mt: marge.toString().concat("px") }} >
 						<ButtonBase sx={{backgroundColor: "red", height: Wi, width: Hi}} onClick={ () => {this.props.updateDisplay(3, 1);}}>i</ButtonBase>
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
-							<ButtonBase sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan, paddingLeft: 1}}>
+							<ButtonBase sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan, paddingLeft: 1}} onClick={ () => {this.props.updateDisplay(2, 1);}}>
 								42
 							<ArrowDropDownTwoToneIcon/>
 							</ButtonBase>

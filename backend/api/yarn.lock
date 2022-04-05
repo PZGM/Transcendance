@@ -6717,7 +6717,12 @@
   "resolved" "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz"
   "version" "0.0.6"
 
-"typeorm@^0.1.4 || ^0.2.5", "typeorm@^0.2.12", "typeorm@^0.2.34", "typeorm@^0.2.44":
+"typeorm-encrypted@^0.6.0":
+  "integrity" "sha512-/3VqofekUrjQCOdtBG+A/PAyZGxhOSZFJg5kyfPmH6LW407eL3fOxuePUTvz/pBXct0dLjnvhqERturCU/WAzQ=="
+  "resolved" "https://registry.npmjs.org/typeorm-encrypted/-/typeorm-encrypted-0.6.0.tgz"
+  "version" "0.6.0"
+
+"typeorm@^0.1.4 || ^0.2.5", "typeorm@^0.2.12", "typeorm@^0.2.24", "typeorm@^0.2.34", "typeorm@^0.2.44":
   "integrity" "sha512-yFyb9Ts73vGaS/O06TvLpzvT5U/ngO31GeciNc0eoH7P1QcG8kVZdOy9FHJqkTeDmIljMRgWjbYUoMw53ZY7Xw=="
   "resolved" "https://registry.npmjs.org/typeorm/-/typeorm-0.2.44.tgz"
   "version" "0.2.44"

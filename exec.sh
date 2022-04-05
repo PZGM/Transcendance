@@ -31,8 +31,8 @@ then
 	export client_secret=a26f458f3c4b35522241a132a4479e2d8514f8607a158183ea5bb87e6123169e
 elif [[ "$#"  -ge "1"  &&  $1 = "-s" ]] || [[ "$#"  -ge "2"  &&  $2 = "-s" ]] || [[ "$#"  -ge "3"  &&  $3 = "-s" ]] || [[ "$#"  -ge "4"  &&  $3 = "-f" ]] || [[ "$#"  -ge "5"  &&  $5 = "-s" ]]
 then
-	export front=6000
-	export http=6001
+	export front=6200
+	export http=6201
 	export https=6333
 	export db=6432
 	export adminer=6888
