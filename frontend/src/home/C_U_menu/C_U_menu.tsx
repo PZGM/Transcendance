@@ -5,6 +5,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UserDisplay } from "../../menu/friends/UserDisplay";
 import styles from './../../style/dac.module.css'
 import { red } from "@mui/material/colors";
+import buttons from './../../style/buttons.module.css'
 
 interface CUmenuProps {
     id?: number;
@@ -12,6 +13,9 @@ interface CUmenuProps {
 };
 
 let height_Box = "41.5vh"
+let height_Box_Admin = "20vh"
+let height_Box_Users = "58vh"
+let width_button = "90px"
 
 export class CUmenu extends Component<CUmenuProps> {
 	constructor(props: CUmenuProps) {
@@ -22,33 +26,31 @@ export class CUmenu extends Component<CUmenuProps> {
 	}
 
 	renderRows(list) {
-		list = [1,1,1,1,1,1,1,1,1,1,1,1]
+		list = [1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((id: number) =>
-			<div key={id}>
-				{/* <UserDisplay id={id} index={0} deleteFriend={this.deleteFriend}/> */}
-				<Box width="346px" className={styles.bdac} sx={{color:'test'}}>
-					<Stack  direction="row" spacing={2}>
-						<Stack direction='row' justifyContent="center"  alignItems="center" spacing={1}>
-							<Box/>
-							<Typography variant="button" color='white'>
-								<div className='bit5x5'> 42 </div>
-							</Typography>
-						</Stack>
-						<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1} width="100%">
-							<ButtonBase centerRipple className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-								<Typography variant="button" color='white'>
-								<div className='bit5x5'> MUTE </div>
-								</Typography>
-							</ButtonBase>
-							<ButtonBase centerRipple className={styles.dac} style={{width: '120px', height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-								<Typography variant="button" color='white'>
-								<div className='bit5x5'> LEAVE </div>
-								</Typography>
-							</ButtonBase>
-						</Stack>
+			// <div key={id}>
+			<Box width="472px" className={styles.bdac} sx={{color:'test'}} ml="5px" mr="2px" >
+				<Stack  direction="row" justifyContent="space-evenly" alignItems="center" >
+					<Stack direction='row' justifyContent="space-evenly"  alignItems="center" spacing={1} sx={{width: "100px"}}>
+						<Typography variant="button">
+							<div className='bit9x9'> 42 </div>
+						</Typography>
 					</Stack>
-				</Box>
-			</div>
+					<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
+						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
+							<Typography variant="button" color='white'>
+								<div className='bit5x5'> MUTE </div>
+							</Typography>
+						</ButtonBase>
+						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
+							<Typography variant="button" color='white'>
+								<div className='bit5x5'> LEAVE </div>
+							</Typography>
+						</ButtonBase>
+					</Stack>
+				</Stack>
+			</Box>
+			// {/* </div> */}
 	  );
 	  return listItems;
 	}
@@ -68,7 +70,7 @@ export class CUmenu extends Component<CUmenuProps> {
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Typography>ACTIVE CHANNELS :</Typography>
 							<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box}>
-								<List style={{height: "100% -100px", overflow: 'auto'}}>
+								<List style={{overflow: 'auto'}}>
 									{this.renderRows([])}
 									{/* {this.renderRows(this.state.friends)} */}
 								</List>
@@ -78,7 +80,7 @@ export class CUmenu extends Component<CUmenuProps> {
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<Typography>CHATS :</Typography>
 							<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box}>
-								<List style={{height: "100% -100px", overflow: 'auto'}}>
+								<List style={{overflow: 'auto'}}>
 									{this.renderRows([])}
 									{/* {this.renderRows(this.state.friends)} */}
 								</List>
