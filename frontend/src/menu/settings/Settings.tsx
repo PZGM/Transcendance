@@ -33,6 +33,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
+		console.log(resp)
 		this.setState({
 			avatar: resp.img_url,
 			login: resp.login
@@ -88,7 +89,9 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 			fontFamily: 'Bit9x9',
 			fontSize: 'calc(10px + 1vw)'
 		};
-		
+
+		console.log(this.state.login)
+
 		return(
 
 			// Background
@@ -135,7 +138,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 								justifyContent="space-between"
 								sx={{height: '100%'}}
 							>
-
 								<LoginSettings	login={this.state.login}
 												updateParentState={this.updateState}
 								/>
