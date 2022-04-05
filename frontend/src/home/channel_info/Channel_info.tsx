@@ -6,6 +6,7 @@ import { UserDisplay } from "../../menu/friends/UserDisplay";
 import { red } from "@mui/material/colors";
 import styles from './../../style/dac.module.css'
 import buttons from './../../style/buttons.module.css'
+import RenderRows from './../RenderRows'
 
 
 interface ChannelInfoProps {
@@ -18,73 +19,23 @@ let height_Box_Users = "58vh"
 let width_button = "70px"
 
 export class ChannelInfo extends Component<ChannelInfoProps> {
-	renderRowsAdmins(list) {
+	renderRowsAdmins(list, updateDisplay) {
 		list = [1,1,1,1,1]
 		const listItems = list.map((id: number) =>
-		<Box width="472px" className={styles.bdac} sx={{color:'test'}} ml="5px" mr="2px">
-			<Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
-				<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-					<Avatar variant='circular' alt="" src=""/>
-					<Typography variant="button">
-						<div className='bit9x9'> Braimbault </div>
-					</Typography>
-				</Stack>
-				<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-					<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-						<Typography variant="button" color='white'>
-							<div className='bit5x5'> WATCH MATCH </div>
-						</Typography>
-					</ButtonBase>
-					<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-						<Typography variant="button" color='white'>
-							<div className='bit5x5'> SEND MESSAGE </div>
-						</Typography>
-					</ButtonBase>
-					<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-						<Typography variant="button" color='white'>
-							<div className='bit5x5'> REMOVE FRIEND </div>
-						</Typography>
-					</ButtonBase>
-				</Stack>
-			</Stack>
-		</Box>
+		<>
+		<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
+		</>
+		
 	  );
 	  return listItems;
 	}
 
-	renderRowsUsers(list) {
+	renderRowsUsers(list, updateDisplay) {
 		list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((id: number) =>
-			<div key={id}>
-				{/* <UserDisplay id={id} index={0} deleteFriend={this.deleteFriend}/> */}
-				<Box width="472px" className={styles.bdac} sx={{color:'test'}} ml="5px" mr="2px">
-				<Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
-					<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-						<Avatar variant='circular' alt="" src=""/>
-						<Typography variant="button">
-							<div className='bit9x9'> Braimbault </div>
-						</Typography>
-					</Stack>
-					<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-							<Typography variant="button" color='white'>
-								<div className='bit5x5'> WATCH MATCH </div>
-							</Typography>
-						</ButtonBase>
-						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-							<Typography variant="button" color='white'>
-								<div className='bit5x5'> SEND MESSAGE </div>
-							</Typography>
-						</ButtonBase>
-						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-							<Typography variant="button" color='white'>
-								<div className='bit5x5'> REMOVE FRIEND </div>
-							</Typography>
-						</ButtonBase>
-					</Stack>
-				</Stack>
-			</Box>
-			</div>
+			<>
+			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
+			</>
 	  );
 	  return listItems;
 	}
@@ -107,7 +58,7 @@ export class ChannelInfo extends Component<ChannelInfoProps> {
 					<Typography>ADMINS :</Typography>
 						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
 							<List style={{overflow: 'auto'}}>
-								{this.renderRowsAdmins([])}
+								{this.renderRowsAdmins([],this.props.updateDisplay)}
 								{/* {this.renderRows(this.state.friends)} */}
 							</List>
 						</Stack>
@@ -116,7 +67,7 @@ export class ChannelInfo extends Component<ChannelInfoProps> {
 					<Typography>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
 						<List style={{height: "100% -100px", overflow: 'auto'}}>
-							{this.renderRowsUsers([])}
+							{this.renderRowsUsers([],this.props.updateDisplay)}
 							{/* {this.renderRows(this.state.friends)} */}
 						</List>
 					</Stack>

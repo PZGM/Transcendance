@@ -29,6 +29,7 @@ interface HomeState {
 	login?: string,
 	display?: number;
 	displayId?: number;
+	numberBack?: number;
 }
 
 
@@ -70,11 +71,12 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.fetchUser();
 	}
 
-	updateDisplay(type: number, id: any) {
+	updateDisplay(type: number, id: any, numberBack: number) {
 		console.log(`display [${type}]`)
 		this.setState({
 			display: type,
 			displayId: id,
+			numberBack: numberBack,
 		})
 	}
 
@@ -86,7 +88,7 @@ export class Home extends Component<HomeProps, HomeState> {
 		if (this.state.display == 3)
 			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
 		if (this.state.display == 4)
-			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack}/>
 		if (this.state.display == 5)
 			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId}/>
 		if (this.state.display == 6)

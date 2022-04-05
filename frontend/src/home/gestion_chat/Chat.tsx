@@ -17,6 +17,9 @@ export class Chat extends Component<ChatProps> {
 	componentDidMount()  {
 	}
 
+	renderChat() {
+		
+	}
 
 
 	render () {
