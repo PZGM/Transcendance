@@ -28,6 +28,8 @@ services:
           - db
         depends_on:
           - db
+        volumes:
+          - ./upload:/uploads/images
         restart: unless-stopped
         ports:
             - ${https}:3333
@@ -54,4 +56,7 @@ services:
         image: adminer
         restart: always
         ports:
-            - ${adminer}:8080
+            - ${adminer}:8080 
+            
+volumes:
+  upload: 
