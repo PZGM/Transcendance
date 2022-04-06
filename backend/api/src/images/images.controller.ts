@@ -28,7 +28,7 @@ export const storage = {
 @Controller('images')
 export class ImagesController { 
     
-    constructor(private readonly userService: ImagesService) {}
+    constructor(private readonly imagesService: ImagesService) {}
 
     @UseGuards(FullyAuthentificatedGuard)
     @Post('upload')
@@ -46,14 +46,6 @@ export class ImagesController {
     @UseGuards(FullyAuthentificatedGuard)
     @Delete('/:path')
     removeImage(@Param('path') path: string){
-        try {
-            const fs = require('fs');
-            fs.unlinkSync('./uploads/images/' + path);
-            return 'Image deleted';
-          } catch(err) {
-            console.error(err);
-            throw new NotFoundException();
-          }
+        return this.imagesService.removeImage(path)
     }
-
 }

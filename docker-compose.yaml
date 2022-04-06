@@ -11,8 +11,6 @@ services:
                 - ${db}:5432
             volumes:
                 - ./init.sql://docker-entrypoint-initdb.d/init.sql
-                - ./db:/var/lib/postgresql/data
-
       # backend
     backend:
         image: ${USER}back
@@ -29,8 +27,6 @@ services:
           - db
         depends_on:
           - db
-        volumes:
-          - ./upload:/uploads/
         restart: unless-stopped
         ports:
             - ${https}:3333
@@ -58,7 +54,3 @@ services:
         restart: always
         ports:
             - ${adminer}:8080 
-            
-volumes:
-  upload:
-  db: 

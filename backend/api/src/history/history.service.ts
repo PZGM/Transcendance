@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomInt } from 'crypto';
+import { truncate } from 'fs/promises';
 import { networkInterfaces } from 'os';
 import { Game, User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
@@ -13,8 +14,8 @@ export class HistoryService {
     constructor(@InjectRepository(Game) private gameRepository: Repository<Game>, private userService: UsersService){}
 
     async createGameHistory(details: GameDetails) {
-        const winner: User = await this.userService.getOne({userId: details.winnerId});
-        const loser: User = await this.userService.getOne({userId: details.loserId});
+        const winner: User = await this.userService.getOne(details.winnerId);
+        const loser: User = await this.userService.getOne(details.loserId);
         if (!winner || !loser)
             throw new NotFoundException();
         let game: Game = this.gameRepository.create();
@@ -30,7 +31,7 @@ export class HistoryService {
     }
 
     async getHistory(userId: number): Promise<Game[]> {
-        const user: User = await this.userService.getOne({userId});
+        const user: User = await this.userService.getOne(userId, {withGames: true});
         return user.games;
     }
 
