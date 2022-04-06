@@ -48,9 +48,14 @@ then
 	option="-d"
 fi
 
+if [[ "$#"  -ge "1"  &&   $1 = "-upload" ]] || [[ "$#"  -ge "2"   &&   $2 = "-upload" ]] || [[ "$#"  -ge "3"  &&  $3 = "-upload" ]] || [[ "$#"  -ge "4"  &&  $4 = "-upload" ]] || [[ "$#"  -ge "5"  &&  $5 = "-upload" ]]
+then
+	docker volume rm upload
+fi
+
 if [[ "$#"  -ge "1"  &&   $1 = "-db" ]] || [[ "$#"  -ge "2"   &&   $2 = "-db" ]] || [[ "$#"  -ge "3"  &&  $3 = "-db" ]] || [[ "$#"  -ge "4"  &&  $4 = "-db" ]] || [[ "$#"  -ge "5"  &&  $5 = "-db" ]]
 then
-	echo "je coco pas le path"
+	docker volume rm db
 fi
 
 if [[ "$#"  -ge "1"  &&   $1 = "-r" ]] || [[ "$#"  -ge "2"   &&   $2 = "-r" ]] || [[ "$#"  -ge "3"  &&  $3 = "-r" ]] || [[ "$#"  -ge "4"  &&  $4 = "-r" ]] || [[ "$#"  -ge "5"  &&  $5 = "-r" ]]
