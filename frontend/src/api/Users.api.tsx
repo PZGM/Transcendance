@@ -9,7 +9,8 @@ export const URL_ME = () => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
-    return response;
+	if (response.ok)
+    	return response;
 }
 
 type GameDetails = {
@@ -23,19 +24,40 @@ type GameDetails = {
 export class UserAPI {
 
 
-		//getters
-		public static async getUser() {
-			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
-				method: "GET",
-				credentials: "include"})
-				.then(response => {return response.json()})
-				.then(json => {return json})
-				.catch(err => {
-					console.log('error catched')
-					return null;
-				})
-			 return resp
-		}
+		// //getters
+		// public static async getUser() {
+		// 	const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+		// 		method: "GET",
+		// 		credentials: "include"})
+		// 		.then(response => {return response.json()})
+		// 		.then(json => {return json})
+		// 		.catch(err => {
+		// 			console.log('error catched')
+		// 			return null;
+		// 		})
+
+		// 	 return resp
+		// }
+
+				//getters
+				public static async getUser() {
+					const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
+						method: "GET",
+						credentials: "include"})
+						.then(response => {
+							if (response.ok) {
+								return response.json();
+							}
+							else
+							return null;
+						})
+						.then(json => {return json})
+						.catch(err => {
+							console.log('error catched')
+							return null;
+						})
+					 return ret;
+				}
 
 
 		public static async getUserById(id: number) {
@@ -110,6 +132,7 @@ export class UserAPI {
 		//status
 		public static async reportActivity(id: number) {
 			let ret = true;
+			try {
 			await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
 				method: "GET",
 				credentials: "include"})
@@ -118,6 +141,10 @@ export class UserAPI {
 					console.log(err);
 					ret = false;
 				})
+			}
+			catch {
+				console.log('loool')
+			}
 			return ret;
 		}
 
