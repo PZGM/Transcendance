@@ -25,10 +25,11 @@ export class User {
     @Column()
     status?: number;
 
-    @OneToMany(() => User, user => user.friended)
+    @ManyToMany(() => User, user => user.friended)
+    @JoinTable()
     friends: User[];
 
-    @ManyToOne(() => User, user => user.friends)
+    @ManyToMany(() => User, user => user.friends)
     friended: User[];
 
     @Column({ nullable: true })

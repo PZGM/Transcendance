@@ -81,9 +81,6 @@ elif [[ "$#"  -ge "1"  &&   $1 = "-front" ]] || [[ "$#"  -ge "2"   &&   $2 = "-f
 then
 	docker rmi -f ${USER}front
 	docker build -t ${USER}front "./frontend"
-else
-	docker build -t ${USER}back "./backend" 
-	docker build -t ${USER}front "./frontend"
 fi
 
 docker-compose -p ${USER}compose up $option

@@ -30,7 +30,7 @@ services:
         depends_on:
           - db
         volumes:
-          - ./upload:/home/uploads/images
+          - ./upload:/uploads/images
         restart: unless-stopped
         ports:
             - ${https}:3333

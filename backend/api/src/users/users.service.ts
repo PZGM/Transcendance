@@ -65,7 +65,7 @@ export class UsersService {
     }
 
     public async getFriends(userId: number): Promise<UserDto[]|null> {
-        const user: User|null = await this.getOne({userId}, );
+        const user: User|null = await this.getOne({userId, withFriends: true});
         if (!user)
             return null; 
         if (!user.friends)
@@ -123,6 +123,8 @@ export class UsersService {
 
     public async updateImage(userId: number, image: string) {
         const user: User|null = await this.getOne({userId});
+        // if (user.img_url.startsWith('https://serv.pizzagami.fr/')) //TODO change
+        //     this.i
         user.img_url = image;
         await this.userRepository.save(user);
     }
