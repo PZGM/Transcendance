@@ -69,10 +69,10 @@ export class CUmenu extends Component<CUmenuProps> {
 					</IconButton>
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Typography>ACTIVE CHANNELS :</Typography>
-						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box}>
+						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1} height={height_Box}>
 							<ButtonBase className={buttons.button} centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red", marginLeft: 3}} onClick={ () => {this.props.updateDisplay(8);}}>
 								<Typography variant="button" color='white'>
-									<div className='bit5x5'> Add user </div>
+									<div className='bit5x5'> Add Channel </div>
 								</Typography>
 							</ButtonBase>
 							<List style={{overflow: 'auto'}}>

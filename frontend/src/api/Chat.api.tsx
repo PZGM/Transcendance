@@ -1,3 +1,5 @@
+import { useReducer } from "react";
+
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -35,12 +37,12 @@ export class ChatAPI {
         return resp
     }
 
-    public static async addChannel() {
+    public static async addChannel(name: string, owner: any, visibility: string, users: any, messages: any) {
         let ret = true;
         await fetch(`https://serv.pizzagami.fr:4333/api/channels`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
+        body: JSON.stringify({name: name, owner: owner, visibility: visibility, users: users, messages: messages}),
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {

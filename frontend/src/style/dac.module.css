@@ -68,6 +68,13 @@
 	margin-bottom: 8px;
 }
 
+.lockinput {
+	border: 2px solid var(--grey);
+	padding: 5px;
+	border-radius: 0%;
+	margin-bottom: 8px;
+}
+
 .input:hover {
 	border: 2px solid var(--yellow);
 	padding: 5px;
