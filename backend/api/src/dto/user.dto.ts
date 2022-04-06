@@ -8,6 +8,7 @@ export class UserDto {
             this.login = user.login;
             this.img_url = user.img_url;
             this.status = user.status;
+            this.blockedUsers = user.blockedUsers;
         }
     }
 
@@ -15,4 +16,5 @@ export class UserDto {
     login: string;
     img_url: string;
     status: number;
+    blockedUsers?: User[];
 }

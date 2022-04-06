@@ -158,6 +158,13 @@ export class UsersService {
         return 0;
     }
 
+    public async updateBlockedUser(userId: number, blockedUser : number) {
+        const user: User|null = await this.getOne(userId);
+        user.blockedUsers.push(await this.getOne(blockedUser)); 
+        await this.userRepository.save(user);
+        return 0;
+    }
+
     public async updateSecret(userId: number, secret: string) {
         const user: User|null = await this.getOne(userId);
         user.twofa = false;

@@ -63,4 +63,10 @@ export class UsersController {
         if (ret)
           throw new ConflictException();
     }
+
+    @Put('/update/blockedUser')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async updateBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
+        const ret =  await this.userService.updateBlockedUser(request.user.id, updateUserRequest.id);
+    }
 }
