@@ -21,7 +21,7 @@ export class UsersController {
 
         if (!isNumber(userId))
             throw new NotFoundException();
-        const user = await this.userService.getOne(userId);
+        const user = await this.userService.getOne({userId});
         if (user)
             return new UserDto(user);  
         throw new NotFoundException();

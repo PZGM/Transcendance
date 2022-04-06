@@ -13,8 +13,8 @@ export class HistoryService {
     constructor(@InjectRepository(Game) private gameRepository: Repository<Game>, private userService: UsersService){}
 
     async createGameHistory(details: GameDetails) {
-        const winner: User = await this.userService.getOne(details.winnerId);
-        const loser: User = await this.userService.getOne(details.loserId);
+        const winner: User = await this.userService.getOne({userId: details.winnerId});
+        const loser: User = await this.userService.getOne({userId: details.loserId});
         if (!winner || !loser)
             throw new NotFoundException();
         let game: Game = this.gameRepository.create();
@@ -29,8 +29,8 @@ export class HistoryService {
         this.userService.addGame(game.loserId, game);
     }
 
-    async getHistory(id: number): Promise<Game[]> {
-        const user: User = await this.userService.getOneWithGames(id);
+    async getHistory(userId: number): Promise<Game[]> {
+        const user: User = await this.userService.getOne({userId});
         return user.games;
     }
 

@@ -5,74 +5,51 @@ import { UserDto } from 'src/dto/user.dto';
 import { Game, User } from 'src/typeorm';
 import { Repository } from 'typeorm';
 
+interface relationsPicker {
+    userId: number,
+    withGames?: boolean,
+    withFriends?: boolean,
+}
+
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>){}
 
-    public async getOne(userId: number): Promise<User|null> {
+    public async getOne({userId, withGames, withFriends}: relationsPicker): Promise<User|null> {
         try {
+            let relations: string[] = [];
+            withGames && relations.push('games') && relations.push('games.players');
+            withFriends && relations.push('friends');
             const user: User = await this.userRepository.findOneOrFail({
+                relations,
                 where: {
                     id: userId
                 }
             });
+            console.log(user);
             return user;
         }
         catch (e) {
-            return null;
-        }
-    }
-
-    public async getOneWithGames(userId: number): Promise<User|null> {
-        try {
-            const user: User = await this.userRepository.findOneOrFail({
-                relations: ['games', 'games.players'],
-                where: {
-                    id: userId
-                }
-            });
-            return user;
-        }
-        catch (e) {
-            console.log('--error');
-            console.log(e);
-            return null;
-        }
-    }
-
-    public async getOneWithFriends(userId: number): Promise<User|null> {
-        try {
-            const user: User = await this.userRepository.findOneOrFail({
-                relations: ['friends'],
-                where: {
-                    id: userId
-                }
-            });
-            return user;
-            }
-        catch (e) {
-            console.log('--error');
-            console.log(e);
             return null;
         }
     }
 
     public async getUserLogin(userId: number): Promise<string|null> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         if (user)
             return user.login;
         return null;
     }
 
     public async getUserStatus(userId: number): Promise<number|null> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         if (user)
             return user.status;
         return null;
     }
 
     public async setUserStatus(userId: number, status: number): Promise<boolean> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         if (!user)
             return false;
         user.status = status;
@@ -81,14 +58,14 @@ export class UsersService {
     }
 
     public async getUserImage(userId: number): Promise<string|null> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         if (user)
             return user.img_url ;
         return null; 
     }
 
     public async getFriends(userId: number): Promise<UserDto[]|null> {
-        const user: User|null = await this.getOneWithFriends(userId);
+        const user: User|null = await this.getOne({userId}, );
         if (!user)
             return null; 
         if (!user.friends)
@@ -100,13 +77,14 @@ export class UsersService {
     }
 
     public async findFriends(search: string, userId: number): Promise<UserDto[]|null> {
-        const user: User|null = await this.getOneWithFriends(userId);
+        const user: User|null = await this.getOne({userId, withFriends:true });
         let results = await this.userRepository
         .createQueryBuilder().select()
         .where('login ILIKE :searchQuery', {searchQuery: `%${search}%`})
         .getMany()
 
         const friends: User[] = user.friends || [];
+        console.log(friends);
         results = results.filter( ( el ) => !friends.some((friend) => {return friend.id == el.id}));
 
         if (!results)
@@ -119,13 +97,13 @@ export class UsersService {
     }
 
     public async addFriends(userId: number, friendsToAddIds: number[]) {
-        const user: User|null = await this.getOneWithFriends(userId);
+        const user: User|null = await this.getOne({userId, withFriends: true});
         if (!user.friends)
             user.friends = [];
         friendsToAddIds.forEach(async (friendToAddId) => {
             if (user.friends.some((user) => user.id == friendToAddId))
                 return ConflictException;
-            const friendToAdd: User = await this.getOne(friendToAddId);
+            const friendToAdd: User = await this.getOne({userId: friendToAddId});
             if (!friendToAdd)
                 return NotFoundException;
             user.friends.push(friendToAdd);
@@ -134,7 +112,7 @@ export class UsersService {
     }
 
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
-        const user: User|null = await this.getOneWithFriends(userId);
+        const user: User|null = await this.getOne({userId, withFriends: true});
         if (!user.friends)
             user.friends = [];
         user.friends = user.friends.filter((friend) => {
@@ -144,7 +122,7 @@ export class UsersService {
     }
 
     public async updateImage(userId: number, image: string) {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         user.img_url = image;
         await this.userRepository.save(user);
     }
@@ -152,14 +130,14 @@ export class UsersService {
     public async updateLogin(userId: number, login: string) : Promise<number> {
         if (! await this.login_available(login))
             return 1;
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         user.login = login;
         await this.userRepository.save(user);
         return 0;
     }
 
     public async updateSecret(userId: number, secret: string) {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne({userId});
         user.twofa = false;
         user.twofaSecret = secret;
         await this.userRepository.save(user);
