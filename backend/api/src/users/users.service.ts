@@ -63,7 +63,7 @@ export class UsersService {
     public async getUserImage(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);
         if (user)
-            return user.img_url ;
+            return user.avatar ;
         return null; 
     }
 
@@ -132,9 +132,9 @@ export class UsersService {
 
     public async updateImage(userId: number, image: string) {
         const user: User|null = await this.getOne(userId);
-        if (user.img_url.startsWith(process.env.IMAGES_PATH_URL))
-            this.imageService.removeImage(user.img_url);
-        user.img_url = image;
+        if (user.avatar.startsWith(process.env.IMAGES_PATH_URL))
+            this.imageService.removeImage(user.avatar);
+        user.avatar = image;
         await this.userRepository.save(user);
     }
 

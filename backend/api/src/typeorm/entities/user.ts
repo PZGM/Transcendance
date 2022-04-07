@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 import { Channel } from "./channel";
 import { Game } from "./game";
+import { Stats } from "./stats";
 
 @Entity({ name: 'users' })
 export class User {
@@ -20,7 +21,7 @@ export class User {
     lastName: string;
 
     @Column()
-    img_url: string;
+    avatar: string;
 
     @Column()
     status?: number;
@@ -49,4 +50,8 @@ export class User {
     @ManyToMany(() => Game, (game) => game.players)
     @JoinTable()
     games: Game[];
+
+    @OneToOne(() => Stats)
+    @JoinColumn()
+    stats: Stats;
 }
