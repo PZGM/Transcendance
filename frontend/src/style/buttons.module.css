@@ -16,11 +16,13 @@
 .conn_button:hover {
 	transform: translateX(5px);
 	box-shadow: 5px 5px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 .conn_button:active {
 	transform: translateX(10px);
 	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 /* Exit button */
@@ -39,11 +41,13 @@
 .exit_button:hover {
 	transform: translateX(2px);
 	box-shadow: 2px 2px 0px -1px rgba(255, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 .exit_button:active {
 	transform: translateX(5px);
 	box-shadow: 0px 0px 0px -1px rgba(255, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 /* Buttons */
@@ -54,19 +58,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'bit5x5';
+	font-family: backto1982;
 	color: white;
-	box-shadow: 5px 5px 0px -1px rgba(255,255,255,0.5);
+	box-shadow: 5px 5px 0px -1px;
 }
 
 .button:hover {
 	transform: translateX(2px);
 	box-shadow: 2px 2px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 .button:active {
 	transform: translateX(5px);
 	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 /* Menu buttons */
@@ -94,4 +100,5 @@
 	border-radius: 25px;
 	transform: translateY(0px);
 	background: linear-gradient(90deg, rgba(19, 129, 181), rgba(255,0,0,0) 100%);
+	cursor: pointer;
 }

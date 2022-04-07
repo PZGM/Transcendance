@@ -12,7 +12,7 @@ import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { NotFound } from './menu/NotFound';
-import { Twofa } from './twofa';
+import { Twofa } from './2FA';
 
 // FONTS
 

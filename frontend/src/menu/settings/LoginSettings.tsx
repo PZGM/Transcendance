@@ -9,8 +9,9 @@ import style from "../../style/settings.module.css"
 toast.configure()
 
 type LoginSettingsProps = {
-    login?: string,
+    login?: string
 	updateParentState: any
+    updateDisplay: any
 };
 
 interface LoginSettingsState {
@@ -75,6 +76,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 
     render() {
 
+        // Da togliere
         const GridItemStyle = {
 			color: 'white',
 			alignItems: 'stretch',
@@ -117,9 +119,8 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
                                                         backgroundColor: 'rgb(20, 121, 249)',
                                                         fontFamily: 'backto1982',
                                                         fontSize: '20px'}}
-                                                onClick={ () => {this.setState({
-                                                                            input: this.props.login || '',
-                                                                            editing: true})}
+                                                onClick={ () => {this.setState({input: this.props.login || '',
+                                                                                editing: true})}
                                                         }>
                                                 EDIT
                                             </div>}

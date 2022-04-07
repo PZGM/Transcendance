@@ -1,11 +1,13 @@
 import { Grid, Avatar, InputBase } from "@mui/material";
-import { ChangeEvent, Component } from "react";
+import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
-import button from "../../style/buttons.module.css"
 import background from "./../../asset/images/background.jpg"
-import { rgbaToHsva } from "tsparticles";
-import { LoginSettings } from "./LoginSettings";
+import { rgbaToHsva } from "tsparticles"
+import { LoginSettings } from "./LoginSettings"
+import { AvatarSettings } from "./AvatarSettings"
+import { TwofaSettings } from "./2FASettings";
+import ReactCSSTransitionGroup from 'react-transition-group';
 
 
 type SettingsProps = {
@@ -13,12 +15,9 @@ type SettingsProps = {
 };
 
 interface SettingsState {
-	fileSelected?: File;
-	loginSelected?: string;
-	scale: number;
-	avatar: string,
-	login?: string,
-	editAvatar: boolean
+	avatar: string
+	login?: string
+	display: number
 }
 
 export class Settings extends Component<SettingsProps, SettingsState> {
@@ -27,8 +26,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	constructor(props: SettingsProps) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
-		this.state = {avatar: '', login: undefined, fileSelected: undefined, loginSelected: undefined,
-					scale: 1, editAvatar: false }
+		this.updateDisplay = this.updateDisplay.bind(this);
+		this.state = {avatar: '', login: undefined, display: 0}
 	}
 
 	async fetchUser() {
@@ -44,15 +43,15 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		this.fetchUser();
 	}
 
-	handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const fileList = e.target.files;
+	// handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	const fileList = e.target.files;
 
-		if (!fileList) return;
+	// 	if (!fileList) return;
 
-		this.setState({
-			fileSelected: fileList[0]
-		})
-	};
+	// 	this.setState({
+	// 		fileSelected: fileList[0]
+	// 	})
+	// };
 
 	async updateState({login, avatar}) {
 		if (login)
@@ -65,22 +64,62 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		})
 	}
 
-	handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const log = e.target.value;
+	// handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const log = e.target.value;
 
+	// 	this.setState({
+	// 		loginSelected: log
+	// 	})
+	// }
+
+	// updateLogin = () => {
+	// 	if (this.state.loginSelected) {
+	// 		UserAPI.updateLogin(this.state.loginSelected);
+	// 	}
+	// }
+
+	updateDisplay(type: number) {
+		console.log(`display [${type}]`)
 		this.setState({
-			loginSelected: log
+			display: type
 		})
 	}
 
-	updateLogin = () => {
-		if (this.state.loginSelected) {
-			UserAPI.updateLogin(this.state.loginSelected);
-		}
+	// Add transitions
+	display() {
+		if (this.state.display == 0)
+			return (
+				<Fragment>
+					<LoginSettings	login={this.state.login}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+					/>
+					<AvatarSettings avatar={this.state.avatar}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									editing={false}
+					/>
+					<TwofaSettings	updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									activating={false}
+					/>
+				</Fragment>
+			)
+		else if (this.state.display == 1)
+			return (<AvatarSettings avatar={this.state.avatar}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									editing={true}
+					/>)
+		else if (this.state.display == 2)
+			return (<TwofaSettings	updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									activating={true}
+					/>)
 	}
 
-	render (){
-		
+	render ()
+	{
 		const GridItemStyle = {
 			color: 'white',
 			alignItems: 'stretch',
@@ -103,7 +142,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 				backgroundRepeat: 'norepeat',
 				}}
 			>
-				Window
 				<div style={{
 					height: '100vh',
 					display: "flex",
@@ -122,7 +160,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 								width: 'undefined',
 								minWidth: "800px", minHeight: "800px",
 								maxWidth: "1500px", maxHeight: "1500px"
-							}}>
+							}}
+				>
 
 						<Grid	item xs={6}
 								sx={{	m: 2,
@@ -138,69 +177,12 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 								justifyContent="space-between"
 								sx={{height: '100%'}}
 							>
-								<LoginSettings	login={this.state.login}
-												updateParentState={this.updateState}
-								/>
-								<Grid container
-									direction="row"
-									justifyContent="space-between"
-									alignItems="center"
-									sx={{height: '33%'}}
-								>
-									<Grid item xs={4} sx={GridItemStyle}> AVATAR </Grid>
-									<Grid item xs={4} sx={GridItemStyle}>
-										<Avatar	variant='circular'
-												alt="Semy Sharp"
-												src={this.state.avatar}
-												sx={{	diaplay: "flex",
-														width: '200px',
-														height: '200px'}}/>
-									</Grid>
-									<Grid item xs={4} sx={GridItemStyle}>
-										<div className={button.button}
-											style={{width: '100px',
-													height: '70px',
-													backgroundColor: 'rgb(20, 121, 249)',
-													fontFamily: 'backto1982',
-													fontSize: '20px'}}>
-											EDIT
-										</div>
-									</Grid>
-								</Grid>
-								<Grid container
-									direction="row"
-									justifyContent="space-between"
-									alignItems="center"
-									sx={{height: '33%'}}
-								>
-									<Grid item xs={4} sx={GridItemStyle}> 2FA </Grid>
-									<Grid item xs={4} sx={GridItemStyle}>
-										<div className={button.button}
-											style={{width: '100px',
-													height: '70px',
-													backgroundColor: 'rgb(20, 121, 249)',
-													fontFamily: 'backto1982',
-													fontSize: '30px'}}>
-											on
-										</div>
-									</Grid>
-									<Grid item xs={4} sx={GridItemStyle}>
-										<div className={button.button}
-											style={{width: '100px',
-													height: '70px',
-													backgroundColor: 'rgb(20, 121, 249)',
-													fontFamily: 'backto1982',
-													fontSize: '30px'}}>
-											off
-										</div>
-									</Grid>
-								</Grid>
-
+								{this.display()}
 							</Grid>
 
 						</Grid>
 
-						<Grid item xs={5} sx={{m: 3, position: 'relative'}} >
+						<Grid item xs={5} sx={{m: 3, position: 'relative'}}>
 							<Menu/>
 						</Grid>
 				</Grid>
