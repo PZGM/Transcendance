@@ -14,9 +14,9 @@ export class CreateChannelDto {
   @MaxLength(30)
   @MinLength(2)
   readonly name: string;
-  readonly owner: User;
+  owner: User;
   @IsIn(["public", "private", "protected"])
-  readonly visibility: string
+  readonly visibility: string;
   readonly password?: string;
   readonly users: User[];
   readonly messages: Chat[];

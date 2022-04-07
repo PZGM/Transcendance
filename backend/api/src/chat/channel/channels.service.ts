@@ -3,12 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Channel } from 'src/typeorm/entities/channel';
 import { CreateChannelDto } from 'src/dto/chat.dto';
-
+import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class ChannelsService {
   constructor(
     @InjectRepository(Channel)
-    private readonly channelsRepository: Repository<Channel>,
+    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService
   ) {}
 
   findAll() {
@@ -27,7 +27,9 @@ export class ChannelsService {
     return channel;
   }
 
-  create(createChannelDto: CreateChannelDto) {
+  
+  async create(createChannelDto: CreateChannelDto) {
+    createChannelDto.owner = await this.usersService.getOne(createChannelDto.owner.id);
     const channel = this.channelsRepository.create(createChannelDto);
     return this.channelsRepository.save(channel);
   }
