@@ -43,4 +43,3 @@ import { User } from './user'
     })
     chats: Chat[];
   }
-  

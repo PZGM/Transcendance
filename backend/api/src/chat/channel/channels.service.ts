@@ -29,9 +29,20 @@ export class ChannelsService {
 
   
   async create(createChannelDto: CreateChannelDto) {
+    //find and return error to front ?
+    const chan = await this.channelsRepository.findOne({
+      where: {
+        name: createChannelDto.name
+      }
+    });
+    if (!chan) {
     createChannelDto.owner = await this.usersService.getOne(createChannelDto.owner.id);
     const channel = this.channelsRepository.create(createChannelDto);
     return this.channelsRepository.save(channel);
+    }
+    else
+      console.error("channel name already taken");
+      
   }
 
   async update(id: string, updateChannelDto: CreateChannelDto) { 
