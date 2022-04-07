@@ -158,9 +158,16 @@ export class UsersService {
         return 0;
     }
 
-    public async updateBlockedUser(userId: number, blockedUser : number) {
+    public async addBlockedUser(userId: number, blockedUser : number) {
         const user: User|null = await this.getOne(userId);
         user.blockedUsers.push(await this.getOne(blockedUser)); 
+        await this.userRepository.save(user);
+        return 0;
+    }
+
+    public async removeBlockedUser(userId: number, blockedUser : number) {
+        const user: User|null = await this.getOne(userId);
+        user.blockedUsers = user.blockedUsers.filter((user) => {return user.id != blockedUser}) 
         await this.userRepository.save(user);
         return 0;
     }
