@@ -32,7 +32,7 @@ export class CreateChannel extends Component<CreateChannelProps,CreateChannelSta
 	constructor(props: CreateChannelProps) {
 		super(props);
 		// this.state = {name: string, owner: , visibility: string, password?: string}
-		this.state = {name: "", owner: undefined, visibility: "", password: undefined}
+		this.state = {name: "", owner: undefined, visibility: "public", password: undefined}
 	}
 
     leslog(){
