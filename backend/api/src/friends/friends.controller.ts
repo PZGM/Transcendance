@@ -41,7 +41,7 @@ export class FriendsController {
     @Delete()
     @UseGuards(FullyAuthentificatedGuard)
     public async deleteFriend(@Req() request: CustomRequest, @Body() deleteFriendRequest: {id: number}) {
-        const userId: number = deleteFriendRequest.id;
+        const userId: number = request.user.id;
         await this.userService.removeFriends(userId, [deleteFriendRequest.id]);
     }
 }
