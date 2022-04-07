@@ -3,14 +3,25 @@ import { Channel } from 'src/typeorm/entities/channel';
 import { User } from 'src/typeorm/entities/user';
 import { Chat } from 'src/typeorm/entities/chat';
   
-export class CreateMessageDto {
+export class MessageDto {
   readonly createdAt: Date;
   readonly content: string;
   readonly author: User;
   readonly channel: Channel;
 }
   
-export class CreateChannelDto {
+export class ChannelDto {
+
+    constructor (channel?: Channel) {
+      if(channel) {
+        this.admin = channel.admin;
+        this.messages = channel.chats;
+        this.mute = channel.mute;
+        this.name = channel.name;
+        this.owner = channel.owner;
+        this.users = channel.users;
+      }
+    }
   @MaxLength(30)
   @MinLength(2)
   readonly name: string;
@@ -19,5 +30,7 @@ export class CreateChannelDto {
   readonly visibility: string;
   readonly password?: string;
   readonly users: User[];
+  mute: User[];
+  admin: User[];
   readonly messages: Chat[];
 }

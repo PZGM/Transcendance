@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from 'src/typeorm/entities/chat';
-import { CreateMessageDto } from 'src/dto/chat.dto';
+import { MessageDto } from 'src/dto/chat.dto';
 
 @Injectable()
 export class MessagesService {
@@ -27,12 +27,12 @@ export class MessagesService {
     return message;
   }
 
-  create(createMessageDto: CreateMessageDto) {
-    const message = this.messagesRepository.create(createMessageDto);
+  create(MessageDto: MessageDto) {
+    const message = this.messagesRepository.create(MessageDto);
     return this.messagesRepository.save(message);
   }
 
-  async update(id: string, updateMessageDto: CreateMessageDto) { 
+  async update(id: string, updateMessageDto: MessageDto) { 
     const message = await this.messagesRepository.preload({
       id: +id,
       ...updateMessageDto,

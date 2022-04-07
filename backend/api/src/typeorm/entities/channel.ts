@@ -37,6 +37,14 @@ import { User } from './user'
     @ManyToMany(() => User, user => user.joinedChannels)
     @JoinTable()
     users: User[];
+
+    @ManyToMany(() => User, user => user.adminChannels)
+    @JoinTable()
+    admin: User[];
+
+    @ManyToOne(() => User)
+    @JoinTable()
+    mute: User[];
   
     @OneToMany(() => Chat, chat => chat.channel, {
       cascade: true

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { MessagesService } from './messages.service';
-import { CreateMessageDto } from 'src/dto/chat.dto';
+import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Messages')
@@ -19,12 +19,12 @@ export class MessagesController {
   }
 
   @Post()
-  create(@Body() createMessageDto: CreateMessageDto) {
-    return this.messagesService.create(createMessageDto);
+  create(@Body() MessageDto: MessageDto) {
+    return this.messagesService.create(MessageDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: CreateMessageDto) {
+  update(@Param('id') id: string, @Body() updateMessageDto: MessageDto) {
     return this.messagesService.update(id, updateMessageDto);
   }
 
