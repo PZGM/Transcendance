@@ -12,15 +12,12 @@ export class StatusDetector extends Component<HeaderProps>{
 
 	constructor(props: HeaderProps) {
 		super(props);
-		console.log('construct activity detector');
 		this.state = {avatar: undefined, login: undefined, anchorElUser: null, anchorElNav: null};
 		setInterval(this.sendActivity.bind(this), 3000)
 	}
 
 	async fetchUser(){
 		const resp = await UserAPI.getUser();
-		console.log(">>>")
-		console.log(resp)
 		if (!resp)
 			return;
 		console.log('A')

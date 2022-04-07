@@ -5,7 +5,7 @@ export type UserDetails = {
     firstName: string;
     lastName: string,
     intraId: string;
-    img_url: string;
+    avatar: string;
     status: number;
     friends: User[];
 }

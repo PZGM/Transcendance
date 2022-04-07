@@ -37,7 +37,7 @@ export class Header extends Component<HeaderProps, HeaderState>{
 		if (!resp)
 			return;
 		this.setState({
-			avatar: resp.img_url,
+			avatar: resp.avatar,
 			login: resp.login
 		})
 	}
