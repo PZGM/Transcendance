@@ -6,32 +6,32 @@ import styles from './../../style/dac.module.css'
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
 import background from "./../../asset/images/background.jpg"
+import { UserDto } from "../../api/dto/user.dto";
 
 interface FriendsProps {
 };
 
 interface FriendsState {
-	friends: number[];
-	searchResults: number[];
+	friends: UserDto[];
+	searchResults: UserDto[];
 	searchField?: string;
 }
 
 export class Friends extends Component<FriendsProps, FriendsState> {
-	userAPI = new UserAPI();
 	index:number = 0;
 	renderRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>
+		const listItems = list.map((friend: UserDto) =>
+			<div key={friend.id}>
+				<UserDisplay user={friend} index={this.index} deleteFriend={this.deleteFriend}/>
 			</div>
 	  );
 	  return listItems;
 	}
 
 	renderSearchRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<AddUserDisplay id={id} index={this.index} addFriend={this.addFriend}/>
+		const listItems = list.map((friend: UserDto) =>
+			<div key={friend.id}>
+				<AddUserDisplay user={friend} index={this.index} addFriend={this.addFriend}/>
 			</div>
 	  );
 	  return listItems;
@@ -47,17 +47,18 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	}
 
 	deleteFriend(id:number) {
-		let newFriends: number[] = this.state.friends;
-		newFriends.splice(newFriends.indexOf(id), 1);
+		const newFriends: UserDto[] = this.state.friends.filter((user) => {
+			return user.id != id;
+		});
 
 		this.setState({
 			friends: newFriends
 		});
 	}
 
-	addFriend(id:number) {
-		let newFriends: number[] = this.state.friends;
-		newFriends.push(id)
+	addFriend(user: UserDto) {
+		let newFriends: UserDto[] = this.state.friends;
+		newFriends.push(user);
 		this.setState({
 			friends: newFriends
 		});
@@ -71,13 +72,12 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		this.setState({searchResults: ret});
 	}
 
-	async fetchUser() {
+	async fetchFriends() {
 		try {
-			const resp = await UserAPI.getUser();
+			const resp = await UserAPI.getFriends();
 			this.setState({
-				friends: resp.friends,
+				friends: resp
 			})
-			console.log(`friends : ${this.state.friends}`)
 		}
 		catch (e) {
 			console.log(e);
@@ -86,7 +86,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	}
 
 	componentDidMount()  {
-		this.fetchUser();
+		this.fetchFriends();
 	}
 
 	componentWillUnmount() {

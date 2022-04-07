@@ -8,18 +8,22 @@ interface HeaderProps {};
 export class StatusDetector extends Component<HeaderProps>{
 	idle: boolean = false;
 	id!: number;
-    activityDetector: any;
+    activityDetector: any = null;
 
 	constructor(props: HeaderProps) {
 		super(props);
+		console.log('construct activity detector');
 		this.state = {avatar: undefined, login: undefined, anchorElUser: null, anchorElNav: null};
 		setInterval(this.sendActivity.bind(this), 3000)
 	}
 
 	async fetchUser(){
 		const resp = await UserAPI.getUser();
-		if (resp.id == undefined)
+		console.log(">>>")
+		console.log(resp)
+		if (!resp)
 			return;
+		console.log('A')
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
@@ -29,7 +33,7 @@ export class StatusDetector extends Component<HeaderProps>{
 	}
 
 	sendActivity = () => {
-		if (this.idle === false)
+		if (this.idle === false && this.activityDetector)
 			UserAPI.reportActivity(this.id);
 	}
 

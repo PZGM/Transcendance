@@ -1,16 +1,18 @@
-import { Channel } from "src/typeorm/entities/channel";
+import { User } from "src/typeorm/entities/user";
 
-export class UserDTO {
+export class UserDto {
+
+    constructor(user?: User) {
+        if (user){
+            this.id = user.id;
+            this.login = user.login;
+            this.img_url = user.img_url;
+            this.status = user.status;
+        }
+    }
+
     id: number;
-    intraID: string;
     login: string;
-    firstName: string;
-    lastName: string;
     img_url: string;
     status: number;
-    friends: number[];
-    twofaSecret?: string;
-    twofa: boolean;
-    ownedChannels: Channel[];
-    joinedChannels: Channel[];
 }

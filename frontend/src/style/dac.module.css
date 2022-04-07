@@ -46,7 +46,7 @@
 	opacity: 0.5;
 	top: 0px;
 	bottom: -4px;
-	left: 0px;
+	/* left: 0px; */
 	right: -4px;
 	position: absolute;
 	z-index: 1;
@@ -63,6 +63,13 @@
 
 .input {
 	border: 2px solid var(--yellow);
+	padding: 5px;
+	border-radius: 0%;
+	margin-bottom: 8px;
+}
+
+.lockinput {
+	border: 2px solid var(--grey);
 	padding: 5px;
 	border-radius: 0%;
 	margin-bottom: 8px;

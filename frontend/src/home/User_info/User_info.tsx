@@ -15,6 +15,7 @@ import StarIcon from '@mui/icons-material/Star';
 interface UserInfoProps {
     id?: number;
     updateDisplay: any;
+    numberBack?: number;
 };
 let width_button = "100px"
 
@@ -23,9 +24,9 @@ export class UserInfo extends Component<UserInfoProps> {
     render () {
         return (
             <>
-                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
+                <Selecter updateDisplay={this.props.updateDisplay}></Selecter>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {this.props.updateDisplay(0);}}>
+                    <IconButton onClick={ () => {this.props.updateDisplay(this.props.numberBack);}}>
                         <ArrowBackIcon/>
                     </IconButton>
                 </Stack>

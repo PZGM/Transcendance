@@ -8,6 +8,7 @@ import { red } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
 import { AddUserDisplay } from "../../menu/friends/AddUserDisplay";
 import { UserAPI } from "../../api/Users.api";
+import { AddUserChannelDisplay } from "./AddUserChannelDisplay";
 
 interface   AddUserChannelProps {
     id?: number;
@@ -30,57 +31,22 @@ export class AddUserChannel extends Component<AddUserChannelProps, AddUserChanne
 		this.renderSearchRows = this.renderSearchRows.bind(this);
 	}
 
-    renderRowsUsers(list) {
-		list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				{/* <UserDisplay id={id} index={0} deleteFriend={this.deleteFriend}/> */}
-				<Box width="100%" className={styles.bdac} sx={{color:'test'}}>
-					<Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
-						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1} width="10vh">
-							<Avatar variant='circular' alt="" src=""/>
-							<Typography variant="button">
-								<div className='bit9x9'> Braimbault </div>
-							</Typography>
-						</Stack>
-						<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1} width="15vh">
-							<ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-								<Typography variant="button" color='white'>
-									<div className='bit5x5'> WATCH MATCH </div>
-								</Typography>
-							</ButtonBase>
-							<ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-								<Typography variant="button" color='white'>
-									<div className='bit5x5'> SEND MESSAGE </div>
-								</Typography>
-							</ButtonBase>
-							<ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-								<Typography variant="button" color='white'>
-									<div className='bit5x5'> REMOVE FRIEND </div>
-								</Typography>
-							</ButtonBase>
-						</Stack>
-					</Stack>
-				</Box>
-			</div>
-	  );
-	  return listItems;
-	}
 
 	renderSearchRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<AddUserDisplay id={id} index={0} addFriend={[]}/>
-			</div>
-	  );
-	  return listItems;
+		return <></>; //new implementation of AddUser
+	// 	const listItems = list.map((id: number) =>
+	// 		<div key={id}>
+	// 			<AddUserDisplay id={id} index={0} addFriend={[]}/>
+	// 		</div>
+	//   );
+	//   return listItems;
 	}
 	async onSearch(search:string) {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
 		let ret = await UserAPI.searchFriend(search);
-		this.setState({searchResults: ret});
+		// this.setState({searchResults: ret}); //new implementation of search
 	}
 
 
@@ -88,16 +54,17 @@ export class AddUserChannel extends Component<AddUserChannelProps, AddUserChanne
         return (
             <>
                 <Selecter updateDisplay={this.props.updateDisplay}></Selecter>
-                <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {this.props.updateDisplay(5);}}>
-                        <ArrowBackIcon/>
-                    </IconButton>
-                </Stack>
-                <InputBase sx={{width: "26vh"}} inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-
-                <List style={{height: "100% -100px",overflow: 'auto'}}>
-                    {this.renderSearchRows(this.state.searchResults)}
-                </List>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+					<IconButton onClick={ () => {this.props.updateDisplay(7);}}>
+						<ArrowBackIcon/>
+					</IconButton>
+				</Stack>
+				<Stack justifyContent="center" alignItems="center">
+					<InputBase sx={{width: "480px"}} inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+					<List style={{height: "100% -100px",overflow: 'auto'}}>
+						{this.renderSearchRows(this.state.searchResults)}
+					</List>
+				</Stack>
             </>
         )
     }

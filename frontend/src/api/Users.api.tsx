@@ -1,3 +1,5 @@
+import { UserDto } from "./dto/user.dto";
+
 export const URL_ME = () => {
 	return process.env.REACT_APP_URL_ME; // will return API URL in .env file.
   };
@@ -7,24 +9,55 @@ export const URL_ME = () => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
-    return response;
+	if (response.ok)
+    	return response;
 }
+
+type GameDetails = {
+	winnerId: number;
+	loserId: number;
+	winnerScore: number,
+	loserScore: number;
+	duration: number;
+  }
 
 export class UserAPI {
 
 
-		//getters
-		public static async getUser() {
-			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
-				method: "GET",
-				credentials: "include"}).then(response => {return response.json()})
-				.then(json => {return json})
-				.catch(err => {
-					console.log('error catched')
-					return null;
-				})
-			 return resp
-		}
+		// //getters
+		// public static async getUser() {
+		// 	const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+		// 		method: "GET",
+		// 		credentials: "include"})
+		// 		.then(response => {return response.json()})
+		// 		.then(json => {return json})
+		// 		.catch(err => {
+		// 			console.log('error catched')
+		// 			return null;
+		// 		})
+
+		// 	 return resp
+		// }
+
+				//getters
+				public static async getUser() {
+					const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
+						method: "GET",
+						credentials: "include"})
+						.then(response => {
+							if (response.ok) {
+								return response.json();
+							}
+							else
+							return null;
+						})
+						.then(json => {return json})
+						.catch(err => {
+							console.log('error catched')
+							return null;
+						})
+					 return ret;
+				}
 
 
 		public static async getUserById(id: number) {
@@ -42,7 +75,8 @@ export class UserAPI {
 		public static async getProfile() {
 			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
-				credentials: "include"}).then(response => {return response.json()})
+				credentials: "include"})
+				.then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
 					console.log('error catched')
@@ -98,6 +132,7 @@ export class UserAPI {
 		//status
 		public static async reportActivity(id: number) {
 			let ret = true;
+			try {
 			await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
 				method: "GET",
 				credentials: "include"})
@@ -106,6 +141,10 @@ export class UserAPI {
 					console.log(err);
 					ret = false;
 				})
+			}
+			catch {
+				console.log('loool')
+			}
 			return ret;
 		}
 
@@ -135,15 +174,18 @@ export class UserAPI {
 			}
 
 		public static async searchFriend(search: string) {
-			const resp = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()})
 				.then(json => {return json})
-    			// .then(handleErrors)
-				// .catch(err => {
-				// 	console.log(err)
-				// 	return null;
-				// })
+			 return resp
+		}
+
+		public static async getFriends() {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+				method: "GET",
+				credentials: "include"}).then(async response => {return await response.json()})
+				.then(json => {return json})
 			 return resp
 		}
 
@@ -215,6 +257,32 @@ export class UserAPI {
 				.catch(err => {
 					return null;
 				})
+			 return resp
+		}
+
+		//history
+
+		public static async createNewGame(details: GameDetails) : Promise<boolean> {
+			let ret = true;
+			const resp = await fetch((process.env.REACT_APP_HISTORY_NEW_GAME as string), {
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(details),
+				credentials: "include"})
+				.then(handleErrors)
+				.catch(err => {
+					console.log('error P1 catched')
+					ret = false;
+				})
+			 return ret;
+		}
+
+		public static async getHistory() {
+			const resp = await fetch((process.env.REACT_APP_HISTORY_GET as string), {
+				method: "GET",
+				credentials: "include"})
+				.then(async response => {return response.json()})
+				.then(json => {return json})
 			 return resp
 		}
 }

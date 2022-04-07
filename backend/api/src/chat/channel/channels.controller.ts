@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ChannelsService } from './channels.service';
 import { CreateChannelDto } from 'src/dto/chat.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Channel')
 @Controller('channels')
 export class ChannelsController {
   constructor(private readonly channelsService: ChannelsService) {}

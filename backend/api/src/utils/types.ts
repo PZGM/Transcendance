@@ -7,7 +7,15 @@ export type UserDetails = {
     intraId: string;
     img_url: string;
     status: number;
-    friends: number[];
+    friends: User[];
+}
+
+export type GameDetails = {
+  winnerId: number;
+  loserId: number;
+  winnerScore: number,
+  loserScore: number;
+  duration: number;
 }
 
 export interface CustomRequest extends Request {

@@ -4,7 +4,7 @@
   }
   
   .right {
-    flex: 0 0 350px; /* do not grow, do not shrink, start at 250px */
+    flex: 0 0 500px; /* do not grow, do not shrink, start at 250px */
     border-left: 10px solid red;
   }
   
