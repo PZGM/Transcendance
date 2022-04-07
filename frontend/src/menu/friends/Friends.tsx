@@ -1,11 +1,11 @@
-import { Box, Grid, Stack, InputBase, List} from "@mui/material";
+import { Grid, InputBase, List} from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
-import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
 import { UserDto } from "../../api/dto/user.dto";
 
 interface FriendsProps {
@@ -120,21 +120,31 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 								backgroundColor: 'black',
 								height: 'undefined',
 								width: 'undefined',
-								minWidth: "700px", minHeight: "700px",
-								maxWidth: "1500px", maxHeight: "1400px"
+								minWidth: "800px", minHeight: "800px",
+								maxWidth: "1500px", maxHeight: "1500px"
 							}}>
 
 						<Grid item xs={6}
-							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
-								<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-								<List style={{height: "100% -100px",overflow: 'auto'}}>
+							sx={{	m: 2,
+									p: 2,
+									border: '0.4vw solid rgba(142, 0, 172, 1)',
+									outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
+									backgroundColor: 'black'
+								}}>
+							<InputBase fullWidth inputProps={{	min: 0,
+																style: { textAlign: 'center' }}}
+												 className={styles.input}
+												 placeholder="Search Friend"
+												 onChange={ async (e) => {this.onSearch(e.target.value)}}
+							/>
+							<List style={{height: "100% -100px", overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>
 						</Grid>
 
-						<Grid item xs={5} sx={{m: 3}} >
-							<MenuButton/>
+						<Grid item xs={5} sx={{m: 3, position: "relative"}} >
+							<Menu/>
 						</Grid>
 
 					</Grid>

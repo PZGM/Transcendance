@@ -5,7 +5,7 @@ import { MatchRow } from "./First_Row";
 import { RowRow } from "./Second_Row";
 import { CupRow } from "./Third_Row";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import Menu from "../Menu";
 
 type AchievementProps = {
 };
@@ -52,7 +52,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 				<Box m="10%" p="10px" display="flex" width="auto" height="auto" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
-							<MenuButton/>
+							<Menu/>
 						</Box>
 						<Box width="70%">
 							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">

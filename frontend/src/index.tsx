@@ -12,8 +12,17 @@ import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { NotFound } from './menu/NotFound';
-import { Twofa } from './twofa';
+import { Twofa } from './2FA';
 
+// FONTS
+
+import './asset/fonts/Arcade.woff';
+import './asset/fonts/Backto1982.woff';
+import './asset/fonts/Bit5x3.woff';
+import './asset/fonts/Bit5x5.woff';
+import './asset/fonts/Bit9x9.woff';
+import './asset/fonts/lemon.woff';
+import './asset/fonts/ManaspaceReg.woff';
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(
