@@ -3,14 +3,14 @@ import { UserAPI } from "../api/Users.api";
 import createActivityDetector from 'activity-detector';
 
 
-interface HeaderProps {};
+interface StatusDetectorProps {};
 
-export class StatusDetector extends Component<HeaderProps>{
+export class StatusDetector extends Component<StatusDetectorProps>{
 	idle: boolean = false;
 	id!: number;
     activityDetector: any = null;
 
-	constructor(props: HeaderProps) {
+	constructor(props: StatusDetectorProps) {
 		super(props);
 		this.state = {avatar: undefined, login: undefined, anchorElUser: null, anchorElNav: null};
 		setInterval(this.sendActivity.bind(this), 3000)

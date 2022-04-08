@@ -29,6 +29,7 @@ export class GameDetails {
 }
 
 export interface CustomRequest extends Request {
+    isAuthenticated(): boolean;
     session: any;
     user: User;
   }

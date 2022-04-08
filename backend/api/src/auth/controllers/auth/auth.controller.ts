@@ -9,6 +9,11 @@ import { AuthentificatedGuard, FullyAuthentificatedGuard, IntraAuthGuard } from 
 @Controller('auth')
 export class AuthController {
 
+    @Get('check')
+    isLogeedIn(@Req() request: CustomRequest): boolean {
+        return request.isAuthenticated();
+    }
+
     @Get('login')
     @UseGuards(IntraAuthGuard)
     login() {
