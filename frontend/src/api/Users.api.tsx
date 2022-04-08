@@ -23,22 +23,6 @@ type GameDetails = {
 
 export class UserAPI {
 
-
-		// //getters
-		// public static async getUser() {
-		// 	const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
-		// 		method: "GET",
-		// 		credentials: "include"})
-		// 		.then(response => {return response.json()})
-		// 		.then(json => {return json})
-		// 		.catch(err => {
-		// 			console.log('error catched')
-		// 			return null;
-		// 		})
-
-		// 	 return resp
-		// }
-
 				//getters
 				public static async getUser() {
 					const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {

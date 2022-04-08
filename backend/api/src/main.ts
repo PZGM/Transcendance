@@ -12,6 +12,7 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import * as http from 'http';
 import * as https from 'https';
 import * as express from 'express';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   dotenv.config();
@@ -43,6 +44,10 @@ async function bootstrap() {
       store: new TypeormStore().connect(sessionRepo),      
     }),
   );
+  //validation pipe
+  app.useGlobalPipes(new ValidationPipe());
+
+  //passport
   app.use(passport.initialize());
   app.use(passport.session());
 

@@ -1,3 +1,4 @@
+import { IsPositive } from "class-validator";
 import { User } from "src/typeorm";
 
 export type UserDetails = {
@@ -10,11 +11,20 @@ export type UserDetails = {
     friends: User[];
 }
 
-export type GameDetails = {
+export class GameDetails {
+  @IsPositive()
   winnerId: number;
+
+  @IsPositive()
   loserId: number;
-  winnerScore: number,
+
+  @IsPositive()
+  winnerScore: number;
+
+  @IsPositive()
   loserScore: number;
+
+  @IsPositive()
   duration: number;
 }
 

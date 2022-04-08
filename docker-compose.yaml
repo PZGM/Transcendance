@@ -11,6 +11,7 @@ services:
                 - ${db}:5432
             volumes:
                 - ./init.sql://docker-entrypoint-initdb.d/init.sql
+
       # backend
     backend:
         image: ${USER}back
@@ -53,4 +54,4 @@ services:
         image: adminer
         restart: always
         ports:
-            - ${adminer}:8080 
+            - ${adminer}:8080

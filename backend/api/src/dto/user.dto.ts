@@ -1,3 +1,5 @@
+
+import { Length } from "class-validator";
 import { User } from "src/typeorm/entities/user";
 
 export class UserDto {
@@ -15,4 +17,13 @@ export class UserDto {
     login: string;
     avatar: string;
     status: number;
+}
+
+export class UpdateImageRequestDto{
+    image: string;
+}
+
+export class UpdateLoginRequestDto{
+    @Length(3, 10)
+    login: string
 }
