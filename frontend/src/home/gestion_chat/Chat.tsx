@@ -6,6 +6,7 @@ import SendIcon from '@mui/icons-material/Send';
 
 interface ChatProps {
 	updateDisplay: any;
+	channel: any;
 };
 
 
@@ -15,6 +16,8 @@ export class Chat extends Component<ChatProps> {
 	}
 
 	componentDidMount()  {
+		console.log("FENETRE DE CHAT OPEN");
+		// console.log(this.props.channel.name);
 	}
 
 	renderChat() {
@@ -25,7 +28,7 @@ export class Chat extends Component<ChatProps> {
 	render () {
 		return (
             <>
-				<Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
+				<Selecter updateDisplay={this.props.updateDisplay} channel={this.props.channel}></Selecter>
 				<Box height="90%">
 					<Typography>{`Yo je suis le Chat`}</Typography>
 					<ButtonBase onClick={ () => {this.props.updateDisplay(1, 0);}}> Go to profile 0</ButtonBase>
