@@ -1,0 +1,13 @@
+.griditem {
+    color: white;
+    align-items: stretch;
+    display: flex;
+    justify-content: center;
+    font-family: Bit9x9;
+    font-size: calc(10px + 1vw);
+}
+
+.nick {
+    border-bottom: 10px red;
+    border: 10px yellow
+}

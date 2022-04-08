@@ -20,7 +20,7 @@ export class AuthController {
     redirect(@Res() res: Response, @Req() request: CustomRequest, @Session() session: Record<string, any>,
     ) {
         if (!request.user.twofa || session.istwofa)
-            res.redirect(process.env.PROFILE_URL);
+            res.redirect(process.env.HOME_URL);
         else
             res.redirect(process.env.TWOFA_URL);
     }

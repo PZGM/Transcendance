@@ -74,7 +74,7 @@ then
 elif [[ "$#"  -ge "1"  &&   $1 = "-front" ]] || [[ "$#"  -ge "2"   &&   $2 = "-front" ]] || [[ "$#"  -ge "3"  &&  $3 = "-front" ]] || [[ "$#"  -ge "4"  &&  $3 = "-front" ]] || [[ "$#"  -ge "5"  &&  $5 = "-front" ]]
 then
 	docker rmi -f ${USER}front
-	docker build -t ${USER}front "./frontend"
+	docker build -t ${USER}front "./frontend" < "y"
 else
 	docker build -t ${USER}back "./backend" 
 	docker build -t ${USER}front "./frontend"

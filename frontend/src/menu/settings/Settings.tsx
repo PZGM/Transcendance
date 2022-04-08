@@ -1,13 +1,13 @@
-import { Avatar, Box, Button, Divider, Grid, TextField, Typography } from "@mui/material";
-import axios from "axios";
-import { ChangeEvent, Component } from "react";
-import { Helmet } from "react-helmet";
+import { Grid, Avatar, InputBase } from "@mui/material";
+import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
-import { AvatarSettings } from "./AvatarSettings";
-import { LoginSettings } from "./LoginSettings";
-import { TwofaSettings } from "./TwofaSettings";
-
+import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
+import { rgbaToHsva } from "tsparticles"
+import { LoginSettings } from "./LoginSettings"
+import { AvatarSettings } from "./AvatarSettings"
+import { TwofaSettings } from "./2FASettings";
+import ReactCSSTransitionGroup from 'react-transition-group';
 
 
 type SettingsProps = {
@@ -15,11 +15,9 @@ type SettingsProps = {
 };
 
 interface SettingsState {
-	fileSelected?: File;
-	loginSelected?: string;
-	scale: number;
-	avatar: string,
-	login?: string,
+	avatar: string
+	login?: string
+	display: number
 }
 
 export class Settings extends Component<SettingsProps, SettingsState> {
@@ -28,11 +26,13 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	constructor(props: SettingsProps) {
 		super(props);
 		this.updateState = this.updateState.bind(this);
-		this.state = {avatar: '', login: undefined, fileSelected: undefined, loginSelected: undefined, scale: 1}
+		this.updateDisplay = this.updateDisplay.bind(this);
+		this.state = {avatar: '', login: undefined, display: 0}
 	}
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
+		console.log(resp)
 		this.setState({
 			avatar: resp.avatar,
 			login: resp.login
@@ -43,15 +43,15 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		this.fetchUser();
 	}
 
-	handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const fileList = e.target.files;
+	// handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+	// 	const fileList = e.target.files;
 
-		if (!fileList) return;
+	// 	if (!fileList) return;
 
-		this.setState({
-			fileSelected: fileList[0]
-		})
-	};
+	// 	this.setState({
+	// 		fileSelected: fileList[0]
+	// 	})
+	// };
 
 	async updateState({login, avatar}) {
 		if (login)
@@ -64,45 +64,150 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		})
 	}
 
-	handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const log = e.target.value;
+	// handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
+	// 	const log = e.target.value;
 
+	// 	this.setState({
+	// 		loginSelected: log
+	// 	})
+	// }
+
+	// updateLogin = () => {
+	// 	if (this.state.loginSelected) {
+	// 		UserAPI.updateLogin(this.state.loginSelected);
+	// 	}
+	// }
+
+	updateDisplay(type: number) {
+		console.log(`display [${type}]`)
 		this.setState({
-			loginSelected: log
+			display: type
 		})
 	}
 
-	updateLogin = () => {
-		if (this.state.loginSelected) {
-			UserAPI.updateLogin(this.state.loginSelected);
-		}
+	// Add transitions
+	display() {
+		if (this.state.display == 0)
+			return (
+				<Fragment>
+					<LoginSettings	login={this.state.login}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+					/>
+					<AvatarSettings avatar={this.state.avatar}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									editing={false}
+					/>
+					<TwofaSettings	updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									activating={false}
+					/>
+				</Fragment>
+			)
+		else if (this.state.display == 1)
+			return (<AvatarSettings avatar={this.state.avatar}
+									updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									editing={true}
+					/>)
+		else if (this.state.display == 2)
+			return (<TwofaSettings	updateParentState={this.updateState}
+									updateDisplay={this.updateDisplay}
+									activating={true}
+					/>)
 	}
 
-	render (){
+	render ()
+	{
+		const GridItemStyle = {
+			color: 'white',
+			alignItems: 'stretch',
+			display: "flex",
+			justifyContent: 'center',
+			fontFamily: 'Bit9x9',
+			fontSize: 'calc(10px + 1vw)'
+		};
+
+		console.log(this.state.login)
+
 		return(
-            <div>
-				<Helmet>
-					<style>{'body { background-color: black; }'}</style>
-				</Helmet>
-				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
-					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-						<Box width="25%" minWidth={"100px"}>
-							<MenuButton/>
-						</Box>
-						<Box width="70%" minWidth={"350px"}>
-							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-								<Grid container direction="column" justifyContent="space-between" alignItems="center">
-									<LoginSettings login={this.state.login} updateParentState={this.updateState}/>
-									<Box height='20px'/>
-									<AvatarSettings avatar={this.state.avatar} updateParentState={this.updateState}/>
-									<Box height='20px'/>
-									<TwofaSettings/>
-								</Grid>
-							</Box>
-						</Box>
-					</Grid>
-				</Box>
+
+			// Background
+			<div style={{
+				backgroundImage: `url(${background})`,
+				backgroundSize: 'cover',
+				height: '100vh',
+				width: '100vw',
+				backgroundRepeat: 'norepeat',
+				}}
+			>
+				<div style={{
+					height: '100vh',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					}}
+				>
+				<Grid	container
+						justifyContent="space-between"
+						wrap="nowrap"
+						sx={{
+								border: '0.5vw solid rgba(0, 70, 109, 1)',
+								outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black',
+								height: 'undefined',
+								width: 'undefined',
+								minWidth: "800px", minHeight: "800px",
+								maxWidth: "1500px", maxHeight: "1500px"
+							}}
+				>
+
+						<Grid	item xs={6}
+								sx={{	m: 2,
+										p: 2,
+										border: '0.4vw solid rgba(142, 0, 172, 1)',
+										outline: '0.4vw solid rgba(142, 0, 172, 0.5)',
+										backgroundColor: 'black'
+									}}
+						>
+							{/* Settings */}
+							<Grid container
+								direction="column"
+								justifyContent="space-between"
+								sx={{height: '100%'}}
+							>
+								{this.display()}
+							</Grid>
+
+						</Grid>
+
+						<Grid item xs={5} sx={{m: 3, position: 'relative'}}>
+							<Menu/>
+						</Grid>
+				</Grid>
+
+				</div>
             </div>
         );
     };
 }
+
+/* <Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
+	<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
+		<Box width="25%" minWidth={"100px"}>
+			<Menu/>
+		</Box>
+		<Box width="70%" minWidth={"350px"}>
+			<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
+				<Grid container direction="column" justifyContent="space-between" alignItems="center">
+					<LoginSettings login={this.state.login} updateParentState={this.updateState}/>
+					<Box height='20px'/>
+					<AvatarSettings avatar={this.state.avatar} updateParentState={this.updateState}/>
+					<Box height='20px'/>
+					<TwofaSettings/>
+				</Grid>
+			</Box>
+		</Box>
+	</Grid>
+</Box> */

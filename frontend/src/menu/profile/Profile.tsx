@@ -7,7 +7,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import Menu from "../Menu";
 
 type ProfileProps = {
 };
@@ -57,7 +57,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" maxHeight="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
-							<MenuButton/>
+							<Menu/>
 						</Box>
 						<Box width="70%">
 							<Grid container direction="column" justifyContent="center" alignItems="center">
