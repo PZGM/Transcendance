@@ -10,7 +10,7 @@ import { AuthentificationProvider } from './auth';
 export class AuthService implements AuthentificationProvider {
 
     constructor(
-        @InjectRepository(User) private userRepo: Repository<User>, private statsRepo: Repository<Stats>,
+        @InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(Stats) private statsRepo: Repository<Stats>,
     ) {
 
     }
@@ -38,16 +38,12 @@ export class AuthService implements AuthentificationProvider {
             greaterDisavantage: 0,
             averageScore: 0,
             averageOponnentScore: 0,
-            shots: 0,
-            shotsFailed: 0,
-            shotsSucceed: 0,
-            accuracy: undefined,
-            launchs: 0,
             eloScore: 400,
             rank: 0
-        })
+        });
         user.stats = stats;
-        return this.userRepo.save(user);
+        await this.statsRepo.save(stats);
+        return await this.userRepo.save(user);
     }
 
     findUser(intraId: string) : Promise<User | undefined>{

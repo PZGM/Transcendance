@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 interface RelationsPicker {
     withGames?: boolean,
     withFriends?: boolean,
+    withStats?: boolean
 }
 
 @Injectable()
@@ -22,6 +23,7 @@ export class UsersService {
             if (relationsPicker) {
                 relations.push('games') && relations.push('games.players');
                 relationsPicker.withFriends && relations.push('friends');
+                relationsPicker.withStats && relations.push('stats')
             }
             const user: User = await this.userRepository.findOneOrFail({
                 relations,

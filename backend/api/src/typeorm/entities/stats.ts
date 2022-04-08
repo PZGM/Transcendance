@@ -14,7 +14,7 @@ export class Stats {
     @Column()
     gameLosses: number;
 
-    @Column()
+    @Column('decimal', { precision: 8, scale: 2 })
     victoryRate: number;
 
     @Column()
@@ -23,7 +23,7 @@ export class Stats {
     @Column()
     durationMax: number;
 
-    @Column()
+    @Column('decimal', { precision: 8, scale: 2 })
     durationAverage: number;
 
     @Column()
@@ -32,26 +32,11 @@ export class Stats {
     @Column()
     greaterDisavantage: number;
 
-    @Column()
+    @Column('decimal', { precision: 8, scale: 2 })
     averageScore: number;
 
-    @Column()
+    @Column('decimal', { precision: 8, scale: 2 })
     averageOponnentScore: number;
-
-    @Column()
-    shots: number;
-
-    @Column()
-    shotsFailed: number;
-
-    @Column()
-    shotsSucceed: number;
-
-    @Column()
-    accuracy: number;
-
-    @Column()
-    launchs : number;
 
     @Column()
     eloScore: number;

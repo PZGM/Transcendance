@@ -16,6 +16,7 @@ export class FriendsController {
     public async getFriends(@Req() request: CustomRequest) {
         const userId: number = request.user.id;
         let friends: UserDto[] = await this.userService.getFriends(userId);
+        if (friends)
             return friends;
         throw new NotFoundException();
     }
