@@ -8,6 +8,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
 
 type ProfileProps = {
 };
@@ -22,6 +23,16 @@ interface ProfileState {
 	login?: string,
 	avatar?: string,
 };
+
+function StatElement(props) {
+	return (
+		<Stack direction="row">
+			<img>{props.logo}</img>
+			<div>{props.name}</div>
+			<div>{props.data}</div>
+		</Stack>
+	)
+}
 
 export class Profile extends Component<ProfileProps, ProfileState> {
 	constructor(props: ProfileProps) {
@@ -47,28 +58,88 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 		this.fetchProfile();
 	}
 
-	render (){
-		return(
-			<div>
-				<Helmet>
-					<style>{'body { background-color: black; }'}</style>
-				</Helmet>
+	render ()
+	{
+		
+		const GridItemStyle = {
+			color: 'white',
+			alignItems: 'center',
+			display: "flex",
+			justifyContent: 'center',
+			fontFamily: 'Bit9x9',
+			fontSize: 'calc(10px + 1vw)',
+			width: '100%'
+		};
 
-				<Box m="10%" p="10px" display="flex" width="100% - 3px" maxHeight="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
-					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-						<Box width="25%">
-							<Menu/>
-						</Box>
-						<Box width="70%">
-							<Grid container direction="column" justifyContent="center" alignItems="center">
-								{/* <Avatar  variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{diaplay:"flex"}}/> */}
-								<Avatar  variant='circular' alt="Semy Sharp" src={this.state.avatar} sx={{diaplay:"flex"}}/>
-								{/* <Typography align="center">AFREIRE-</Typography> */}
-								<Typography align="center">{this.state.login}</Typography>
-								<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-									<Stack direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
+		return (
 
-										<Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+			<div style={{
+				backgroundImage: `url(${background})`,
+				backgroundSize: 'cover',
+				height: '100vh',
+				width: '100vw',
+				backgroundRepeat: 'norepeat',
+				}}
+			>
+				<div style={{
+					height: '100vh',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					}}
+				>
+				<Grid	container
+						justifyContent="space-between"
+						wrap="nowrap"
+						sx={{
+								border: '0.5vw solid rgba(0, 70, 109, 1)',
+								outline: '0.5vw solid rgba(0, 80, 117, 1)',
+								backgroundColor: 'black',
+								height: 'undefined',
+								width: 'undefined',
+								minWidth: "800px", minHeight: "800px",
+								maxWidth: "1500px", maxHeight: "1500px"
+							}}
+				>
+
+						<Grid	item xs={6}
+								sx={{	m: 2,
+										p: 2,
+										backgroundColor: 'black'
+									}}
+						>
+							{/* Settings */}
+							<Grid container
+								direction="column"
+								justifyContent="space-evenly"
+								sx={{height: '100%'}}
+							>
+								<Grid item xs={3}
+									sx={GridItemStyle}
+									justifyContent="center">
+									<Avatar	variant='circular'
+											alt="Semy Sharp"
+											src={this.state.avatar}
+											sx={{	width: '200px',
+													height: '200px'}}
+									/>
+								</Grid>
+								<Grid item	xs={1}
+											sx={GridItemStyle}>
+									AVATAR
+								</Grid>
+								<Grid item xs={6}
+								sx={{	m: 2,
+										p: 2,
+										border: '0.4vw solid rgba(142, 0, 172, 1)',
+										outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
+										backgroundColor: 'black'
+									}}>
+									<Stack sx={GridItemStyle}
+										direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
+
+										<Stack sx={GridItemStyle}
+											direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
 											<GamepadIcon />
 											<EmojiEventsIcon />
 											<FaceIcon />
@@ -76,7 +147,8 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 											<StarIcon />
 										</Stack>
 
-										<Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
+										<Stack sx={GridItemStyle}
+											direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
 											<Typography>GAMES</Typography>
 											<Typography>WIN</Typography>
 											<Typography>SHOTS</Typography>
@@ -84,7 +156,8 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 											<Typography>RANK</Typography>
 										</Stack>
 
-										<Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+										<Stack sx={GridItemStyle}
+											direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
 											{/* <Typography>{this.state.games}</Typography>
 											<Typography>{this.state.win}</Typography>
 											<Typography>{this.state.shots}</Typography>
@@ -97,13 +170,20 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 											<Typography>1st</Typography>
 										</Stack>
 
-									</Stack>
-								</Box>
+ 									</Stack>
+
+								</Grid>
 							</Grid>
-						</Box>
-					</Grid>
-				</Box>
-			</div>
+
+						</Grid>
+
+						<Grid item xs={5} sx={{m: 3, position: 'relative'}}>
+							<Menu/>
+						</Grid>
+				</Grid>
+
+				</div>
+            </div>
 		);
 	};
 }
