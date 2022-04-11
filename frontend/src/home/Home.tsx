@@ -19,6 +19,8 @@ import { ChannelInfoAdmin } from "./Channel_info_admin/Channel_info_admin";
 import { AddUserChannel } from "./Channel_info_admin/Add_user_channel";
 import { ChannelEditPage } from "./Channel_info_admin/Channel_editing_page";
 import { CreateChannel } from "./C_U_menu/CreateChannel";
+import { ChatAPI } from "../api/Chat.api";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 
 interface HomeProps {
@@ -31,12 +33,12 @@ interface HomeState {
 	display?: number;
 	displayId?: number;
 	numberBack?: number;
-
 	winnerId: number,
 	winnerScore: number,
 	loserId: number,
 	loserScore: number,
 	duration: number,
+	channel: any;
 }
 
 
@@ -59,7 +61,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			winnerScore: 0,
 			loserId: 0,
 			loserScore: 0,
-			duration: 0,}
+			duration: 0,
+      channel: undefined,}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
 		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
@@ -68,6 +71,7 @@ export class Home extends Component<HomeProps, HomeState> {
         this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
         this.handleChangeDuration = this.handleChangeDuration.bind(this);
 		this.createNewGame = this.createNewGame.bind(this);
+    this.display = this.display.bind(this);
 	}
 
 	async updateHomeState({login, avatar} : HomeState) {
@@ -89,8 +93,22 @@ export class Home extends Component<HomeProps, HomeState> {
 		})
 	}
 
+	async getChannel() {
+        let chan = await ChatAPI.getChannelById(1);
+		this.setState({channel: chan});
+		console.log("fuck 1");
+		// console.log(this.state.channel.users)
+		console.log(this.state.channel.name)
+		console.log("fuck 2");
+		// console.log(JSON.parse(chan));
+
+		// return JSON.parse(chan);
+    }
+
+
 	componentDidMount()  {
 		this.fetchUser();
+		this.getChannel();
 	}
 
 
@@ -149,22 +167,22 @@ export class Home extends Component<HomeProps, HomeState> {
 
 	display() {
 		if (this.state.display == 0)
-			return <Chat updateDisplay={this.updateDisplay}></Chat>
+			return <Chat updateDisplay={this.updateDisplay} channel={this.state.channel}></Chat>
 		if (this.state.display == 2)
-			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 3)
-			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 4)
-			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack}/>
+			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack} channel={this.state.channel}/>
 		if (this.state.display == 5)
-			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 6)
-			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
 		if (this.state.display == 7)
-			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
 		if (this.state.display == 8)
-			return <CreateChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
-		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
+			return <CreateChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
+		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId} ></Profile>
 	}
 
 	render () {

@@ -6,12 +6,14 @@ import { UserDisplay } from "../../menu/friends/UserDisplay";
 import styles from './../../style/dac.module.css'
 import { red } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
-import buttons from './../../style/buttons.module.css'
+import './../../style/buttons.css'
 import RenderRows from './../RenderRows'
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 interface   ChannelEditPageProps {
     id?: number;
     updateDisplay: any;
+	channel: any;
+
 };
 
 let height_Box_Admin = "20vh"
@@ -42,7 +44,7 @@ export class ChannelEditPage extends Component<ChannelEditPageProps> {
     render () {
         return (
             <>
-                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
+                <Selecter updateDisplay= {this.props.updateDisplay}  channel={this.props.channel}></Selecter>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
                         <IconButton onClick={ () => {this.props.updateDisplay(5);}}>
@@ -57,7 +59,7 @@ export class ChannelEditPage extends Component<ChannelEditPageProps> {
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 					<Typography variant="h1" color='white'>
-						<div className='bit5x5'> edit42 </div>
+						<div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div>
 					</Typography>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
@@ -72,7 +74,7 @@ export class ChannelEditPage extends Component<ChannelEditPageProps> {
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
 					<Typography>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
-                        <ButtonBase className={buttons.button} centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {this.props.updateDisplay(6);}}>
+                        <ButtonBase className="button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {this.props.updateDisplay(6);}}>
                             <Typography variant="button" color='white'>
                                 <div className='bit5x5'> Add user </div>
                             </Typography>

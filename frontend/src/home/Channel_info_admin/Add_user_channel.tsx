@@ -3,7 +3,7 @@ import { Component} from "react";
 import { Selecter } from "../gestion_chat/Selecter";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UserDisplay } from "../../menu/friends/UserDisplay";
-import styles from './../../style/dac.module.css'
+import './../../style/dac.css'
 import { red } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
 import { AddUserDisplay } from "../../menu/friends/AddUserDisplay";
@@ -13,6 +13,8 @@ import { AddUserChannelDisplay } from "./AddUserChannelDisplay";
 interface   AddUserChannelProps {
     id?: number;
     updateDisplay: any;
+	channel: any;
+
 };
 interface AddUserChannelState {
 	searchResults: number[];
@@ -53,14 +55,14 @@ export class AddUserChannel extends Component<AddUserChannelProps, AddUserChanne
     render () {
         return (
             <>
-                <Selecter updateDisplay={this.props.updateDisplay}></Selecter>
+                <Selecter updateDisplay={this.props.updateDisplay}  channel={this.props.channel}></Selecter>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<IconButton onClick={ () => {this.props.updateDisplay(7);}}>
 						<ArrowBackIcon/>
 					</IconButton>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center">
-					<InputBase sx={{width: "480px"}} inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+					<InputBase sx={{width: "480px"}} inputProps={{min: 0, style: { textAlign: 'center' }}} className="input" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
 					<List style={{height: "100% -100px",overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>

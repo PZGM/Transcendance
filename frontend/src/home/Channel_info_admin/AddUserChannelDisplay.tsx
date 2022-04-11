@@ -1,7 +1,7 @@
 import { Avatar, Box, ButtonBase, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import styles from './../../style/dac.module.css'
+import './../../style/dac.css'
 import './../../asset/fonts/fonts.module.css'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DoneIcon from '@mui/icons-material/Done';
@@ -70,12 +70,12 @@ export class AddUserChannelDisplay extends Component<AddUserChannelDisplayProps,
 
 	render () {
 		return (
-				<Box width="480px" mr='2px' className={styles.bdac} sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
+				<Box width="480px" mr='2px' className="bdac" sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
 					<ListItem 
 					key={this.props.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-						<ButtonBase onClick={this.addFriend} centerRipple className={styles.button} style={{width: '140px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(3)}} >
+						<ButtonBase onClick={this.addFriend} centerRipple className="button" style={{width: '140px', height: '50px', borderRadius: 0, backgroundColor:this.getColor(3)}} >
 							<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
 								{(this.state.done) ?
 									<DoneIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/> :

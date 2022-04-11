@@ -10,14 +10,6 @@ export class Frame extends Component{
 
 	render ()
 	{
-		const GridItemStyle = {
-			color: 'white',
-			alignItems: 'stretch',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)'
-		};
 		return(
 
 			// Background

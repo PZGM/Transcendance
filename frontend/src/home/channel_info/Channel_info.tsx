@@ -12,6 +12,8 @@ import RenderRows from './../RenderRows'
 interface ChannelInfoProps {
     id?: number;
     updateDisplay: any;
+	channel: any;
+
 };
 
 let height_Box_Admin = "20vh"
@@ -20,10 +22,10 @@ let width_button = "70px"
 
 export class ChannelInfo extends Component<ChannelInfoProps> {
 	renderRowsAdmins(list, updateDisplay) {
-		list = [1,1,1,1,1]
+		// list = [1,1,1,1,1]
 		const listItems = list.map((id: number) =>
 		<>
-		<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
+			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
 		</>
 		
 	  );
@@ -31,10 +33,13 @@ export class ChannelInfo extends Component<ChannelInfoProps> {
 	}
 
 	renderRowsUsers(list, updateDisplay) {
-		list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-		const listItems = list.map((id: number) =>
+		console.log("MDR");
+		console.log(this.props.channel);
+		console.log("MDR");
+		// list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+		const listItems = list.map((user: any) =>
 			<>
-			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
+			<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={3}></RenderRows>
 			</>
 	  );
 	  return listItems;
@@ -43,16 +48,16 @@ export class ChannelInfo extends Component<ChannelInfoProps> {
     render () {
         return (
             <>
-                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
+                <Selecter updateDisplay= {this.props.updateDisplay}  channel={this.props.channel}></Selecter>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
                     <IconButton onClick={ () => {this.props.updateDisplay(0);}}>
                         <ArrowBackIcon/>
                     </IconButton>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-				<Typography variant="h1" color='white'>
-								<div className='bit5x5'> 42 </div>
-								</Typography>
+					<Typography variant="h1" color='white'>
+						<div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div>
+					</Typography>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<Typography>ADMINS :</Typography>
@@ -67,7 +72,7 @@ export class ChannelInfo extends Component<ChannelInfoProps> {
 					<Typography>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
 						<List style={{height: "100% -100px", overflow: 'auto'}}>
-							{this.renderRowsUsers([],this.props.updateDisplay)}
+							{this.renderRowsUsers(((this.props.channel) ? [] : []),this.props.updateDisplay)}
 							{/* {this.renderRows(this.state.friends)} */}
 						</List>
 					</Stack>

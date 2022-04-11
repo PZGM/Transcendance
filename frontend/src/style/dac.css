@@ -1,14 +1,4 @@
-/* custom colors */
-
-:root {
-	--green: #13d590;
-	--red: #e50033;
-	--pink: #f48ee1;
-	--yellow: #dacb17;
-	--grey: #b6d2e1;
-	--blue: #0075fd;
-	--azur: #03c7d8;
-}
+@import "colors.css";
 
 /* custom scroll bar */
 
@@ -32,33 +22,6 @@
 	background-color: #AAAAAA;
 }
 
-/* User display */
-
-.bdac {
-	position: relative;
-	border: 2px solid;
-	margin-top: 5px;
-	padding-bottom: 5px;
-	padding-top: 5px;
-}
-
-.bdac:after{
-	opacity: 0.5;
-	top: 0px;
-	bottom: -4px;
-	/* left: 0px; */
-	right: -4px;
-	position: absolute;
-	z-index: 1;
-
-	width: inherit -4px;
-	height: inherit;
-	position: absolute;
-	content: '';
-	border: inherit;
-	pointer-events: none;
-}
-
 /* search bar */
 
 .input {
@@ -66,6 +29,7 @@
 	padding: 5px;
 	border-radius: 0%;
 	margin-bottom: 8px;
+	width: 99%;
 }
 
 .lockinput {

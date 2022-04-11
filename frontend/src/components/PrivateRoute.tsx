@@ -14,16 +14,17 @@ export class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState
 
     constructor(props: PrivateRouteProps) {
 		super(props);
-		this.state = {isLoaded: false, isAuthenticated: false};
+		this.state = {isLoaded: true, isAuthenticated: true};
 	}
 
-    async componentDidMount(): Promise<void> {
-        const auth = await UserAPI.checkLoggedIn();
-        this.setState({
-            isAuthenticated: auth,
-            isLoaded: true,
-        })
-    }
+    // async componentDidMount(): Promise<void> {
+    //     const auth = await UserAPI.checkLoggedIn();
+    //     console.log(`auth = ${auth}`)
+    //     this.setState({
+    //         isAuthenticated: auth,
+    //         isLoaded: true,
+    //     })
+    // }
 
     render() {
         if (!this.state.isLoaded)

@@ -1,3 +1,49 @@
+@import "colors.css";
+
+/* Common attributes to all buttons */
+
+.settings_button, .settings_edit_button, .settings_2fa_input,
+.friends_button
+{
+	position: relative;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: backto1982;
+	color: white;
+}
+
+/* Home */
+
+.home_button {
+	width: 100px;
+	height: 50px;
+}
+
+/* Friends */
+
+.friends_button {
+	width: 120px;
+	height: 50px;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+/* Settings */
+
+.settings_button {
+	width: 100px;
+	height: 70px;
+	font-size: 20px;
+}
+
+.settings_edit_button {
+	width: 200px;
+	height: 70px;
+	font-size: 20px;
+}
+
 /* Connection button */
 
 .conn_button {
@@ -5,22 +51,21 @@
 	height: 20%;
 	font-size: 3vw;
 	background-color: black;
+	color: white;
 	position: relative;
-	-webkit-text-stroke-width: 1px;
-	-webkit-text-stroke-color: white;
 	font-family: Backto1982;
 	border: 0.2vw solid white;
 	box-shadow: 10px 10px 0px -1px rgba(255,255,255,0.5);
 }
 
 .conn_button:hover {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);
 	box-shadow: 5px 5px 0px -1px rgba(255,255,255,0.5);
 	cursor: pointer;
 }
 
 .conn_button:active {
-	transform: translateX(10px);
+	transform: translateX(10px) translateY(10px);
 	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
 	cursor: pointer;
 }
@@ -39,13 +84,13 @@
 }
 
 .exit_button:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(255, 0, 0, 0.5);
 	cursor: pointer;
 }
 
 .exit_button:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(255, 0, 0, 0.5);
 	cursor: pointer;
 }
@@ -59,20 +104,7 @@
 	align-items: center;
 	justify-content: center;
 	font-family: backto1982;
-	color: white;
 	box-shadow: 5px 5px 0px -1px;
-}
-
-.button:hover {
-	transform: translateX(2px);
-	box-shadow: 2px 2px 0px -1px rgba(255,255,255,0.5);
-	cursor: pointer;
-}
-
-.button:active {
-	transform: translateX(5px);
-	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
-	cursor: pointer;
 }
 
 /* Menu buttons */
@@ -89,16 +121,18 @@
 	font-size: calc(30px + 1.5vw);
 	background-color: black;
 	text-decoration: 'none';
+	background: black;
+	transition: border 0.8s;
 }
 
 .menu:hover {
-	border: 5px solid rgb(184, 99, 237);
+	border: 3px solid var(--violet);
 	height: 'undefined';
 	width: 'undefined';
 	min-height: 100px; max-height: 150px;
 	min-width: 400px; max-width: 600px;
 	border-radius: 25px;
-	transform: translateY(0px);
-	background: linear-gradient(90deg, rgba(19, 129, 181), rgba(255,0,0,0) 100%);
+	background: linear-gradient(90deg, var(--dark_blue), rgb(0,0,0) 100%);
 	cursor: pointer;
+	transform: scale(1.1,1.1);
 }

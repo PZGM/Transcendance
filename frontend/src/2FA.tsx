@@ -8,7 +8,7 @@ import { Navigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import background from "./asset/images/background.jpg"
-import button from "./style/buttons.module.css"
+import "./style/buttons.css"
 
 
 interface TwofaProps {
@@ -112,14 +112,7 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
                         />
                         </Grid>
                         <Grid item xs={5} sx={GridItemStyle}>
-                            <div className={button.button}
-                                style={{width: '200px',
-                                        height: '70px',
-                                        backgroundColor: '#13D590',
-                                        fontFamily: 'backto1982',
-                                        fontSize: '25px',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',display: 'flex'}}
+                            <div className="settings_edit_button green"
                                 onClick={this.onValidation.bind(this)}>
                                 LOGIN
                             </div>

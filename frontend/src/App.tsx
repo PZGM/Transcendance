@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import style from './style/buttons.module.css'
+import './style/buttons.css'
 
 function App() {
 
@@ -24,7 +24,7 @@ function App() {
 				
 				<div
 					onClick={() => window.open(process.env.REACT_APP_URL_AUTH, "_self")}
-					className={style.conn_button}
+					className="conn_button"
 				>
 					<Stack
 					direction="row"

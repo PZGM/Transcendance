@@ -3,7 +3,7 @@ import { Component, useEffect } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import button from "../../style/buttons.module.css";
+import "../../style/buttons.css";
 import style from "../../style/settings.module.css"
 
 toast.configure()
@@ -45,12 +45,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
         console.log(this.state.input)
         console.log(this.props.login)
         if (this.state.input == this.props.login)
-        {
-            toast.error("This is already your login", {
-                position: toast.POSITION.BOTTOM_CENTER
-            })
             this.setState({editing: false})
-        }
         else if (this.state.input != '')
         {
             let isValid = await UserAPI.updateLogin(this.state.input);
@@ -95,42 +90,33 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 								>
 									<Grid item xs={4} className={style.griditem}> NICKNAME </Grid>
 									<Grid item xs={4} className={style.griditem}>
-                                        {!this.state.editing && this.props.login}
+                                        {!this.state.editing &&
+                                            <input
+                                                id="unstyled"
+                                                className="settings_nick_input"
+                                                defaultValue={this.props.login}
+                                                onChange={this.handleChangeLogin}
+                                                disabled
+                                            />}
                                         {this.state.editing &&
-                                            <InputBase autoFocus    className={style.nick}
-                                                                    defaultValue={this.props.login}
-                                                                    sx={{fontFamily: 'Bit9x9',
-                                                                        fontSize: 'calc(10px + 1vw)',
-                                                                        color: 'white',
-                                                                        textAlign: 'center',
-                                                                        border: '10px red'
-                                                                        }}
-                                                                    onChange={this.handleChangeLogin}
-                                                                    inputProps={{style: { textAlign: 'center',
-                                                                                        border: '10px red' }}}
+                                            <input autoFocus
+                                                id="unstyled"
+                                                className="settings_nick_input"
+                                                defaultValue={this.props.login}
+                                                onChange={this.handleChangeLogin}
                                             />
                                         }
 									</Grid>
 									<Grid item xs={4} className={style.griditem}>
                                         {!this.state.editing &&
-                                            <div className={button.button}
-                                                style={{width: '100px',
-                                                        height: '70px',
-                                                        backgroundColor: 'rgb(20, 121, 249)',
-                                                        fontFamily: 'backto1982',
-                                                        fontSize: '20px'}}
+                                            <div className="settings_button blue"
                                                 onClick={ () => {this.setState({input: this.props.login || '',
                                                                                 editing: true})}
                                                         }>
                                                 EDIT
                                             </div>}
                                         {this.state.editing &&
-                                            <div className={button.button}
-                                                style={{width: '100px',
-                                                        height: '70px',
-                                                        backgroundColor: 'green',
-                                                        fontFamily: 'backto1982',
-                                                        fontSize: '20px'}}
+                                            <div className="settings_button green"
                                                 onClick={() => {this.updateLogin()}}>
                                                 SAVE
                                             </div>}
