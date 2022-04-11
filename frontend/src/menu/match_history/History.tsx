@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import Menu from "../Menu";
 import { UserAPI } from "../../api/Users.api";
+import { GameDto } from "../../api/dto/game.dto";
 
 interface HistoryProps {
 };
@@ -14,7 +15,7 @@ interface HistoryState {
 	loserId: number,
 	loserScore: number,
 	duration: number,
-	history: string[],
+	history: GameDto[],
 }
 
 export class History extends Component<HistoryProps,HistoryState> {
@@ -39,7 +40,8 @@ export class History extends Component<HistoryProps,HistoryState> {
 	}
 
 	async getHistory() {
-		const history = await UserAPI.getHistory();
+		const history: GameDto[] = await UserAPI.getHistory();
+		console.log(history);
 		this.setState({
 			history
 		})
@@ -94,26 +96,13 @@ export class History extends Component<HistoryProps,HistoryState> {
 	render (){
 		return(
             <div>
-				<Helmet>
-					<style>{'body { background-color: white; }'}</style>
-				</Helmet>
 				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
 				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
 				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
 				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
 				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
 				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
-				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
-					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-						<Box width="25%">
-							<Menu/>
-						</Box>
-						<Box width="70%">
-							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%" height="100%">
-							</Box>
-						</Box>
-					</Grid>
-				</Box>
+				<Typography>History</Typography>
             </div>
         );
     };
