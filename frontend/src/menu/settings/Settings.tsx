@@ -34,7 +34,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 		const resp = await UserAPI.getUser();
 		console.log(resp)
 		this.setState({
-			avatar: resp.img_url,
+			avatar: resp.avatar,
 			login: resp.login
 		})
 	}

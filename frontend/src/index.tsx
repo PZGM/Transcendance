@@ -11,6 +11,7 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
+import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
 import { Twofa } from './2FA';
 
@@ -30,14 +31,16 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="home" element={<Home />} />
-          <Route path="profile" element={<Profile/>} />
-          <Route path="friends" element={<Friends/>} />
-          <Route path="settings" element={<Settings/>} />
-          <Route path="history" element={<History/>} />
-          <Route path="2fa" element={<Twofa/>} />
-          <Route path="achievement" element={<Achievement/>} />
-          <Route path="*" element={<NotFound/>} />
+          <Route element={<PrivateRoute/>}>
+            <Route path="home" element={<Home />} />
+            <Route path="profile" element={<Profile/>} />
+            <Route path="friends" element={<Friends/>} />
+            <Route path="settings" element={<Settings/>} />
+            <Route path="history" element={<History/>} />
+            <Route path="2fa" element={<Twofa/>} />
+            <Route path="achievement" element={<Achievement/>} />
+            <Route path="*" element={<NotFound/>} />
+          </Route>
 
           {/* <Route path="invoices" element={<Invoices />} /> */}
         </Routes>

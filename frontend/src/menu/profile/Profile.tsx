@@ -39,7 +39,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 			accurancy: resp.accurancy,
 			rank: resp.rank,
 			login: user.login,
-			avatar: user.img_url
+			avatar: user.avatar
 		})
 	}
 

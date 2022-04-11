@@ -7,6 +7,7 @@ import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/contro
 import { ImagesService } from './images.service';
 import { v4 as uuidv4 } from 'uuid';
 import { PrimaryColumnCannotBeNullableError } from 'typeorm';
+import { stdin } from 'process';
 
 
 export const storage = {
@@ -27,7 +28,7 @@ export const storage = {
 @Controller('images')
 export class ImagesController { 
     
-    constructor(private readonly userService: ImagesService) {}
+    constructor(private readonly imagesService: ImagesService) {}
 
     @UseGuards(FullyAuthentificatedGuard)
     @Post('upload')
@@ -45,14 +46,6 @@ export class ImagesController {
     @UseGuards(FullyAuthentificatedGuard)
     @Delete('/:path')
     removeImage(@Param('path') path: string){
-        try {
-            const fs = require('fs');
-            fs.unlinkSync('./uploads/images/' + path);
-            return 'Image deleted';
-          } catch(err) {
-            console.error(err);
-            throw new NotFoundException();
-          }
+        return this.imagesService.removeImage(path)
     }
-
 }

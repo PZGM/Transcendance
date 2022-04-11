@@ -116,7 +116,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 					
 					<div>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.img_url}/>
+								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
 								<Typography variant="button" color={this.getColor(this.props.index % 5)}>
 									<div className='bit9x9'> {this.props.user.login} </div>
 								</Typography>

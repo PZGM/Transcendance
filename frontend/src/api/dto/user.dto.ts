@@ -1,7 +1,7 @@
 export interface UserDto {
     id: number;
     login: string;
-    img_url: string;
+    avatar: string;
     status: number;
     friends: number[];
 }

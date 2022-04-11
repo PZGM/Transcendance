@@ -5,6 +5,7 @@ import { CustomRequest } from 'src/utils/types';
 import { FriendsService } from './friends.service';
 import { UsersService } from './../users/users.service';
 import { UserDto } from 'src/dto/user.dto';
+import { FriendRequestDto } from 'src/dto/friend.dto';
 
 @ApiTags('Friends')
 @Controller('friends')
@@ -16,13 +17,14 @@ export class FriendsController {
     public async getFriends(@Req() request: CustomRequest) {
         const userId: number = request.user.id;
         let friends: UserDto[] = await this.userService.getFriends(userId);
+        if (friends)
             return friends;
         throw new NotFoundException();
     }
 
     @Post()
     @UseGuards(FullyAuthentificatedGuard)
-    public async addFriend(@Req() request: CustomRequest, @Body() addFriendRequest: {id: number}) {
+    public async addFriend(@Req() request: CustomRequest, @Body() addFriendRequest: FriendRequestDto) {
         const userId: number = request.user.id;
         await this.userService.addFriends(userId, [addFriendRequest.id]);
     }
@@ -40,9 +42,8 @@ export class FriendsController {
 
     @Delete()
     @UseGuards(FullyAuthentificatedGuard)
-    public async deleteFriend(@Req() request: CustomRequest, @Body() deleteFriendRequest: {id: number}) {
-        console.log(`delete these friends : ${deleteFriendRequest.id}`)
-        const userId: number = deleteFriendRequest.id;
+    public async deleteFriend(@Req() request: CustomRequest, @Body() deleteFriendRequest: FriendRequestDto) {
+        const userId: number = request.user.id;
         await this.userService.removeFriends(userId, [deleteFriendRequest.id]);
     }
 }

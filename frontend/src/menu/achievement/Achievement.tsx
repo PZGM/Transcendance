@@ -33,7 +33,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 			row: resp.row,
 			cup: resp.cup,
 			login: user.login,
-			avatar: user.img_url
+			avatar: user.avatar
 		})
 	}
 
