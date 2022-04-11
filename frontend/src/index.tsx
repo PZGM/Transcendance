@@ -32,7 +32,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route element={<PrivateRoute/>}>
+            <Route element={<PrivateRoute/>}>
             <Route element={<Frame/>}>
               <Route path="profile" element={<Profile/>} />
               <Route path="friends" element={<Friends/>} />
