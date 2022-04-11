@@ -1,3 +1,6 @@
  admin 
  find 4  blocked user ?
  channel universel 
+ owner is an admin 
+ mute
+ owner legacy

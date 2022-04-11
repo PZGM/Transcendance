@@ -137,7 +137,7 @@ export class UsersService {
         const user: User|null = await this.getOneWithFriends(userId);
         if (!user.friends)
             user.friends = [];
-        user.friends = user.friends.filter((friend) => {
+        user.friends = user.friends.filter((friend: User) => {
             !friendsToRemoveIds.includes(friend.id)
         })
         await this.userRepository.save(user);

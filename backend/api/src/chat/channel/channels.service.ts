@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Channel } from 'src/typeorm';
+import { User } from 'src/typeorm';
 import { ChannelDto } from 'src/dto/chat.dto';
 import { UsersService } from 'src/users/users.service';
 import { CustomRequest } from 'src/utils/types';
@@ -40,8 +41,8 @@ export class ChannelsService {
   }
 
   
-  async create(channelDto: ChannelDto) {
-    const chan = await this.channelsRepository.findOne({
+  public async create(channelDto: ChannelDto) {
+    const chan : Channel | null = await this.channelsRepository.findOne({
       where: {
         name: channelDto.name
       }
@@ -49,14 +50,44 @@ export class ChannelsService {
     if (!chan && channelDto.name.length > 2) {
     channelDto.owner = await this.usersService.getOne(channelDto.owner.id);
     const channel = this.channelsRepository.create(channelDto);
+    chan.admin.push(channelDto.owner);
     return this.channelsRepository.save(channel);
     }
     else
-      console.error("channel name invalide or already taken");
+    throw new NotFoundException(`Channel name invalide or already taken`);
       
   }
 
-  async update(id: string, updateChannelDto: ChannelDto) { 
+  public async addAdmin(userID: number, adminID : number, chanID: string) {
+    const chan: Channel | null = await this.findOne(chanID);
+    if (!chan.admin.some((admin) => {return admin.id == userID})) {
+      throw new NotFoundException(`User not found in the admin data`);
+    }
+    if (!chan) {
+      throw new NotFoundException(`Channel [${chanID}] not found`);
+    }
+    if (!(chan.admin.some((admin) => {return admin.id == adminID}))) {
+    chan.admin.push(await this.usersService.getOne(adminID));
+    }
+    return this.channelsRepository.save(chan);
+}
+
+public async removeAdmin(userID: number, adminID : number, chanID: string) {
+  const chan: Channel | null = await this.findOne(chanID);
+  if (!chan.admin.some((admin) => {return admin.id == userID})) {
+    throw new NotFoundException(`User not found in the admin data`);
+  }
+  if (!chan) {
+    throw new NotFoundException(`Channel [${chanID}] not found`);
+  }
+  chan.admin = chan.admin.filter((admin: User) => {
+    return admin.id != adminID;
+  })
+  return this.channelsRepository.save(chan);
+}
+  
+
+  public async update(id: string, updateChannelDto: ChannelDto) { 
     const channel = await this.channelsRepository.preload({
       id: +id,
       ...updateChannelDto,
@@ -67,14 +98,28 @@ export class ChannelsService {
     return this.channelsRepository.save(channel);
   }
 
-  async remove(userID: number ,id: string) {
+  public async remove(userID: number ,id: string) {
     const channel = await this.findOne(id);
     if (!channel) {
       throw new NotFoundException(`Channel [${id}] not found`);
     }
-    if (channel.admin.some((admin) => {return admin.id == userID})) {
-      throw new NotFoundException(`User not found in the admin data`);
+    if (userID !== channel.owner ) {
+      throw new NotFoundException(`Just the owner can delete the Channel`);
     }
     return this.channelsRepository.remove(channel);
+  }
+
+  public async addMute(userID: number ,id: string, muteID: number) { ////old remove to modify
+    const channel: Channel | null = await this.findOne(id);
+   if (!channel) {
+      throw new NotFoundException(`Channel [${id}] not found`);
+    }
+    if (!channel.admin.some((admin) => {return admin.id == userID})) {
+      throw new NotFoundException(`User not found in the admin data`);
+    }
+    if (!channel.mute.some((mute: User) => {return  mute.id == muteID})) {
+      channel.mute.push(await this.usersService.getOne(muteID));
+    }
+    return this.channelsRepository.save(channel);
   }
 }

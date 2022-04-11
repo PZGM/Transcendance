@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ChannelsService } from './channels.service';
 import { CustomRequest } from 'src/utils/types';
@@ -34,6 +34,19 @@ export class ChannelsController {
   update(@Param('id') id: string, @Body() updateChannelDto: ChannelDto) {
     return this.channelsService.update(id, updateChannelDto);
   }
+
+
+  @Put('update/addAdmin')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async addBlockedUser(@Req() request: CustomRequest, @Body() admin: {id: number}, channelID: string) {
+        const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
+    }
+
+    @Put('/update/removeAdmin')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: string) {
+        const ret =  await this.channelsService.removeAdmin(request.user.id, admin.id, channelID);
+    }
 
   @Delete(':id')
   @UseGuards(FullyAuthentificatedGuard)
