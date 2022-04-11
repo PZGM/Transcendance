@@ -77,7 +77,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
-
 		return (
 				<div className={"user b_" + this.getColor(this.props.index % 5)}
 				>
@@ -102,7 +101,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							</Stack>
 						}
 					>
-					
 					<div>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
 								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>

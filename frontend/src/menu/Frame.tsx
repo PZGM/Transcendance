@@ -6,48 +6,7 @@ import background from "./../asset/images/background.jpg"
 import { Outlet } from "react-router-dom";
 
 
-type FrameProps = {
-	login?: string,
-};
-
-interface FrameState {
-	avatar: string
-	login?: string
-	display: number
-}
-
-export class Frame extends Component<FrameProps, FrameState> {
-	editor: any
-
-	constructor(props: FrameProps) {
-		super(props);
-		this.updateState = this.updateState.bind(this);
-		this.state = {avatar: '', login: undefined, display: 0}
-	}
-
-	async fetchUser() {
-		const resp = await UserAPI.getUser();
-		console.log(resp)
-		this.setState({
-			avatar: resp.avatar,
-			login: resp.login
-		})
-	}
-
-	componentDidMount()  {
-		this.fetchUser();
-	}
-
-	async updateState({login, avatar}) {
-		if (login)
-			this.setState({
-				login: login,
-			})
-		if (avatar)
-		this.setState({
-			avatar: avatar,
-		})
-	}
+export class Frame extends Component{
 
 	render ()
 	{
@@ -111,22 +70,3 @@ export class Frame extends Component<FrameProps, FrameState> {
         );
     };
 }
-
-/* <Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }} minWidth={"500px"} maxWidth={"5000px"}>
-	<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-		<Box width="25%" minWidth={"100px"}>
-			<Menu/>
-		</Box>
-		<Box width="70%" minWidth={"350px"}>
-			<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-				<Grid container direction="column" justifyContent="space-between" alignItems="center">
-					<LoginFrame login={this.state.login} updateParentState={this.updateState}/>
-					<Box height='20px'/>
-					<AvatarFrame avatar={this.state.avatar} updateParentState={this.updateState}/>
-					<Box height='20px'/>
-					<TwofaFrame/>
-				</Grid>
-			</Box>
-		</Box>
-	</Grid>
-</Box> */

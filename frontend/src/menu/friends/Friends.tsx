@@ -22,8 +22,8 @@ export class Friends extends Component<FriendsProps, FriendsState>
 {
 	
 	index:number = 0;
+
 	index_search:number = 0;
-	
 	renderRows(list)
 	{	
 		const listItems = list.map((friend: UserDto) =>
