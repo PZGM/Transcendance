@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import button from '../style/buttons.module.css'
+import '../style/buttons.css'
 import React from "react";
 
 function MenuElement(props) {
 	return (
-		<button	className={button.menu}>
+		<button	className="menu">
 					<Link 	style={{ textDecoration: 'none',
 									 color: 'white' }}
 							to={{pathname: `${props.url}`}}>{props.name}</Link>
@@ -20,7 +20,7 @@ export default function Menu() {
 		<React.Fragment>
 
 			<div	onClick={() => window.open(process.env.REACT_APP_HOME, "_self")}
-					className={button.exit_button}
+					className="exit_button"
 					style={{backgroundColor: 'red',
 							float: 'right',
 							height: 'undefined',

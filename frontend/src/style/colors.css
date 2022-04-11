@@ -1,0 +1,195 @@
+/* Colors */
+
+:root {
+	--green: rgb(19, 213, 144);
+	--red: rgb(229, 0, 51);
+	--pink: rgb(224, 142, 225);
+	--yellow: rgb(218, 203, 23);
+	--white: rgb(182, 210, 225);
+	--blue: rgb(0, 117, 253);
+	--cyan: rgb(3, 199, 218);
+	--violet: rgb(142, 0, 174);
+	--dark_blue: rgb(0, 77, 113);
+}
+
+/* COLORS FOR BUTTONS WITH ANIMATION */
+
+.green {
+	background-color: var(--green);
+	box-shadow: 5px 5px 0px -1px rgba(19, 213, 144, 0.5);
+}
+
+.green:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(19, 213, 144, 0.5);
+	cursor: pointer;
+}
+
+.green:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(19, 213, 144, 0.5);
+	cursor: pointer;
+}
+
+.red {
+	background-color: var(--red);
+	box-shadow: 5px 5px 0px -1px rgba(229, 0, 51, 0.5);
+}
+
+.red:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(229, 0, 51, 0.5);
+	cursor: pointer;
+}
+
+.red:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(229, 0, 51, 0.5);
+	cursor: pointer;
+}
+
+.pink {
+	background-color: var(--pink);
+	box-shadow: 5px 5px 0px -1px rgba(224, 142, 225, 0.5);
+}
+
+.pink:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(224, 142, 225, 0.5);
+	cursor: pointer;
+}
+
+.pink:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(224, 142, 225, 0.5);
+	cursor: pointer;
+}
+
+.yellow {
+	background-color: var(--yellow);
+	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
+}
+
+.yellow:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(218, 203, 23, 0.5);
+	cursor: pointer;
+}
+
+.yellow:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(218, 203, 23, 0.5);
+	cursor: pointer;
+}
+
+.white {
+	background-color: var(--white);
+	box-shadow: 5px 5px 0px -1px rgba(182, 210, 225, 0.5);
+}
+
+.white:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(182, 210, 225, 0.5);
+	cursor: pointer;
+}
+
+.white:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(182, 210, 225, 0.5);
+	cursor: pointer;
+}
+
+.blue {
+	background-color: var(--blue);
+	box-shadow: 5px 5px 0px -1px rgba(0, 117, 253, 0.5);
+}
+
+.blue:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(0, 117, 253, 0.5);
+	cursor: pointer;
+}
+
+.blue:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(0, 117, 253, 0.5);
+	cursor: pointer;
+}
+
+.cyan {
+	background-color: var(--cyan);
+	box-shadow: 5px 5px 0px -1px rgba(3, 199, 218, 0.5);
+}
+
+.cyan:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(3, 199, 218, 0.5);
+	cursor: pointer;
+}
+
+.cyan:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(3, 199, 218, 0.5);
+	cursor: pointer;
+}
+
+.violet {
+	background-color: var(--violet);
+	box-shadow: 5px 5px 0px -1px rgba(142, 0, 174, 0.5);
+}
+
+.violet:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(142, 0, 174, 0.5);
+	cursor: pointer;
+}
+
+.violet:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(142, 0, 174, 0.5);
+	cursor: pointer;
+}
+
+.dark_blue {
+	background-color: rgb(0, 77, 113);
+	box-shadow: 5px 5px 0px -1px rgba(0, 77, 113, 0.5);
+}
+
+.dark_blue:hover {
+	transform: translateX(2px);
+	box-shadow: 2px 2px 0px -1px rgba(0, 77, 113, 0.5);
+	cursor: pointer;
+}
+
+.dark_blue:active {
+	transform: translateX(5px);
+	box-shadow: 0px 0px 0px -1px rgba(0, 77, 113, 0.5);
+	cursor: pointer;
+}
+
+/* BORDER COLORS */
+
+.b_white {
+	border-color: var(--white);
+	box-shadow: 5px 5px 0px -2px rgba(182, 210, 225, 0.5);
+}
+
+.b_red {
+	border-color: var(--red);
+	box-shadow: 5px 5px 0px -1px rgba(229, 0, 51, 0.5);
+}
+
+.b_yellow {
+	border-color: var(--yellow);
+	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
+}
+
+.b_green {
+	border-color: var(--green);
+	box-shadow: 5px 5px 0px -1px rgba(19, 213, 144, 0.5);
+}
+
+.b_blue {
+	border-color: var(--blue);
+	box-shadow: 5px 5px 0px -1px rgba(0, 117, 253, 0.5);
+}
