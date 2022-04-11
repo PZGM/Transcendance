@@ -19,6 +19,7 @@ interface FriendsState {
 
 export class Friends extends Component<FriendsProps, FriendsState> {
 	index:number = 0;
+
 	renderRows(list) {
 		const listItems = list.map((friend: UserDto) =>
 			<div key={friend.id}>
@@ -97,9 +98,9 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 			<Grid item xs={6}>
 				<InputBase fullWidth inputProps={{	min: 0,
 													style: { textAlign: 'center' }}}
-										className={styles.input}
-										placeholder="Search Friend"
-										onChange={ async (e) => {this.onSearch(e.target.value)}}
+													className={styles.input}
+													placeholder="Search Friend"
+													onChange={ async (e) => {this.onSearch(e.target.value)}}
 				/>
 				<List style={{height: "100% -100px", overflow: 'auto'}}>
 					{this.state.searchField && this.renderSearchRows(this.state.searchResults)}

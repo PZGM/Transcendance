@@ -48,7 +48,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 
 	render () {
 		return (
-				<Box mr='2px' className={styles.bdac} sx={{color:'test', borderColor: this.getColor(this.props.index % 5)}}>
+				<Box mr='2px' className={styles.bdac} sx={{borderColor: this.getColor(this.props.index % 5)}}>
 					<ListItem 
 					key={this.props.user.id}
 					secondaryAction	={

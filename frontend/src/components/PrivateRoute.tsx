@@ -19,7 +19,6 @@ export class PrivateRoute extends Component<PrivateRouteProps, PrivateRouteState
 
     async componentDidMount(): Promise<void> {
         const auth = await UserAPI.checkLoggedIn();
-        console.log(`auth = ${auth}`)
         this.setState({
             isAuthenticated: auth,
             isLoaded: true,

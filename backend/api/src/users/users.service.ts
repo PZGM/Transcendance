@@ -21,7 +21,7 @@ export class UsersService {
         try {
             let relations: string[] = [];
             if (relationsPicker) {
-                relations.push('games') && relations.push('games.players');
+                relationsPicker.withGames && relations.push('games') && relations.push('games.players');
                 relationsPicker.withFriends && relations.push('friends');
                 relationsPicker.withStats && relations.push('stats')
             }

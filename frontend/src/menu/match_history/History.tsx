@@ -1,10 +1,12 @@
-import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Button, TextField, Typography } from "@mui/material";
+import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Button, TextField, Typography, InputBase } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import Menu from "../Menu";
+import { GameDisplay } from '../match_history/Game'
 import { UserAPI } from "../../api/Users.api";
 import { GameDto } from "../../api/dto/game.dto";
+import styles from './../../style/dac.module.css'
 
 interface HistoryProps {
 };
@@ -14,6 +16,15 @@ interface HistoryState {
 }
 
 export class History extends Component<HistoryProps,HistoryState> {
+
+	renderRows(list) {
+		const listItems = list.map((game: GameDto) =>
+			<div key={game.id}>
+				<GameDisplay game={game} index={0}/>
+			</div>
+	  );
+	  return listItems;
+	}
 
 	constructor(props: HistoryProps) {
 		super(props);
@@ -31,10 +42,10 @@ export class History extends Component<HistoryProps,HistoryState> {
 		})
 	}
 	render (){
-		return(
-            <div>
-				<Typography>History</Typography>
-            </div>
-        );
+		return (
+			<Grid item xs={6}>
+					{this.renderRows(this.state.history)}
+			</Grid>
+		)
     };
 }

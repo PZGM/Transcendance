@@ -2,7 +2,7 @@ import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from '../../api/dto/user.dto'
-import style from './../../style/buttons.module.css'
+import styles from './../../style/buttons.module.css'
 import './../../asset/fonts/fonts.module.css'
 
 type UserDisplayProps = {
@@ -73,17 +73,16 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
+			console.log(`index = ${this.props.index}`);
+			console.log(`chibre = ${this.props.index % 5}`);	
+			console.log(`color = ${this.getColor(this.props.index % 5)}`);
 		return (
-				<Box	mr='2px'
-						className={style.bdac}
-						sx={{	color:'test',
-								borderColor: this.getColor(this.props.index % 5)}}
-				>
+			<Box mr='2px' className={styles.bdac} sx={{borderColor: this.getColor(this.props.index % 5)}}>
 					<ListItem 
 					key={this.props.user.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
-						<div	className={style.button}
+						<div	className={styles.button}
 								style={{	width: '100px',
 											height: '50px',
 											backgroundColor: this.getColor(this.state.status)
@@ -92,7 +91,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							{description.get(this.state.status)}
 						</div>
 						
-						<div 	className={style.button}
+						<div 	className={styles.button}
 								style={{	width: '90px',
 											height: '50px',
 											backgroundColor: this.getColor(0),
@@ -101,7 +100,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							Send Message
 						</div>                    
 						
-						<div	className={style.button}
+						<div	className={styles.button}
 								onClick={this.removeFriend}
 								style={{	width: '90px',
 											height: '50px',

@@ -95,7 +95,6 @@ export class Home extends Component<HomeProps, HomeState> {
 
 
 	updateDisplay(type: number, id: any, numberBack: number) {
-		console.log(`display [${type}]`)
 		this.setState({
 			display: type,
 			displayId: id,
