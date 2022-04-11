@@ -120,76 +120,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 
 	render ()
 	{
-		const GridItemStyle = {
-			color: 'white',
-			alignItems: 'stretch',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)'
-		};
-
-		console.log(this.state.login)
-
-		return(
-
-			// Background
-			<div style={{
-				backgroundImage: `url(${background})`,
-				backgroundSize: 'cover',
-				height: '100vh',
-				width: '100vw',
-				backgroundRepeat: 'norepeat',
-				}}
-			>
-				<div style={{
-					height: '100vh',
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					}}
-				>
-				<Grid	container
-						justifyContent="space-between"
-						wrap="nowrap"
-						sx={{
-								border: '0.5vw solid rgba(0, 70, 109, 1)',
-								outline: '0.5vw solid rgba(0, 80, 117, 1)',
-								backgroundColor: 'black',
-								height: 'undefined',
-								width: 'undefined',
-								minWidth: "800px", minHeight: "800px",
-								maxWidth: "1500px", maxHeight: "1500px"
-							}}
-				>
-
-						<Grid	item xs={6}
-								sx={{	m: 2,
-										p: 2,
-										border: '0.4vw solid rgba(142, 0, 172, 1)',
-										outline: '0.4vw solid rgba(142, 0, 172, 0.5)',
-										backgroundColor: 'black'
-									}}
-						>
-							{/* Settings */}
-							<Grid container
-								direction="column"
-								justifyContent="space-between"
-								sx={{height: '100%'}}
-							>
-								{this.display()}
-							</Grid>
-
-						</Grid>
-
-						<Grid item xs={5} sx={{m: 3, position: 'relative'}}>
-							<Menu/>
-						</Grid>
-				</Grid>
-
-				</div>
-            </div>
-        );
+		return this.display();
     };
 }
 

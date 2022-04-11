@@ -31,6 +31,12 @@ interface HomeState {
 	display?: number;
 	displayId?: number;
 	numberBack?: number;
+
+	winnerId: number,
+	winnerScore: number,
+	loserId: number,
+	loserScore: number,
+	duration: number,
 }
 
 
@@ -44,9 +50,24 @@ export const get_env = () : string => {
 export class Home extends Component<HomeProps, HomeState> {
 	constructor(props: HomeProps) {
 		super(props);
-		this.state = {avatar: undefined, login: undefined, display: 0, displayId: undefined}
+		this.state = {
+			avatar: undefined,
+			login: undefined,
+			display: 0,
+			displayId: undefined,
+			winnerId: 0,
+			winnerScore: 0,
+			loserId: 0,
+			loserScore: 0,
+			duration: 0,}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
+		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
+		this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
+        this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
+        this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
+        this.handleChangeDuration = this.handleChangeDuration.bind(this);
+		this.createNewGame = this.createNewGame.bind(this);
 	}
 
 	async updateHomeState({login, avatar} : HomeState) {
@@ -82,6 +103,51 @@ export class Home extends Component<HomeProps, HomeState> {
 		})
 	}
 
+	async createNewGame() {
+        UserAPI.createNewGame({
+			winnerId: this.state.winnerId,
+			loserId: this.state.loserId,
+			winnerScore: this.state.winnerScore,
+			loserScore: this.state.loserScore,
+			duration: this.state.duration
+		})
+    }
+
+    handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerId: +log
+        })
+    }
+
+	handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerScore: +log
+        })
+    }
+
+	handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserId: +log
+        })
+    }
+
+	handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserScore: +log
+        })
+    }
+
+	handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            duration: +log
+        })
+    }
+
 	display() {
 		if (this.state.display == 0)
 			return <Chat updateDisplay={this.updateDisplay}></Chat>
@@ -106,6 +172,12 @@ export class Home extends Component<HomeProps, HomeState> {
 		return (
 			<div className="box">
 				<Box sx={{backgroundColor: 'pink'}} className='left'>
+				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
+				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
+				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
+				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
+				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
+				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				</Box>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
