@@ -3,14 +3,14 @@ import { UserAPI } from "../api/Users.api";
 import createActivityDetector from 'activity-detector';
 
 
-interface HeaderProps {};
+interface StatusDetectorProps {};
 
-export class StatusDetector extends Component<HeaderProps>{
+export class StatusDetector extends Component<StatusDetectorProps>{
 	idle: boolean = false;
 	id!: number;
-    activityDetector: any;
+    activityDetector: any = null;
 
-	constructor(props: HeaderProps) {
+	constructor(props: StatusDetectorProps) {
 		super(props);
 		this.state = {avatar: undefined, login: undefined, anchorElUser: null, anchorElNav: null};
 		setInterval(this.sendActivity.bind(this), 3000)
@@ -18,8 +18,9 @@ export class StatusDetector extends Component<HeaderProps>{
 
 	async fetchUser(){
 		const resp = await UserAPI.getUser();
-		if (resp.id == undefined)
+		if (!resp)
 			return;
+		console.log('A')
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
@@ -29,7 +30,7 @@ export class StatusDetector extends Component<HeaderProps>{
 	}
 
 	sendActivity = () => {
-		if (this.idle === false)
+		if (this.idle === false && this.activityDetector)
 			UserAPI.reportActivity(this.id);
 	}
 

@@ -1,3 +1,4 @@
+import { IsPositive } from "class-validator";
 import { User } from "src/typeorm";
 
 export type UserDetails = {
@@ -5,20 +6,30 @@ export type UserDetails = {
     firstName: string;
     lastName: string,
     intraId: string;
-    img_url: string;
+    avatar: string;
     status: number;
-    friends: number[];
+    friends: User[];
 }
 
-export type GameDetails = {
+export class GameDetails {
+  @IsPositive()
   winnerId: number;
+
+  @IsPositive()
   loserId: number;
-  winnerScore: number,
+
+  @IsPositive()
+  winnerScore: number;
+
+  @IsPositive()
   loserScore: number;
+
+  @IsPositive()
   duration: number;
 }
 
 export interface CustomRequest extends Request {
+    isAuthenticated(): boolean;
     session: any;
     user: User;
   }

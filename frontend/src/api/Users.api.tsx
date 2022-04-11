@@ -1,3 +1,5 @@
+import { UserDto } from "./dto/user.dto";
+
 export const URL_ME = () => {
 	return process.env.REACT_APP_URL_ME; // will return API URL in .env file.
   };
@@ -7,7 +9,8 @@ export const URL_ME = () => {
     if (!response.ok) {
         throw Error(response.statusText);
     }
-    return response;
+	if (response.ok)
+    	return response;
 }
 
 type GameDetails = {
@@ -17,23 +20,48 @@ type GameDetails = {
 	loserScore: number;
 	duration: number;
   }
-
+ 
 export class UserAPI {
+
+		//check login
+		public static async checkLoggedIn(): Promise<boolean> {
+			const ret =await fetch(`${process.env.REACT_APP_CHECK_LOGGED_IN}`, {
+				method: "GET",
+				credentials: "include"})
+				.then(response => {
+					if (response.ok) {
+						return response.json();
+					}
+					else
+					return false;
+				})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return false;
+				})
+				return ret;
+		}
 
 
 		//getters
 		public static async getUser() {
-			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+			const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
 				credentials: "include"})
-				.then(response => {return response.json()})
+				.then(response => {
+					if (response.ok) {
+						return response.json();
+					}
+					else
+					return null;
+				})
 				.then(json => {return json})
 				.catch(err => {
 					console.log('error catched')
 					return null;
 				})
-				console.log(resp)
-			 return resp
+				return ret;
 		}
 
 
@@ -109,6 +137,7 @@ export class UserAPI {
 		//status
 		public static async reportActivity(id: number) {
 			let ret = true;
+			try {
 			await fetch((process.env.REACT_APP_REPORT_ACTIVITY as string) + id, {
 				method: "GET",
 				credentials: "include"})
@@ -117,6 +146,10 @@ export class UserAPI {
 					console.log(err);
 					ret = false;
 				})
+			}
+			catch {
+				console.log('loool')
+			}
 			return ret;
 		}
 
@@ -146,15 +179,18 @@ export class UserAPI {
 			}
 
 		public static async searchFriend(search: string) {
-			const resp = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_SEARCH_FRIENDS_API}${search}`, {
 				method: "GET",
 				credentials: "include"}).then(response => {return response.json()})
 				.then(json => {return json})
-    			// .then(handleErrors)
-				// .catch(err => {
-				// 	console.log(err)
-				// 	return null;
-				// })
+			 return resp
+		}
+
+		public static async getFriends() {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+				method: "GET",
+				credentials: "include"}).then(async response => {return await response.json()})
+				.then(json => {return json})
 			 return resp
 		}
 

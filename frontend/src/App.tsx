@@ -1,18 +1,15 @@
-import './App.css';
 import { Stack } from "@mui/material";
 import style from './style/buttons.module.css'
 
 function App() {
 
-	
-	
 	return (
 
 		<div
 			style={{
-				backgroundColor: 'black',
-				height: '100vh'
-				}}
+						backgroundColor: 'black',
+						height: '100vh'
+					}}
 	  	>
 
 			<Stack
@@ -27,21 +24,14 @@ function App() {
 				
 				<div
 					onClick={() => window.open(process.env.REACT_APP_URL_AUTH, "_self")}
-					style={{width: '40%',
-							height: '20%',
-							fontFamily: 'backto1982',
-							fontSize: '3vw',
-							border: '0.2vw solid white'
-						}}
 					className={style.conn_button}
-					
 				>
 					<Stack
 					direction="row"
 					justifyContent="center"
 					alignItems="center"
 					sx={{width: '100%', height: '100%'}}>
-					Connect
+					CONNECT
 					<img
 						src={require('./asset/images/42_Logo.png')}
 						style={{width: '15%', margin: '2%'}}
@@ -65,5 +55,7 @@ function App() {
 		</div>
 	);
 }
+
+
 
 export default App;

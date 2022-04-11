@@ -1,16 +1,32 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { use } from 'passport';
+import path from 'path/posix';
+import { UserDto } from 'src/dto/user.dto';
+import { ImagesService } from 'src/images/images.service';
 import { Game, User } from 'src/typeorm';
 import { Repository } from 'typeorm';
 
+interface RelationsPicker {
+    withGames?: boolean,
+    withFriends?: boolean,
+    withStats?: boolean
+}
+
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>){}
+    constructor(@InjectRepository(User) private userRepository: Repository<User>, private imageService: ImagesService){}
 
-    public async getOne(userId: number): Promise<User|null> {
+    public async getOne(userId: number, relationsPicker?:RelationsPicker): Promise<User|null> {
         try {
+            let relations: string[] = [];
+            if (relationsPicker) {
+                relations.push('games') && relations.push('games.players');
+                relationsPicker.withFriends && relations.push('friends');
+                relationsPicker.withStats && relations.push('stats')
+            }
             const user: User = await this.userRepository.findOneOrFail({
-                // relations: ['games', 'games.players'],
+                relations,
                 where: {
                     id: userId
                 }
@@ -18,23 +34,7 @@ export class UsersService {
             return user;
         }
         catch (e) {
-            return null;
-        }
-    }
-
-    public async getOneWithGames(userId: number): Promise<User|null> {
-        try {
-            const user: User = await this.userRepository.findOneOrFail({
-                relations: ['games', 'games.players'],
-                where: {
-                    id: userId
-                }
-            });
-            return user;
-        }
-        catch (e) {
-            console.log('--error');
-            console.log(e);
+            console.log(e)
             return null;
         }
     }
@@ -65,43 +65,78 @@ export class UsersService {
     public async getUserImage(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);
         if (user)
-            return user.img_url ;
+            return user.avatar ;
         return null; 
     }
 
-    public async getFriends(userId: number): Promise<number[]|null> {
-        const user: User|null = await this.getOne(userId);
-        if (user)
-            return user.friends ;
-        return null; 
+    public async getFriends(userId: number): Promise<UserDto[]|null> {
+        const user: User|null = await this.getOne(userId, {withFriends: true});
+        if (!user)
+            return null; 
+        if (!user.friends)
+            return [];
+        const ret: UserDto[] = user.friends.map((friend) => {
+            return new UserDto(friend);
+        })
+        return ret;
     }
 
-    public async findFriends(search: string, userId: number): Promise<number[]|null> {
-        const user: User|null = await this.getOne(userId);
+    public async findFriends(search: string, userId: number): Promise<UserDto[]|null> {
+        const user: User|null = await this.getOne(userId, {withFriends:true });
         let results = await this.userRepository
         .createQueryBuilder().select()
         .where('login ILIKE :searchQuery', {searchQuery: `%${search}%`})
         .getMany()
 
-        let friends = user.friends;
-        let resultsId = results.map(item => item.id);
-        resultsId = resultsId.filter( ( el ) => !friends.includes( el ) );
+        const friends: User[] = user.friends || [];
+        results = results.filter( ( el ) => !friends.some((friend) => {return friend.id == el.id}));
 
+        if (!results)
+            return null;
 
-        if (resultsId)
-            return resultsId ;
-        return null; 
+        const ret: UserDto[] = results.map((friend) => {
+            return new UserDto(friend);
+        })
+        return ret; 
     }
 
-    public async updateFriends(userId: number, friends: number[]) {
-        const user: User|null = await this.getOne(userId);
-        user.friends = friends;
+    public async addFriends(userId: number, friendsToAddIds: number[]) {
+        const user: User|null = await this.getOne(userId, {withFriends: true});
+        if (!user.friends)
+            user.friends = [];
+        friendsToAddIds.forEach(async (friendToAddId) => {
+            if (user.friends.some((user) => user.id == friendToAddId))
+                return ConflictException;
+            const friendToAdd: User = await this.getOne(friendToAddId);
+            if (!friendToAdd)
+                return NotFoundException;
+            user.friends.push(friendToAdd);
+        })
+        await this.userRepository.save(user);
+    }
+
+    public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
+        console.log(`remove friends : ${friendsToRemoveIds}`)
+        const user: User|null = await this.getOne(userId, {withFriends: true});
+        console.log('user');
+        console.log(user);
+        if (!user.friends)
+            user.friends = [];
+        console.log(`friends :`);
+        console.log(user.friends)
+        user.friends = user.friends.filter((friend) => {
+            return !friendsToRemoveIds.includes(friend.id)
+        })
+        console.log(`new friends : `);
+        console.log(user.friends);
         await this.userRepository.save(user);
     }
 
     public async updateImage(userId: number, image: string) {
         const user: User|null = await this.getOne(userId);
-        user.img_url = image;
+        if (user.avatar.startsWith(process.env.IMAGES_PATH_URL))
+            this.imageService.removeImage(user.avatar);
+        user.avatar = image;
         await this.userRepository.save(user);
     }
 

@@ -1,3 +1,5 @@
+
+import { Length } from "class-validator";
 import { User } from "src/typeorm/entities/user";
 
 export class UserDto {
@@ -6,15 +8,22 @@ export class UserDto {
         if (user){
             this.id = user.id;
             this.login = user.login;
-            this.img_url = user.img_url;
+            this.avatar = user.avatar;
             this.status = user.status;
-            this.friends = user.friends;
         }
     }
 
     id: number;
     login: string;
-    img_url: string;
+    avatar: string;
     status: number;
-    friends: number[];
+}
+
+export class UpdateImageRequestDto{
+    image: string;
+}
+
+export class UpdateLoginRequestDto{
+    @Length(3, 10)
+    login: string
 }

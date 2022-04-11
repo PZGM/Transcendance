@@ -1,19 +1,18 @@
 import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
+import { UserDto } from '../../api/dto/user.dto'
 import style from './../../style/buttons.module.css'
 import './../../asset/fonts/fonts.module.css'
 
 type UserDisplayProps = {
-	id: number;
+	user: UserDto;
 	index: number;
 	deleteFriend;
 }
 
 interface UserDisplayState {
 	status: number;
-    avatar?: string;
-    login?: string;
 }
 
 interface StatusData {
@@ -23,33 +22,20 @@ interface StatusData {
 export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 
 	eventSource: any;
-	_isMounted: boolean;
 
 	constructor(props: UserDisplayProps) {
 		super(props);
-		this._isMounted = false;
 		this.removeFriend = this.removeFriend.bind(this);
-		this.state = {status: 0, avatar: undefined, login: undefined}
+		this.state = {status: this.props.user.status}
 	}
 
 	removeFriend() {
-		UserAPI.removeFriend(this.props.id);
-		this.props.deleteFriend(this.props.id);
-	}
-
-	async fetchUser() {
-			const resp = await UserAPI.getUserById(this.props.id);
-			this._isMounted && this.setState({
-				status: (resp) ? resp.status : 0,
-                avatar: (resp) ? resp.img_url : undefined,
-                login: (resp) ? resp.login : undefined,
-			})
+		UserAPI.removeFriend(this.props.user.id);
+		this.props.deleteFriend(this.props.user.id);
 	}
 
 	componentDidMount()  {
-		this._isMounted = true;
-		this.fetchUser();
-		this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.id, {withCredentials: true});
+		this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.props.user.id, {withCredentials: true});
 		this.eventSource.onmessage = (e: { data: string; }) => {
 			let jsonObj: any = JSON.parse(e.data);
 			let status: StatusData = jsonObj as StatusData;
@@ -68,7 +54,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 
 	componentWillUnmount() {
 		this.eventSource.close();
-		this._isMounted = false;
 	}
 
 	getColor(status: number) {
@@ -95,7 +80,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 								borderColor: this.getColor(this.props.index % 5)}}
 				>
 					<ListItem 
-					key={this.props.id}
+					key={this.props.user.id}
 					secondaryAction	={
 					<Stack spacing={1} direction="row">
 						<div	className={style.button}
@@ -131,9 +116,9 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 					
 					<div>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-								<Avatar variant='circular' alt={this.state.login} src={this.state.avatar}/>
+								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
 								<Typography variant="button" color={this.getColor(this.props.index % 5)}>
-									<div className='bit9x9'> {this.state.login} </div>
+									<div className='bit9x9'> {this.props.user.login} </div>
 								</Typography>
 						</Stack>
 					</div>

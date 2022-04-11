@@ -67,7 +67,7 @@ export class Home extends Component<HomeProps, HomeState> {
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
 		this.setState({
-			avatar: resp.img_url,
+			avatar: resp.avatar,
 			login: resp.login
 		})
 	}

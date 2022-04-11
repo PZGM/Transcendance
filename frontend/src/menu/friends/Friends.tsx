@@ -1,37 +1,37 @@
-import { Box, Grid, Stack, InputBase, List} from "@mui/material";
+import { Grid, InputBase, List} from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import styles from './../../style/dac.module.css'
-import background from "./../../asset/images/background.jpg"
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
+import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
+import { UserDto } from "../../api/dto/user.dto";
 
 interface FriendsProps {
 };
 
 interface FriendsState {
-	friends: number[];
-	searchResults: number[];
+	friends: UserDto[];
+	searchResults: UserDto[];
 	searchField?: string;
 }
 
 export class Friends extends Component<FriendsProps, FriendsState> {
-	userAPI = new UserAPI();
 	index:number = 0;
 	renderRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<UserDisplay id={id} index={this.index} deleteFriend={this.deleteFriend}/>
+		const listItems = list.map((friend: UserDto) =>
+			<div key={friend.id}>
+				<UserDisplay user={friend} index={this.index} deleteFriend={this.deleteFriend}/>
 			</div>
 	  );
 	  return listItems;
 	}
 
 	renderSearchRows(list) {
-		const listItems = list.map((id: number) =>
-			<div key={id}>
-				<AddUserDisplay id={id} index={this.index} addFriend={this.addFriend}/>
+		const listItems = list.map((friend: UserDto) =>
+			<div key={friend.id}>
+				<AddUserDisplay user={friend} index={this.index} addFriend={this.addFriend}/>
 			</div>
 	  );
 	  return listItems;
@@ -47,17 +47,18 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	}
 
 	deleteFriend(id:number) {
-		let newFriends: number[] = this.state.friends;
-		newFriends.splice(newFriends.indexOf(id), 1);
+		const newFriends: UserDto[] = this.state.friends.filter((user) => {
+			return user.id != id;
+		});
 
 		this.setState({
 			friends: newFriends
 		});
 	}
 
-	addFriend(id:number) {
-		let newFriends: number[] = this.state.friends;
-		newFriends.push(id)
+	addFriend(user: UserDto) {
+		let newFriends: UserDto[] = this.state.friends;
+		newFriends.push(user);
 		this.setState({
 			friends: newFriends
 		});
@@ -71,13 +72,12 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		this.setState({searchResults: ret});
 	}
 
-	async fetchUser() {
+	async fetchFriends() {
 		try {
-			const resp = await UserAPI.getUser();
+			const resp = await UserAPI.getFriends();
 			this.setState({
-				friends: resp.friends,
+				friends: resp
 			})
-			console.log(`friends : ${this.state.friends}`)
 		}
 		catch (e) {
 			console.log(e);
@@ -86,7 +86,7 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 	}
 
 	componentDidMount()  {
-		this.fetchUser();
+		this.fetchFriends();
 	}
 
 	componentWillUnmount() {
@@ -120,21 +120,31 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 								backgroundColor: 'black',
 								height: 'undefined',
 								width: 'undefined',
-								minWidth: "700px", minHeight: "700px",
-								maxWidth: "1500px", maxHeight: "1400px"
+								minWidth: "800px", minHeight: "800px",
+								maxWidth: "1500px", maxHeight: "1500px"
 							}}>
 
 						<Grid item xs={6}
-							sx={{m: 2, p: 2, border: '0.4vw solid rgba(142, 0, 172, 1)', outline: '0.4vw solid rgba(142, 0, 172, 0.5)', backgroundColor: 'black'}}>
-								<InputBase fullWidth inputProps={{min: 0, style: { textAlign: 'center' }}} className={styles.input} placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-								<List style={{height: "100% -100px",overflow: 'auto'}}>
+							sx={{	m: 2,
+									p: 2,
+									border: '0.4vw solid rgba(142, 0, 172, 1)',
+									outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
+									backgroundColor: 'black'
+								}}>
+							<InputBase fullWidth inputProps={{	min: 0,
+																style: { textAlign: 'center' }}}
+												 className={styles.input}
+												 placeholder="Search Friend"
+												 onChange={ async (e) => {this.onSearch(e.target.value)}}
+							/>
+							<List style={{height: "100% -100px", overflow: 'auto'}}>
 								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 								{!this.state.searchField && this.renderRows(this.state.friends)}
 							</List>
 						</Grid>
 
-						<Grid item xs={5} sx={{m: 3}} >
-							<MenuButton/>
+						<Grid item xs={5} sx={{m: 3, position: "relative"}} >
+							<Menu/>
 						</Grid>
 
 					</Grid>

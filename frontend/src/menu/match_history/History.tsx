@@ -2,8 +2,8 @@ import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Button, Tex
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
+import Menu from "../Menu";
 import { UserAPI } from "../../api/Users.api";
-import MenuButton from "../MenuButton";
 
 interface HistoryProps {
 };
@@ -106,7 +106,7 @@ export class History extends Component<HistoryProps,HistoryState> {
 				<Box m="10%" p="10px" display="flex" width="100% - 3px" height="100% - 3px" bgcolor="white" sx={{border: '3px solid grey' }}>
 					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
 						<Box width="25%">
-							<MenuButton/>
+							<Menu/>
 						</Box>
 						<Box width="70%">
 							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%" height="100%">
