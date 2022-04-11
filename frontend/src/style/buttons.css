@@ -77,13 +77,13 @@
 }
 
 .exit_button:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(255, 0, 0, 0.5);
 	cursor: pointer;
 }
 
 .exit_button:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(255, 0, 0, 0.5);
 	cursor: pointer;
 }

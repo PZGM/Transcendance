@@ -20,13 +20,13 @@
 }
 
 .green:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(19, 213, 144, 0.5);
 	cursor: pointer;
 }
 
 .green:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(19, 213, 144, 0.5);
 	cursor: pointer;
 }
@@ -37,13 +37,13 @@
 }
 
 .red:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(229, 0, 51, 0.5);
 	cursor: pointer;
 }
 
 .red:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(229, 0, 51, 0.5);
 	cursor: pointer;
 }
@@ -54,13 +54,13 @@
 }
 
 .pink:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(224, 142, 225, 0.5);
 	cursor: pointer;
 }
 
 .pink:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(224, 142, 225, 0.5);
 	cursor: pointer;
 }
@@ -71,13 +71,13 @@
 }
 
 .yellow:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(218, 203, 23, 0.5);
 	cursor: pointer;
 }
 
 .yellow:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(218, 203, 23, 0.5);
 	cursor: pointer;
 }
@@ -88,13 +88,13 @@
 }
 
 .white:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(182, 210, 225, 0.5);
 	cursor: pointer;
 }
 
 .white:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(182, 210, 225, 0.5);
 	cursor: pointer;
 }
@@ -105,13 +105,13 @@
 }
 
 .blue:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(0, 117, 253, 0.5);
 	cursor: pointer;
 }
 
 .blue:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(0, 117, 253, 0.5);
 	cursor: pointer;
 }
@@ -122,13 +122,13 @@
 }
 
 .cyan:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(3, 199, 218, 0.5);
 	cursor: pointer;
 }
 
 .cyan:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(3, 199, 218, 0.5);
 	cursor: pointer;
 }
@@ -139,13 +139,13 @@
 }
 
 .violet:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(142, 0, 174, 0.5);
 	cursor: pointer;
 }
 
 .violet:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(142, 0, 174, 0.5);
 	cursor: pointer;
 }
@@ -156,13 +156,13 @@
 }
 
 .dark_blue:hover {
-	transform: translateX(2px);
+	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(0, 77, 113, 0.5);
 	cursor: pointer;
 }
 
 .dark_blue:active {
-	transform: translateX(5px);
+	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(0, 77, 113, 0.5);
 	cursor: pointer;
 }
