@@ -12,6 +12,7 @@ import RenderRows from './../RenderRows'
 interface   ChannelInfoAdminProps {
     id?: number;
     updateDisplay: any;
+	channel: any;
 };
 
 let height_Box_Admin = "20vh"
@@ -22,7 +23,7 @@ export class ChannelInfoAdmin extends Component<ChannelInfoAdminProps> {
 		list = [1,1]
 		const listItems = list.map((id: number) =>
 			<>
-			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={5}></RenderRows>
+				<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={5}></RenderRows>
 			</>
 	  );
 	  return listItems;
@@ -32,7 +33,7 @@ export class ChannelInfoAdmin extends Component<ChannelInfoAdminProps> {
 		list = [1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((id: number) =>
 		<>
-		<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={5}></RenderRows>
+			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" updateDisplay={updateDisplay} numberBack={5}></RenderRows>
 		</>
 
 	  );
@@ -42,7 +43,7 @@ export class ChannelInfoAdmin extends Component<ChannelInfoAdminProps> {
     render () {
         return (
             <>
-                <Selecter updateDisplay= {this.props.updateDisplay}></Selecter>
+                <Selecter updateDisplay= {this.props.updateDisplay} channel={this.props.channel}></Selecter>
                 <Stack direction="row" justifyContent="space-between">
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
                         <IconButton onClick={ () => {this.props.updateDisplay(0);}}>
@@ -57,7 +58,7 @@ export class ChannelInfoAdmin extends Component<ChannelInfoAdminProps> {
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 					<Typography variant="h1" color='white'>
-						<div className='bit5x5'> 42 </div>
+						<div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div>
 					</Typography>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>

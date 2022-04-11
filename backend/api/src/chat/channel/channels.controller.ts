@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { ChannelsService } from './channels.service';
 import { CreateChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 
 @ApiTags('Channel')
 @Controller('channels')
