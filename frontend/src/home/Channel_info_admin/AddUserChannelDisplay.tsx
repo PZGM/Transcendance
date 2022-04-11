@@ -34,7 +34,7 @@ export class AddUserChannelDisplay extends Component<AddUserChannelDisplayProps,
 	async fetchUser() {
 		const resp = await UserAPI.getUserById(this.props.id);
 		this._isMounted && this.setState({
-			avatar: (resp) ? resp.img_url : undefined,
+			avatar: (resp) ? resp.avatar : undefined,
 			login: (resp) ? resp.login : undefined,
 		})
 

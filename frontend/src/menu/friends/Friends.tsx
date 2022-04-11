@@ -96,66 +96,24 @@ export class Friends extends Component<FriendsProps, FriendsState>
 		this.fetchFriends();
 	}
 
-	componentWillUnmount() {
-	}
-
-	render (){
-		return(
-			// Background
-			<div style={{
-						backgroundImage: `url(${background})`,
-						backgroundSize: 'cover',
-						height: '100vh',
-						width: '100vw',
-						backgroundRepeat: 'norepeat'
-						}}
-			>
-				{/* Grid */}
-				<div style={{
-					height: '100vh',
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center"
-				}}>
-					<Grid container
-						justifyContent="space-between"
-						alignItems="stretch"
-						wrap="nowrap"
-						sx={{
-								border: '0.5vw solid rgba(0, 70, 109, 1)',
-								outline: '0.5vw solid rgba(0, 80, 117, 1)',
-								backgroundColor: 'black',
-								height: 'undefined',
-								width: 'undefined',
-								minWidth: "800px", minHeight: "800px",
-								maxWidth: "1500px", maxHeight: "1500px"
-							}}>
-
-						<Grid item xs={6}
-							sx={{	m: 2,
-									p: 2,
-									border: '0.4vw solid rgba(142, 0, 172, 1)',
-									outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
-									backgroundColor: 'black'
-								}}>
-							<input
-									className="friends_search_bar"
-									placeholder="Search Friend"
-									onChange={ async (e) => {this.onSearch(e.target.value)}}
-							/>
-							<List style={{height: "100% -100px", overflow: 'auto'}}>
-								{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
-								{!this.state.searchField && this.renderRows(this.state.friends)}
-							</List>
-						</Grid>
-
-						<Grid item xs={5} sx={{m: 3, position: "relative"}} >
-							<Menu/>
-						</Grid>
-
-					</Grid>
-				</div>
-			</div>
+	render ()
+	{
+		return (
+			
+			<Grid item xs={6}>
+				
+				<input
+					className="friends_search_bar"
+					placeholder="Search Friend"
+					onChange={ async (e) => {this.onSearch(e.target.value)}}
+				/>
+				
+				<List style={{height: "100% -100px", overflow: 'auto'}}>
+					{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
+					{!this.state.searchField && this.renderRows(this.state.friends)}
+				</List>
+			
+			</Grid>
 		);
 	};
 }

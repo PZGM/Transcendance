@@ -33,7 +33,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 			row: resp.row,
 			cup: resp.cup,
 			login: user.login,
-			avatar: user.img_url
+			avatar: user.avatar
 		})
 	}
 
@@ -44,31 +44,13 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 
 	render (){
 		return(
-            <div>
-				<Helmet>
-					<style>{'body { background-color: black; }'}</style>
-				</Helmet>
 
-				<Box m="10%" p="10px" display="flex" width="auto" height="auto" bgcolor="white" sx={{border: '3px solid grey' }}>
-					<Grid container direction="row-reverse"   justifyContent="space-between"  alignItems="stretch">
-						<Box width="25%">
-							<Menu/>
-						</Box>
-						<Box width="70%">
-							<Box sx={{ p: 1, border: '3px solid grey' }}  width="100%">
-								<Grid container direction="column" justifyContent="space-between" alignItems="center">
-									<MatchRow value={54}/>
-									<RowRow value={7}/>
-									<CupRow value={6}/>
-									{/* <MatchRow value={this.state.games}/>
-									<RowRow value={this.state.row}/>
-									<CupRow value={this.state.cup}/> */}
-								</Grid>
-							</Box>
-						</Box>
-					</Grid>
-				</Box>
-            </div>
+			<Grid container direction="column" justifyContent="space-between" alignItems="center">
+				<MatchRow value={54}/>
+				<RowRow value={7}/>
+				<CupRow value={6}/>
+			</Grid>
+
         );
     };
 }

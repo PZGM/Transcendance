@@ -19,6 +19,8 @@ import { ChannelInfoAdmin } from "./Channel_info_admin/Channel_info_admin";
 import { AddUserChannel } from "./Channel_info_admin/Add_user_channel";
 import { ChannelEditPage } from "./Channel_info_admin/Channel_editing_page";
 import { CreateChannel } from "./C_U_menu/CreateChannel";
+import { ChatAPI } from "../api/Chat.api";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 
 interface HomeProps {
@@ -31,6 +33,12 @@ interface HomeState {
 	display?: number;
 	displayId?: number;
 	numberBack?: number;
+	winnerId: number,
+	winnerScore: number,
+	loserId: number,
+	loserScore: number,
+	duration: number,
+	channel: any;
 }
 
 
@@ -44,9 +52,26 @@ export const get_env = () : string => {
 export class Home extends Component<HomeProps, HomeState> {
 	constructor(props: HomeProps) {
 		super(props);
-		this.state = {avatar: undefined, login: undefined, display: 0, displayId: undefined}
+		this.state = {
+			avatar: undefined,
+			login: undefined,
+			display: 0,
+			displayId: undefined,
+			winnerId: 0,
+			winnerScore: 0,
+			loserId: 0,
+			loserScore: 0,
+			duration: 0,
+      channel: undefined,}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
+		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
+		this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
+        this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
+        this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
+        this.handleChangeDuration = this.handleChangeDuration.bind(this);
+		this.createNewGame = this.createNewGame.bind(this);
+    this.display = this.display.bind(this);
 	}
 
 	async updateHomeState({login, avatar} : HomeState) {
@@ -63,18 +88,31 @@ export class Home extends Component<HomeProps, HomeState> {
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
 		this.setState({
-			avatar: resp.img_url,
+			avatar: resp.avatar,
 			login: resp.login
 		})
 	}
 
+	async getChannel() {
+        let chan = await ChatAPI.getChannelById(1);
+		this.setState({channel: chan});
+		console.log("fuck 1");
+		// console.log(this.state.channel.users)
+		console.log(this.state.channel.name)
+		console.log("fuck 2");
+		// console.log(JSON.parse(chan));
+
+		// return JSON.parse(chan);
+    }
+
+
 	componentDidMount()  {
 		this.fetchUser();
+		this.getChannel();
 	}
 
 
 	updateDisplay(type: number, id: any, numberBack: number) {
-		console.log(`display [${type}]`)
 		this.setState({
 			display: type,
 			displayId: id,
@@ -82,30 +120,81 @@ export class Home extends Component<HomeProps, HomeState> {
 		})
 	}
 
+	async createNewGame() {
+        UserAPI.createNewGame({
+			winnerId: this.state.winnerId,
+			loserId: this.state.loserId,
+			winnerScore: this.state.winnerScore,
+			loserScore: this.state.loserScore,
+			duration: this.state.duration
+		})
+    }
+
+    handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerId: +log
+        })
+    }
+
+	handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerScore: +log
+        })
+    }
+
+	handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserId: +log
+        })
+    }
+
+	handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserScore: +log
+        })
+    }
+
+	handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            duration: +log
+        })
+    }
+
 	display() {
 		if (this.state.display == 0)
-			return <Chat updateDisplay={this.updateDisplay}></Chat>
+			return <Chat updateDisplay={this.updateDisplay} channel={this.state.channel}></Chat>
 		if (this.state.display == 2)
-			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 3)
-			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 4)
-			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack}/>
+			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack} channel={this.state.channel}/>
 		if (this.state.display == 5)
-			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
 		if (this.state.display == 6)
-			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
 		if (this.state.display == 7)
-			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}/>
+			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
 		if (this.state.display == 8)
-			return <CreateChannel updateDisplay={this.updateDisplay} id={this.state.displayId}/>
-		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId}></Profile>
+			return <CreateChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
+		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId} ></Profile>
 	}
 
 	render () {
 		return (
 			<div className="box">
 				<Box sx={{backgroundColor: 'pink'}} className='left'>
+				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
+				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
+				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
+				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
+				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
+				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				</Box>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>

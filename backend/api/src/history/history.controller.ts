@@ -15,7 +15,6 @@ export class HistoryController {
     @Get()
     @UseGuards(FullyAuthentificatedGuard)
     public async getHistory(@Req() request: CustomRequest) {
-        console.group('history asked')
         const hist = await this.historyService.getHistory(request.user.id);
         let ret: GameDto[] = [];
         hist.forEach((game) => {
