@@ -1,25 +1,35 @@
 /* Connection button */
 
 .conn_button {
+	width: 40%;
+	height: 20%;
+	font-size: 3vw;
+	background-color: black;
 	position: relative;
-	color: white;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
+	font-family: Backto1982;
+	border: 0.2vw solid white;
 	box-shadow: 10px 10px 0px -1px rgba(255,255,255,0.5);
 }
 
 .conn_button:hover {
 	transform: translateX(5px);
 	box-shadow: 5px 5px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 .conn_button:active {
 	transform: translateX(10px);
 	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 /* Exit button */
 
 .exit_button {
-	position: relative;
+	position: absolute;
+	right: 0%;
 	text-align: center;
 	display: flex;
 	align-items: center;
@@ -31,11 +41,13 @@
 .exit_button:hover {
 	transform: translateX(2px);
 	box-shadow: 2px 2px 0px -1px rgba(255, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 .exit_button:active {
 	transform: translateX(5px);
 	box-shadow: 0px 0px 0px -1px rgba(255, 0, 0, 0.5);
+	cursor: pointer;
 }
 
 /* Buttons */
@@ -46,41 +58,47 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'bit5x5';
+	font-family: backto1982;
 	color: white;
-	box-shadow: 5px 5px 0px -1px rgba(255,255,255,0.5);
+	box-shadow: 5px 5px 0px -1px;
 }
 
 .button:hover {
 	transform: translateX(2px);
 	box-shadow: 2px 2px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 .button:active {
 	transform: translateX(5px);
 	box-shadow: 0px 0px 0px -1px rgba(255,255,255,0.5);
+	cursor: pointer;
 }
 
 /* Menu buttons */
 
 .menu {
-	vertical-align: text-bottom;
 	color: white;
 	border-radius: 25px;
 	border: black;
-	width: 35vmin;
-	height: 6vh;
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
 	font-family: Arcade;
 	font-size: calc(30px + 1.5vw);
 	background-color: black;
+	text-decoration: 'none';
 }
 
 .menu:hover {
-	vertical-align: sub;
 	border: 5px solid rgb(184, 99, 237);
-	width: 35vmin;
-	height: 6vh;
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
 	border-radius: 25px;
 	transform: translateY(0px);
 	background: linear-gradient(90deg, rgba(19, 129, 181), rgba(255,0,0,0) 100%);
+	cursor: pointer;
 }

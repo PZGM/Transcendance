@@ -20,44 +20,49 @@ type GameDetails = {
 	loserScore: number;
 	duration: number;
   }
-
+ 
 export class UserAPI {
 
+		//check login
+		public static async checkLoggedIn(): Promise<boolean> {
+			const ret =await fetch(`${process.env.REACT_APP_CHECK_LOGGED_IN}`, {
+				method: "GET",
+				credentials: "include"})
+				.then(response => {
+					if (response.ok) {
+						return response.json();
+					}
+					else
+					return false;
+				})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return false;
+				})
+				return ret;
+		}
 
-		// //getters
-		// public static async getUser() {
-		// 	const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
-		// 		method: "GET",
-		// 		credentials: "include"})
-		// 		.then(response => {return response.json()})
-		// 		.then(json => {return json})
-		// 		.catch(err => {
-		// 			console.log('error catched')
-		// 			return null;
-		// 		})
 
-		// 	 return resp
-		// }
-
-				//getters
-				public static async getUser() {
-					const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
-						method: "GET",
-						credentials: "include"})
-						.then(response => {
-							if (response.ok) {
-								return response.json();
-							}
-							else
-							return null;
-						})
-						.then(json => {return json})
-						.catch(err => {
-							console.log('error catched')
-							return null;
-						})
-					 return ret;
-				}
+		//getters
+		public static async getUser() {
+			const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
+				method: "GET",
+				credentials: "include"})
+				.then(response => {
+					if (response.ok) {
+						return response.json();
+					}
+					else
+					return null;
+				})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched')
+					return null;
+				})
+				return ret;
+		}
 
 
 		public static async getUserById(id: number) {

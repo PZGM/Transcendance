@@ -2,14 +2,25 @@ import { MaxLength, MinLength, IsIn} from 'class-validator';
 import { Channel } from 'src/typeorm/entities/channel';
 import { User } from 'src/typeorm/entities/user';
 import { Chat } from 'src/typeorm/entities/chat';
-  
+
+export class RelationsPicker {
+  withOwner?: boolean;
+  withChat?: boolean;
+}
+
+export class MuteUser {
+  user: User;
+  endOfMute: Date;
+  muter: User;
+}
+
 export class MessageDto {
   readonly createdAt: Date;
   readonly content: string;
   readonly author: User;
   readonly channel: Channel;
 }
-  
+
 export class ChannelDto {
 
     constructor (channel?: Channel) {
@@ -22,6 +33,7 @@ export class ChannelDto {
         this.users = channel.users;
       }
     }
+
   @MaxLength(30)
   @MinLength(2)
   readonly name: string;
@@ -30,7 +42,8 @@ export class ChannelDto {
   readonly visibility: string;
   readonly password?: string;
   readonly users: User[];
-  mute: User[];
+  mute: MuteUser[];
   admin: User[];
   readonly messages: Chat[];
+  readonly id: number;
 }

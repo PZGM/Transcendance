@@ -9,6 +9,11 @@ import { AuthentificatedGuard, FullyAuthentificatedGuard, IntraAuthGuard } from 
 @Controller('auth')
 export class AuthController {
 
+    @Get('check')
+    isLogeedIn(@Req() request: CustomRequest): boolean {
+        return request.isAuthenticated();
+    }
+
     @Get('login')
     @UseGuards(IntraAuthGuard)
     login() {
@@ -20,7 +25,7 @@ export class AuthController {
     redirect(@Res() res: Response, @Req() request: CustomRequest, @Session() session: Record<string, any>,
     ) {
         if (!request.user.twofa || session.istwofa)
-            res.redirect(process.env.PROFILE_URL);
+            res.redirect(process.env.HOME_URL);
         else
             res.redirect(process.env.TWOFA_URL);
     }

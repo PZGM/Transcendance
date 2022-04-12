@@ -4,6 +4,7 @@ import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 
 interface SelecterProps {
 	updateDisplay: any;
+	channel: any;
 };
 
 let Hbar = "50px";
@@ -28,7 +29,7 @@ export class Selecter extends Component<SelecterProps> {
 						<ButtonBase sx={{backgroundColor: "red", height: Wi, width: Hi}} onClick={ () => {this.props.updateDisplay(3, 1);}}>i</ButtonBase>
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
 							<ButtonBase sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan, paddingLeft: 1}} onClick={ () => {this.props.updateDisplay(2, 1);}}>
-								42
+								{(this.props.channel) ? this.props.channel.name : '...'}
 							<ArrowDropDownTwoToneIcon/>
 							</ButtonBase>
 						</Stack>

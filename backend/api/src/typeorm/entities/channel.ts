@@ -3,6 +3,7 @@ import { EncryptionTransformer } from "typeorm-encrypted";
 import { IsOptional } from "class-validator";
 import { Chat } from "./chat";
 import { User } from './user'
+import { Mute } from "./mutedUser";
   
   @Entity({ name: 'channel' })
   export class Channel {
@@ -40,11 +41,12 @@ import { User } from './user'
 
     @ManyToMany(() => User, user => user.adminChannels)
     @JoinTable()
-    admin: User[];
+    admin: User[]; 
 
-    @ManyToOne(() => User)
-    @JoinTable()
-    mute: User[];
+    @OneToMany(() => Mute, mute => mute.muter, {
+      cascade: true
+    })
+    mute: Mute[];
   
     @OneToMany(() => Chat, chat => chat.channel, {
       cascade: true

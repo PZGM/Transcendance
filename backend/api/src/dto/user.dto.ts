@@ -1,3 +1,4 @@
+import { Length } from "class-validator";
 import { User } from "src/typeorm/entities/user";
 import { Channel } from "src/typeorm";
 
@@ -7,7 +8,7 @@ export class UserDto {
         if (user){
             this.id = user.id;
             this.login = user.login;
-            this.img_url = user.img_url;
+            this.avatar = user.avatar;
             this.status = user.status;
             this.blockedUsers = user.blockedUsers;
             this.adminChannels = user.adminChannels;
@@ -15,8 +16,17 @@ export class UserDto {
     }
     id: number;
     login: string;
-    img_url: string;
+    avatar: string;
     status: number;
     blockedUsers?: User[];
     adminChannels?: Channel[]; 
+}
+
+export class UpdateImageRequestDto{
+    image: string;
+}
+
+export class UpdateLoginRequestDto{
+    @Length(3, 10)
+    login: string
 }
