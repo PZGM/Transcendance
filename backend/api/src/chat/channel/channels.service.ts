@@ -130,13 +130,13 @@ export class ChannelsService {
 
   public async removeUser(userID: number, rmID : number, chanID: number) {
     const chan: Channel | null = await this.getOne(chanID);
-    if (!chan.admin.some((admin: User) => {return admin.id == userID}) && userID != rmID) {
+    if (!chan.admin.some((admin: User) => {return admin.id == userID}) && userID != rmID) { //add check if admin or if owner
       throw new NotFoundException(`Just an admin or the User itself can remove him`);
     }
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
     }
-    chan.users = chan.users.filter((user: User) => {
+    chan.users = chan.users.filter((user: User) => { //new owner  if owner leaving the channel
       return user.id != rmID;
     })
     return this.channelsRepository.save(chan);
