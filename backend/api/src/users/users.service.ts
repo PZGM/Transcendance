@@ -118,12 +118,9 @@ export class UsersService {
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
         console.log(`remove friends : ${friendsToRemoveIds}`)
         const user: User|null = await this.getOne(userId, {withFriends: true});
-        console.log('user');
         console.log(user);
         if (!user.friends)
             user.friends = [];
-        console.log(`friends :`);
-        console.log(user.friends)
         user.friends = user.friends.filter((friend) => {
             return !friendsToRemoveIds.includes(friend.id)
         })
@@ -145,6 +142,20 @@ export class UsersService {
             return 1;
         const user: User|null = await this.getOne(userId);
         user.login = login;
+        await this.userRepository.save(user);
+        return 0;
+    }
+
+    public async addBlockedUser(userId: number, blockedUser : number) {
+        const user: User|null = await this.getOne(userId);
+        user.blockedUsers.push(await this.getOne(blockedUser)); 
+        await this.userRepository.save(user);
+        return 0;
+    }
+
+    public async removeBlockedUser(userId: number, blockedUser : number) {
+        const user: User|null = await this.getOne(userId);
+        user.blockedUsers = user.blockedUsers.filter((user) => {return user.id != blockedUser}) 
         await this.userRepository.save(user);
         return 0;
     }

@@ -63,4 +63,16 @@ export class UsersController {
         if (ret)
           throw new ConflictException();
     }
+
+    @Put('update/addBlockedUser')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async addBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
+        const ret =  await this.userService.addBlockedUser(request.user.id, updateUserRequest.id);
+    }
+
+    @Put('/update/removeBlockedUser')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async removeBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
+        const ret =  await this.userService.removeBlockedUser(request.user.id, updateUserRequest.id);
+    }
 }

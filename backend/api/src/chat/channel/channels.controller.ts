@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { ChannelsService } from './channels.service';
-import { CreateChannelDto } from 'src/dto/chat.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Patch, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { ChannelsService } from './channels.service';
+import { CustomRequest } from 'src/utils/types';
+import { RelationsPicker } from 'src/dto/chat.dto';
+import { ChannelDto } from 'src/dto/chat.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Channel')
 @Controller('channels')
@@ -10,27 +12,52 @@ export class ChannelsController {
   constructor(private readonly channelsService: ChannelsService) {}
 
   @Get()
-  findAll() {
-    return this.channelsService.findAll();
+  @UseGuards(FullyAuthentificatedGuard)
+  public async getChannels() {
+    let channels: ChannelDto[] = await this.getChannels();
+    return channels;
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.channelsService.findOne(id);
+  @UseGuards(FullyAuthentificatedGuard)
+  findOne(@Param('id') id: number, option?: RelationsPicker) {
+    return this.channelsService.getOne(id, option);
   }
 
   @Post()
-  create(@Body() createChannelDto: CreateChannelDto) {
-    return this.channelsService.create(createChannelDto);
+  @UseGuards(FullyAuthentificatedGuard)
+  create(@Body() ChannelDto: ChannelDto) {
+    return this.channelsService.create(ChannelDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChannelDto: CreateChannelDto) {
+  @UseGuards(FullyAuthentificatedGuard)
+  update(@Param('id') id: number, @Body() updateChannelDto: ChannelDto) {
     return this.channelsService.update(id, updateChannelDto);
   }
 
+
+  @Put('update/addMute')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async addMute(@Req() request: CustomRequest, @Body() mute: {id: number}, channelID: number, date: Date) {
+        const ret =  await this.channelsService.addMute(request.user.id, channelID, mute.id, date);
+    }
+
+    @Put('update/addAdmin')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async addBlockedUser(@Req() request: CustomRequest, @Body() admin: {id: number}, channelID: number) {
+        const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
+    }
+
+    @Put('/update/removeAdmin')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: number) {
+        const ret =  await this.channelsService.removeAdmin(request.user.id, admin.id, channelID);
+    }
+
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.channelsService.remove(id);
+  @UseGuards(FullyAuthentificatedGuard)
+  remove(@Req() request: CustomRequest, @Param('id') id: number) {
+    return this.channelsService.remove(request.user.id, id);
   }
 }

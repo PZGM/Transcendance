@@ -47,6 +47,13 @@ export class User {
     @ManyToMany(() => Channel, joinedChannels => joinedChannels.users)
     joinedChannels: Channel[];
 
+    @ManyToMany(() => Channel, adminChannels => adminChannels.users)
+    adminChannels: Channel[];
+
+    @ManyToMany(() => User)
+    @JoinTable()
+    blockedUsers: User[];
+
     @ManyToMany(() => Game, (game) => game.players)
     @JoinTable()
     games: Game[];
