@@ -1,0 +1,12 @@
+@import "colors.css";
+
+/* User */
+
+.user {
+	position: relative;
+	border: 2px solid;
+	margin-top: 5px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	width: 99%
+}

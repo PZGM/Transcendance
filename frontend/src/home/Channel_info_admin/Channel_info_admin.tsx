@@ -6,7 +6,6 @@ import { UserDisplay } from "../../menu/friends/UserDisplay";
 import styles from './../../style/dac.module.css'
 import { red } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
-import buttons from './../../style/buttons.module.css'
 import RenderRows from './../RenderRows'
 
 interface   ChannelInfoAdminProps {

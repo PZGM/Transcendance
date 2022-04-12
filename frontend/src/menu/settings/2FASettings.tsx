@@ -4,7 +4,9 @@ import { Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import button from "../../style/buttons.module.css";
+import "../../style/buttons.css";
+import "../../style/input.css";
+import { InputUnstyled } from "@mui/base";
 
 enum TwofaState {
     disabled,
@@ -117,12 +119,6 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
          
     }
 
-    getOnColor(): string {
-        if (this.state.twofaState == TwofaState.enabled)
-            return ("#13D590");     
-        return ("#B6D2E1")
-    }
-
     on() {
         if (this.state.twofaState == TwofaState.disabled)
             this.props.updateDisplay(2);
@@ -137,12 +133,6 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
         else
             toast.error("2FA is not active", {
             position: toast.POSITION.BOTTOM_CENTER })
-    }
-
-    getOffColor(): string {
-        if (this.state.twofaState == TwofaState.disabled)
-            return ("#E50033");     
-        return ("#B6D2E1")
     }
 
     render() {
@@ -170,24 +160,16 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                 >
                     <Grid item xs={4} sx={GridItemStyle}> 2FA </Grid>
                     <Grid item xs={4} sx={GridItemStyle}>
-                        <div    className={button.button}
-                                style={{width: '100px',
-                                        height: '70px',
-                                        backgroundColor: this.getOnColor(),
-                                        fontFamily: 'backto1982',
-                                        fontSize: '30px'}}
-                                        onClick={this.on.bind(this)}
+                        <div    className={this.state.twofaState == TwofaState.enabled ?
+                                        "settings_button green" : "settings_button white"}
+                                onClick={this.on.bind(this)}
                         >
                             ON
                         </div>
                     </Grid>
                     <Grid item xs={4} sx={GridItemStyle}>
-                        <div className={button.button}
-                            style={{width: '100px',
-                                    height: '70px',
-                                    backgroundColor: this.getOffColor(),
-                                    fontFamily: 'backto1982',
-                                    fontSize: '30px'}}
+                        <div className={this.state.twofaState == TwofaState.disabled ?
+                                        "settings_button red" : "settings_button white"}
                             onClick={this.off.bind(this)}
                         >
                             OFF
@@ -215,30 +197,15 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                         }
                     </Grid>
                     <Grid item xs={2} sx={GridItemStyle}>
-                    <InputBase autoFocus
+                    <input
+                        id="unstyled"
+                        className="settings_2fa_input"
                         placeholder="enter code"
-                        sx={{fontFamily: 'Bit5x5',
-                            fontSize: 'calc(10px + 1vw)',
-                            color: 'white',
-                            textAlign: 'center',
-                            border: '5px solid #0075FD',
-                            boxShadow: '5px 5px 0px -1px rgba(0,117,253,0.5)'
-                            }}
-                        // onChange={this.handleChangeLogin}
-                        inputProps={{style: { textAlign: 'center',
-                                            border: '10px red' }}}
                         onChange={ async (e) => {this.onChange(e.target.value)}}
                     />
                     </Grid>
                     <Grid item xs={2} sx={GridItemStyle}>
-                        <div className={button.button}
-                            style={{width: '200px',
-                                    height: '70px',
-                                    backgroundColor: '#13D590',
-                                    fontFamily: 'backto1982',
-                                    fontSize: '25px',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',display: 'flex'}}
+                        <div className="settings_edit_button green"
                             onClick={this.onValidation.bind(this)}>
                             VALIDATE
                         </div>
@@ -249,28 +216,13 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
 						justifyContent="space-evenly"
 						alignItems="center"
 						style={{width: "100%"}}>
-							<div className={button.button}
-								style={{width: '200px',
-										height: '70px',
-										backgroundColor: '#0075FD',
-										fontFamily: 'backto1982',
-										fontSize: '18px',
-										alignItems: 'center',
-										justifyContent: 'center',
-                                        display: 'flex',
-                                        lineHeight: '1.5',
-                                        boxShadow: '5px 5px 0px -1px rgba(0,117,253,0.5)'}}
-								onClick={this.generate.bind(this)}
-                                >
+							<div className="settings_edit_button blue"
+								style={{lineHeight: '1.5'}}
+                                onClick={this.generate.bind(this)}
+                            >
 								REGENERATE QR CODE
 							</div>
-							<div className={button.button}
-								style={{width: '200px',
-										height: '70px',
-										backgroundColor: '#E50033',
-										fontFamily: 'backto1982',
-										fontSize: '25px',
-										alignItems: 'center',}}
+							<div className="settings_edit_button red"
 								onClick={() => {this.props.updateDisplay(0)}}>
 								CANCEL
 							</div>

@@ -2,11 +2,12 @@ import { Grid, InputBase, List} from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
-import styles from './../../style/dac.module.css'
+import './../../style/input.css'
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
 import background from "./../../asset/images/background.jpg"
 import { UserDto } from "../../api/dto/user.dto";
+import { InputUnstyled } from "@mui/base";
 
 interface FriendsProps {
 };
@@ -17,21 +18,27 @@ interface FriendsState {
 	searchField?: string;
 }
 
-export class Friends extends Component<FriendsProps, FriendsState> {
+export class Friends extends Component<FriendsProps, FriendsState>
+{
+	
 	index:number = 0;
-	renderRows(list) {
+
+	index_search:number = 0;
+	renderRows(list)
+	{	
 		const listItems = list.map((friend: UserDto) =>
 			<div key={friend.id}>
-				<UserDisplay user={friend} index={this.index} deleteFriend={this.deleteFriend}/>
+				<UserDisplay user={friend} index={this.index++} deleteFriend={this.deleteFriend}/>
 			</div>
-	  );
-	  return listItems;
+		);
+		
+		return listItems;
 	}
 
 	renderSearchRows(list) {
 		const listItems = list.map((friend: UserDto) =>
 			<div key={friend.id}>
-				<AddUserDisplay user={friend} index={this.index} addFriend={this.addFriend}/>
+				<AddUserDisplay user={friend} index={this.index_search++} addFriend={this.addFriend}/>
 			</div>
 	  );
 	  return listItems;
@@ -89,22 +96,23 @@ export class Friends extends Component<FriendsProps, FriendsState> {
 		this.fetchFriends();
 	}
 
-	componentWillUnmount() {
-	}
-
-	render (){
-		return(
+	render ()
+	{
+		return (
+			
 			<Grid item xs={6}>
-				<InputBase fullWidth inputProps={{	min: 0,
-													style: { textAlign: 'center' }}}
-										className={styles.input}
-										placeholder="Search Friend"
-										onChange={ async (e) => {this.onSearch(e.target.value)}}
+				
+				<input
+					className="friends_search_bar"
+					placeholder="Search Friend"
+					onChange={ async (e) => {this.onSearch(e.target.value)}}
 				/>
+				
 				<List style={{height: "100% -100px", overflow: 'auto'}}>
 					{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 					{!this.state.searchField && this.renderRows(this.state.friends)}
 				</List>
+			
 			</Grid>
 		);
 	};

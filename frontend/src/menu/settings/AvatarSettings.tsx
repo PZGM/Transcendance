@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AvatarEditor from "react-avatar-editor";
 import axios from "axios";
-import button from "../../style/buttons.module.css"
+import "../../style/buttons.css";
 import { time } from "console";
 
 type AvatarSettingsProps = {
@@ -148,12 +148,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							/>
 					</Grid>
 					<Grid item xs={4} sx={GridItemStyle}>
-						<div className={button.button}
-							style={{width: '100px',
-									height: '70px',
-									backgroundColor: 'rgb(20, 121, 249)',
-									fontFamily: 'backto1982',
-									fontSize: '20px'}}
+						<div className="settings_button blue"
 							onClick={ () => {this.props.updateDisplay(1);}
 						}>
 							EDIT
@@ -202,37 +197,19 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 						justifyContent="space-evenly"
 						alignItems="center"
 						style={{width: "100%"}}>
-							<div className={button.button}
-								style={{width: '200px',
-										height: '70px',
-										backgroundColor: '#13D590',
-										fontFamily: 'backto1982',
-										fontSize: '25px',
-										alignItems: 'center',
-										justifyContent: 'center',display: 'flex'}}
+							<div className="settings_edit_button green"
 								onClick={this.updateImage}>
 								SAVE
 							</div>
-							<div className={button.button}
-								style={{width: '200px',
-										height: '70px',
-										backgroundColor: '#E50033',
-										fontFamily: 'backto1982',
-										fontSize: '25px',
-										alignItems: 'center',}}
+							<div className="settings_edit_button red"
 								onClick={() => {this.props.updateDisplay(0)}}>
 								CANCEL
 							</div>
 						</Stack>
 					</Grid>
 					<Grid item xs={2} sx={GridItemStyle}>
-						<ButtonUnstyled className={button.button}
-							component="label"
-							style={{width: '200px',
-									height: '70px',
-									backgroundColor: '#0075FD',
-									fontFamily: 'backto1982',
-									fontSize: '20px'}}>
+						<ButtonUnstyled className="settings_edit_button blue"
+							component="label">
 							CHOOSE FILE
 							<input type="file" hidden	accept="image/*"
 														style={{display: 'none'}}

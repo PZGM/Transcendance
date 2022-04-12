@@ -1,5 +1,5 @@
 import { Avatar, Box, Stack, Grid, Typography } from "@mui/material";
-import { Component } from "react";
+import React, { Component } from "react";
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FaceIcon from '@mui/icons-material/Face';
@@ -8,6 +8,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
 
 type ProfileProps = {
 };
@@ -22,6 +23,16 @@ interface ProfileState {
 	login?: string,
 	avatar?: string,
 };
+
+function StatElement(props) {
+	return (
+		<Stack direction="row">
+			<img>{props.logo}</img>
+			<div>{props.name}</div>
+			<div>{props.data}</div>
+		</Stack>
+	)
+}
 
 export class Profile extends Component<ProfileProps, ProfileState> {
 	constructor(props: ProfileProps) {
@@ -47,17 +58,47 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 		this.fetchProfile();
 	}
 
-	render (){
-		return(
-			<Grid container direction="column" justifyContent="center" alignItems="center">
-				{/* <Avatar  variant='circular' alt="Semy Sharp" src="/static/images/avatar/1.jpg" sx={{diaplay:"flex"}}/> */}
-				<Avatar  variant='circular' alt="Semy Sharp" src={this.state.avatar} sx={{diaplay:"flex"}}/>
-				{/* <Typography align="center">AFREIRE-</Typography> */}
-				<Typography align="center">{this.state.login}</Typography>
-				<Box sx={{ p: 1, border: '3px solid grey' }}  width="100% - 2">
-					<Stack direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
+	render ()
+	{
+		
+		const GridItemStyle = {
+			color: 'white',
+			alignItems: 'center',
+			display: "flex",
+			justifyContent: 'center',
+			fontFamily: 'Bit9x9',
+			fontSize: 'calc(10px + 1vw)',
+			width: '100%'
+		};
 
-						<Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+		return (
+			<>
+				<Grid item xs={3}
+					sx={GridItemStyle}
+					justifyContent="center">
+					<Avatar	variant='circular'
+							alt="Semy Sharp"
+							src={this.state.avatar}
+							sx={{	width: '200px',
+									height: '200px'}}
+					/>
+				</Grid>
+				<Grid item	xs={1}
+							sx={GridItemStyle}>
+					AVATAR
+				</Grid>
+				<Grid item xs={6}
+							sx={{	m: 2,
+									p: 2,
+									// border: '0.4vw solid rgba(142, 0, 172, 1)',
+									// outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
+									backgroundColor: 'black'
+								}}>
+					<Stack sx={GridItemStyle}
+						direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
+
+						<Stack sx={GridItemStyle}
+							direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
 							<GamepadIcon />
 							<EmojiEventsIcon />
 							<FaceIcon />
@@ -65,7 +106,8 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 							<StarIcon />
 						</Stack>
 
-						<Stack direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
+						<Stack sx={GridItemStyle}
+							direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
 							<Typography>GAMES</Typography>
 							<Typography>WIN</Typography>
 							<Typography>SHOTS</Typography>
@@ -73,17 +115,23 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 							<Typography>RANK</Typography>
 						</Stack>
 
-						<Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
-							<Typography>50</Typography>
-							<Typography>2</Typography>
-							<Typography>40</Typography>
-							<Typography>5%</Typography>
-							<Typography>1st</Typography>
-						</Stack>
-
+					<Stack sx={GridItemStyle}
+						direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+						{/* <Typography>{this.state.games}</Typography>
+						<Typography>{this.state.win}</Typography>
+						<Typography>{this.state.shots}</Typography>
+						<Typography>{this.state.accurancy}%</Typography>
+						<Typography>{this.state.rank}</Typography> */}
+						<Typography>50</Typography>
+						<Typography>2</Typography>
+						<Typography>40</Typography>
+						<Typography>5%</Typography>
+						<Typography>1st</Typography>
 					</Stack>
-				</Box>
-			</Grid>
+
+				</Stack>
+				</Grid>
+				</>
 		);
 	};
 }

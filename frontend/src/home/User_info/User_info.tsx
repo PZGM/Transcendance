@@ -3,7 +3,7 @@ import { Component} from "react";
 import { Selecter } from "../gestion_chat/Selecter";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UserDisplay } from "../../menu/friends/UserDisplay";
-import styles from './../../style/dac.module.css'
+import './../../style/dac.css';
 import { red } from "@mui/material/colors";
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
@@ -41,17 +41,17 @@ export class UserInfo extends Component<UserInfoProps> {
                         <div className='bit9x9'> {"Status > Online"} </div>
                     </Typography>
                     <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                        <ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
+                        <ButtonBase centerRipple className="dac" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
                             <Typography variant="button" color='white'>
                                 <div className='bit5x5'> Play Match </div>
                             </Typography>
                         </ButtonBase>
-                        <ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
+                        <ButtonBase centerRipple className="dac" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
                             <Typography variant="button" color='white'>
                                 <div className='bit5x5'> Send Message </div>
                             </Typography>
                         </ButtonBase>
-                        <ButtonBase centerRipple className={styles.dac} style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
+                        <ButtonBase centerRipple className="dac" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
                             <Typography variant="button" color='white'>
                                 <div className='bit5x5'> remove Friend </div>
                             </Typography>

@@ -6,7 +6,7 @@ import { UserDisplay } from "../../menu/friends/UserDisplay";
 import styles from './../../style/dac.module.css'
 import { red } from "@mui/material/colors";
 import AddIcon from '@mui/icons-material/Add';
-import buttons from './../../style/buttons.module.css'
+import './../../style/buttons.css'
 import RenderRows from './../RenderRows'
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 interface   ChannelEditPageProps {
@@ -74,7 +74,7 @@ export class ChannelEditPage extends Component<ChannelEditPageProps> {
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
 					<Typography>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
-                        <ButtonBase className={buttons.button} centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {this.props.updateDisplay(6);}}>
+                        <ButtonBase className="button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {this.props.updateDisplay(6);}}>
                             <Typography variant="button" color='white'>
                                 <div className='bit5x5'> Add user </div>
                             </Typography>

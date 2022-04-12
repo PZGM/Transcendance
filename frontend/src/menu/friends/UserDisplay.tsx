@@ -2,8 +2,9 @@ import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from '../../api/dto/user.dto'
-import style from './../../style/buttons.module.css'
-import './../../asset/fonts/fonts.module.css'
+import './../../style/buttons.css'
+import './../../style/display.css'
+import './../../style/colors.css'
 
 type UserDisplayProps = {
 	user: UserDto;
@@ -56,17 +57,20 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 		this.eventSource.close();
 	}
 
-	getColor(status: number) {
+	getColor(status: number): string | undefined
+	{
 		let colors = new Map<number, string>([
-			[0, 'grey'],
+			[0, 'white'],
 			[1, 'red'],
 			[2, 'yellow'],
 			[3, 'green'],
 			[4, 'blue']]);
-		return getComputedStyle(document.documentElement).getPropertyValue(`--${colors.get(status)}`)
+
+		return colors.get(status)
 	}
 
-	render () {
+	render ()
+	{	
 		let description = new Map<number, string>([
 			[0, 'unknow'],
 			[1, 'offline'],
@@ -74,46 +78,29 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[3, 'connected'],
 			[4, 'playing']]);
 		return (
-				<Box	mr='2px'
-						className={style.bdac}
-						sx={{	color:'test',
-								borderColor: this.getColor(this.props.index % 5)}}
+				<div className={"user b_" + this.getColor(this.props.index % 5)}
 				>
 					<ListItem 
-					key={this.props.user.id}
-					secondaryAction	={
-					<Stack spacing={1} direction="row">
-						<div	className={style.button}
-								style={{	width: '100px',
-											height: '50px',
-											backgroundColor: this.getColor(this.state.status)
-										}}
-						>
-							{description.get(this.state.status)}
-						</div>
-						
-						<div 	className={style.button}
-								style={{	width: '90px',
-											height: '50px',
-											backgroundColor: this.getColor(0),
-										}}
-						>
-							Send Message
-						</div>                    
-						
-						<div	className={style.button}
-								onClick={this.removeFriend}
-								style={{	width: '90px',
-											height: '50px',
-											backgroundColor: this.getColor(1),
-										}}
-						>
-							Remove Friend
-						</div>
-					
-					</Stack>
-					}>
-					
+						key={this.props.user.id}
+						secondaryAction	=
+						{	
+							<Stack spacing={1} direction="row">
+								<div	className={"friends_button " + this.getColor(this.state.status)}>
+									{description.get(this.state.status)}
+								</div>
+								
+								<div 	className="friends_button white">
+									Send Message
+								</div>                    
+								
+								<div	className="friends_button red"
+										onClick={this.removeFriend}>
+									Remove Friend
+								</div>
+							
+							</Stack>
+						}
+					>
 					<div>
 						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
 								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
@@ -124,7 +111,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 					</div>
 				
 				</ListItem>
-			</Box>
+			</div>
 		);
 	}
 }

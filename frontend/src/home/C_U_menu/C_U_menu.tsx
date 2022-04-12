@@ -3,9 +3,9 @@ import { Component} from "react";
 import { Selecter } from "../gestion_chat/Selecter";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UserDisplay } from "../../menu/friends/UserDisplay";
-import styles from './../../style/dac.module.css'
+import './../../style/dac.css'
 import { red } from "@mui/material/colors";
-import buttons from './../../style/buttons.module.css'
+import './../../style/buttons.css'
 import { ChatAPI } from "../../api/Chat.api";
 
 interface CUmenuProps {
@@ -28,9 +28,11 @@ export class CUmenu extends Component<CUmenuProps,CUmenuState> {
 		this.state = {channels: []};
 	}
 
+	// Buttons have to be created
+
 	renderRows(list) {
 		const listItems = list.map((channel: any) =>
-			<Box width="472px" className={styles.bdac} sx={{color:'test'}} ml="5px" mr="2px" >
+			<Box width="472px" className="bdac" sx={{color:'test'}} ml="5px" mr="2px" >
 				<Stack  direction="row" justifyContent="space-evenly" alignItems="center" >
 					<Stack direction='row' justifyContent="space-evenly"  alignItems="center" spacing={1} sx={{width: "100px"}}>
 						<Typography variant="button">
@@ -38,12 +40,12 @@ export class CUmenu extends Component<CUmenuProps,CUmenuState> {
 						</Typography>
 					</Stack>
 					<Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
+						<ButtonBase centerRipple className="home_button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
 							<Typography variant="button" color='white'>
 								<div className='bit5x5'> MUTE </div>
 							</Typography>
 						</ButtonBase>
-						<ButtonBase centerRipple className={buttons.button} style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
+						<ButtonBase centerRipple className="home_button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
 							<Typography variant="button" color='white'>
 								<div className='bit5x5'> LEAVE </div>
 							</Typography>
@@ -86,7 +88,7 @@ export class CUmenu extends Component<CUmenuProps,CUmenuState> {
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Typography>ACTIVE CHANNELS :</Typography>
 						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={1} height={height_Box}>
-							<ButtonBase className={buttons.button} centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red", marginLeft: 3}} onClick={ () => {this.props.updateDisplay(8);}}>
+							<ButtonBase className="button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red", marginLeft: 3}} onClick={ () => {this.props.updateDisplay(8);}}>
 								<Typography variant="button" color='white'>
 									<div className='bit5x5'> Add Channel </div>
 								</Typography>

@@ -20,7 +20,6 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		const resp = await UserAPI.getUser();
 		if (!resp)
 			return;
-		console.log('A')
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
