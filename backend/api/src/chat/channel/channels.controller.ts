@@ -49,6 +49,18 @@ export class ChannelsController {
         const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
     }
 
+    @Put('/update/join')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async join(@Req() request: CustomRequest,@Body()  channelID: number, password?: string) {
+        const ret =  await this.channelsService.join(request.user.id, channelID, password);
+    }
+
+    @Put('update/rmUser')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
+        const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
+    }
+
     @Put('/update/removeAdmin')
     @UseGuards(FullyAuthentificatedGuard)
     public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: number) {
@@ -57,7 +69,7 @@ export class ChannelsController {
 
   @Delete(':id')
   @UseGuards(FullyAuthentificatedGuard)
-  remove(@Req() request: CustomRequest, @Param('id') id: number) {
-    return this.channelsService.remove(request.user.id, id);
+  delete(@Req() request: CustomRequest, @Param('id') id: number) {
+    return this.channelsService.delete(request.user.id, id);
   }
 }

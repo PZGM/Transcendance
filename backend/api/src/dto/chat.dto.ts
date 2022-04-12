@@ -40,7 +40,7 @@ export class ChannelDto {
   owner: User;
   @IsIn(["public", "private", "protected"])
   readonly visibility: string;
-  readonly password?: string;
+  password?: string;
   readonly users: User[];
   mute: MuteUser[];
   admin: User[];
