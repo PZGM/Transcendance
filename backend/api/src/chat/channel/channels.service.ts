@@ -35,7 +35,8 @@ export class ChannelsService {
         let relations: string[] = [];
         if (relationsPicker) {
             relationsPicker.withOwner && relations.push('owner');
-            relationsPicker.withChat && relations.push('chat')
+            relationsPicker.withChat && relations.push('chat');
+            relationsPicker.withMuted && relations.push('mute');
         }
         const chan: Channel = await this.channelsRepository.findOneOrFail({
             relations,

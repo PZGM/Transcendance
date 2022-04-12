@@ -6,6 +6,7 @@ import { Chat } from 'src/typeorm/entities/chat';
 export class RelationsPicker {
   withOwner?: boolean;
   withChat?: boolean;
+  withMuted?:boolean;
 }
 
 export class MuteUser {
