@@ -73,11 +73,9 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 
         // Da togliere
         const GridItemStyle = {
-			color: 'white',
 			alignItems: 'stretch',
 			display: "flex",
 			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
 			fontSize: 'calc(10px + 1vw)'
 		};
 
@@ -88,7 +86,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 									alignItems="center"
 									sx={{height: '33%'}}
 								>
-									<Grid item xs={4} className={style.griditem}> NICKNAME </Grid>
+									<Grid item xs={4} className="bit9x9 white" style={GridItemStyle}> NICKNAME </Grid>
 									<Grid item xs={4} className={style.griditem}>
                                         {!this.state.editing &&
                                             <input
@@ -109,14 +107,14 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 									</Grid>
 									<Grid item xs={4} className={style.griditem}>
                                         {!this.state.editing &&
-                                            <div className="settings_button blue"
+                                            <div className="settings_button but_blue"
                                                 onClick={ () => {this.setState({input: this.props.login || '',
                                                                                 editing: true})}
                                                         }>
                                                 EDIT
                                             </div>}
                                         {this.state.editing &&
-                                            <div className="settings_button green"
+                                            <div className="settings_button but_green"
                                                 onClick={() => {this.updateLogin()}}>
                                                 SAVE
                                             </div>}

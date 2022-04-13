@@ -51,13 +51,13 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 
 	render () {
 		return (
-				<div className={"user b_" + this.getColor(this.props.index % 5)}>
+				<div className={"user but_" + this.getColor(this.props.index % 5)}>
 					<ListItem 
 					key={this.props.user.id}
 					secondaryAction	=
 					{
 						<Stack spacing={1} direction="row">
-							<div onClick={this.addFriend} className="friends_button green">
+							<div onClick={this.addFriend} className="friends_button but_green">
 								<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
 									{(this.state.done) ?
 										<DoneIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/> :

@@ -10,3 +10,33 @@
 	padding-top: 5px;
 	width: 99%
 }
+
+/* Menu */
+
+.menu {
+	color: white;
+	border-radius: 25px;
+	border: black;
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
+	font-family: Arcade;
+	font-size: calc(30px + 1.5vw);
+	background-color: black;
+	text-decoration: 'none';
+	background: black;
+	transition: border 0.8s;
+}
+
+.menu:hover {
+	border: 3px solid var(--violet);
+	height: 'undefined';
+	width: 'undefined';
+	min-height: 100px; max-height: 150px;
+	min-width: 400px; max-width: 600px;
+	border-radius: 25px;
+	background: linear-gradient(90deg, var(--dark_blue), rgb(0,0,0) 100%);
+	cursor: pointer;
+	transform: scale(1.1,1.1);
+}

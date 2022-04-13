@@ -1,6 +1,6 @@
 import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
-import '../style/buttons.css'
+import '../style/display.css'
 import React from "react";
 
 function MenuElement(props) {

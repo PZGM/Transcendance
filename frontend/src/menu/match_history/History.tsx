@@ -2,11 +2,9 @@ import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Button, Tex
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
-import Menu from "../Menu";
 import { GameDisplay } from '../match_history/Game'
 import { UserAPI } from "../../api/Users.api";
 import { GameDto } from "../../api/dto/game.dto";
-import styles from './../../style/dac.module.css'
 
 interface HistoryProps {
 };
