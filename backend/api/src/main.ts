@@ -18,6 +18,7 @@ import { Mute } from 'src/typeorm/entities/mutedUser';
 import { User } from 'src/typeorm/entities/user';
 import { Chat } from 'src/typeorm/entities/chat';
 import { ChannelDto } from './dto/chat.dto';
+import { Channel } from './typeorm';
 
 async function bootstrap() {
   dotenv.config();
@@ -72,7 +73,11 @@ async function bootstrap() {
     //universal Channel
 
     let chanServ: ChannelsService;
-    chanServ.create({owner = null, name = "uni", visibility = "public", users : User[] = User[], admin = new User[], mute = new Mute[], messages = new Chat[], id = 0}) 
+    let channel: Channel;
+    channel.owner = null; channel.admin = []; channel.name = "Universal Channel"; channel.visibility = "public";
+    channel.users = []; channel.mute = []; channel.chats = []; channel.id = 0;
+    chanServ.create(new ChannelDto(channel));
+
     http.createServer(server).listen(3001);
     https.createServer(httpsOptions, server).listen(3333);
 }
