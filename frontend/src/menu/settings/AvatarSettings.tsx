@@ -148,7 +148,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							/>
 					</Grid>
 					<Grid item xs={4} sx={GridItemStyle}>
-						<div className="settings_button blue"
+						<div className="settings_button but_blue"
 							onClick={ () => {this.props.updateDisplay(1);}
 						}>
 							EDIT
@@ -197,18 +197,18 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 						justifyContent="space-evenly"
 						alignItems="center"
 						style={{width: "100%"}}>
-							<div className="settings_edit_button green"
+							<div className="settings_edit_button but_green"
 								onClick={this.updateImage}>
 								SAVE
 							</div>
-							<div className="settings_edit_button red"
+							<div className="settings_edit_button but_red"
 								onClick={() => {this.props.updateDisplay(0)}}>
 								CANCEL
 							</div>
 						</Stack>
 					</Grid>
 					<Grid item xs={2} sx={GridItemStyle}>
-						<ButtonUnstyled className="settings_edit_button blue"
+						<ButtonUnstyled className="settings_edit_button but_blue"
 							component="label">
 							CHOOSE FILE
 							<input type="file" hidden	accept="image/*"
