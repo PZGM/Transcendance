@@ -13,6 +13,11 @@ import * as http from 'http';
 import * as https from 'https';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { ChannelsService } from './chat/channel/channels.service';
+import { Mute } from 'src/typeorm/entities/mutedUser';
+import { User } from 'src/typeorm/entities/user';
+import { Chat } from 'src/typeorm/entities/chat';
+import { ChannelDto } from './dto/chat.dto';
 
 async function bootstrap() {
   dotenv.config();
@@ -63,7 +68,11 @@ async function bootstrap() {
     });
 
     await app.init();
-  
+
+    //universal Channel
+
+    let chanServ: ChannelsService;
+    chanServ.create({owner = null, name = "uni", visibility = "public", users : User[] = User[], admin = new User[], mute = new Mute[], messages = new Chat[], id = 0}) 
     http.createServer(server).listen(3001);
     https.createServer(httpsOptions, server).listen(3333);
 }
