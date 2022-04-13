@@ -6,21 +6,14 @@ import '../style/style.css'
 import '../style/home.css'
 import {UserAPI} from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { MiniStatus } from "../asset/MiniStatus";
 import { height } from "@mui/system";
-import { MyInfos } from "./MyInfos";
-import { Profile } from "./Profile";
-import { Chat } from "./gestion_chat/Chat";
-import { CUmenu } from "./C_U_menu/C_U_menu";
-import { ChannelInfo } from "./channel_info/Channel_info";
-import { UserInfo } from "./User_info/User_info";
-import { ChannelInfoAdmin } from "./Channel_info_admin/Channel_info_admin";
-import { AddUserChannel } from "./Channel_info_admin/Add_user_channel";
-import { ChannelEditPage } from "./Channel_info_admin/Channel_editing_page";
-import { CreateChannel } from "./C_U_menu/CreateChannel";
+import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
 import { ConstructionOutlined } from "@mui/icons-material";
+import { Selecter } from './ChatPannel/header/Selecter'
+import { info } from "console";
 
 
 interface HomeProps {
@@ -71,7 +64,6 @@ export class Home extends Component<HomeProps, HomeState> {
         this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
         this.handleChangeDuration = this.handleChangeDuration.bind(this);
 		this.createNewGame = this.createNewGame.bind(this);
-    this.display = this.display.bind(this);
 	}
 
 	async updateHomeState({login, avatar} : HomeState) {
@@ -165,26 +157,6 @@ export class Home extends Component<HomeProps, HomeState> {
         })
     }
 
-	display() {
-		if (this.state.display == 0)
-			return <Chat updateDisplay={this.updateDisplay} channel={this.state.channel}></Chat>
-		if (this.state.display == 2)
-			return <CUmenu updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
-		if (this.state.display == 3)
-			return <ChannelInfo updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
-		if (this.state.display == 4)
-			return <UserInfo updateDisplay={this.updateDisplay} id={this.state.displayId} numberBack={this.state.numberBack} channel={this.state.channel}/>
-		if (this.state.display == 5)
-			return <ChannelInfoAdmin updateDisplay={this.updateDisplay} id={this.state.displayId} channel={this.state.channel}/>
-		if (this.state.display == 6)
-			return <AddUserChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
-		if (this.state.display == 7)
-			return <ChannelEditPage updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
-		if (this.state.display == 8)
-			return <CreateChannel updateDisplay={this.updateDisplay} id={this.state.displayId}channel={this.state.channel}/>
-		return <Profile updateDisplay={this.updateDisplay} id={this.state.displayId} ></Profile>
-	}
-
 	render () {
 		return (
 			<div className="box">
@@ -199,10 +171,16 @@ export class Home extends Component<HomeProps, HomeState> {
 				</Box>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
-					{/* <MyInfos avatar={this.state.avatar} login={this.state.login}/> */}
-					{this.display()}
+					<Selecter></Selecter>
+					<Outlet/>
 				</Stack>
 			</div>
 		)
 	}
 }
+
+// chat (chan + mp) (chat ID / User ID)
+// channel info (chan ID)
+// user info (user ID)
+// edit channel [to protect admin only] (chan ID)
+// add user in channel [to protect admin only] (chan ID)
