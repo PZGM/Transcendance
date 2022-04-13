@@ -161,7 +161,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     <Grid item xs={4} sx={GridItemStyle}> 2FA </Grid>
                     <Grid item xs={4} sx={GridItemStyle}>
                         <div    className={this.state.twofaState == TwofaState.enabled ?
-                                        "settings_button green" : "settings_button white"}
+                                        "settings_button but_green" : "settings_button but_white"}
                                 onClick={this.on.bind(this)}
                         >
                             ON
@@ -169,7 +169,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     </Grid>
                     <Grid item xs={4} sx={GridItemStyle}>
                         <div className={this.state.twofaState == TwofaState.disabled ?
-                                        "settings_button red" : "settings_button white"}
+                                        "settings_button but_red" : "settings_button but_white"}
                             onClick={this.off.bind(this)}
                         >
                             OFF
@@ -205,7 +205,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     />
                     </Grid>
                     <Grid item xs={2} sx={GridItemStyle}>
-                        <div className="settings_edit_button green"
+                        <div className="settings_edit_button but_green"
                             onClick={this.onValidation.bind(this)}>
                             VALIDATE
                         </div>
@@ -216,13 +216,13 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
 						justifyContent="space-evenly"
 						alignItems="center"
 						style={{width: "100%"}}>
-							<div className="settings_edit_button blue"
+							<div className="settings_edit_button but_blue"
 								style={{lineHeight: '1.5'}}
                                 onClick={this.generate.bind(this)}
                             >
 								REGENERATE QR CODE
 							</div>
-							<div className="settings_edit_button red"
+							<div className="settings_edit_button but_red"
 								onClick={() => {this.props.updateDisplay(0)}}>
 								CANCEL
 							</div>

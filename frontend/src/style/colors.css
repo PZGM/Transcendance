@@ -12,156 +12,168 @@
 	--dark_blue: rgb(0, 77, 113);
 }
 
-/* COLORS FOR BUTTONS WITH ANIMATION */
+/* COLORS FOR FONTS */
 
-.green {
+.green { color: var(--green); }
+.red { color: var(--red); }
+.pink { color: var(--pink); }
+.yellow { color: var(--yellow); }
+.white { color: white; }
+.blue { color: var(--blue); }
+.cyan { color: var(--cyan); }
+.violet { color: var(--violet); }
+.dark_blue { color: var(--dark_blue); }
+
+/* BUTTONS COLOR AND ANIMATION */
+
+.but_green {
 	background-color: var(--green);
 	box-shadow: 5px 5px 0px -1px rgba(19, 213, 144, 0.5);
 }
 
-.green:hover {
+.but_green:hover {
 	transform: translateX(2px) translateY(2px);;
-	box-shadow: 2px 2px 0px -1px rgba(19, 213, 144, 0.5);
+	box-shadow: 2px 2px 0px -1px rgba(19, 213, 144, 0.5);	
 	cursor: pointer;
 }
 
-.green:active {
+.but_green:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(19, 213, 144, 0.5);
 	cursor: pointer;
 }
 
-.red {
+.but_red {
 	background-color: var(--red);
 	box-shadow: 5px 5px 0px -1px rgba(229, 0, 51, 0.5);
 }
 
-.red:hover {
+.but_red:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(229, 0, 51, 0.5);
 	cursor: pointer;
 }
 
-.red:active {
+.but_red:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(229, 0, 51, 0.5);
 	cursor: pointer;
 }
 
-.pink {
+.but_pink {
 	background-color: var(--pink);
 	box-shadow: 5px 5px 0px -1px rgba(224, 142, 225, 0.5);
 }
 
-.pink:hover {
+.but_pink:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(224, 142, 225, 0.5);
 	cursor: pointer;
 }
 
-.pink:active {
+.but_pink:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(224, 142, 225, 0.5);
 	cursor: pointer;
 }
 
-.yellow {
+.but_yellow {
 	background-color: var(--yellow);
 	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
 }
 
-.yellow:hover {
+.but_yellow:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(218, 203, 23, 0.5);
 	cursor: pointer;
 }
 
-.yellow:active {
+.but_yellow:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(218, 203, 23, 0.5);
 	cursor: pointer;
 }
 
-.white {
+.but_white {
 	background-color: var(--white);
 	box-shadow: 5px 5px 0px -1px rgba(182, 210, 225, 0.5);
 }
 
-.white:hover {
+.but_white:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(182, 210, 225, 0.5);
 	cursor: pointer;
 }
 
-.white:active {
+.but_white:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(182, 210, 225, 0.5);
 	cursor: pointer;
 }
 
-.blue {
+.but_blue {
 	background-color: var(--blue);
 	box-shadow: 5px 5px 0px -1px rgba(0, 117, 253, 0.5);
 }
 
-.blue:hover {
+.but_blue:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(0, 117, 253, 0.5);
 	cursor: pointer;
 }
 
-.blue:active {
+.but_blue:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(0, 117, 253, 0.5);
 	cursor: pointer;
 }
 
-.cyan {
+.but_cyan {
 	background-color: var(--cyan);
 	box-shadow: 5px 5px 0px -1px rgba(3, 199, 218, 0.5);
 }
 
-.cyan:hover {
+.but_cyan:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(3, 199, 218, 0.5);
 	cursor: pointer;
 }
 
-.cyan:active {
+.but_cyan:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(3, 199, 218, 0.5);
 	cursor: pointer;
 }
 
-.violet {
+.but_violet {
 	background-color: var(--violet);
 	box-shadow: 5px 5px 0px -1px rgba(142, 0, 174, 0.5);
 }
 
-.violet:hover {
+.but_violet:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(142, 0, 174, 0.5);
 	cursor: pointer;
 }
 
-.violet:active {
+.but_violet:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(142, 0, 174, 0.5);
 	cursor: pointer;
 }
 
-.dark_blue {
+.but_dark_blue {
 	background-color: rgb(0, 77, 113);
 	box-shadow: 5px 5px 0px -1px rgba(0, 77, 113, 0.5);
 }
 
-.dark_blue:hover {
+.but_dark_blue:hover {
 	transform: translateX(2px) translateY(2px);;
 	box-shadow: 2px 2px 0px -1px rgba(0, 77, 113, 0.5);
 	cursor: pointer;
 }
 
-.dark_blue:active {
+.but_dark_blue:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(0, 77, 113, 0.5);
 	cursor: pointer;
@@ -169,27 +181,27 @@
 
 /* BORDER COLORS */
 
-.b_white {
+.bor_white {
 	border-color: var(--white);
 	box-shadow: 5px 5px 0px -2px rgba(182, 210, 225, 0.5);
 }
 
-.b_red {
+.bor_red {
 	border-color: var(--red);
 	box-shadow: 5px 5px 0px -1px rgba(229, 0, 51, 0.5);
 }
 
-.b_yellow {
+.bor_yellow {
 	border-color: var(--yellow);
 	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
 }
 
-.b_green {
+.bor_green {
 	border-color: var(--green);
 	box-shadow: 5px 5px 0px -1px rgba(19, 213, 144, 0.5);
 }
 
-.b_blue {
+.bor_blue {
 	border-color: var(--blue);
 	box-shadow: 5px 5px 0px -1px rgba(0, 117, 253, 0.5);
 }

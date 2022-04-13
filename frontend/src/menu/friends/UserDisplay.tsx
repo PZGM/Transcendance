@@ -77,23 +77,24 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
+
 		return (
-				<div className={"user b_" + this.getColor(this.props.index % 5)}
+				<div className={"user but_" + this.getColor(this.props.index % 5)}
 				>
 					<ListItem 
 						key={this.props.user.id}
 						secondaryAction	=
 						{	
 							<Stack spacing={1} direction="row">
-								<div	className={"friends_button " + this.getColor(this.state.status)}>
+								<div	className={"friends_button but_" + this.getColor(this.state.status)}>
 									{description.get(this.state.status)}
 								</div>
 								
-								<div 	className="friends_button white">
+								<div 	className="friends_button but_white">
 									Send Message
 								</div>                    
 								
-								<div	className="friends_button red"
+								<div	className="friends_button but_red"
 										onClick={this.removeFriend}>
 									Remove Friend
 								</div>
@@ -101,17 +102,15 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							</Stack>
 						}
 					>
-					<div>
-						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
-								<Typography variant="button" color={this.getColor(this.props.index % 5)}>
-									<div className='bit9x9'> {this.props.user.login} </div>
-								</Typography>
-						</Stack>
-					</div>
-				
-				</ListItem>
-			</div>
+						<div>
+							<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+									<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
+									<div className='backto1982' style={{color: this.getColor(this.state.status)}}> {this.props.user.login} </div>
+							</Stack>
+						</div>
+					
+					</ListItem>
+				</div>
 		);
 	}
 }
