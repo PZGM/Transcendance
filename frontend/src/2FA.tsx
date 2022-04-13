@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import background from "./asset/images/background.jpg"
 import "./style/buttons.css"
+import "./style/display.css"
 
 
 interface TwofaProps {
@@ -97,22 +98,15 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
                     >
                         <Grid item xs={4} sx={GridItemStyle}> 2FA AUTHENTICATION</Grid>
                         <Grid item xs={3} sx={GridItemStyle}>
-                        <InputBase autoFocus
+                        <input
+                            id="unstyled"
+                            className="settings_2fa_input"
                             placeholder="enter code"
-                            sx={{fontFamily: 'Bit5x5',
-                                fontSize: 'calc(10px + 1vw)',
-                                color: 'white',
-                                textAlign: 'center',
-                                border: '5px solid #0075FD',
-                                boxShadow: '5px 5px 0px -1px rgba(0,117,253,0.5)'
-                                }}
-                            inputProps={{style: { textAlign: 'center',
-                                                border: '10px red' }}}
                             onChange={ async (e) => {this.onChange(e.target.value)}}
                         />
                         </Grid>
                         <Grid item xs={5} sx={GridItemStyle}>
-                            <div className="settings_edit_button green"
+                            <div className="settings_edit_button but_green"
                                 onClick={this.onValidation.bind(this)}>
                                 LOGIN
                             </div>
