@@ -24,6 +24,9 @@ export class User {
     avatar: string;
 
     @Column()
+    color: number;
+
+    @Column()
     status?: number;
 
     @ManyToMany(() => User, user => user.friended)

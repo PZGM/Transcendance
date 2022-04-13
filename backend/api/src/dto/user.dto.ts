@@ -12,6 +12,7 @@ export class UserDto {
             this.status = user.status;
             this.blockedUsers = user.blockedUsers;
             this.adminChannels = user.adminChannels;
+            this.color = user.color;
         }
     }
     id: number;
@@ -19,7 +20,8 @@ export class UserDto {
     avatar: string;
     status: number;
     blockedUsers?: User[];
-    adminChannels?: Channel[]; 
+    adminChannels?: Channel[];
+    color: number;
 }
 
 export class UpdateImageRequestDto{
