@@ -1,7 +1,7 @@
 import { Button, Avatar, Box, Stack, Typography, ButtonBase } from "@mui/material";
 import { Component} from "react";
 import { Link } from "react-router-dom";
-import { UserAPI } from "../api/Users.api";
+import { UserAPI } from "../../../api/Users.api";
 
 
 

@@ -1,10 +1,10 @@
+
+   
 import { Box, ButtonBase, Stack } from "@mui/material";
 import { Component} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 
 interface SelecterProps {
-	updateDisplay: any;
-	channel: any;
 };
 
 let Hbar = "50px";
@@ -26,10 +26,10 @@ export class Selecter extends Component<SelecterProps> {
 			<>
 				<Box width="100%" height={Hbar} sx={{backgroundColor: "blue", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center" spacing={1} sx={{mt: marge.toString().concat("px") }} >
-						<ButtonBase sx={{backgroundColor: "red", height: Wi, width: Hi}} onClick={ () => {this.props.updateDisplay(3, 1);}}>i</ButtonBase>
+						<ButtonBase sx={{backgroundColor: "red", height: Wi, width: Hi}} onClick={ () => {}}>i</ButtonBase>
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
-							<ButtonBase sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan, paddingLeft: 1}} onClick={ () => {this.props.updateDisplay(2, 1);}}>
-								{(this.props.channel) ? this.props.channel.name : '...'}
+							<ButtonBase sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan, paddingLeft: 1}} onClick={ () => {}}>
+								{'...'}
 							<ArrowDropDownTwoToneIcon/>
 							</ButtonBase>
 						</Stack>
