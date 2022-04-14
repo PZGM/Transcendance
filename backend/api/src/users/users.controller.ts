@@ -64,6 +64,15 @@ export class UsersController {
           throw new ConflictException();
     }
 
+    @Put('/update/color')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async updateColor(@Req() request: CustomRequest, @Body() updateColorRequest: {color: number}) {
+        const ret =  await this.userService.updateColor(request.user.id, updateColorRequest.color);
+        if (ret)
+          throw new ConflictException();
+    }
+
+
     @Put('update/addBlockedUser')
     @UseGuards(FullyAuthentificatedGuard)
     public async addBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {

@@ -4,4 +4,5 @@ export interface UserDto {
     avatar: string;
     status: number;
     friends: number[];
+    color: number;
 }
