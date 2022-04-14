@@ -33,6 +33,8 @@ export class ChannelDto {
         this.name = channel.name;
         this.owner = channel.owner;
         this.users = channel.users;
+        this.visibility = channel.visibility;
+        this.password = channel.password;
       }
     }
 

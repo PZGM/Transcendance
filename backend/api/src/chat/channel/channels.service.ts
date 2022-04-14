@@ -59,6 +59,10 @@ export class ChannelsService {
         name: channelDto.name
       }
     });
+    console.log('===channel');
+    console.log(channelDto);
+    console.log('----');
+    console.log(channelDto.visibility);
     if (channelDto.visibility !== "public"){
       console.log("WHY R U HERE");
       const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
@@ -66,10 +70,12 @@ export class ChannelsService {
       channelDto.password = encryptedPassword.toString();
     }
     if (!chan && channelDto.name.length > 2) {
-    channelDto.owner = await this.usersService.getOne(channelDto.owner.id);
-    const channel = this.channelsRepository.create(channelDto);
-    chan.admin.push(channelDto.owner);
-    return this.channelsRepository.save(channel);
+      if (channelDto.owner) {
+        channelDto.owner = await this.usersService.getOne(channelDto.owner.id);
+        chan.admin.push(channelDto.owner);
+      }
+      const channel = this.channelsRepository.create(channelDto);
+      return this.channelsRepository.save(channel);
     }
     else
     throw new NotFoundException(`Channel name invalide or already taken`);
