@@ -1,2 +1,3 @@
-channel universel 
-owner legacy
+isAdmin controller
+cipher not working
+root to clean

@@ -39,7 +39,7 @@ export class ChannelDto {
   @MaxLength(30)
   @MinLength(2)
   readonly name: string;
-  owner: User | null;
+  owner: User;
   @IsIn(["public", "private", "protected"])
   readonly visibility: string;
   password?: string;
