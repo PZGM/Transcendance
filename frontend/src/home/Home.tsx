@@ -171,7 +171,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				</Box>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
-					<Selecter></Selecter>
+					<Selecter channel={this.state.channel}></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>

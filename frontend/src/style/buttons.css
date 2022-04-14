@@ -3,7 +3,7 @@
 /* Common attributes to all buttons */
 
 .settings_button, .settings_edit_button, .settings_2fa_input,
-.friends_button, .home_button
+.friends_button, .home_button, .dropdown_button, .creachan_button
 {
 	position: relative;
 	text-align: center;
@@ -19,6 +19,16 @@
 .home_button {
 	width: 100px;
 	height: 50px;
+}
+.creachan_button {
+	font-size: 12px;
+	height: 50px;
+}
+
+.dropdown_button {
+	width: "200px";
+	height: '1000px';
+	font-size: 25px;
 }
 
 /* Friends */
