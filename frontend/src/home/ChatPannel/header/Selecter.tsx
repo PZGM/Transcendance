@@ -18,6 +18,7 @@ interface SelecterProps {
 interface SelecterState {
 	channels: any;
 	user: any;
+	name?: any;
 };
 
 let Hbar = "50px";
@@ -28,13 +29,13 @@ let minWchan = 25;
 let maxWchan = 50;
 let width_button = "150px"
 
-function infochan(props) {
+function Redirection(props) {
 	return (
-		<Button>
+		// <Button>
 					<Link 	style={{ textDecoration: 'none',
 									 color: 'white' }}
 							to={{pathname: `${props.url}`}}>{props.name}</Link>
-		</Button>
+		// </Button>
 	)
 }
 
@@ -43,7 +44,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	backdropopen: boolean = false;
 	constructor(props: SelecterProps) {
 		super(props);
-		this.state = {channels: [], user: undefined};
+		this.state = {channels: [], user: undefined, name: undefined};
 	}
     async getChannels() {
         let chan = await ChatAPI.getChannel();
@@ -68,10 +69,14 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		list=[1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((channel: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<ButtonBase centerRipple  style={{width: "100%", height: '30px',borderRadius: 0, backgroundColor: "red"}}>
-						{/* <div className='bit9x9'> {channel.name} </div> */}
+				{/* <ButtonBase centerRipple  style={{width: "100%", height: '30px',borderRadius: 0, backgroundColor: "red"}} onClick={() => {<Redirection name={"WWWWWWWWWW"} url={process.env.REACT_APP_HOME + "/" + "WWWWWWWWWW" + "/info"}/>}}>
+						<div className='bit9x9'> {channel.name} </div>
 						<div className='bit9x9'> "wwwwwwwwww" </div>
-				</ButtonBase>
+				</ButtonBase> */}
+				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + "WWWWWWWWWW" + "/info"}}>
+					<div className='bit9x9'> "wwwwwwwwww" </div>
+				</Link>
+
 			</Stack>
 	  );
 	  return listItems;
@@ -85,7 +90,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	};
 
 	renderRowsFriend(list) {
-		list=[]
+		list=[1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((user: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
 				{/* <ButtonBase centerRipple className="dropdown_button" style={{borderRadius: 0, backgroundColor: "red"}}> */}
@@ -114,7 +119,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 							</Link>
 						</ButtonBase> */}
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
-							<Select sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} onOpen={() =>{this.Select()}}>
+							<Select sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} onOpen={() =>{this.Select()}} label={this.state.name}>
 								<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
 									<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
 										<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon />}>
@@ -126,7 +131,8 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 											</ButtonBase> */}
 											<LaPopUp></LaPopUp>
 											<List>
-												{this.renderRowsChan(this.state.channels)}
+												{this.renderRowsChan([])}
+												{/* {this.renderRowsChan(this.state.channels)} */}
 												{/* {this.renderRows(this.state.friends)} */}
 											</List>
 										</AccordionDetails>

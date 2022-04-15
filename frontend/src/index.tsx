@@ -76,7 +76,7 @@ ReactDOM.render(
 
             <Route path="home" element={<Home />} >
               <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
-              <Route path="message/:name/info" element={<WrapperUserInfo/>} />
+              <Route path="user/:name/info" element={<WrapperUserInfo/>} />
               <Route path="chat/:name/edit" element={<WrapperChanEdit/>} />
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
