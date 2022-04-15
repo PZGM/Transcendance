@@ -170,7 +170,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				</Box> */}
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
-					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
+					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
 					<Selecter channel={this.state.channel} ></Selecter>
 					<Outlet/>
 				</Stack>

@@ -4,6 +4,8 @@ import { Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
+import InfoIcon from '@mui/icons-material/Info';
+import { Link } from "react-router-dom";
 
 interface ChatState {
     chanId?: number
@@ -24,6 +26,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	componentDidMount()  {
         const id = this.props.params.name;
+        console.log(id);
         // if (this.props.isPrivateMessage)
         //     chanId = getPrivateMessageChannel(id);
         // else
@@ -51,8 +54,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				  
 				<Box height="60px" sx={{backgroundColor: "red"}}>
-					<Stack direction="row" spacing={2}>
-						<InputBase inputProps={{style: { textAlign: 'center' }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "60px" }}/>
+					<Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
+                        <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanId + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanId + "/info"}}>
+                            <InfoIcon fontSize="large"/>
+                        </Link>
+						<InputBase placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "60px" }}/>
 						<IconButton>
 							<SendIcon/>
 						</IconButton>

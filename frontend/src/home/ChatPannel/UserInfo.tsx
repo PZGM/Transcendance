@@ -10,6 +10,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
+import { Link } from "react-router-dom";
 
 interface UserInfoState {
     user?: any
@@ -44,9 +45,13 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		return (
             <>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {}}>
+                    {/* <IconButton onClick={ () => {}}>
                         <ArrowBackIcon/>
-                    </IconButton>
+                    </IconButton> */}
+                    <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user }}>
+                        <ArrowBackIcon/>
+					</Link>
+
                 </Stack>
                 <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                     <Avatar variant='circular' alt="" src=""/>

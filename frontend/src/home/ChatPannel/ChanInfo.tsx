@@ -5,6 +5,7 @@ import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from "react-router-dom";
 
 
 interface ChanInfoState {
@@ -68,9 +69,10 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		return (
             <>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {}}>
+					<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan }}>
                         <ArrowBackIcon/>
-                    </IconButton>
+					</Link>
+
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 					<Typography variant="h1" color='white'>

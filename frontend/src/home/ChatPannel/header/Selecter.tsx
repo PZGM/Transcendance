@@ -73,7 +73,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 						<div className='bit9x9'> {channel.name} </div>
 						<div className='bit9x9'> "wwwwwwwwww" </div>
 				</ButtonBase> */}
-				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + "WWWWWWWWWW" + "/info"}}>
+				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + "WWWWWWWWWW"}}>
 					<div className='bit9x9'> "wwwwwwwwww" </div>
 				</Link>
 
@@ -94,11 +94,13 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		const listItems = list.map((user: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
 				{/* <ButtonBase centerRipple className="dropdown_button" style={{borderRadius: 0, backgroundColor: "red"}}> */}
-				<div className="dropdown_button but_red">
-					
+				{/* <div className="dropdown_button but_red">
+					<div className='bit9x9'> {user.friend.name} </div>
+				</div> */}
+				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + "Belote"}}>
 					<div className='bit9x9'>Belote</div>
-					{/* <div className='bit9x9'> {user.friend.name} </div> */}
-				</div>
+				</Link>
+			
 				{/* </ButtonBase> */}
 			</Stack>
 	  );
