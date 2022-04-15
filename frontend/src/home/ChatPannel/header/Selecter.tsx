@@ -65,10 +65,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	}
 
 	renderRowsChan(list) {
-		list=[1,1,1,1,1,1,1,1,1,1,1]
+		// list=[1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((channel: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<ButtonBase centerRipple  style={{width: "100%", height: '30px',borderRadius: 0, backgroundColor: "red"}}>
+				<ButtonBase centerRipple  style={{width: "100%", height: '30px',borderRadius: 0, backgroundColor: "red"}} onClick={() => {}}>
 						{/* <div className='bit9x9'> {channel.name} </div> */}
 						<div className='bit9x9'> "wwwwwwwwww" </div>
 				</ButtonBase>
@@ -85,7 +85,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	};
 
 	renderRowsFriend(list) {
-		list=[]
+		// list=[]
 		const listItems = list.map((user: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
 				{/* <ButtonBase centerRipple className="dropdown_button" style={{borderRadius: 0, backgroundColor: "red"}}> */}
@@ -126,7 +126,8 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 											</ButtonBase> */}
 											<LaPopUp></LaPopUp>
 											<List>
-												{this.renderRowsChan(this.state.channels)}
+												{this.renderRowsChan([])}
+												{/* {this.renderRowsChan(this.state.channels)} */}
 												{/* {this.renderRows(this.state.friends)} */}
 											</List>
 										</AccordionDetails>

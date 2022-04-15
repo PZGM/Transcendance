@@ -160,15 +160,15 @@ export class Home extends Component<HomeProps, HomeState> {
 	render () {
 		return (
 			<div className="box">
-				<Box sx={{backgroundColor: 'pink'}} className='left'>
+				{/* <Box sx={{backgroundColor: 'pink'}} className='left'>
 				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
 				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
 				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
 				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
 				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
 				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
+				</Box> */}
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
-				</Box>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
 					<Selecter channel={this.state.channel}></Selecter>
