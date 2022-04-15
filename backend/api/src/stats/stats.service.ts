@@ -4,6 +4,7 @@ import { User } from 'src/typeorm/entities/user';
 import { UsersService } from 'src/users/users.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserDto } from 'src/dto/user.dto';
 
 interface LastGame {
     won: boolean,
@@ -22,6 +23,13 @@ export class StatsService {
         const user: User = await this.userService.getOne(userId, {withStats: true});
         if (user)
             return user.stats;
+        throw new NotFoundException();
+    }
+
+    public async getUserWithStats(userId: number) {
+        const user: User = await this.userService.getOne(userId, {withStats: true});
+        if (user)
+            return new UserDto(user);
         throw new NotFoundException();
     }
 
