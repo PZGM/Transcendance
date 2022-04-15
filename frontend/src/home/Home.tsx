@@ -6,7 +6,7 @@ import '../style/style.css'
 import '../style/home.css'
 import {UserAPI} from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { MiniStatus } from "../asset/MiniStatus";
 import { height } from "@mui/system";
 import { MyInfos } from "./ChatPannel//header/MyInfos";
@@ -171,7 +171,7 @@ export class Home extends Component<HomeProps, HomeState> {
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
-					<Selecter channel={this.state.channel}></Selecter>
+					<Selecter channel={this.state.channel} ></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>
