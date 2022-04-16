@@ -10,7 +10,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: backto1982;
 	color: white;
 }
 
@@ -19,16 +18,20 @@
 .home_button {
 	width: 100px;
 	height: 50px;
+	font-family: backto1982;
 }
+
 .creachan_button {
 	font-size: 12px;
 	height: 50px;
+	font-family: backto1982;
 }
 
 .dropdown_button {
 	width: "200px";
 	height: '1000px';
 	font-size: 25px;
+	font-family: backto1982;
 }
 
 /* Friends */
@@ -38,6 +41,7 @@
 	height: 50px;
 	font-size: 12px;
 	line-height: 1.5;
+	font-family: bit5x5;
 }
 
 /* Settings */
@@ -46,12 +50,19 @@
 	width: 100px;
 	height: 70px;
 	font-size: 20px;
+	font-family: backto1982;
 }
 
 .settings_edit_button {
 	width: 200px;
 	height: 70px;
 	font-size: 20px;
+	font-family: backto1982;
+}
+
+.colors_button {
+	width: 30px;
+	height: 30px;
 }
 
 /* Connection button */

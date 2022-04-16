@@ -10,6 +10,7 @@ toast.configure()
 
 type LoginSettingsProps = {
     login?: string
+    color: string
 	updateParentState: any
     updateDisplay: any
 };
@@ -17,6 +18,7 @@ type LoginSettingsProps = {
 interface LoginSettingsState {
 	input: string,
     editing: boolean
+    color: string
 }
 
 export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsState> {
@@ -25,11 +27,10 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 		super(props);
         this.handleChangeLogin = this.handleChangeLogin.bind(this)
 		this.updateLogin = this.updateLogin.bind(this)
-		console.log(props)
-        console.log(props.login)
         this.state = {
             input: '',
-            editing: false
+            editing: false,
+            color: this.props.color
         }
 	}
 
@@ -81,45 +82,58 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 
         return (
             <Grid container
-									direction="row"
-									justifyContent="space-between"
-									alignItems="center"
-									sx={{height: '33%'}}
-								>
-									<Grid item xs={4} className="bit9x9 white" style={GridItemStyle}> NICKNAME </Grid>
-									<Grid item xs={4} className={style.griditem}>
-                                        {!this.state.editing &&
-                                            <input
-                                                id="unstyled"
-                                                className="settings_nick_input"
-                                                defaultValue={this.props.login}
-                                                onChange={this.handleChangeLogin}
-                                                disabled
-                                            />}
-                                        {this.state.editing &&
-                                            <input autoFocus
-                                                id="unstyled"
-                                                className="settings_nick_input"
-                                                defaultValue={this.props.login}
-                                                onChange={this.handleChangeLogin}
-                                            />
-                                        }
-									</Grid>
-									<Grid item xs={4} className={style.griditem}>
-                                        {!this.state.editing &&
-                                            <div className="settings_button but_blue"
-                                                onClick={ () => {this.setState({input: this.props.login || '',
-                                                                                editing: true})}
-                                                        }>
-                                                EDIT
-                                            </div>}
-                                        {this.state.editing &&
-                                            <div className="settings_button but_green"
-                                                onClick={() => {this.updateLogin()}}>
-                                                SAVE
-                                            </div>}
-									</Grid>
-								</Grid>
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+                sx={{height: '33%'}}
+            >
+                <Grid item xs={4}
+                    className="bit9x9 white"
+                    style={GridItemStyle}
+                >
+                    NICKNAME
+                </Grid>
+                
+                <Grid item xs={4}
+                    className={"bit5x5 " + this.state.color}
+                    style={GridItemStyle}
+                >
+                    {!this.state.editing &&
+                        <input
+                            id="unstyled"
+                            className="settings_nick_input"
+                            defaultValue={this.props.login}
+                            onChange={this.handleChangeLogin}
+                            disabled
+                        />}
+                    {this.state.editing &&
+                        <input autoFocus
+                            id="unstyled"
+                            maxLength={10}
+                            className="settings_nick_input"
+                            defaultValue={this.props.login}
+                            onChange={this.handleChangeLogin}
+                        />
+                    }
+                </Grid>
+
+                <Grid item xs={4}
+                    style={GridItemStyle}
+                >
+                    {!this.state.editing &&
+                        <div className="settings_button but_blue"
+                            onClick={ () => {this.setState({input: this.props.login || '',
+                                                            editing: true})}
+                                    }>
+                            EDIT
+                        </div>}
+                    {this.state.editing &&
+                        <div className="settings_button but_green"
+                            onClick={() => {this.updateLogin()}}>
+                            SAVE
+                        </div>}
+                </Grid>
+            </Grid>
         )
     }
 }

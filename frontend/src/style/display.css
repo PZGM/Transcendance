@@ -11,6 +11,29 @@
 	width: 99%
 }
 
+/* Settings */
+
+.colors_fix {
+	width: 30px;
+	height: 30px;
+}
+
+.colors_edit {
+	width: 30px;
+	height: 30px;
+	border: 4px solid black;
+	box-shadow: 3px 3px 0px -1px rgba(0, 0, 0, 0.5);
+}
+
+.colors_edit:hover {
+	border: 4px solid var(--blue);
+	box-shadow: 3px 3px 0px -1px rgba(0, 117, 253, 0.5);
+}
+
+.color_selected {
+	border: 4px solid var(--blue);
+}
+
 /* Menu */
 
 .menu {
