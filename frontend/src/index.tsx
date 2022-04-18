@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { Home } from './home/Home';
 import { Profile } from './menu/profile/Profile';
 import { Friends } from './menu/friends/Friends';
@@ -15,6 +15,11 @@ import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
+import { Chat } from './home/ChatPannel/Chat'
+import { UserInfo } from './home/ChatPannel/UserInfo'
+import { ChanInfo } from './home/ChatPannel/ChanInfo'
+import { ChanEdit } from './home/ChatPannel/ChanEdit'
+import { ChanAddUser } from './home/ChatPannel/ChanAddUser'
 
 // FONTS
 
@@ -27,34 +32,64 @@ import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
 
 const rootElement = document.getElementById("root");
+
+const WrapperChat = (props) => {
+  const params = useParams();
+  return <Chat {...{...props, params} } /> 
+}
+
+const WrapperChanInfo = (props) => {
+  const params = useParams();
+  return <ChanInfo {...{...props, params} } /> 
+}
+
+const WrapperUserInfo = (props) => {
+  const params = useParams();
+  return <UserInfo {...{...props, params} } /> 
+}
+
+const WrapperChanEdit = (props) => {
+  const params = useParams();
+  return <ChanEdit {...{...props, params} } /> 
+}
+
+const WrapperChanAddUser = (props) => {
+  const params = useParams();
+  return <ChanAddUser {...{...props, params} } /> 
+}
+
+
+
 ReactDOM.render(
   <StatusDetector>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
             <Route element={<PrivateRoute/>}>
-            <Route element={<Frame/>}>
-              <Route path="profile" element={<Profile/>} />
-              <Route path="friends" element={<Friends/>} />
-              <Route path="settings" element={<Settings/>} />
-              <Route path="history" element={<History/>} />
-              <Route path="achievement" element={<Achievement/>} />
+              <Route element={<Frame/>}>
+                <Route path="profile" element={<Profile/>} />
+                <Route path="friends" element={<Friends/>} />
+                <Route path="settings" element={<Settings/>} />
+                <Route path="history" element={<History/>} />
+                <Route path="achievement" element={<Achievement/>} />
+              </Route>
+
+            <Route path="home" element={<Home />} >
+              <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
+              <Route path="user/:name/info" element={<WrapperUserInfo/>} />
+              <Route path="chat/:name/edit" element={<WrapperChanEdit/>} />
+              <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
+              <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
+              <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
             </Route>
 
-            <Route path="home" element={<Home />} />
             <Route path="2fa" element={<Twofa/>} />
             <Route path="*" element={<NotFound/>} />
           </Route>
 
-          {/* <Route path="invoices" element={<Invoices />} /> */}
         </Routes>
     </BrowserRouter>
   </StatusDetector>
 ,
   rootElement
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

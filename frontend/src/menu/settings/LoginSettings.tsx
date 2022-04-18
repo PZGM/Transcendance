@@ -34,10 +34,10 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 	}
 
     handleChangeLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-    
+        e.target.value = e.target.value.replace(/\W/g, "");
+
         this.setState({
-            input: log
+            input: e.target.value
         })
     }
     

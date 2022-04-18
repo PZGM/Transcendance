@@ -50,7 +50,7 @@ export default function useSlider(props: UseSliderProps): {
         };
     };
     getRootProps: (otherHandlers?: Record<string, (event: any) => void> | undefined) => {
-        ref: React.Ref<unknown>;
+        ref: React.Ref<any>;
     };
     getHiddenInputProps: (otherHandlers?: Record<string, (event: any) => void> | undefined) => {
         style: {
