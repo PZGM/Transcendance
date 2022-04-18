@@ -3,7 +3,7 @@ import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import './../../style/buttons.css';
 import './../../style/display.css';
-import './../../asset/fonts/fonts.module.css'
+import './../../asset/fonts/fonts.css'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DoneIcon from '@mui/icons-material/Done';
 import { UserDto } from "../../api/dto/user.dto";
@@ -51,33 +51,49 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 
 	render () {
 		return (
-				<div className={"user but_" + this.getColor(this.props.index % 5)}>
+				<div className={"user bor_" + this.getColor(this.props.index % 5)}>
 					<ListItem 
-					key={this.props.user.id}
-					secondaryAction	=
-					{
-						<Stack spacing={1} direction="row">
-							<div onClick={this.addFriend} className="friends_button but_green">
-								<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-									{(this.state.done) ?
-										<DoneIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/> :
-										<PersonAddIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/>
-									}
-									<Typography variant="button" color='white'>
-									<div className='bit5x5'>{(this.state.done) ? 'Added' : 'Add Friend'}</div>
-									</Typography>
-								</Stack>
-							</div>
-						</Stack>
-					}>
-					<ButtonBase centerRipple>
-						<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
-								<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
-								<Typography color={this.getColor(this.props.index % 5)}>
-									<div className='bit9x9'> {this.props.user.login} </div>
-								</Typography>
-						</Stack>
-					</ButtonBase>
+						key={this.props.user.id}
+						secondaryAction	=
+						{
+							// <Stack direction="row">
+								<div className="add_friend_button but_green"
+									onClick={this.addFriend}
+								>
+									<Stack direction='row'
+										alignItems="center"
+									>
+									
+										{(this.state.done) ?
+											<DoneIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/> :
+											<PersonAddIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/>
+										}
+										
+										<div>
+											{(this.state.done) ? 'Added' : 'Add Friend'}
+										</div>
+									
+									</Stack>
+								</div>
+							// </Stack>
+						}
+					>
+					<Stack direction='row'
+						justifyContent="space-between"
+						alignItems="center"
+						spacing={1}
+					>
+						<Avatar variant='circular'
+							alt={this.props.user.login}
+							src={this.props.user.avatar}
+						/>
+						
+						<div className={'backto1982 ' + this.props.user.color}>
+							{this.props.user.login}
+						</div>
+					
+					</Stack>
+
 				</ListItem>
 			</div>
 		);

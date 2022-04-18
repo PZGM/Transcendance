@@ -23,7 +23,7 @@ export class UserDto {
     status: number;
     blockedUsers?: User[];
     adminChannels?: Channel[];
-    color: number;
+    color: string;
     stats: Stats;
 }
 

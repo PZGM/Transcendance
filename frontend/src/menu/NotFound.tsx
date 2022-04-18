@@ -4,7 +4,7 @@ import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
 import '../style/basics.css'
-import './../asset/fonts/fonts.module.css'
+import './../asset/fonts/fonts.css'
 import styles from './../style/dac.module.css'
 
 
