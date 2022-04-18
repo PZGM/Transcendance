@@ -3,7 +3,8 @@
 /* Common attributes to all buttons */
 
 .settings_button, .settings_edit_button, .settings_2fa_input,
-.friends_button, .home_button, .dropdown_button, .creachan_button
+.friends_button, .home_button, .dropdown_button, .creachan_button,
+.add_friend_button
 {
 	position: relative;
 	text-align: center;
@@ -39,8 +40,14 @@
 .friends_button {
 	width: 120px;
 	height: 50px;
-	font-size: 12px;
-	line-height: 1.5;
+	font-size: 17px;
+	font-family: bit5x5;
+}
+
+.add_friend_button {
+	width: 150px;
+	height: 50px;
+	font-size: 18px;
 	font-family: bit5x5;
 }
 

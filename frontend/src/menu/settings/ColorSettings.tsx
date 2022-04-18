@@ -22,7 +22,9 @@ interface ColorSettingsState {
 export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsState> {
 
 	constructor(props: ColorSettingsProps) {
-		super(props);
+        super(props);
+
+        console.log(`props: ${this.props.color}`)
 
         this.state = {
             selected: this.props.color
@@ -31,32 +33,23 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
 
     getClassName(color: string): string | undefined
 	{
-        console.log("ClassName")
-        console.log(color)
         if (color == this.state.selected)
             return "bc_" + color + " color_selected"
 
 		return "but_" + color
 	}
 
-    updateColor(color: string)
-    {
-        console.log("updateColor()")
-        console.log(this.state.selected)
-        UserAPI.updateColor(color);
-    }
-
     onClick(color: string)
     {
-        console.log("onClick()")
-        console.log(color)
         this.setState({selected: color});
-        this.updateColor(color)
+        UserAPI.updateColor(color);
         this.props.updateParentState({color})
     }
 
     render()
     {
+
+        console.log("Color render")
 
 		// Da togliere
 		const GridItemStyle = {

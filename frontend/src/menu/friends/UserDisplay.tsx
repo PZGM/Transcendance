@@ -112,7 +112,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 								src={this.props.user.avatar}
 							/>
 							
-							<div className='backto1982 white'>
+							<div className={'backto1982 ' + this.props.user.color}>
 								{this.props.user.login}
 							</div>
 						</Stack>

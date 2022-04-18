@@ -12,25 +12,25 @@ type LoginSettingsProps = {
     login?: string
     color: string
 	updateParentState: any
-    updateDisplay: any
 };
 
 interface LoginSettingsState {
 	input: string,
     editing: boolean
-    color: string
 }
 
 export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsState> {
 	
     constructor(props: LoginSettingsProps) {
 		super(props);
+
+        console.log(`Login props: ${this.props.color}`)
+
         this.handleChangeLogin = this.handleChangeLogin.bind(this)
 		this.updateLogin = this.updateLogin.bind(this)
         this.state = {
             input: '',
-            editing: false,
-            color: this.props.color
+            editing: false
         }
 	}
 
@@ -95,13 +95,12 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
                 </Grid>
                 
                 <Grid item xs={4}
-                    className={"bit5x5 " + this.state.color}
                     style={GridItemStyle}
                 >
                     {!this.state.editing &&
                         <input
                             id="unstyled"
-                            className="settings_nick_input"
+                            className={"settings_nick_input " + this.props.color}
                             defaultValue={this.props.login}
                             onChange={this.handleChangeLogin}
                             disabled
@@ -110,7 +109,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
                         <input autoFocus
                             id="unstyled"
                             maxLength={10}
-                            className="settings_nick_input"
+                            className={"settings_nick_input " + this.props.color}
                             defaultValue={this.props.login}
                             onChange={this.handleChangeLogin}
                         />

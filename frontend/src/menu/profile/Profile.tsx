@@ -91,7 +91,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 						<div className={"backto1982 " + this.state.user.color} >{this.state.user.login}</div>
 					</Grid>
 					
-					<Grid item  xs={5}
+					<Grid item  xs={6}
 								justifyContent="space-around"
 								direction="column"
 								style={{display: 'flex',

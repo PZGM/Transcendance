@@ -55,7 +55,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 							spacing={1}
 							style={GridItemStyle}
 						>
-							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3w)'}}>
+							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
 								{this.props.game.winnerScore}
 							</div>
 							
@@ -68,7 +68,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 								
 								<Stack direction='row'
 									justifyContent="space-evenly"
-									style={{width: '100%', fontSize: 'calc(10px + 1w)'}}
+									style={{width: '100%', fontSize: 'calc(10px + 1vw)'}}
 								>
 									<div className="bit9x9 red">
 										{this.props.game.players[w_id].login}
@@ -84,7 +84,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 								<Stack direction='row'
 									justifyContent="center"
 									style={{width: '100%'}}>
-									<div className="bit5x5 white" style={{fontSize: 'calc(10px + 0.8w)'}}>
+									<div className="bit5x5 white" style={{fontSize: 'calc(10px + 0.8vw)'}}>
 										{date}
 									</div>
 								</Stack>
@@ -95,7 +95,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 								alt={this.props.game.players[l_id].login}
 								src={this.props.game.players[l_id].avatar}/>
 							
-							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3w)'}}>
+							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
 								{this.props.game.loserScore}
 							</div>
 						

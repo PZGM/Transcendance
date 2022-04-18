@@ -30,7 +30,7 @@
 .bc_red { background-color: var(--red); }
 .bc_pink { background-color: var(--pink); }
 .bc_yellow { background-color: var(--yellow); }
-.bc_white { background-color: white; }
+.bc_white { background-color: var(--white); }
 .bc_blue { background-color: var(--blue); }
 .bc_cyan { background-color: var(--cyan); }
 .bc_violet { background-color: var(--violet); }

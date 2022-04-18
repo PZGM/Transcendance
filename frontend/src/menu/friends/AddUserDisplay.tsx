@@ -57,11 +57,10 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 						secondaryAction	=
 						{
 							// <Stack direction="row">
-								<div className="friends_button but_green"
+								<div className="add_friend_button but_green"
 									onClick={this.addFriend}
 								>
 									<Stack direction='row'
-										justifyContent="space-between"
 										alignItems="center"
 									>
 									
@@ -70,7 +69,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 											<PersonAddIcon sx={{ fontSize: 40, color: 'white', ml: '10px'}}/>
 										}
 										
-										<div className='bit5x5 white'>
+										<div>
 											{(this.state.done) ? 'Added' : 'Add Friend'}
 										</div>
 									

@@ -36,6 +36,9 @@ export class User {
     @ManyToMany(() => User, user => user.friends)
     friended: User[];
 
+    @Column({default: false})
+    public firstLog: boolean;
+
     @Column({ nullable: true })
     public twofaSecret?: string;
 
