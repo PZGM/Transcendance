@@ -22,3 +22,8 @@ Launch option (optional):
 -r : reset all
 -R : hard reset 
 ```
+
+then go on :
+```
+https://serv.pizzagami.fr:{PORT} (http for adminer)
+```
