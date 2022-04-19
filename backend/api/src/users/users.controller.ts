@@ -1,7 +1,7 @@
 import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
-import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { UsersService } from './users.service';
 import { UserDto } from 'src/dto/user.dto';
 import { isNumber } from 'class-validator';
@@ -63,6 +63,15 @@ export class UsersController {
         if (ret)
           throw new ConflictException();
     }
+
+    @Put('/update/color')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async updateColor(@Req() request: CustomRequest, @Body() updateColorRequest: {color: string}) {
+        const ret =  await this.userService.updateColor(request.user.id, updateColorRequest.color);
+        if (ret)
+          throw new ConflictException();
+    }
+
 
     @Put('update/addBlockedUser')
     @UseGuards(FullyAuthentificatedGuard)

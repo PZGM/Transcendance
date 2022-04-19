@@ -24,6 +24,18 @@
 .violet { color: var(--violet); }
 .dark_blue { color: var(--dark_blue); }
 
+/* BACKGROUND COLORS FOR DIV */
+
+.bc_green { background-color: var(--green); }
+.bc_red { background-color: var(--red); }
+.bc_pink { background-color: var(--pink); }
+.bc_yellow { background-color: var(--yellow); }
+.bc_white { background-color: var(--white); }
+.bc_blue { background-color: var(--blue); }
+.bc_cyan { background-color: var(--cyan); }
+.bc_violet { background-color: var(--violet); }
+.bc_dark_blue { background-color: var(--dark_blue); }
+
 /* BUTTONS COLOR AND ANIMATION */
 
 .but_green {
