@@ -1,4 +1,4 @@
-@import './asset/fonts/fonts.css';
+@import './asset/fonts/fonts.module.css';
 
 body {
   margin: 0;

@@ -79,7 +79,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[4, 'playing']]);
 
 		return (
-				<div className={"user bor_" + this.getColor(this.props.index % 5)}
+				<div className={"user but_" + this.getColor(this.props.index % 5)}
 				>
 					<ListItem 
 						key={this.props.user.id}
@@ -102,20 +102,12 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							</Stack>
 						}
 					>
-						<Stack direction='row'
-							justifyContent="space-between"
-							alignItems="center"
-							spacing={1}
-						>
-							<Avatar variant='circular'
-								alt={this.props.user.login}
-								src={this.props.user.avatar}
-							/>
-							
-							<div className={'backto1982 ' + this.props.user.color}>
-								{this.props.user.login}
-							</div>
-						</Stack>
+						<div>
+							<Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+									<Avatar variant='circular' alt={this.props.user.login} src={this.props.user.avatar}/>
+									<div className='backto1982' style={{color: this.getColor(this.state.status)}}> {this.props.user.login} </div>
+							</Stack>
+						</div>
 					
 					</ListItem>
 				</div>

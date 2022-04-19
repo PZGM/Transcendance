@@ -79,11 +79,10 @@ export class Home extends Component<HomeProps, HomeState> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
-		if (resp)
-			this.setState({
-				avatar: resp.avatar,
-				login: resp.login
-			})
+		this.setState({
+			avatar: resp.avatar,
+			login: resp.login
+		})
 	}
 
 	async getChannel() {

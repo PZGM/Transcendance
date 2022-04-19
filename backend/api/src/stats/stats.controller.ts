@@ -19,10 +19,4 @@ export class StatsController {
         return this.statsService.getStats(request.user.id);
     }
 
-    @Get('with-user')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async getUserWithStats(@Req() request: CustomRequest) {
-        return this.statsService.getUserWithStats(request.user.id);
-    }
-
 }

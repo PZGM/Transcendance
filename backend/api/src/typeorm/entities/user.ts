@@ -24,9 +24,6 @@ export class User {
     avatar: string;
 
     @Column()
-    color: string;
-
-    @Column()
     status?: number;
 
     @ManyToMany(() => User, user => user.friended)
@@ -35,9 +32,6 @@ export class User {
 
     @ManyToMany(() => User, user => user.friends)
     friended: User[];
-
-    @Column({default: false})
-    public firstLog: boolean;
 
     @Column({ nullable: true })
     public twofaSecret?: string;

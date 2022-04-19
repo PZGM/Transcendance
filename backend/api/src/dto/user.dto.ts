@@ -1,6 +1,5 @@
 import { Length } from "class-validator";
 import { User } from "src/typeorm/entities/user";
-import { Stats } from "src/typeorm/entities/stats";
 import { Channel } from "src/typeorm";
 
 export class UserDto {
@@ -13,8 +12,6 @@ export class UserDto {
             this.status = user.status;
             this.blockedUsers = user.blockedUsers;
             this.adminChannels = user.adminChannels;
-            this.color = user.color;
-            this.stats = user.stats;
         }
     }
     id: number;
@@ -22,9 +19,7 @@ export class UserDto {
     avatar: string;
     status: number;
     blockedUsers?: User[];
-    adminChannels?: Channel[];
-    color: string;
-    stats: Stats;
+    adminChannels?: Channel[]; 
 }
 
 export class UpdateImageRequestDto{
