@@ -24,10 +24,10 @@ export class AuthController {
     @UseGuards(IntraAuthGuard)
     redirect(@Res() res: Response, @Req() request: CustomRequest, @Session() session: Record<string, any>,
     ) {
-        if (!request.user.firstLog) {
-            request.user.firstLog = true;
-            res.redirect(process.env.USER_INIT);
-        }
+        // if (!request.user.firstLog) {
+        //     request.user.firstLog = true;
+        //     res.redirect(process.env.USER_INIT);
+        // }
         if (!request.user.twofa || session.istwofa)
             res.redirect(process.env.HOME_URL);
         else
