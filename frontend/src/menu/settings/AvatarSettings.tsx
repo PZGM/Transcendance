@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import AvatarEditor from "react-avatar-editor";
 import axios from "axios";
 import "../../style/buttons.css";
+import { time } from "console";
 
 type AvatarSettingsProps = {
     avatar: string
@@ -26,6 +27,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 	constructor(props: AvatarSettingsProps) {
 		super(props);
+        this.editing = this.editing.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
 		this.state = {
@@ -57,6 +59,12 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 			fileSelected: fileList[0]
 		})
 	}
+
+    editing() {
+        this.setState({
+            editing: ! this.state.editing,
+        })
+    }
 
 	zoomIn = () => {
 		this.setState({
@@ -94,7 +102,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
     render() {
 
-		console.log("Avatar render")
+		{console.log("render")}
 
 		// Da togliere
 		const GridItemStyle = {

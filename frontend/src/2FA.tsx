@@ -1,9 +1,13 @@
-import { Grid } from "@mui/material";
+import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, InputBase, Button, Typography } from "@mui/material";
 import { Component } from "react";
+import { Helmet } from "react-helmet";
+import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserAPI } from "./api/Users.api";
+import Menu from "./menu/Menu";
 import { Navigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import background from "./asset/images/background.jpg"
 import "./style/buttons.css"
 import "./style/display.css"
 
@@ -55,29 +59,52 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
 
 		return (
 
-            <div className="background">
+            <div style={{
+				backgroundImage: `url(${background})`,
+				backgroundSize: 'cover',
+				height: '100vh',
+				width: '100vw',
+				backgroundRepeat: 'norepeat',
+				}}
+			>
                 {/* Redirect to home */}
                 { this.state.redirect ? (<Navigate to="/home"/>) : null }
 				
-                <div className="frame_div">
+                <div style={{
+					height: '100vh',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					}}
+				>
+				<Grid container
+                    justifyContent="space-between"
+                    wrap="nowrap"
+                    sx={{
+                            border: '0.5vw solid rgba(0, 70, 109, 1)',
+                            outline: '0.5vw solid rgba(0, 80, 117, 1)',
+                            backgroundColor: 'black',
+                            height: 'undefined',
+                            width: 'undefined',
+                            minWidth: "400px", minHeight: "800px",
+                            maxWidth: "600px", maxHeight: "1000px"
+                        }}
+				>
                     <Grid container
-                        justifyContent="space-evenly"
-                        wrap="nowrap"
-                        className="twofa_frame"
                         direction="column"
+                        justifyContent="space-between"
                         alignItems="center"
+                        sx={{width: '100%'}}
                     >
                         <Grid item xs={4} sx={GridItemStyle}> 2FA AUTHENTICATION</Grid>
-                        
                         <Grid item xs={3} sx={GridItemStyle}>
-                            <input
-                                id="unstyled"
-                                className="settings_2fa_input"
-                                placeholder="enter code"
-                                onChange={ async (e) => {this.onChange(e.target.value)}}
-                            />
+                        <input
+                            id="unstyled"
+                            className="settings_2fa_input"
+                            placeholder="enter code"
+                            onChange={ async (e) => {this.onChange(e.target.value)}}
+                        />
                         </Grid>
-                        
                         <Grid item xs={5} sx={GridItemStyle}>
                             <div className="settings_edit_button but_green"
                                 onClick={this.onValidation.bind(this)}>
@@ -85,6 +112,8 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
                             </div>
                         </Grid>
                     </Grid>
+				</Grid>
+
 				</div>
             </div>
         );

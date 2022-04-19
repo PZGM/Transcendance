@@ -28,16 +28,13 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 	async fetchProfile() {
 		const resp = await UserAPI.getAchievement();
 		const user = await UserAPI.getUser();
-		if (user)
-			this.setState({
-				games: resp.games,
-				row: resp.row,
-				cup: resp.cup,
-				login: user.login,
-				avatar: user.avatar
-			})
-		// else
-			// error
+		this.setState({
+			games: resp.games,
+			row: resp.row,
+			cup: resp.cup,
+			login: user.login,
+			avatar: user.avatar
+		})
 	}
 
 	componentDidMount()  {

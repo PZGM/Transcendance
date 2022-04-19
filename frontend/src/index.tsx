@@ -13,7 +13,6 @@ import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
-import { UserInit } from './userinit/UserInit';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
@@ -84,7 +83,6 @@ ReactDOM.render(
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
             </Route>
 
-            <Route path="init" element={<UserInit/>} />
             <Route path="2fa" element={<Twofa/>} />
             <Route path="*" element={<NotFound/>} />
           </Route>

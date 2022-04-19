@@ -1,7 +1,6 @@
 @import "colors.css";
 
-.friends_search_bar, .settings_nick_input, .settings_2fa_input,
-.userinit_nick_input {
+.friends_search_bar, .settings_nick_input, .settings_2fa_input {
 	outline: none;
 	position: relative;
 	text-align: center;
@@ -9,6 +8,7 @@
 	align-items: center;
 	justify-content: center;
 	border: none;
+	color: white;
 	padding-bottom: 10px;
 	padding-top: 10px;
 	background: transparent;
@@ -17,7 +17,6 @@
 /* Friends */
 
 .friends_search_bar {
-	color: white;
 	width: 99%;
 	font-family: Bit5x5;
 	font-size: calc(10px + 1vw);
@@ -27,7 +26,10 @@
 
 .friends_search_bar:focus::-webkit-input-placeholder { color:transparent; }
 
-.settings_nick_input, .userinit_nick_input {
+/* Settings */
+
+.settings_nick_input {
+	width: 100%;
 	font-family: bit5x5;
 	font-size: 30px;
 	border-bottom: 6px solid var(--blue);
@@ -35,20 +37,7 @@
 	padding-bottom: 20px
 }
 
-/* User Init */
-
-.userinit_nick_input {
-	width: 60%;
-}
-
-/* Settings */
-
-.settings_nick_input {
-	width: 100%;
-}
-
 .settings_2fa_input {
-	color: white;
 	font-family: Bit5x5;
 	font-size: calc(10px + 1vw);
 	border: 5px solid var(--blue);

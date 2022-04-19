@@ -68,12 +68,10 @@ export class Friends extends Component<FriendsProps, FriendsState>
 		newFriends.push(user);
 		this.setState({
 			friends: newFriends
-		}); 
+		});
 	}
 
-	async onSearch(e: React.ChangeEvent<HTMLInputElement>) {
-		e.target.value = e.target.value.replace(/\W/g, "");
-		const search = e.target.value;
+	async onSearch(search:string) {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
@@ -107,7 +105,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 				<input
 					className="friends_search_bar"
 					placeholder="Search Friend"
-					onChange={ async (e) => {this.onSearch(e)}}
+					onChange={ async (e) => {this.onSearch(e.target.value)}}
 				/>
 				
 				<List style={{height: "100% -100px", overflow: 'auto'}}>

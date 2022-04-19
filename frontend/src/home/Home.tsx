@@ -79,11 +79,10 @@ export class Home extends Component<HomeProps, HomeState> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
-		if (resp)
-			this.setState({
-				avatar: resp.avatar,
-				login: resp.login
-			})
+		this.setState({
+			avatar: resp.avatar,
+			login: resp.login
+		})
 	}
 
 	async getChannel() {
@@ -171,8 +170,8 @@ export class Home extends Component<HomeProps, HomeState> {
 				</Box> */}
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'green'}} className='right'>
-					<MyInfos avatar={this.state.avatar} login={"afreire-"}/>
-					<Selecter channel={this.state.channel} ></Selecter>
+					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
+					<Selecter channel={this.state.channel}></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>

@@ -5,27 +5,29 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
+import { Helmet } from "react-helmet";
 import { UserAPI } from "../../api/Users.api";
-import { UserDto } from "../../api/dto/user.dto"
-import "../../style/display.css"
-import { NumericLiteral } from "typescript";
+import Menu from "../Menu";
+import background from "./../../asset/images/background.jpg"
 
 type ProfileProps = {
 };
 
 
 interface ProfileState {
-	user: UserDto | null
+	games: number,
+	win: number,
+	shots: number,
+	accurancy: number,
+	rank: number,
+	login?: string,
+	avatar?: string,
 };
 
 function StatElement(props) {
 	return (
-		<Stack direction="row"
-			justifyContent="space-between"
-			sx={{width: '80%',
-				fontSize: 'calc(10px + 1.5vw)'}}
-			className={"bit9x9 " + props.color} >
-			<div>{props.logo}</div>
+		<Stack direction="row">
+			<img>{props.logo}</img>
 			<div>{props.name}</div>
 			<div>{props.data}</div>
 		</Stack>
@@ -35,13 +37,20 @@ function StatElement(props) {
 export class Profile extends Component<ProfileProps, ProfileState> {
 	constructor(props: ProfileProps) {
 		super(props);
-		this.state = {user: null}
+		this.state = {games: 0, win: 0, shots: 0, accurancy: 0, rank: 0, login: undefined, avatar: undefined}
 	}
 
 	async fetchProfile() {
-		const user = await UserAPI.getUserWithStats();
+		const resp = await UserAPI.getProfile();
+		const user = await UserAPI.getUser();
 		this.setState({
-			user
+			games: resp.games,
+			win: resp.win,
+			shots: resp.shots,
+			accurancy: resp.accurancy,
+			rank: resp.rank,
+			login: user.login,
+			avatar: user.avatar
 		})
 	}
 
@@ -57,54 +66,73 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 			alignItems: 'center',
 			display: "flex",
 			justifyContent: 'center',
-			spacing: '4',
+			fontFamily: 'Bit9x9',
 			fontSize: 'calc(10px + 1vw)',
-			width: '100%',
+			width: '100%'
 		};
 
-		const IconStyle = {
-			width: '40px',
-			height: '40px'
-		}
+		return (
+			<>
+				<Grid item xs={3}
+					sx={GridItemStyle}
+					justifyContent="center">
+					<Avatar	variant='circular'
+							alt="Semy Sharp"
+							src={this.state.avatar}
+							sx={{	width: '200px',
+									height: '200px'}}
+					/>
+				</Grid>
+				<Grid item	xs={1}
+							sx={GridItemStyle}>
+					AVATAR
+				</Grid>
+				<Grid item xs={6}
+							sx={{	m: 2,
+									p: 2,
+									// border: '0.4vw solid rgba(142, 0, 172, 1)',
+									// outline: '0.4vw solid rgba(142, 0, 172, 0.5)', 
+									backgroundColor: 'black'
+								}}>
+					<Stack sx={GridItemStyle}
+						direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
 
-		if (!this.state.user || !this.state.user.stats)
-			return (
-				<div>LOADING...</div>
-			)
-		else
-			return (
-				<>
-					<Grid item xs={4}
-						sx={GridItemStyle}
-						justifyContent="center"
-					>
-						<Avatar	variant='circular'
-								alt="Semy Sharp"
-								src={this.state.user.avatar}
-								sx={{	width: '250px',
-										height: '250px'}}
-						/>
-					</Grid>
-					
-					<Grid item	xs={2}
-								sx={GridItemStyle}>
-						<div className={"backto1982 " + this.state.user.color} >{this.state.user.login}</div>
-					</Grid>
-					
-					<Grid item  xs={6}
-								justifyContent="space-around"
-								direction="column"
-								style={{display: 'flex',
-										alignItems: 'center'}}
-					>
-						<StatElement color="red" logo={<GamepadIcon style={IconStyle}/>} name="games" data={this.state.user.stats.games} />
-						<StatElement color="green" logo={<EmojiEventsIcon style={IconStyle}/>} name="wins" data={this.state.user.stats.gameWins} />
-						<StatElement color="blue" logo={<FaceIcon style={IconStyle}/>} name="avg_time" data={this.state.user.stats.durationAverage} />
-						<StatElement color="violet" logo={<CancelIcon style={IconStyle}/>} name="winrate" data={this.state.user.stats.victoryRate} />
-						<StatElement color="cyan" logo={<StarIcon style={IconStyle}/>} name="elo_score" data={this.state.user.stats.eloScore} />
-						<StatElement color="yellow" logo={<StarIcon style={IconStyle}/>} name="rank" data={this.state.user.stats.rank} />
-					</Grid>
+						<Stack sx={GridItemStyle}
+							direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+							<GamepadIcon />
+							<EmojiEventsIcon />
+							<FaceIcon />
+							<CancelIcon />
+							<StarIcon />
+						</Stack>
+
+						<Stack sx={GridItemStyle}
+							direction="column" justifyContent="flex-start" alignItems="center" spacing={2}>
+							<Typography>GAMES</Typography>
+							<Typography>WIN</Typography>
+							<Typography>SHOTS</Typography>
+							<Typography>ACCURANCY</Typography>
+							<Typography>RANK</Typography>
+						</Stack>
+
+					<Stack sx={GridItemStyle}
+						direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+						{/* <Typography>{this.state.games}</Typography>
+						<Typography>{this.state.win}</Typography>
+						<Typography>{this.state.shots}</Typography>
+						<Typography>{this.state.accurancy}%</Typography>
+						<Typography>{this.state.rank}</Typography> */}
+						<Typography>50</Typography>
+						<Typography>2</Typography>
+						<Typography>40</Typography>
+						<Typography>5%</Typography>
+						<Typography>1st</Typography>
+					</Stack>
+
+				</Stack>
+				</Grid>
 				</>
-			);
+		);
 	};
 }
+

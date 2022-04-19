@@ -10,9 +10,12 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
+import { Link } from "react-router-dom";
 
 interface UserInfoState {
     user?: any
+    login?: string;
+    avatar?: string;
 }
 
 interface UserInfoProps {
@@ -27,6 +30,14 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         }
 	}
 
+	async fetchUser() {
+		const resp = await UserAPI.getUser();
+		this.setState({
+			avatar: resp.avatar,
+			login: resp.login
+		})
+	}
+
 	componentDidMount()  {
         const id = this.props.params.name;
         // if (this.props.isPrivateMessage)
@@ -35,7 +46,8 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         this.setState({
             user: id,
         })
-	}
+        // console.log("USER : " + id)
+    }
 
 // need a get user grace a l'id et puis apres on use le user et c'est fini (voir aussi les stats de fabrizio pour avoir les bon truc)
 
@@ -44,14 +56,18 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		return (
             <>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {}}>
+                    {/* <IconButton onClick={ () => {}}>
                         <ArrowBackIcon/>
-                    </IconButton>
+                    </IconButton> */}
+                    <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user }}>
+                        <ArrowBackIcon/>
+					</Link>
+
                 </Stack>
                 <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                     <Avatar variant='circular' alt="" src=""/>
                     <Typography variant="h3">
-                        <div className='bit9x9'> AFREIRE- </div>
+                        <div className='bit9x9'> {this.state.user} </div>
                     </Typography>
                     <Typography variant="button">
                         <div className='bit9x9'> {"Status > Online"} </div>

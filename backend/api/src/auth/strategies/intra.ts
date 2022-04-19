@@ -23,7 +23,6 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
         avatar : photos[0].value,
         status: 0,
         friends: [],
-        color: 'white',
     };
 
     return this.authService.validateUser(details);
