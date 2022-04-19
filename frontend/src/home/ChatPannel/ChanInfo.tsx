@@ -38,6 +38,8 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
         this.setState({
             chan: id,
         })
+		console.log("CHAN : " + id)
+
 	}
 
 	renderRowsAdmins(list) {

@@ -8,7 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import { Link } from "react-router-dom";
 
 interface ChatState {
-    chanId?: number
+    chanName?: string
 }
 
 interface ChatProps {
@@ -20,19 +20,22 @@ export class Chat extends Component<ChatProps, ChatState> {
 	constructor(props: ChatProps) {
 		super(props);
         this.state = {
-            chanId: undefined,
+            chanName: undefined,
         }
 	}
 
 	componentDidMount()  {
-        const id = this.props.params.name;
-        console.log(id);
-        // if (this.props.isPrivateMessage)
-        //     chanId = getPrivateMessageChannel(id);
-        // else
+	}
+
+    async getName() {
+        const name = this.props.params.name;
         this.setState({
-            chanId: id,
+			chanName: name,
         })
+    }
+
+	Select() {
+		this.getName();
 	}
 
 // il faut trouver un moyen d'afficher le chat (je dirais qu'il faut le faire a la discord)
@@ -55,9 +58,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 				  
 				<Box height="60px" sx={{backgroundColor: "red"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center" spacing={2}>
-                        <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanId + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanId + "/info"}}>
-                            <InfoIcon fontSize="large"/>
-                        </Link>
+						<button onClickCapture={() => {this.Select()}} >
+							<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanName + "/info"}}>
+								<InfoIcon fontSize="large"/>
+							</Link>
+						</button>
 						<InputBase placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "60px" }}/>
 						<IconButton>
 							<SendIcon/>

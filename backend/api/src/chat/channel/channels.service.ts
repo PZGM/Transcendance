@@ -62,7 +62,7 @@ export class ChannelsService {
     if (!chan && channelDto.name.length > 2) {
     channelDto.owner = await this.usersService.getOne(channelDto.owner.id);
     const channel = this.channelsRepository.create(channelDto);
-    chan.admin.push(channelDto.owner);
+    channel.admin.push(channelDto.owner);
     return this.channelsRepository.save(channel);
     }
     else

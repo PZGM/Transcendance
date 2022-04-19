@@ -8,11 +8,10 @@ function handleErrors(response) {
     return response;
 }
 
-
 export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
-    public static async getChannel() {
+    public static async getChannels() {
         const resp = await fetch(`https://serv.pizzagami.fr:4333/api/channels`, {
             method: "GET",
             credentials: "include"})
@@ -38,12 +37,12 @@ export class ChatAPI {
         return resp
     }
     // ${process.env.REACT_APP_GET_CHANNELS}
-    public static async addChannel(name: string, owner: any, visibility: string, users: any, messages: any, password: any) {
+    public static async addChannel(name: string, owner: any, visibility: string, users: any, messages: any, password: any, mute: any, admin: any, id: number) {
         let ret = true;
         await fetch(`https://serv.pizzagami.fr:4333/api/channels`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({name: name, owner: owner, visibility: visibility, users: users, messages: messages, password: password}),
+        body: JSON.stringify({name: name, owner: owner, visibility: visibility, users: users, messages: messages, password: password, mute: mute, admin: admin}),
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {
