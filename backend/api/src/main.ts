@@ -14,6 +14,7 @@ import * as https from 'https';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
 
+
 async function bootstrap() {
   dotenv.config();
 
@@ -63,7 +64,7 @@ async function bootstrap() {
     });
 
     await app.init();
-  
+
     http.createServer(server).listen(3001);
     https.createServer(httpsOptions, server).listen(3333);
 }

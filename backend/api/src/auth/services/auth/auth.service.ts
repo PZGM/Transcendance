@@ -5,12 +5,15 @@ import { Stats } from 'src/typeorm/entities/stats';
 import { UserDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { AuthentificationProvider } from './auth';
+import { ChannelsService } from 'src/chat/channel/channels.service';
+import { ChannelDto } from 'src/dto/chat.dto';
+import { Channel } from 'src/typeorm';
 
 @Injectable()
 export class AuthService implements AuthentificationProvider {
 
     constructor(
-        @InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(Stats) private statsRepo: Repository<Stats>,
+        @InjectRepository(User) private userRepo: Repository<User>, @InjectRepository(Stats) private statsRepo: Repository<Stats>, private readonly chanService: ChannelsService
     ) {
 
     }
@@ -20,6 +23,13 @@ export class AuthService implements AuthentificationProvider {
         let user = await this.userRepo.findOne({ intraId });
         if (!user) 
             user = await this.createUser(details);
+        if (user.id === 1) {
+            //universal Channel
+                let channel: Channel = new Channel();
+                channel.admin = []; channel.name = "Universal Channel"; channel.visibility = "public";
+                channel.users = []; channel.mute = []; channel.chats = []; channel.id = 0; channel.visibility = 'public'
+                this.chanService.create(new ChannelDto(channel));
+        }
         return user;
     }
     

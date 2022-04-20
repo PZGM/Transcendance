@@ -12,7 +12,6 @@ import { ChannelsModule } from './chat/channel/channels.module';
 import { MessagesModule } from './chat/message/messages.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
-import { ChatGateway } from './chat/chat.gateway';
 import { HistoryModule } from './history/history.module';
 import { StatsModule } from './stats/stats.module';
 

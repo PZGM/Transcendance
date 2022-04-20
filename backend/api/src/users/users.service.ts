@@ -1,7 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { use } from 'passport';
-import path from 'path/posix';
 import { UserDto } from 'src/dto/user.dto';
 import { ImagesService } from 'src/images/images.service';
 import { Game, User } from 'src/typeorm';

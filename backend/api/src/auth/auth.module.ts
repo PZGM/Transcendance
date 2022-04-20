@@ -8,6 +8,7 @@ import { SessionSerializer } from './utils/serializer';
 import { TwofaService } from './services/twofa/twofa.service';
 import { UsersModule } from 'src/users/users.module';
 import { TwofaController } from './controllers/twofa/twofa.controller';
+import { ChannelsModule } from 'src/chat/channel/channels.module';
 
 @Module({
   providers: [
@@ -21,7 +22,7 @@ import { TwofaController } from './controllers/twofa/twofa.controller';
   controllers: [AuthController, TwofaController],
   imports: [
     TypeOrmModule.forFeature([User,Stats]),
-    UsersModule
+    UsersModule, ChannelsModule
   ]
 
 })

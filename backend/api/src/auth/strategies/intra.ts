@@ -25,7 +25,7 @@ export class IntraStrategy extends PassportStrategy(Strategy) {
         friends: [],
         color: 0,
     };
-
+    
     return this.authService.validateUser(details);
     }
 }
