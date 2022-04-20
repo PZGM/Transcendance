@@ -25,5 +25,9 @@ Launch option (optional):
 
 then go on :
 ```
+https://127.0.0.1:{PORT} (http for adminer)
+```
+For a live version go on : 
+```
 https://serv.pizzagami.fr:{PORT} (http for adminer)
 ```
