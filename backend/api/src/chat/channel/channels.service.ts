@@ -59,12 +59,7 @@ export class ChannelsService {
         name: channelDto.name
       }
     });
-    console.log('===channel');
-    console.log(channelDto);
-    console.log('----');
-    console.log(channelDto.visibility);
     if (channelDto.visibility !== "public"){
-      console.log("WHY R U HERE");
       const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const encryptedPassword = Buffer.concat([cipher.update(chan.password), cipher.final(),]);
       channelDto.password = encryptedPassword.toString();
