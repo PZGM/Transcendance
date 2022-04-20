@@ -44,7 +44,8 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
-				color: resp.color
+				color: resp.color,
+                input: resp.login
 			})
 	}
 
@@ -67,7 +68,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
             let isValid = await UserAPI.updateLogin(this.state.input);
             if (isValid) {
                 this.setState({ login: this.state.input });
-                toast.success(`Login updated to ${this.state.input}`, {
+                toast.success(`Login set to ${this.state.input}`, {
                     position: toast.POSITION.BOTTOM_CENTER})
                 return true
             }
@@ -103,13 +104,17 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
     async save()
     {
         if (await this.updateLogin())
+        {
+            toast.success(`Color set to ${this.state.color}`, {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
             this.setState({redirect: true})
-        else
-            console.log('Error in updateLogin()')
+        }
     }
 
 	render ()
     {
+
 		return (
 
             <div className="background">

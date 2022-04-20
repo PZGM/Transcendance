@@ -15,6 +15,7 @@ export class UserDto {
             this.adminChannels = user.adminChannels;
             this.color = user.color;
             this.stats = user.stats;
+            this.firstLog = user.firstLog;
         }
     }
     id: number;
@@ -25,6 +26,7 @@ export class UserDto {
     adminChannels?: Channel[];
     color: string;
     stats: Stats;
+    firstLog: boolean;
 }
 
 export class UpdateImageRequestDto{

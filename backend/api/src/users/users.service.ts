@@ -1,7 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { use } from 'passport';
-import path from 'path/posix';
 import { UserDto } from 'src/dto/user.dto';
 import { ImagesService } from 'src/images/images.service';
 import { Game, User } from 'src/typeorm';
@@ -60,7 +58,7 @@ export class UsersService {
         user.status = status;
         await this.userRepository.save(user);
         return true;
-    }
+    }   
 
     public async getUserImage(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);
@@ -137,10 +135,19 @@ export class UsersService {
         await this.userRepository.save(user);
     }
 
+    public async firstLogged(user: User) {
+        user.firstLog = true;
+        await this.userRepository.save(user);
+    }
+
     public async updateLogin(userId: number, login: string) : Promise<number> {
+        const user: User|null = await this.getOne(userId);
+        if (!user.firstLog)
+            this.firstLogged(user);
+        if (user.login == login)
+            return 0;
         if (! await this.login_available(login))
             return 1;
-        const user: User|null = await this.getOne(userId);
         user.login = login;
         await this.userRepository.save(user);
         return 0;
