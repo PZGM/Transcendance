@@ -8,9 +8,11 @@ import RenderRows from "./tools/RenderRows";
 import AddIcon from '@mui/icons-material/Add';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import "../../style/buttons.css"
+import { UserDto } from "../../api/dto/user.dto";
 
 interface ChanEditState {
     chan?: any
+	friends: UserDto[];
 }
 
 interface ChanEditProps {
@@ -26,6 +28,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		super(props);
         this.state = {
             chan: undefined,
+			friends: [],
         }
 	}
 
@@ -40,17 +43,17 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 	}
 
 	update() {
-		console.log("nike ta race")
 		const id = this.props.params.name;
         this.setState({
             chan: id,
         })
-	}	
+	}
+
 	renderRowsAdmins(list) {
 		list = [1,1,1,1]
-		const listItems = list.map((id: number) =>
+		const listItems = list.map((user: any) =>
 			<>
-			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" ></RenderRows>
+			<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" deleteFriend={this.deleteFriend} ></RenderRows>
 			</>
 	  );
 	  return listItems;
@@ -60,11 +63,35 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		list = [1,1,1,1,1,1,1,1]
 		const listItems = list.map((user: any) =>
 		<>
-			<RenderRows name={user.login} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" ></RenderRows>
+			<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" ></RenderRows>
 		</>		
 	  );
 	  return listItems;
 	}
+
+	deleteFriend(id:number) {
+		const newFriends: UserDto[] = this.state.friends.filter((user) => {
+			return user.id != id;
+		});
+
+		this.setState({
+			friends: newFriends
+		});
+	}
+
+	async fetchFriends() {
+		try {
+			const resp = await UserAPI.getFriends();
+			this.setState({
+				friends: resp
+			})
+		}
+		catch (e) {
+			console.log(e);
+		}
+
+	}
+
 
 	render () {
 

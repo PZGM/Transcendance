@@ -42,7 +42,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         })
 	}
 
-// need a get user grace a l'id et puis apres on use le user et c'est fini (voir aussi les stats de fabrizio pour avoir les bon truc)
+//TODO need a get user grace a l'id et puis apres on use le user et c'est fini (voir aussi les stats de fabrizio pour avoir les bon truc)
 
 	render () {
 
@@ -67,15 +67,15 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                                 <div className='bit5x5'> Play Match </div>
                             </Typography>
                         </ButtonBase>
-                        <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-                            <Typography variant="button" color='white'>
+                        {/* <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
                                 <div className='bit5x5'> Send Message </div>
-                            </Typography>
-                        </ButtonBase>
+                        </ButtonBase> */}
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user}}>
+                            <div className='bit5x5'> Send Message </div>
+                        </Link>
+{/* TODOfaire une ternaire pour savoir si c'est un ami ou pas et donc l'ajouter ou le remove */}
                         <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-                            <Typography variant="button" color='white'>
-                                <div className='bit5x5'> remove Friend </div>
-                            </Typography>
+                            <div className='bit5x5'> remove Friend </div>
                         </ButtonBase>
                     </Stack>
                     <Box sx={{ p: 1, border: '3px solid grey' }} width="23vh">

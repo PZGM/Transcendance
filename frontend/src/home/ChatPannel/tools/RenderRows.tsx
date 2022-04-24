@@ -1,17 +1,25 @@
 import { Box, Button, ButtonBase, Grid, IconButton, Input, InputBase, List, Stack, TextField, Typography, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
+import { UserAPI } from "../../../api/Users.api";
 // import './../style/dac.css'
 import '../../../style/buttons.css'
 
-
-
-
 let width_button = "90px"
 
-
+// TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
+function RemoveFriend(props) {
+    // UserAPI.removeFriend(props.user.id);
+    // props.deleteFriend(props.user.id);
+    return null
+}
 
 
 function RenderRows(props) {
+    // removeFriend() {
+	// 	UserAPI.removeFriend(this.props.user.id);
+	// 	this.props.deleteFriend(this.props.user.id);
+	// }
+
     return (
         <Box width="472px" className="bdac" sx={{color:'test'}} ml="5px" mr="2px">
             <Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
@@ -32,7 +40,7 @@ function RenderRows(props) {
                     {/* <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
                         <div className='bit5x5'> {props.second_button} </div>
                     </ButtonBase> */}
-                    <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
+                    <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}} onClick={() => {<RemoveFriend user={props.user} deleteFriend={props.deleteFriend} />}}>
                         <div className='bit5x5'> {props.third_button} </div>
                     </ButtonBase>
                 </Stack>
