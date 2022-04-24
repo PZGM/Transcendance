@@ -1,6 +1,6 @@
 import { Avatar, Box, ButtonBase, IconButton, List, Stack, Typography } from "@mui/material";
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -39,6 +39,13 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
         })
 	}
 
+	update() {
+		console.log("nike ta race")
+		const id = this.props.params.name;
+        this.setState({
+            chan: id,
+        })
+	}	
 	renderRowsAdmins(list) {
 		list = [1,1,1,1]
 		const listItems = list.map((id: number) =>
@@ -51,9 +58,9 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	renderRowsUsers(list) {
 		list = [1,1,1,1,1,1,1,1]
-		const listItems = list.map((id: number) =>
+		const listItems = list.map((user: any) =>
 		<>
-		<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" ></RenderRows>
+			<RenderRows name={user.login} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND" ></RenderRows>
 		</>		
 	  );
 	  return listItems;
@@ -66,14 +73,14 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
                 {/* <Typography>{`Yo je suis le ChanEdit de ${this.state.chan} `}</Typography> */}
                 <Stack direction="row" justifyContent="space-between">
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                        <IconButton onClick={ () => {}}>
-                            <ArrowBackIcon/>
-                        </IconButton>
+						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
+							<ArrowBackIcon/>
+						</Link>
                     </Stack>
                     <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-                        <IconButton onClick={ () => {}}>
+						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
                             <DoneOutlineIcon/>
-                        </IconButton>
+						</Link>
                     </Stack>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
@@ -93,11 +100,11 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
 					<Typography>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
-                        <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}>
-                            <Typography variant="button" color='white'>
+                        {/* <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}> */}
+							<Link onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
                                 <div className='bit5x5'> Add user </div>
-                            </Typography>
-                        </ButtonBase>
+							</Link>
+                        {/* </ButtonBase> */}
                         <List style={{overflow: 'auto'}} sx={{height: "800px"}}>
 							{this.renderRowsUsers([])}
 							{/* {this.renderRows(this.state.friends)} */}

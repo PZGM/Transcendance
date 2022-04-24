@@ -13,8 +13,8 @@ export class ChannelsController {
 
   @Get()
   @UseGuards(FullyAuthentificatedGuard)
-  public async getChannels() {
-    let channels: ChannelDto[] = await this.getChannels();
+  public async getChannels(@Req() request: CustomRequest) {
+    let channels: ChannelDto[] = await this.channelsService.getChannels(request.user.id);
     return channels;
   }
 

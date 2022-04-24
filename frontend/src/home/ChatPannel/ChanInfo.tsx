@@ -1,12 +1,12 @@
 import { ButtonBase, IconButton, Stack, List, Typography } from "@mui/material";
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
-
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import AddIcon from '@mui/icons-material/Add';
 interface ChanInfoState {
     chan?: any
 }
@@ -67,10 +67,17 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 		return (
             <>
-                <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {}}>
-                        <ArrowBackIcon/>
-                    </IconButton>
+				<Stack direction="row" justifyContent="space-between">
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan }}>
+							<ArrowBackIcon/>
+						</Link>
+					</Stack>
+                    <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
+						    <AddIcon/>
+						</Link>
+                    </Stack>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 					<Typography variant="h1" color='white'>

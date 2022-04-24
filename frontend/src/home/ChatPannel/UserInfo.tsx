@@ -1,6 +1,6 @@
 import { Avatar, Box, ButtonBase, IconButton, Stack, Typography } from "@mui/material";
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -13,12 +13,17 @@ import "../../style/buttons.css"
 
 interface UserInfoState {
     user?: any
+    login?: string;
+    avatar?: string;
 }
+
 
 interface UserInfoProps {
     params: any,
 };
+
 let width_button = "100px"
+
 export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	constructor(props: UserInfoProps) {
 		super(props);
@@ -44,9 +49,9 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		return (
             <>
                 <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                    <IconButton onClick={ () => {}}>
+                    <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user }}>
                         <ArrowBackIcon/>
-                    </IconButton>
+					</Link>
                 </Stack>
                 <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                     <Avatar variant='circular' alt="" src=""/>

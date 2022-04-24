@@ -1,6 +1,6 @@
 import { ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -64,9 +64,9 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
             <>
                 {/* <Typography>{`Yo je suis le ChanAddUser de ${this.state.chan} `}</Typography> */}
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<IconButton onClick={ () => {}}>
+					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit"}}>
 						<ArrowBackIcon/>
-					</IconButton>
+					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center">
 					<InputBase sx={{width: "480px"}} inputProps={{min: 0, style: { textAlign: 'center' }}}  placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
@@ -74,7 +74,8 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 					<List style={{height: "100% -100px",overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>
-				</Stack>            </>
+				</Stack>
+			</>
 		)
 	}
 }
