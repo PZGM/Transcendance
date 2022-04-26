@@ -75,7 +75,8 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 					</Stack>
                     <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
-						    <AddIcon/>
+{/* TODO faire une ternaire poursavoir s'il est admin afin d'afficher l'icone */}
+							<AddIcon/>
 						</Link>
                     </Stack>
                 </Stack>

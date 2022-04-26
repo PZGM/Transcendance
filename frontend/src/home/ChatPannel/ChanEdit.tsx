@@ -53,7 +53,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		list = [1,1,1,1]
 		const listItems = list.map((user: any) =>
 			<>
-			<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" deleteFriend={this.deleteFriend} ></RenderRows>
+				<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" remove={this.removeFriend} ></RenderRows>
 			</>
 	  );
 	  return listItems;
@@ -67,6 +67,11 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		</>		
 	  );
 	  return listItems;
+	}
+
+	removeFriend(id :number) {
+		UserAPI.removeFriend(id);
+		this.deleteFriend(id);
 	}
 
 	deleteFriend(id:number) {

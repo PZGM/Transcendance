@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonBase, List, NativeSelect, Select, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonBase, FormControl, InputLabel, List, NativeSelect, Select, Stack, Typography } from "@mui/material";
 import { Component} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 import { Link } from "react-router-dom";
@@ -78,52 +78,43 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	  );
 	  return listItems;
 	}
-
+	// 
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (
 			<>
-				<Box width="100%" height={Hbar} sx={{backgroundColor: "blue", justifyContent: "center", alignItems: "center"}}>
+				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center" sx={{mt: marge.toString().concat("px") }} >
-						{/* <ButtonBase sx={{backgroundColor: "red", height: Wi, width: Hi}} onClick={ () => {}}>
-							<Link 	style={{ textDecoration: 'none',
-									 color: 'white' }}
-							to={{pathname: `channels_info`}}>
-								i
-							</Link>
-						</ButtonBase> */}
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
-							<Select sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} onOpen={() =>{this.Select()}} label={this.state.name} onChange={() =>{this.Select()}}>
-								<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
-									<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
-										<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon />}>
-											Channels
-										</AccordionSummary>
-										<AccordionDetails>
-											{/* <ButtonBase className="creachan_button" onClick={() => this.handleToggle()}>
-												Create Channel
-											</ButtonBase> */}
-											<LaPopUp></LaPopUp>
-											<List>
-												{/* {this.renderRowsChan([])} */}
-												{this.renderRowsChan(this.state.channels)}
-												{/* {this.renderRows(this.state.friends)} */}
-											</List>
-										</AccordionDetails>
-									</Accordion>
-									<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
-										<AccordionSummary  expandIcon={<ArrowDropDownTwoToneIcon />}>
-											MP
-										</AccordionSummary>
-										<AccordionDetails>
-											<List>
-												{this.renderRowsFriend(this.state.friends)}
-												{/* {this.renderRowsFriend([])} */}
-											</List>
-										</AccordionDetails>
-									</Accordion>
-								</List>
-							</Select>
+								<Select autoWidth sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} value={"Balote"}
+								renderValue={() => {
+									  return <div className='bit9x9'>SLT</div>;
+								  }}
+								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>
+									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
+										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
+											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon />}>
+												Channels
+											</AccordionSummary>
+											<AccordionDetails>
+												<LaPopUp></LaPopUp>
+												<List>
+													{this.renderRowsChan(this.state.channels)}
+												</List>
+											</AccordionDetails>
+										</Accordion>
+										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
+											<AccordionSummary  expandIcon={<ArrowDropDownTwoToneIcon />}>
+												MP
+											</AccordionSummary>
+											<AccordionDetails>
+												<List>
+													{this.renderRowsFriend(this.state.friends)}
+												</List>
+											</AccordionDetails>
+										</Accordion>
+									</List>
+								</Select>
 						</Stack>
 					</Stack>
 				</Box>
