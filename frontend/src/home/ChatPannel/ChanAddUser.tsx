@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import "../../style/input.css"
 
 interface ChanAddUserState {
     chan?: any;
@@ -29,6 +30,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.renderSearchRows = this.renderSearchRows.bind(this);
 	}
 
+// TODO il faut faire la meme chose que dans le ADD FRIEND du menu mais au lieu d'ajouter en amis il faut l'ajouter dans le channel
     // a voir comment on fait car est ce que l'on ajoute que dans la liste d'amis de l'admin ou dans la liste de tout les users 
 
 	componentDidMount()  {
@@ -62,14 +64,13 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 
 		return (
             <>
-                {/* <Typography>{`Yo je suis le ChanAddUser de ${this.state.chan} `}</Typography> */}
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit"}}>
 						<ArrowBackIcon/>
 					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center">
-					<InputBase sx={{width: "480px"}} inputProps={{min: 0, style: { textAlign: 'center' }}}  placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+					<InputBase className="friends_search_bar" sx={{width: "480px", color: 'white'}} inputProps={{min: 0, style: { textAlign: 'center' }}}  placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
                     {/* className={styles.input} */}
 					<List style={{height: "100% -100px",overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}

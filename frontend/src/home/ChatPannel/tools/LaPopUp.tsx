@@ -11,6 +11,8 @@ interface CreateChannelState {
     password?: any;
 }
 
+// TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
+
 function LaPopUp(props,CreateChannelState) {
     const [open, setOpen] = React.useState(false);
     const [name, setName] = React.useState("");

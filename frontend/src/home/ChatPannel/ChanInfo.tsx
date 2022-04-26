@@ -16,7 +16,7 @@ interface ChanInfoProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "58vh"
+let height_Box_Users = "53vh"
 let width_button = "70px"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
@@ -27,7 +27,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
         }
 	}
 
-// il faut recup les info du chan grace a un getchannelbyid et une fois fais peut etre revoir renderrows pour voir ce que ca donne
+// TODO il faut recup les info du chan grace a un getchannelbyid et une fois fais peut etre revoir renderrows pour voir ce que ca donne
 
 	componentDidMount()  {
         const id = this.props.params.name;
@@ -40,25 +40,18 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	}
 
 	renderRowsAdmins(list) {
-		// list = [1,1,1,1,1]
-		const listItems = list.map((id: number) =>
-		<>
-			<RenderRows first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
-		</>
+		list=[1,1,1,1,1,11,1,1,1,1,1,11,1]
+		const listItems = list.map((user: any) =>
+		<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
 		
 	  );
 	  return listItems;
 	}
 
 	renderRowsUsers(list) {
-		// console.log("MDR");
-		// console.log(this.props.channel);
-		// console.log("MDR");
-		// list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+		list=[1,1,1,1,1,1,1,1,1,1,1,1	,1]
 		const listItems = list.map((user: any) =>
-			<>
-			    <RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
-			</>
+		<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
 	  );
 	  return listItems;
 	}
@@ -73,33 +66,39 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
-                    <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+{/* TODO faire une ternaire pour savoir s'il est admin afin d'afficher l'icone */}
+                    { (false) ? <></> :<Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
-{/* TODO faire une ternaire poursavoir s'il est admin afin d'afficher l'icone */}
 							<AddIcon/>
 						</Link>
-                    </Stack>
+                    </Stack>}
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-					<Typography variant="h1" color='white'>
 						{/* <div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div> */}
-						<div className='bit5x5'> {this.state.chan} </div>
-					</Typography>
+						<Typography variant="h1" color='white'>
+							<div className='bit5x5'> {this.state.chan} </div>
+						</Typography>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Typography>ADMINS :</Typography>
-						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
-							<List style={{overflow: 'auto'}}>
+					<Typography color='white'>ADMINS :</Typography>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
+						<List style={{overflow: 'auto'}}>
+							<Stack direction="column" spacing={1} justifyContent="center" alignItems="center">
 								{this.renderRowsAdmins([])}
-								{/* {this.renderRows(this.state.friends)} */}
-							</List>
-						</Stack>
+							</Stack>
+{/* TODO envoyer le state admin du channel */}
+							{/* {this.renderRows(this.state.friends)} */}
+						</List>
+					</Stack>
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Typography>USERS :</Typography>
+					<Typography color='white'>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
-						<List style={{height: "100% -100px", overflow: 'auto'}}>
-							{this.renderRowsUsers([])}
+						<List style={{ overflow: 'auto'}}>
+						<Stack direction="column" spacing={1} justifyContent="center" alignItems="center">
+								{this.renderRowsUsers([])}
+							</Stack>
+{/* TODO envoyer le state user du channel */}
 							{/* {this.renderRows(this.state.friends)} */}
 						</List>
 					</Stack>

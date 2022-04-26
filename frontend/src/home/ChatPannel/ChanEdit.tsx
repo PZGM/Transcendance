@@ -20,7 +20,7 @@ interface ChanEditProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "58vh"
+let height_Box_Users = "53vh"
 let width_button = "90px"
 
 export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
@@ -102,7 +102,6 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 		return (
             <>
-                {/* <Typography>{`Yo je suis le ChanEdit de ${this.state.chan} `}</Typography> */}
                 <Stack direction="row" justifyContent="space-between">
                     <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
@@ -110,6 +109,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 						</Link>
                     </Stack>
                     <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+{/* TODO faire un onClick qui va save les changement fait (meme si comme ca je trouve que c'est stupide et que ca devrait le faire auto a chaque clique le changement) */}
 						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
                             <DoneOutlineIcon/>
 						</Link>
@@ -121,23 +121,26 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 					</Typography>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Typography>ADMINS :</Typography>
+					<Typography color='white'>ADMINS :</Typography>
 						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
 							<List style={{overflow: 'auto'}}>
 								{this.renderRowsAdmins([])}
+{/* TODO envoyer le state admin du channel */}
 								{/* {this.renderRows(this.statte.friends)} */}
 							</List>
 						</Stack>
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
-					<Typography>USERS :</Typography>
+					<Typography color='white'>USERS :</Typography>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
                         {/* <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}> */}
-							<Link onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
+{/* TODO faire un joli bouton pour ca */}
+							<Link  className="add_user_button but_red" onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
                                 <div className='bit5x5'> Add user </div>
 							</Link>
                         {/* </ButtonBase> */}
                         <List style={{overflow: 'auto'}} sx={{height: "800px"}}>
+{/* TODO envoyer le state user du channel */}
 							{this.renderRowsUsers([])}
 							{/* {this.renderRows(this.state.friends)} */}
 						</List>

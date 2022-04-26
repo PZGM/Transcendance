@@ -88,6 +88,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
 								<Select autoWidth sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
+									// TODO trouver un moyen d'afficher le nom du channel ou de la personne juste ici
 									  return <div className='bit9x9'>SLT</div>;
 								  }}
 								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>

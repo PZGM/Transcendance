@@ -15,6 +15,7 @@ interface UserInfoState {
     user?: any
     login?: string;
     avatar?: string;
+    friend: boolean;
 }
 
 
@@ -29,6 +30,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		super(props);
         this.state = {
             user: undefined,
+            friend: false,
         }
 	}
 
@@ -41,6 +43,27 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
             user: id,
         })
 	}
+
+
+    changefriend()
+    {
+        {/* TODO faire une ternaire pour savoir si c'est un ami ou pas et donc l'ajouter ou le remove */}
+
+        console.log("je suis dedans")
+        if (this.state.friend == false)
+        {
+            this.setState({
+                friend: true,
+            })
+        }
+        else
+        {
+            this.setState({
+                friend: false,
+            })
+        }
+
+    }
 
 //TODO need a get user grace a l'id et puis apres on use le user et c'est fini (voir aussi les stats de fabrizio pour avoir les bon truc)
 
@@ -55,40 +78,36 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                 </Stack>
                 <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                     <Avatar variant='circular' alt="" src=""/>
-                    <Typography variant="h3">
-                        <div className='bit9x9'> AFREIRE- </div>
+                    <Typography variant="h3" color="white">
+                        <div className='bit9x9'>{this.state.user}</div>
                     </Typography>
-                    <Typography variant="button">
+                    <Typography variant="button" color="white">
                         <div className='bit9x9'> {"Status > Online"} </div>
                     </Typography>
                     <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                        <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-                            <Typography variant="button" color='white'>
-                                <div className='bit5x5'> Play Match </div>
-                            </Typography>
-                        </ButtonBase>
-                        {/* <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-                                <div className='bit5x5'> Send Message </div>
-                        </ButtonBase> */}
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user}}>
+                        <div className="home_button but_red" >
+                            <div className='bit5x5'> Play Match </div>
+                        </div >
+                        {/*  <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}> */}
+                        <Link className="home_button but_red" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.user}}>
                             <div className='bit5x5'> Send Message </div>
                         </Link>
-{/* TODOfaire une ternaire pour savoir si c'est un ami ou pas et donc l'ajouter ou le remove */}
-                        <ButtonBase centerRipple className="home_button" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}}>
-                            <div className='bit5x5'> remove Friend </div>
-                        </ButtonBase>
+                        {/* <ButtonBase centerRipple  className="home_button but_red" style={{width: width_button, height: '4vh', borderRadius: 0, backgroundColor: "red"}} onClick={() => {this.changefriend()}}> */}
+                        <div className="home_button but_red"  onClick={() => {this.changefriend()}}>
+                            {(this.state.friend) ? <div className='bit5x5'> Add Friend </div> : <div className='bit5x5'> remove Friend </div>}
+                        </div>
                     </Stack>
                     <Box sx={{ p: 1, border: '3px solid grey' }} width="23vh">
                         <Stack direction="row" justifyContent="space-evenly" alignItems="center" spacing={2}>
-                            <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
-                                <GamepadIcon />
+                            <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2} sx={{ color: "white" }}>
+                                <GamepadIcon/>
                                 <EmojiEventsIcon />
                                 <FaceIcon />
                                 <CancelIcon />
                                 <StarIcon />
                             </Stack>
 
-                            <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                            <Stack direction="column" justifyContent="center" alignItems="center" spacing={2} sx={{ color: "white" }}>
                                 <Typography  color='white'>
                                     <div className='bit5x5'> games</div>
                                 </Typography>
@@ -106,7 +125,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                                 </Typography>
                             </Stack>
 
-                            <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2}>
+                            <Stack direction="column" justifyContent="space-between" alignItems="center" spacing={2} sx={{ color: "white" }}>
                                 {/* <Typography>{this.state.games}</Typography>
                                 <Typography>{this.state.win}</Typography>
                                 <Typography>{this.state.shots}</Typography>

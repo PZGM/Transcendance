@@ -16,23 +16,28 @@ function RenderRows(props) {
                 {/* <ButtonBase onClick={ () => {}}>  */}
                     <Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <Avatar variant='circular' alt="" src=""/>
-                        <div className='bit9x9'> Braimbault </div>
+                        {/* <div style={{color: 'white' }} className='bit9x9'> {props.user.name} </div> */}
+                        <div style={{color: 'white' }} className='bit9x9'> WWWWWWWWWW </div>
                     </Stack>
                 {/* </ButtonBase> */}
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                    <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
-                        <div className='bit5x5'> {props.first_button} </div>
-                    </ButtonBase>
-                    <Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + "Braimbailt"}}>
+                    {/* <ButtonBase className="button" style={{, borderRadius: 0, backgroundColor: "red"}}> */}
+                    <div className="renderrow_button but_red">
+                        <div className='bit5x5' > {props.first_button} </div>
+                    </div>
+                    {/* </ButtonBase> */}
+                    <Link className="renderrow_button but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + "Braimbailt"}}>
                         <div className='bit5x5'> {props.second_button} </div>
                     </Link>
 
                     {/* <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}}>
                         <div className='bit5x5'> {props.second_button} </div>
                     </ButtonBase> */}
-                    <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}} onClick={() => {props.remove(props.user.id)}}>
+                    {/* <ButtonBase className="button" style={{width: width_button, height: '50px', borderRadius: 0, backgroundColor: "red"}} onClick={() => {props.remove(props.user.id)}}> */}
+                    <div className="renderrow_button but_red">
                         <div className='bit5x5'> {props.third_button} </div>
-                    </ButtonBase>
+                    </div>
+                    {/* </ButtonBase> */}
                 </Stack>
             </Stack>
         </Box>

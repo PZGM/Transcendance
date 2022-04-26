@@ -36,7 +36,7 @@ export class MyInfos extends Component<MyInfosProps> {
 		return (
             <ButtonBase component={Link} to={process.env.REACT_APP_PROFILE as string} >
                 <Avatar variant='circular' alt="Semy Sharp" src={this.props.avatar}/>
-                <Typography>{this.props.login}</Typography>
+                <Typography color={"white"}>{this.props.login}</Typography>
             </ButtonBase>
 		)
 	}
