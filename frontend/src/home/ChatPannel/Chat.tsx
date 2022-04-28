@@ -59,7 +59,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 		return (
             <>
-                <Box height="84%">
+                <Box height="89%">
 						<List style={{overflow: 'auto'}} sx={{height: "97%"}}>
 						<Stack spacing={1}>
 							{this.renderMsg([])}
@@ -67,14 +67,14 @@ export class Chat extends Component<ChatProps, ChatState> {
 						</List>
 				</Box>
 				  
-				<Box height="60px" sx={{backgroundColor: "black"}}>
+				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
 						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanName + "/info"}}
 						onClickCapture={() => {this.Select()}}>
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
 
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "60px" }}/>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }}/>
 						<IconButton sx={{ color: "white" }}	>
 							<SendIcon/>
 						</IconButton>

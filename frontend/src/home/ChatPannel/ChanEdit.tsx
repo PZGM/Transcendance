@@ -5,10 +5,12 @@ import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RenderRows from "./tools/RenderRows";
+import RenderRowsEdit from "./tools/RenderRowsEdit";
 import AddIcon from '@mui/icons-material/Add';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import "../../style/buttons.css"
 import { UserDto } from "../../api/dto/user.dto";
+import '../../style/display.css';
 
 interface ChanEditState {
     chan?: any
@@ -20,10 +22,11 @@ interface ChanEditProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "53vh"
+let height_Box_Users = "59vh"
 let width_button = "90px"
 
 export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
+	index:number = 0;
 	constructor(props: ChanEditProps) {
 		super(props);
         this.state = {
@@ -50,24 +53,37 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 	}
 
 	renderRowsAdmins(list) {
-		list = [1,1,1,1]
+		list = [1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1]
 		const listItems = list.map((user: any) =>
 			<>
-				<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" remove={this.removeFriend} ></RenderRows>
+				<RenderRowsEdit index={this.index++} getColor={this.getColor} user={user} first_button="Dismiss admin" second_button="remove"></RenderRowsEdit>
 			</>
 	  );
 	  return listItems;
 	}
 
 	renderRowsUsers(list) {
-		list = [1,1,1,1,1,1,1,1]
+		list = [1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
 		const listItems = list.map((user: any) =>
-		<>
-			<RenderRows user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE" ></RenderRows>
-		</>		
+			<>
+				<RenderRowsEdit index={this.index++} getColor={this.getColor} user={user} first_button="make admin" second_button="remove"></RenderRowsEdit>
+			</>
 	  );
 	  return listItems;
 	}
+
+	getColor(status: number): string | undefined
+	{
+		let colors = new Map<number, string>([
+			[0, 'white'],
+			[1, 'red'],
+			[2, 'yellow'],
+			[3, 'green'],
+			[4, 'blue']]);
+
+		return colors.get(status)
+	}
+
 
 	removeFriend(id :number) {
 		UserAPI.removeFriend(id);
@@ -116,14 +132,12 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
                     </Stack>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-					<Typography variant="h1" color='white'>
-						<div className='bit5x5'> {this.state.chan} </div>
-					</Typography>
+					<div className="bit5x5" style={{color: "white", fontSize: "64px"}}> {this.state.chan} </div>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Typography color='white'>ADMINS :</Typography>
+					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
 						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
-							<List style={{overflow: 'auto'}}>
+							<List  style={{overflow: 'auto'}}>
 								{this.renderRowsAdmins([])}
 {/* TODO envoyer le state admin du channel */}
 								{/* {this.renderRows(this.statte.friends)} */}
@@ -131,11 +145,11 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 						</Stack>
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
-					<Typography color='white'>USERS :</Typography>
+					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
                         {/* <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}> */}
 {/* TODO faire un joli bouton pour ca */}
-							<Link  className="add_user_button but_red" onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
+							<Link  className={"add_user_button but_" + this.getColor(this.index++ % 5)} onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
                                 <div className='bit5x5'> Add user </div>
 							</Link>
                         {/* </ButtonBase> */}

@@ -86,7 +86,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 						secondaryAction	=
 						{	
 							<Stack spacing={1} direction="row">
-								<div	className={"friends_button but_" + this.getColor(this.state.status)}>
+								<div className={"friends_button but_" + this.getColor(this.state.status)}>
 									{description.get(this.state.status)}
 								</div>
 								

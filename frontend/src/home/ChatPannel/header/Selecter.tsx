@@ -86,7 +86,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center" sx={{mt: marge.toString().concat("px") }} >
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
-								<Select autoWidth sx={{backgroundColor: "red", height: Hchan, minwidth: minWchan,}} value={"Balote"}
+								<Select autoWidth disableUnderline variant="standard" sx={{height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
 									// TODO trouver un moyen d'afficher le nom du channel ou de la personne juste ici
 									  return <div className='bit9x9'>SLT</div>;

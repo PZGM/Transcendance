@@ -44,6 +44,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         })
 	}
 
+// TODO faire un getuserbylogin pour recup la photo , le status et les stats
 
     changefriend()
     {
@@ -78,6 +79,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                 </Stack>
                 <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                     <Avatar variant='circular' alt="" src=""/>
+                    {/* <Avatar variant='circular' alt="" src={}/> */}
                     <Typography variant="h3" color="white">
                         <div className='bit9x9'>{this.state.user}</div>
                     </Typography>
