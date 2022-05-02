@@ -18,7 +18,7 @@ interface SelecterProps {
 interface SelecterState {
 	channels: any;
 	friends: any;
-	name?: any;
+	name: any;
 };
 
 let Hbar = "50px";
@@ -34,12 +34,15 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	backdropopen: boolean = false;
 	constructor(props: SelecterProps) {
 		super(props);
-		this.state = {channels: [], friends: undefined, name: undefined};
+		let name: string = window.location.pathname.split('/')[3]
+		this.state = {channels: [], friends: undefined, name};
 	}
+
     async getChannels() {
         let chan = await ChatAPI.getChannels();
 		this.setState({channels: chan});
     }
+
     async getFriend() {
         let friends = await UserAPI.getFriends();
 		this.setState({friends: friends});
@@ -88,8 +91,8 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
 								<Select autoWidth disableUnderline variant="standard" sx={{height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
-									// TODO trouver un moyen d'afficher le nom du channel ou de la personne juste ici
-									  return <div className='bit9x9'>SLT</div>;
+
+									  return <div className='bit9x9'>{this.state.name}</div>;
 								  }}
 								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>
 									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>

@@ -74,6 +74,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 		else
 			return (
 				<>
+					<PrivateGuard/>
 					<Grid item xs={4}
 						sx={GridItemStyle}
 						justifyContent="center"

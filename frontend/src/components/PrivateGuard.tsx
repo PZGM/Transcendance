@@ -32,7 +32,7 @@ export class PrivateGuard extends Component<PrivateGuardProps, PrivateGuardState
     render() {
         return (
             <>
-                { (this.state.isLoaded && !this.state.isAuthenticated) ? (<Navigate to="/home"/>) : null }
+                { (this.state.isLoaded && !this.state.isAuthenticated) ? (<Navigate to="/"/>) : null }
             </>
         )
     }
