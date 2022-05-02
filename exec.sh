@@ -8,7 +8,7 @@ then
 	export http=4001
 	export https=4333
 	export db=4432
-	export adminer=4888
+	export adminer=4777
 	export client_id=86fc50a7e3722acbd29db85054adff0ea138a6374c2826daff10307850cd8914
 	export client_secret=8f76f1fdbe01fab8ab9e950c0f480c8330c7732d47250f62c4c1ffbb3491a5bc
 elif [[ "$#"  -ge "1"  &&   $1 = "-b" ]] || [[ "$#"  -ge  "2"   &&  $2 = "-b" ]] || [[ "$#"  -ge  "3"  &&  $3 = "-b" ]] || [[ "$#"  -ge "4"  &&  $3 = "-b" ]] || [[ "$#"  -ge "5"  &&  $5 = "-b" ]]

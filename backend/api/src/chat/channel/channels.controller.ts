@@ -13,8 +13,8 @@ export class ChannelsController {
 
   @Get()
   @UseGuards(FullyAuthentificatedGuard)
-  public async getChannels() {
-    let channels: ChannelDto[] = await this.getChannels();
+  public async getChannels(@Req() request: CustomRequest) {
+    let channels: ChannelDto[] = await this.channelsService.getChannels(request.user.id);
     return channels;
   }
 
@@ -43,29 +43,29 @@ export class ChannelsController {
         const ret =  await this.channelsService.addMute(request.user.id, channelID, mute.id, date);
     }
 
-    @Put('update/addAdmin')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async addBlockedUser(@Req() request: CustomRequest, @Body() admin: {id: number}, channelID: number) {
-        const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
-    }
+  @Put('update/addAdmin')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async addBlockedUser(@Req() request: CustomRequest, @Body() admin: {id: number}, channelID: number) {
+      const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
+  }
 
-    @Put('/update/join')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async join(@Req() request: CustomRequest,@Body()  channelID: number, password?: string) {
-        const ret =  await this.channelsService.join(request.user.id, channelID, password);
-    }
+  @Put('/update/join')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async join(@Req() request: CustomRequest,@Body()  channelID: number, password?: string) {
+      const ret =  await this.channelsService.join(request.user.id, channelID, password);
+  }
 
-    @Put('update/rmUser')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
-        const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
-    }
+  @Put('update/rmUser')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
+      const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
+  }
 
-    @Put('/update/removeAdmin')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: number) {
-        const ret =  await this.channelsService.removeAdmin(request.user.id, admin.id, channelID);
-    }
+  @Put('/update/removeAdmin')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: number) {
+      const ret =  await this.channelsService.removeAdmin(request.user.id, admin.id, channelID);
+  }
 
   @Delete(':id')
   @UseGuards(FullyAuthentificatedGuard)
