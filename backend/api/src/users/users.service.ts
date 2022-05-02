@@ -144,7 +144,7 @@ export class UsersService {
         return 0;
     }
 
-    public async updateColor(userId: number, color: number) : Promise<number> {
+    public async updateColor(userId: number, color: string) : Promise<number> {
         const user: User|null = await this.getOne(userId);
         user.color = color;
         await this.userRepository.save(user);

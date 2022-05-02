@@ -8,6 +8,7 @@ import Menu from "../Menu";
 import background from "./../../asset/images/background.jpg"
 import { UserDto } from "../../api/dto/user.dto";
 import { InputUnstyled } from "@mui/base";
+import { PrivateGuard } from './../../components/PrivateGuard'
 
 interface FriendsProps {
 };
@@ -103,7 +104,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 		return (
 			
 			<Grid item xs={6}>
-				
+				<PrivateGuard/>
 				<input
 					className="friends_search_bar"
 					placeholder="Search Friend"

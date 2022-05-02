@@ -1,4 +1,4 @@
-import { Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import { Component} from "react";
 import { UserAPI } from "../api/Users.api";
 import Menu from "./Menu";
@@ -37,7 +37,7 @@ export class Frame extends Component{
 								backgroundColor: 'black',
 								height: 'undefined',
 								width: 'undefined',
-								minWidth: "800px", minHeight: "800px",
+								minWidth: "900px", minHeight: "900px",
 								maxWidth: "1500px", maxHeight: "1500px"
 							}}
 				>
@@ -54,6 +54,7 @@ export class Frame extends Component{
 								direction="column"
 								justifyContent="space-between"
 								sx={{height: '100%'}}
+								wrap="nowrap"
 							>
 								<Outlet/>
 							</Grid>
