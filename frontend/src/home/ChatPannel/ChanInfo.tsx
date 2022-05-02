@@ -7,8 +7,11 @@ import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import AddIcon from '@mui/icons-material/Add';
+import { UserDto } from "../../api/dto/user.dto";
+
 interface ChanInfoState {
-    chan?: any
+    chan?: any;
+	friends: any;
 }
 
 interface ChanInfoProps {
@@ -26,7 +29,10 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		super(props);
         this.state = {
             chan: undefined,
+			friends: [],
         }
+		this.deleteFriend = this.deleteFriend.bind(this);
+		this.addFriend = this.addFriend.bind(this);
 	}
 
 // TODO il faut recup les info du chan grace a un getchannelbyid et une fois fais peut etre revoir renderrows pour voir ce que ca donne
@@ -52,10 +58,30 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
         })
 	}
 
+	async addFriend(user: UserDto) {
+		await UserAPI.addFriend(user.id);
+		let newFriends: UserDto[] = this.state.friends;
+		newFriends.push(user);
+		this.setState({
+			friends: newFriends
+		}); 
+	}
+
+	deleteFriend(duser: UserDto) {
+		UserAPI.removeFriend(duser.id);
+		const newFriends: UserDto[] = this.state.friends.filter((user) => {
+			return user.id != duser.id;
+		});
+
+		this.setState({
+			friends: newFriends
+		});
+	}
+
 	renderRowsAdmins(list) {
 		list=[1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
 		const listItems = list.map((user: any) =>
-		<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
+		<RenderRows index={this.index++} getColor={this.getColor} user={user}  third_button="REMOVE FRIEND" ></RenderRows>
 		
 	  );
 	  return listItems;

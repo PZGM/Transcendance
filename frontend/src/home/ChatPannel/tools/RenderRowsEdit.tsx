@@ -13,7 +13,7 @@ function RenderRowsEdit(props) {
 
     return (
         <Box width="472px" className={"user but_" + props.getColor(props.index % 5)} sx={{color:'test'}} ml="5px" mr="2px" mb="10px">
-            <Stack  direction="row" justifyContent="flex-start" alignItems="center" spacing={2}>
+            <Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
                 {/* TODO mettre les liens avec les props des bon user */}
                 <Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
                     {/* <Avatar variant='circular' alt="" src={props.user.avatar}/> */}
