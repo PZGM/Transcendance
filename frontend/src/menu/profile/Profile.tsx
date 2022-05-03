@@ -9,6 +9,7 @@ import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto"
 import "../../style/display.css"
 import { NumericLiteral } from "typescript";
+import { PrivateGuard } from "../../components/PrivateGuard";
 
 type ProfileProps = {
 };
