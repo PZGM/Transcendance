@@ -1,14 +1,9 @@
 import { Avatar, Grid, Stack } from "@mui/material";
-import { ButtonUnstyled } from "@mui/base";
 import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AvatarEditor from "react-avatar-editor";
-import axios from "axios";
 import "../../style/buttons.css";
 import "../../style/display.css"
-import { Vector } from "tsparticles";
 
 type ColorSettingsProps = {
     color: string,
@@ -49,18 +44,6 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
     render()
     {
 
-        console.log("Color render")
-
-		// Da togliere
-		const GridItemStyle = {
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontSize: 'calc(10px + 1vw)',
-			width: '100%',
-            height: '100%'
-		};
-
         return (
 
             <Grid container
@@ -70,14 +53,13 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
                 sx={{height: '33%'}}
             >
                 <Grid item xs={4}
-                    className="bit9x9 white"
-                    style={GridItemStyle}
+                    className="grid_item_style bit9x9 white"
                 >
                     COLOR
                 </Grid>
                 
                 <Grid item xs={8}
-                    style={GridItemStyle}
+                    className='grid_item_style'
                 >
                         <Stack direction="row"
                             justifyContent="center"

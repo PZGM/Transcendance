@@ -4,7 +4,7 @@
 
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
-.add_friend_button
+.add_friend_button, .logout_button
 {
 	position: relative;
 	text-align: center;
@@ -32,6 +32,15 @@
 	width: "200px";
 	height: '1000px';
 	font-size: 25px;
+	font-family: backto1982;
+}
+
+/* Profile */
+
+.logout_button {
+	width: 200px;
+	height: 50px;
+	font-size: 20px;
 	font-family: backto1982;
 }
 

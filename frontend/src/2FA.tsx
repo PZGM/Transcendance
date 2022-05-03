@@ -43,16 +43,6 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
 
 	render ()
     {
-        const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)',
-            width: "100%"
-		};
-
 		return (
 
             <div className="background">
@@ -67,9 +57,9 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
                         direction="column"
                         alignItems="center"
                     >
-                        <Grid item xs={4} sx={GridItemStyle}> 2FA AUTHENTICATION</Grid>
+                        <Grid item xs={4} className="grid_item_style"> 2FA AUTHENTICATION</Grid>
                         
-                        <Grid item xs={3} sx={GridItemStyle}>
+                        <Grid item xs={3} className="grid_item_style">
                             <input
                                 id="unstyled"
                                 className="settings_2fa_input"
@@ -78,7 +68,7 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
                             />
                         </Grid>
                         
-                        <Grid item xs={5} sx={GridItemStyle}>
+                        <Grid item xs={5} className="grid_item_style">
                             <div className="settings_edit_button but_green"
                                 onClick={this.onValidation.bind(this)}>
                                 LOGIN

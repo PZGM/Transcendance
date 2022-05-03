@@ -21,6 +21,7 @@ export class Frame extends Component{
 					>
 						<Grid	item xs={6}
 								className="internal_frame"
+								m={2}
 						>
 							<Grid container
 								direction="column"

@@ -4,7 +4,6 @@ import { UserAPI } from "../../api/Users.api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
-import style from "../../style/settings.module.css"
 
 toast.configure()
 
@@ -72,14 +71,6 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 
     render() {
 
-        // Da togliere
-        const GridItemStyle = {
-			alignItems: 'stretch',
-			display: "flex",
-			justifyContent: 'center',
-			fontSize: 'calc(10px + 1vw)'
-		};
-
         return (
             <Grid container
                 direction="row"
@@ -88,14 +79,13 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
                 sx={{height: '33%'}}
             >
                 <Grid item xs={4}
-                    className="bit9x9 white"
-                    style={GridItemStyle}
+                    className="grid_item_style bit9x9 white"
                 >
                     NICKNAME
                 </Grid>
                 
                 <Grid item xs={4}
-                    style={GridItemStyle}
+                    className='grid_item_style'
                 >
                     {!this.state.editing &&
                         <input
@@ -117,7 +107,7 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
                 </Grid>
 
                 <Grid item xs={4}
-                    style={GridItemStyle}
+                    className='grid_item_style'
                 >
                     {!this.state.editing &&
                         <div className="settings_button but_blue"

@@ -96,17 +96,6 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 		console.log("Avatar render")
 
-		// Da togliere
-		const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)',
-			width: '100%'
-		};
-
 		const PlusMinStyle = {
 			color: 'white',
 			alignItems: 'center',
@@ -130,8 +119,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 					alignItems="center"
 					sx={{height: '33%'}}
 				>
-					<Grid item xs={4} sx={GridItemStyle}> AVATAR </Grid>
-					<Grid item xs={4} sx={GridItemStyle}>
+					<Grid item xs={4} className="grid_item_style"> AVATAR </Grid>
+					<Grid item xs={4} className="grid_item_style">
 							<Avatar	variant='circular'
 								alt="Semy Sharp"
 								src={this.props.avatar}
@@ -139,7 +128,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 										height: '200px'}}
 							/>
 					</Grid>
-					<Grid item xs={4} sx={GridItemStyle}>
+					<Grid item xs={4} className="grid_item_style">
 						<div className="settings_button but_blue"
 							onClick={ () => {this.props.updateDisplay(1);}
 						}>
@@ -157,8 +146,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				sx={{height: '100%',
 					width: '100%'}}
 				>
-					<Grid item xs={2} sx={GridItemStyle}> AVATAR </Grid>
-					<Grid item xs={6} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style"> AVATAR </Grid>
+					<Grid item xs={6} className="grid_item_style">
 						<Stack
 						direction="row"
 						justifyContent="space-between"
@@ -183,7 +172,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							>+</div>
 						</Stack>
 					</Grid>
-					<Grid item xs={2} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style">
 						<Stack
 						direction="row"
 						justifyContent="space-evenly"
@@ -199,7 +188,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							</div>
 						</Stack>
 					</Grid>
-					<Grid item xs={2} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style">
 						<ButtonUnstyled className="settings_edit_button but_blue"
 							component="label">
 							CHOOSE FILE

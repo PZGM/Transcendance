@@ -8,14 +8,15 @@ import StarIcon from '@mui/icons-material/Star';
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto"
 import "../../style/display.css"
-import { NumericLiteral } from "typescript";
+import { Navigate } from "react-router-dom";
 
 type ProfileProps = {
 };
 
 
 interface ProfileState {
-	user: UserDto | null
+	user: UserDto | null,
+	redirect: boolean
 };
 
 function StatElement(props) {
@@ -35,33 +36,31 @@ function StatElement(props) {
 export class Profile extends Component<ProfileProps, ProfileState> {
 	constructor(props: ProfileProps) {
 		super(props);
-		this.state = {user: null}
+		this.state = {
+			user: null,
+			redirect: false
+		}
 	}
 
 	async fetchProfile() {
 		const user = await UserAPI.getUserWithStats();
-		this.setState({
-			user
-		})
+		if (user)
+			this.setState({
+				user
+			})
 	}
 
 	componentDidMount()  {
 		this.fetchProfile();
 	}
 
+	handleLogout() {
+		UserAPI.logout()
+		this.setState({redirect: true})
+	}
+
 	render ()
 	{
-		
-		const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			spacing: '4',
-			fontSize: 'calc(10px + 1vw)',
-			width: '100%',
-		};
-
 		const IconStyle = {
 			width: '40px',
 			height: '40px'
@@ -74,8 +73,9 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 		else
 			return (
 				<>
+					{ this.state.redirect ? (<Navigate to="/"/>) : null }
 					<Grid item xs={4}
-						sx={GridItemStyle}
+						className="grid_item_style"
 						justifyContent="center"
 					>
 						<Avatar	variant='circular'
@@ -86,9 +86,17 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 						/>
 					</Grid>
 					
-					<Grid item	xs={2}
-								sx={GridItemStyle}>
+					<Grid item	xs={1}
+								className="grid_item_style">
 						<div className={"backto1982 " + this.state.user.color} >{this.state.user.login}</div>
+					</Grid>
+
+					<Grid item xs={1}
+								className="grid_item_style">
+						<div className="logout_button but_red"
+							onClick={this.handleLogout.bind(this)}>
+							LOGOUT
+						</div>
 					</Grid>
 					
 					<Grid item  xs={6}

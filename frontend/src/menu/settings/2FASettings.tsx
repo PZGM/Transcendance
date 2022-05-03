@@ -1,12 +1,10 @@
 import { Button, Stack, Grid, InputBase, Typography } from "@mui/material";
 import { Fragment, Component } from "react";
-import { Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
 import "../../style/input.css";
-import { InputUnstyled } from "@mui/base";
 
 enum TwofaState {
     disabled,
@@ -24,7 +22,6 @@ interface TwofaSettingsState {
     twofaState: TwofaState;
     displayQR: boolean;
     input: string;
-    redirect: boolean;
     twofa: boolean;
     activating: boolean
     
@@ -40,7 +37,6 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
             twofaState: TwofaState.disabled,
             displayQR: false,
             input: '',
-            redirect: false,
             twofa: false,
             activating: this.props.activating
         }
@@ -137,16 +133,6 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
 
     render() {
 
-        const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)',
-            width: "100%"
-		};
-
         return (
             
             <Fragment>
@@ -158,8 +144,8 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     alignItems="center"
                     sx={{height: '33%'}}
                 >
-                    <Grid item xs={4} sx={GridItemStyle}> 2FA </Grid>
-                    <Grid item xs={4} sx={GridItemStyle}>
+                    <Grid item xs={4} className="grid_item_style"> 2FA </Grid>
+                    <Grid item xs={4} className="grid_item_style">
                         <div    className={this.state.twofaState == TwofaState.enabled ?
                                         "settings_button but_green" : "settings_button but_white"}
                                 onClick={this.on.bind(this)}
@@ -167,7 +153,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                             ON
                         </div>
                     </Grid>
-                    <Grid item xs={4} sx={GridItemStyle}>
+                    <Grid item xs={4} className="grid_item_style">
                         <div className={this.state.twofaState == TwofaState.disabled ?
                                         "settings_button but_red" : "settings_button but_white"}
                             onClick={this.off.bind(this)}
@@ -186,8 +172,8 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     sx={{height: '100%',
 					width: '100%'}}
                 >
-                    <Grid item xs={2} sx={GridItemStyle}> 2FA </Grid>
-                    <Grid item xs={4} sx={GridItemStyle}>
+                    <Grid item xs={2} className="grid_item_style"> 2FA </Grid>
+                    <Grid item xs={4} className="grid_item_style">
                         {this.state.displayQR && 
                             <img    src={process.env.REACT_APP_2FA_GENERATE}
                                     style={{border: '5px solid #03C7D8',
@@ -196,7 +182,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                             />
                         }
                     </Grid>
-                    <Grid item xs={2} sx={GridItemStyle}>
+                    <Grid item xs={2} className="grid_item_style">
                     <input
                         id="unstyled"
                         className="settings_2fa_input"
@@ -204,13 +190,13 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                         onChange={ async (e) => {this.onChange(e.target.value)}}
                     />
                     </Grid>
-                    <Grid item xs={2} sx={GridItemStyle}>
+                    <Grid item xs={2} className="grid_item_style">
                         <div className="settings_edit_button but_green"
                             onClick={this.onValidation.bind(this)}>
                             VALIDATE
                         </div>
                     </Grid>
-                    <Grid item xs={2} sx={GridItemStyle}>
+                    <Grid item xs={2} className="grid_item_style">
                         <Stack
 						direction="row"
 						justifyContent="space-evenly"

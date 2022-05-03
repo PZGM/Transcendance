@@ -35,12 +35,6 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 
 	render () {
 
-		const GridItemStyle = {
-			alignItems: 'center',
-			display: "flex",
-            width: "100%"
-		};
-
 		const w_id: number = this.props.game.winnerId == this.props.game.players[0].id ? 0 : 1;
 		const l_id: number = this.props.game.loserId == this.props.game.players[0].id ? 0 : 1;
 		const date: string = moment(this.props.game.createdDate).format("DD.MM.YYYY - HH:MM")
@@ -53,7 +47,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 						justifyContent="space-between"
 						alignItems="center"
 						spacing={1}
-						style={GridItemStyle}
+						className='grid_item_style'
 					>
 						<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
 							{this.props.game.winnerScore}

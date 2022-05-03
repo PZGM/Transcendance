@@ -1,4 +1,4 @@
-import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Button, TextField, Typography, InputBase } from "@mui/material";
+import { List } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
@@ -41,9 +41,9 @@ export class History extends Component<HistoryProps,HistoryState> {
 	}
 	render (){
 		return (
-			<Grid item xs={6}>
+			<List style={{overflow: 'auto'}}>
 					{this.renderRows(this.state.history)}
-			</Grid>
+			</List>
 		)
     };
 }
