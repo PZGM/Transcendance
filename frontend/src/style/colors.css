@@ -36,6 +36,54 @@
 .bc_violet { background-color: var(--violet); }
 .bc_dark_blue { background-color: var(--dark_blue); }
 
+/* BORDER COLORS WITH BOX SHADOW FOR DIV */
+
+.borsh_green {
+	border-color: var(--green);
+	box-shadow: 5px 5px 0px -1px rgba(19, 213, 144, 0.5);
+}
+
+.borsh_red {
+	border-color: var(--red);
+	box-shadow: 5px 5px 0px -1px rgba(229, 0, 51, 0.5);
+}
+
+.borsh_pink {
+	border-color: var(--pink);
+	box-shadow: 5px 5px 0px -1px rgba(224, 142, 225, 0.5);
+}
+
+.borsh_yellow {
+	border-color: var(--yellow);
+	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
+}
+
+.borsh_white {
+	border-color: var(--white);
+	box-shadow: 5px 5px 0px -1px rgba(182, 210, 225, 0.5);
+}
+
+.borsh_blue {
+	border-color: var(--blue);
+	box-shadow: 5px 5px 0px -1px rgba(0, 117, 253, 0.5);
+}
+
+.borsh_cyan {
+	border-color: var(--cyan);
+	box-shadow: 5px 5px 0px -1px rgba(3, 199, 218, 0.5);
+}
+
+.borsh_violet {
+	border-color: var(--violet);
+	box-shadow: 5px 5px 0px -1px rgba(142, 0, 174, 0.5);
+}
+
+.borsh_dark_blue {
+	border-color: var(--dark_blue);
+	box-shadow: 5px 5px 0px -1px rgba(0, 77, 113, 0.5);
+}
+
+
 /* BUTTONS COLOR AND ANIMATION */
 
 .but_green {
@@ -167,7 +215,7 @@
 	box-shadow: 2px 2px 0px -1px rgba(142, 0, 174, 0.5);
 	cursor: pointer;
 }
-
+background
 .but_violet:active {
 	transform: translateX(5px) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(142, 0, 174, 0.5);
@@ -186,7 +234,7 @@
 }
 
 .but_dark_blue:active {
-	transform: translateX(5px) translateY(5px);;
+	transform: translateX(5pbackgroundx) translateY(5px);;
 	box-shadow: 0px 0px 0px -1px rgba(0, 77, 113, 0.5);
 	cursor: pointer;
 }

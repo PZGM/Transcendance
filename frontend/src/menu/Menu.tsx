@@ -5,11 +5,10 @@ import React from "react";
 
 function MenuElement(props) {
 	return (
-		<button	className="menu">
-					<Link 	style={{ textDecoration: 'none',
-									 color: 'white' }}
-							to={{pathname: `${props.url}`}}>{props.name}</Link>
-		</button>
+			<Link 	className="menu"
+					to={{pathname: `${props.url}`}}>
+						{props.name}
+			</Link>
 	)
 }
 

@@ -90,7 +90,7 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
     if (!this.state.logged)
 			  return (<UserInit/>)
 
-    return (<Navigate to='/home' />)
+    return (<Home/>)
   }
 }
 

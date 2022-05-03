@@ -8,7 +8,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: none;
 	padding-bottom: 10px;
 	padding-top: 10px;
 	background: transparent;
@@ -18,11 +17,12 @@
 
 .friends_search_bar {
 	color: white;
-	width: 99%;
+	width: 97%;
 	font-family: Bit5x5;
 	font-size: calc(10px + 1vw);
 	border: 2px solid var(--yellow);
 	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
+	margin: 5px;
 }
 
 .friends_search_bar:focus::-webkit-input-placeholder { color:transparent; }
@@ -30,6 +30,7 @@
 .settings_nick_input, .userinit_nick_input {
 	font-family: bit5x5;
 	font-size: 30px;
+	border: none;
 	border-bottom: 6px solid var(--blue);
 	box-shadow: 0 6px 1px -1px rgba(0, 117, 253, 0.5);
 	padding-bottom: 20px

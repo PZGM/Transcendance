@@ -107,6 +107,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 				<input
 					className="friends_search_bar"
 					placeholder="Search Friend"
+					maxLength={10}
 					onChange={ async (e) => {this.onSearch(e)}}
 				/>
 				

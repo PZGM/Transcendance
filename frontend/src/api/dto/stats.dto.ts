@@ -6,10 +6,14 @@ export interface StatsDto {
     durationMin: number;
     durationMax: number;
     durationAverage: number;
-    greaterAvantage: number;
-    greaterDisavantage: number;
-    averageScore: number;
-    averageOponnentScore: number;
+    winRow: number;
+    actualWinRow: number;
+    under3min: number;
+    golden: number;
+    // greaterAvantage: number;
+    // greaterDisavantage: number;
+    // averageScore: number;
+    // averageOponnentScore: number;
     eloScore: number;
     rank: number;
 }

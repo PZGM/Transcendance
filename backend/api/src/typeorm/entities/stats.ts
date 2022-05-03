@@ -27,16 +27,28 @@ export class Stats {
     durationAverage: number;
 
     @Column()
-    greaterAvantage: number;
+    winRow: number;
 
     @Column()
-    greaterDisavantage: number;
+    actualWinRow: number;
 
-    @Column('decimal', { precision: 8, scale: 2 })
-    averageScore: number;
+    @Column()
+    under3min: number;
 
-    @Column('decimal', { precision: 8, scale: 2 })
-    averageOponnentScore: number;
+    @Column()
+    golden: number;
+
+    // @Column()
+    // greaterAvantage: number;
+
+    // @Column()
+    // greaterDisavantage: number;
+
+    // @Column('decimal', { precision: 8, scale: 2 })
+    // averageScore: number;
+
+    // @Column('decimal', { precision: 8, scale: 2 })
+    // averageOponnentScore: number;
 
     @Column()
     eloScore: number;

@@ -1,4 +1,4 @@
-import { IsPositive } from "class-validator";
+import { Min, IsPositive } from "class-validator";
 import { User } from "src/typeorm";
 
 export type UserDetails = {
@@ -13,16 +13,16 @@ export type UserDetails = {
 }
 
 export class GameDetails {
-  @IsPositive()
+  @Min(0)
   winnerId: number;
 
-  @IsPositive()
+  @Min(0)
   loserId: number;
 
-  @IsPositive()
+  @Min(0)
   winnerScore: number;
 
-  @IsPositive()
+  @Min(0)
   loserScore: number;
 
   @IsPositive()

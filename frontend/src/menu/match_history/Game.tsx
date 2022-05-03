@@ -48,58 +48,58 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 		return (
 
 			<div className={"user bor_" + this.getColor()}>
-					<ListItem key={this.props.game.id}>
-						<Stack direction='row'
-							justifyContent="space-between"
-							alignItems="center"
-							spacing={1}
-							style={GridItemStyle}
-						>
-							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
-								{this.props.game.winnerScore}
-							</div>
+				<ListItem key={this.props.game.id}>
+					<Stack direction='row'
+						justifyContent="space-between"
+						alignItems="center"
+						spacing={1}
+						style={GridItemStyle}
+					>
+						<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
+							{this.props.game.winnerScore}
+						</div>
+						
+						<Avatar variant='circular'
+							alt={this.props.game.players[w_id].login}
+							src={this.props.game.players[w_id].avatar}
+						/>
+						
+						<Stack direction='column' style={{width: '100%'}}>
 							
-							<Avatar variant='circular'
-								alt={this.props.game.players[w_id].login}
-								src={this.props.game.players[w_id].avatar}
-							/>
-							
-							<Stack direction='column' style={{width: '100%'}}>
-								
-								<Stack direction='row'
-									justifyContent="space-evenly"
-									style={{width: '100%', fontSize: 'calc(10px + 1vw)'}}
-								>
-									<div className="bit9x9 red">
-										{this.props.game.players[w_id].login}
-									</div>
-									<div className="arcade blue">
-										vs
-									</div>
-									<div className="bit9x9 pink">
-										{this.props.game.players[l_id].login}
-									</div>
-								</Stack>
-								
-								<Stack direction='row'
-									justifyContent="center"
-									style={{width: '100%'}}>
-									<div className="bit5x5 white" style={{fontSize: 'calc(10px + 0.8vw)'}}>
-										{date}
-									</div>
-								</Stack>
-							
+							<Stack direction='row'
+								justifyContent="space-evenly"
+								style={{width: '100%', fontSize: 'calc(10px + 1vw)'}}
+							>
+								<div className="bit9x9 red">
+									{this.props.game.players[w_id].login}
+								</div>
+								<div className="arcade blue">
+									vs
+								</div>
+								<div className="bit9x9 pink">
+									{this.props.game.players[l_id].login}
+								</div>
 							</Stack>
 							
-							<Avatar variant='circular'
-								alt={this.props.game.players[l_id].login}
-								src={this.props.game.players[l_id].avatar}/>
-							
-							<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
-								{this.props.game.loserScore}
-							</div>
+							<Stack direction='row'
+								justifyContent="center"
+								style={{width: '100%'}}>
+								<div className="bit5x5 white" style={{fontSize: 'calc(10px + 0.8vw)'}}>
+									{date}
+								</div>
+							</Stack>
 						
 						</Stack>
+						
+						<Avatar variant='circular'
+							alt={this.props.game.players[l_id].login}
+							src={this.props.game.players[l_id].avatar}/>
+						
+						<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
+							{this.props.game.loserScore}
+						</div>
+					
+					</Stack>
 				</ListItem>
 			</div>
 		);
