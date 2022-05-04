@@ -23,7 +23,6 @@ export class Friends extends Component<FriendsProps, FriendsState>
 {
 	
 	index:number = 0;
-
 	index_search:number = 0;
 	renderRows(list)
 	{	
@@ -101,8 +100,10 @@ export class Friends extends Component<FriendsProps, FriendsState>
 
 	render ()
 	{
+		this.index = 0;
+		this.index_search = 0;
+		
 		return (
-			
 			<Grid item xs={6}>
 				<PrivateGuard/>
 				<input

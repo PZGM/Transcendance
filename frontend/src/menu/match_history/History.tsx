@@ -5,6 +5,7 @@ import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { GameDisplay } from '../match_history/Game'
 import { UserAPI } from "../../api/Users.api";
 import { GameDto } from "../../api/dto/game.dto";
+import { PrivateGuard } from "../../components/PrivateGuard";
 
 interface HistoryProps {
 };
@@ -41,9 +42,12 @@ export class History extends Component<HistoryProps,HistoryState> {
 	}
 	render (){
 		return (
-			<Grid item xs={6}>
-					{this.renderRows(this.state.history)}
-			</Grid>
+			<>
+				<PrivateGuard/>
+				<Grid item xs={6}>
+						{this.renderRows(this.state.history)}
+				</Grid>
+			</>
 		)
     };
 }

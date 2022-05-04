@@ -4,6 +4,9 @@ import '../../../style/buttons.css'
 import { UserAPI } from '../../../api/Users.api';
 import { ChatAPI } from '../../../api/Chat.api';
 
+interface CreateChannelProps{
+}
+
 interface CreateChannelState {
     name: string;
     owner?: any;
@@ -13,7 +16,7 @@ interface CreateChannelState {
 
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
-function LaPopUp(props,CreateChannelState) {
+function CreateChannel(props: CreateChannelProps, CreateChannelState) {
     const [open, setOpen] = React.useState(false);
     const [name, setName] = React.useState("");
     const [owner, setOwner] = React.useState(null);
@@ -78,7 +81,7 @@ function LaPopUp(props,CreateChannelState) {
     );
 }
 
-export default LaPopUp;
+export default CreateChannel;
 
 {/*
     Il faut faire tout les input texte en propre 

@@ -26,7 +26,7 @@ export class AuthService implements AuthentificationProvider {
         if (user.id === 1) {
             //universal Channel
                 let channel: Channel = new Channel();
-                channel.admin = []; channel.name = "Universal Channel"; channel.visibility = "public";
+                channel.admin = []; channel.name = "General"; channel.visibility = "public";
                 channel.users = []; channel.mute = []; channel.chats = []; channel.id = 0; channel.visibility = 'public'
                 this.chanService.create(new ChannelDto(channel));
         }
