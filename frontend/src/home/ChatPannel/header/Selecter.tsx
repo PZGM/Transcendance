@@ -11,6 +11,7 @@ import { UserAPI } from "../../../api/Users.api";
 import { Backdrop } from "@mui/material";
 import { Dialog } from "@mui/material";
 import LaPopUp from "../tools/LaPopUp"
+import InfoIcon from '@mui/icons-material/Info';
 
 interface SelecterProps {
 	channel: any;
@@ -18,7 +19,7 @@ interface SelecterProps {
 interface SelecterState {
 	channels: any;
 	friends: any;
-	name?: any;
+	name: any;
 };
 
 let Hbar = "50px";
@@ -34,7 +35,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	backdropopen: boolean = false;
 	constructor(props: SelecterProps) {
 		super(props);
-		this.state = {channels: [], friends: undefined, name: undefined};
+		let name = window.location.pathname.split('/')[3];
+		if (!name)
+			name = 'Channels'
+		this.state = {channels: [], friends: undefined, name};
 	}
     async getChannels() {
         let chan = await ChatAPI.getChannels();
@@ -60,7 +64,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	renderRowsChan(list) {
 		const listItems = list.map((channel: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel.name}}>
+				<Link onClick={()=> {this.updateName(channel.name)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel.name}}>
 					<div className='bit9x9'> {channel.name} </div>
 				</Link>
 			</Stack>
@@ -71,25 +75,34 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	renderRowsFriend(list) {
 		const listItems = list?.map((friend: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
+				<Link onClick={()=> {this.updateName(friend.login)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
 					<div className='bit9x9'>{friend.login}</div>
 				</Link>
 			</Stack>
 	  );
 	  return listItems;
 	}
-	// 
+
+	updateName(name: string) {
+		this.setState({
+			name
+		})
+	}
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (
 			<>
 				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center" sx={{mt: marge.toString().concat("px") }} >
-						<Stack direction="row" justifyContent="center" alignItems="center" spacing={0} >
+						<Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
+							<Link style={{height: Hchan, width: Hi, textDecoration: 'none',fontSize: "large"}} to={{pathname: (window.location.pathname.search("/home/chat")) ? process.env.REACT_APP_USER + "" + this.state.name + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.name + "/info"}}>
+								<InfoIcon sx={{backgroundColor: "#03C7D8",color: "white"}}/>
+							</Link>
 								<Select autoWidth disableUnderline variant="standard" sx={{height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
 									// TODO trouver un moyen d'afficher le nom du channel ou de la personne juste ici
-									  return <div className='bit9x9'>SLT</div>;
+									  return <div className='bit9x9'>{this.state.name}</div>;
+									//   return <div className='bit9x9'>slt</div>;
 								  }}
 								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>
 									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>

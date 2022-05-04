@@ -37,7 +37,7 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched')
+					console.log('error catched 1')
 					return false;
 				})
 				return ret;
@@ -58,7 +58,7 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched')
+					console.log('error catched 2')
 					return null;
 				})
 				return ret;
@@ -71,7 +71,7 @@ export class UserAPI {
 				credentials: "include"})
 				.then(response => {return response.json()}).then(json => {return json})
 				.catch(err => {
-					console.log('error catched')
+					console.log('error catched 3 ')
 					return null;
 				})
 			return resp
@@ -84,7 +84,7 @@ export class UserAPI {
 				.then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched')
+					console.log('error catched 4')
 					return null;
 				})
 			 return resp
@@ -96,7 +96,7 @@ export class UserAPI {
 				credentials: "include"}).then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched')
+					console.log('error catched 5')
 					return null;
 				})
 			 return resp

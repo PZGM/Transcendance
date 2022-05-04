@@ -35,7 +35,7 @@ export class ChannelsService {
         let relations: string[] = [];
         if (relationsPicker) {
             relationsPicker.withOwner && relations.push('owner');
-            relationsPicker.withChat && relations.push('chat');
+            relationsPicker.withChat && relations.push('chats');
             relationsPicker.withMuted && relations.push('mute');
         }
         const chan: Channel = await this.channelsRepository.findOneOrFail({
@@ -50,6 +50,31 @@ export class ChannelsService {
         console.log(e)
         return null;
     }
+}
+
+
+public async getOneByName(userName: string, channelName: string): Promise<Channel|null> {
+  try {
+      let relations: string[] = [];
+          relations.push('owner');
+          relations.push('chats');
+          relations.push('mute');
+      const chan: Channel = await this.channelsRepository.findOneOrFail({
+          relations,
+          where: {
+              name: channelName
+          }
+      });
+      console.log("chan name bachend:" + channelName)
+      console.log(this.getChannels)
+      if (chan.visibility === 'private' && chan.owner.login !== userName)
+        throw new NotFoundException(`Channel name not found`);
+      return chan;
+  }
+  catch (e) {
+      console.log(e)
+      throw new NotFoundException(`Channel name not found`);
+  }
 }
 
   

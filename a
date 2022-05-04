@@ -1,0 +1,1472 @@
+Untagged: bexasfront:latest
+Deleted: sha256:ebc522873455ca06bab7176f7416416251db137dc286d71131d0f62180cdc1bd
+Deleted: sha256:9263f51350f65560af98652d6c4467361a143d7faa7f1f8a92feb71632fdd6c5
+Deleted: sha256:6949a3062d02dd30333cd7a878ce6f1b01b1a715b376bc78abb3f993f66b3759
+Deleted: sha256:52791e755bb8f307167790ef07d9655d4e3e3e2a2488c6da04001576e77e9072
+Deleted: sha256:7c70af9d5206e6a21c80cb3cbe6799b40077b1d920465e433401f0a993e142cd
+Deleted: sha256:7fde56e268e43dbba938312a82c6af7c95e901e7961f2586b2a43cca817ea986
+Deleted: sha256:268cce103b4c2e39a5819a494ff8b3b6b5513ed04c881ef48c050f86d06bf8bf
+Deleted: sha256:db94b871349e878bbf7bdf5f59bd362b772865a049d3274db6cfdaf6a15e958b
+Untagged: bexasback:latest
+Deleted: sha256:7ed47eba66f09919917f1972b61344f4afa1e1078273b17fde6e173f788ae584
+Deleted: sha256:ffc40849db3bd4f911912ed9abb19e159bc5c4bc1b3318cd597f826c86d3a8ae
+Deleted: sha256:60bbd682b7d9877943d0719bd5061907b0799d07ea08014c01d4e8c0123a8c02
+Deleted: sha256:2d07745695fc68e9f8161a98291151fb973a7ef74a91630cf4724a10c87a5cd9
+Sending build context to Docker daemon  4.024MB
+Step 1/9 : FROM node:16-alpine
+ ---> 59b389513e8a
+Step 2/9 : WORKDIR /app
+ ---> Using cache
+ ---> a51d52f7ac8a
+Step 3/9 : RUN npm install -g npm
+ ---> Using cache
+ ---> aae960f10538
+Step 4/9 : COPY ./api/package*.json ./
+ ---> Using cache
+ ---> 443f0fc074bc
+Step 5/9 : RUN npm install
+ ---> Using cache
+ ---> b3f39266ac35
+Step 6/9 : COPY ./secrets ./secrets
+ ---> Using cache
+ ---> 9c143761fe98
+Step 7/9 : COPY ./api .
+ ---> dcd98a33b10b
+Step 8/9 : EXPOSE 3333 5432 3001
+ ---> Running in 362aa64db1bc
+Removing intermediate container 362aa64db1bc
+ ---> 45fd8790bc20
+Step 9/9 : CMD  rm -rf ./src/migrations && yarn typeorm:migrate Init && yarn typeorm:run ; yarn start:dev;
+ ---> Running in ef1f2d991e0c
+Removing intermediate container ef1f2d991e0c
+ ---> 12f3224aedd9
+Successfully built 12f3224aedd9
+Successfully tagged bexasback:latest
+Sending build context to Docker daemon  626.7MB
+Step 1/8 : FROM node:16-alpine
+ ---> 59b389513e8a
+Step 2/8 : WORKDIR /app
+ ---> Using cache
+ ---> a51d52f7ac8a
+Step 3/8 : RUN npm install -g npm
+ ---> Using cache
+ ---> aae960f10538
+Step 4/8 : COPY ./package*.json ./
+ ---> b6965e8a8671
+Step 5/8 : RUN npm install
+ ---> Running in 99cbdb9b9ed3
+[91mnpm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+[0m[91mnpm WARN[0m[91m deprecated source-map-resolve@0.6.0: See https://github.com/lydell/source-map-resolve#deprecated
+[0m[91mnpm WARN deprecated source-map-url@0.4.1: See https://github.com/lydell/source-map-url#deprecated
+[0m[91mnpm WARN deprecated sane@4.1.0: some dependency vulnerabilities fixed, support for node < 10 dropped, and newer ECMAScript syntax/features added
+[0m[91mnpm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+[0m[91mnpm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+[0m[91mnpm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+[0m[91mnpm WARN deprecated uglify-es@3.3.9: support for ECMAScript is superseded by `uglify-js` as of v3.13.0
+[0m[91mnpm WARN deprecated har-validator@5.1.5: this library is no longer supported
+[0m[91mnpm WARN deprecated svgo@1.3.2: This SVGO version is no longer supported. Upgrade to v2.x.x.
+[0m[91mnpm WARN deprecated source-map-resolve@0.5.3: See https://github.com/lydell/source-map-resolve#deprecated
+[0m[91mnpm WARN deprecated tsparticles@1.43.1: Version 2.x is the current version, v1 is obsolete now
+[0m
+added 2238 packages, and audited 2239 packages in 45s
+
+204 packages are looking for funding
+  run `npm fund` for details
+
+6 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+[91mnpm notice[0m[91m 
+npm[0m[91m notice[0m[91m New minor version of npm available! 8.6.0 -> 8.8.0
+npm[0m[91m notice[0m[91m Changelog: <https://github.com/npm/cli/releases/tag/v8.8.0>
+npm [0m[91mnotice Run `npm install -g npm@8.8.0` to update!
+npm[0m[91m [0m[91mnotice[0m[91m 
+[0mRemoving intermediate container 99cbdb9b9ed3
+ ---> d11c287570bc
+Step 6/8 : COPY . .
+ ---> c182c837ca37
+Step 7/8 : EXPOSE 3000
+ ---> Running in 9b6bfc62f0fd
+Removing intermediate container 9b6bfc62f0fd
+ ---> ed84a9d25c1d
+Step 8/8 : CMD npm start
+ ---> Running in 1cec0c881dd2
+Removing intermediate container 1cec0c881dd2
+ ---> efcaec6b23f1
+Successfully built efcaec6b23f1
+Successfully tagged bexasfront:latest
+Attaching to bexas-adminer, bexas-frontend, bexas-db, bexas-backend
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m > trancend@0.1.0 start
+[35mbexas-frontend |[0m > HTTPS=true SSL_CRT_FILE='./secrets/certificate.pem'  SSL_KEY_FILE='./secrets/key.key' react-scripts start
+[35mbexas-frontend |[0m 
+[36mbexas-adminer |[0m [Tue May  3 16:06:18 2022] PHP 7.4.28 Development Server (http://[::]:8080) started
+[32mbexas-db    |[0m The files belonging to this database system will be owned by user "postgres".
+[32mbexas-db    |[0m This user must also own the server process.
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m The database cluster will be initialized with locale "en_US.utf8".
+[32mbexas-db    |[0m The default database encoding has accordingly been set to "UTF8".
+[32mbexas-db    |[0m The default text search configuration will be set to "english".
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m Data page checksums are disabled.
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m fixing permissions on existing directory /var/lib/postgresql/data ... ok
+[32mbexas-db    |[0m creating subdirectories ... ok
+[32mbexas-db    |[0m selecting dynamic shared memory implementation ... posix
+[32mbexas-db    |[0m selecting default max_connections ... 100
+[32mbexas-db    |[0m selecting default shared_buffers ... 128MB
+[32mbexas-db    |[0m selecting default time zone ... Etc/UTC
+[32mbexas-db    |[0m creating configuration files ... ok
+[32mbexas-db    |[0m running bootstrap script ... ok
+[33mbexas-backend |[0m yarn run v1.22.18
+[33mbexas-backend |[0m $ yarn typeorm migration:generate -n Init
+[32mbexas-db    |[0m performing post-bootstrap initialization ... ok
+[33mbexas-backend |[0m $ ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts migration:generate -n Init
+[32mbexas-db    |[0m syncing data to disk ... initdb: warning: enabling "trust" authentication for local connections
+[32mbexas-db    |[0m You can change this by editing pg_hba.conf or using the option -A, or
+[32mbexas-db    |[0m --auth-local and --auth-host, the next time you run initdb.
+[32mbexas-db    |[0m ok
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m Success. You can now start the database server using:
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m     pg_ctl -D /var/lib/postgresql/data -l logfile start
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m waiting for server to start....2022-05-03 16:06:20.261 UTC [47] LOG:  starting PostgreSQL 14.2 (Debian 14.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+[32mbexas-db    |[0m 2022-05-03 16:06:20.277 UTC [47] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[32mbexas-db    |[0m 2022-05-03 16:06:20.317 UTC [48] LOG:  database system was shut down at 2022-05-03 16:06:19 UTC
+[32mbexas-db    |[0m 2022-05-03 16:06:20.332 UTC [47] LOG:  database system is ready to accept connections
+[32mbexas-db    |[0m  done
+[32mbexas-db    |[0m server started
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init.sql
+[32mbexas-db    |[0m CREATE DATABASE
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m 2022-05-03 16:06:20.800 UTC [47] LOG:  received fast shutdown request
+[32mbexas-db    |[0m waiting for server to shut down....2022-05-03 16:06:20.809 UTC [47] LOG:  aborting any active transactions
+[32mbexas-db    |[0m 2022-05-03 16:06:20.812 UTC [47] LOG:  background worker "logical replication launcher" (PID 54) exited with exit code 1
+[32mbexas-db    |[0m 2022-05-03 16:06:20.813 UTC [49] LOG:  shutting down
+[32mbexas-db    |[0m 2022-05-03 16:06:20.908 UTC [47] LOG:  database system is shut down
+[32mbexas-db    |[0m  done
+[32mbexas-db    |[0m server stopped
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m PostgreSQL init process complete; ready for start up.
+[32mbexas-db    |[0m 
+[32mbexas-db    |[0m 2022-05-03 16:06:21.042 UTC [1] LOG:  starting PostgreSQL 14.2 (Debian 14.2-1.pgdg110+1) on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+[32mbexas-db    |[0m 2022-05-03 16:06:21.043 UTC [1] LOG:  listening on IPv4 address "0.0.0.0", port 5432
+[32mbexas-db    |[0m 2022-05-03 16:06:21.043 UTC [1] LOG:  listening on IPv6 address "::", port 5432
+[32mbexas-db    |[0m 2022-05-03 16:06:21.060 UTC [1] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+[32mbexas-db    |[0m 2022-05-03 16:06:21.082 UTC [61] LOG:  database system was shut down at 2022-05-03 16:06:20 UTC
+[32mbexas-db    |[0m 2022-05-03 16:06:21.098 UTC [1] LOG:  database system is ready to accept connections
+[35mbexas-frontend |[0m (node:26) [DEP_WEBPACK_DEV_SERVER_HTTPS] DeprecationWarning: 'https' option is deprecated. Please use the 'server' option.
+[35mbexas-frontend |[0m (Use `node --trace-deprecation ...` to show where the warning was created)
+[35mbexas-frontend |[0m (node:26) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+[35mbexas-frontend |[0m (node:26) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+[35mbexas-frontend |[0m Starting the development server...
+[35mbexas-frontend |[0m 
+[33mbexas-backend |[0m Migration /app/src/migrations/1651593981339-Init.ts has been generated successfully.
+[33mbexas-backend |[0m Done in 8.24s.
+[33mbexas-backend |[0m yarn run v1.22.18
+[33mbexas-backend |[0m $ yarn typeorm migration:run
+[33mbexas-backend |[0m $ ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/ormconfig.ts migration:run
+[33mbexas-backend |[0m Done in 10.58s.
+[33mbexas-backend |[0m yarn run v1.22.18
+[33mbexas-backend |[0m $ nest start --watch
+[33mbexas-backend |[0m c[[90m6:06:41 PM[0m] Starting compilation in watch mode...
+[33mbexas-backend |[0m 
+[33mbexas-backend |[0m [[90m6:06:54 PM[0m] Found 0 errors. Watching for file changes.
+[33mbexas-backend |[0m 
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +204ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +2ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +2ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mImagesModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +303ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFriendsModule dependencies initialized[39m[38;5;3m +2ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mMessagesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStatusModule dependencies initialized[39m[38;5;3m +4ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mChannelsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mStatsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mHistoryModule dependencies initialized[39m[38;5;3m +26ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:56 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/api}:[39m[38;5;3m +1257ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +4ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/api/auth}:[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/check, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/login, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/redirect, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/status, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/auth/logout, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTwofaController {/api/2fa}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/generate, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/authenticate, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/turnon, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/turnoff, POST} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/enabled, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/2fa/fully-authentificated, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUsersController {/api/users}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id/login, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/:id/image, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/update/image, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/update/login, PUT} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/update/color, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/update/addBlockedUser, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/update/removeBlockedUser, PUT} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mImagesController {/api/images}:[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/images/upload, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/images/:path, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/images/:path, DELETE} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mChannelsController {/api/channels}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/name/:name, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/:id, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/update/addMute, PUT} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/update/addAdmin, PUT} route[39m[38;5;3m +2ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/update/join, PUT} route[39m[38;5;3m +3ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/update/rmUser, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/update/removeAdmin, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/channels/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mMessagesController {/api/messages}:[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/messages, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/messages/:id, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/messages, POST} route[39m[38;5;3m +2ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/messages/:id, PATCH} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/messages/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStatusController {/api/status}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/status/users/:id, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/status/users/:id, PUT} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/status/users/activity/:id, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFriendsController {/api/friends}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/friends, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/friends, POST} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/friends/search/:search, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/friends, DELETE} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHistoryController {/api/history}:[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/history, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/history/new, PUT} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mStatsController {/api/stats}:[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/stats, GET} route[39m[38;5;3m +0ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/stats/with-user, GET} route[39m[38;5;3m +1ms[39m
+[33mbexas-backend |[0m [32m[Nest] 128  - [39m05/03/2022, 6:06:58 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +6ms[39m
+[35mbexas-frontend |[0m Compiled with warnings.
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/2FA.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:  'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:  'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:  'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:  'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:  'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:  'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:  'ToastContainer' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/App.tsx
+[35mbexas-frontend |[0m   Line 21:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 35:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 43:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 47:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Chat.api.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'useReducer' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'StringLiteralLike' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Users.api.tsx
+[35mbexas-frontend |[0m   Line 109:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 120:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 207:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 222:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 272:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/components/PrivateRoute.tsx
+[35mbexas-frontend |[0m   Line 4:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanAddUser.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'ButtonBase' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:22:  'IconButton' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:58:  'Typography' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:  'Navigate' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'isPrivateIdentifier' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:5:  'height_Box_Admin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 20:5:  'height_Box_Users' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 21:5:  'width_button' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 59:7:  'ret' is assigned a value but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanEdit.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Avatar' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'RenderRows' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:8:    'AddIcon' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 95:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanInfo.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:27:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:52:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'DoneOutlineIcon' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 73:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/Chat.tsx
+[35mbexas-frontend |[0m   Line 1:15:     'ButtonBase' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:     'Navigate' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:     'isPrivateIdentifier' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 66:9:     'chat' is assigned a value but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 143:157:  Expected '===' and instead saw '=='              eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/UserInfo.tsx
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 13:8:   'ReturnButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 52:9:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 55:31:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/MyInfos.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:26:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:  'Stack' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 15:2:  Useless constructor                 @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/Selecter.tsx
+[35mbexas-frontend |[0m   Line 1:62:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:82:   'FormControl' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'InputLabel' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:113:  'NativeSelect' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:142:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:    'SelectUnstyled' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:    'ExpandMoreIcon' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'Backdrop' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'Dialog' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 25:5:   'Hi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'Wi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 29:5:   'maxWchan' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/LaPopUp.tsx
+[35mbexas-frontend |[0m   Line 2:68:   'DialogContentText' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:118:  'TextField' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:11:   'CreateChannelState' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:12:  'owner' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:19:  'setOwner' is assigned a value but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 83:1:   Block is redundant                              no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRows.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:   'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:   'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:   'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:5:    'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'changefriend' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:5:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 17:13:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m   Line 56:37:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRowsEdit.tsx
+[35mbexas-frontend |[0m   Line 1:15:  'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:  'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:  'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:  'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:  'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:  'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:  'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'Link' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/Home.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'Drawer' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'Typography' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Avatar' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:   'Button' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:51:   'TextField' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:62:   'IconButton' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:   'Container' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'SendIcon' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:   'Link' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:24:   'useParams' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'MiniStatus' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'height' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:10:  'ConstructionOutlined' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 16:10:  'info' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/index.tsx
+[35mbexas-frontend |[0m   Line 2:17:  'FC' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'reportWebVitals' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:25:  'Navigate' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Frame.tsx
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Menu.tsx
+[35mbexas-frontend |[0m   Line 32:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/NotFound.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:55:   'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:94:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:109:  'Container' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/Achievement.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:   'Menu' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/First_Row.tsx
+[35mbexas-frontend |[0m   Line 1:27:  'LinearProgress' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:  'Typography' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/AddUserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 36:7:  'ret' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/Friends.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'Menu' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'background' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'InputUnstyled' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 58:19:  Expected '!==' and instead saw '!='        eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/UserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/Game.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'UserDto' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:2:  Useless constructor                     @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/History.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:78:   'TextField' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:   'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:101:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/profile/Profile.tsx
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:   'Helmet' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:   'Menu' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:8:   'background' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:10:  'StatElement' is defined but never used                                                                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:4:   img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/2FASettings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Button' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:    'InputBase' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:42:    'Typography' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:    'Navigate' is defined but never used                                                                       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:    'ToastContainer' is defined but never used                                                                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:    'InputUnstyled' is defined but never used                                                                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 51:35:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 71:19:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 123:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 131:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 163:66:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 171:63:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 192:29:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/AvatarSettings.tsx
+[35mbexas-frontend |[0m   Line 10:10:  'time' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 105:3:  Nested block is redundant         no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/LoginSettings.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:21:   'useEffect' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'ToastContainer' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 47:30:  Expected '===' and instead saw '=='         eqeqeq
+[35mbexas-frontend |[0m   Line 49:35:  Expected '!==' and instead saw '!='         eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/Settings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:16:    'Avatar' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:24:    'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:    'ChangeEvent' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:8:     'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:     'background' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:10:    'rgbaToHsva' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:    'ReactCSSTransitionGroup' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 90:26:   Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 108:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 114:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m Search for the keywords to learn more about each warning.
+[35mbexas-frontend |[0m To ignore, add // eslint-disable-next-line to the line before.
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m assets by path static/media/ 1.32 MiB
+[35mbexas-frontend |[0m   assets by path static/media/*.woff 52.2 KiB
+[35mbexas-frontend |[0m     asset static/media/lemon.8cc0581bb214ccb6c107.woff 23.5 KiB [emitted] [immutable] [from: src/asset/fonts/lemon.woff] (auxiliary name: main)
+[35mbexas-frontend |[0m     asset static/media/Backto1982.80ee4e53067ec5a631c7.woff 10 KiB [emitted] [immutable] [from: src/asset/fonts/Backto1982.woff] (auxiliary name: main)
+[35mbexas-frontend |[0m     asset static/media/Arcade.c440d7f924716b0ec4a2.woff 4.4 KiB [emitted] [immutable] [from: src/asset/fonts/Arcade.woff] (auxiliary name: main)
+[35mbexas-frontend |[0m     + 4 assets
+[35mbexas-frontend |[0m   assets by path static/media/*.png 452 KiB
+[35mbexas-frontend |[0m     asset static/media/richard.ba53f218e656e870b025.png 322 KiB [emitted] [immutable] [from: src/asset/images/richard.png] (auxiliary name: main)
+[35mbexas-frontend |[0m     asset static/media/ft_transcendance.7d81eb9ff0f7e3af4b13.png 47.1 KiB [emitted] [immutable] [from: src/asset/images/ft_transcendance.png] (auxiliary name: main)
+[35mbexas-frontend |[0m     asset static/media/42_Logo.9a8f145d52e684243cdc.png 30 KiB [emitted] [immutable] [from: src/asset/images/42_Logo.png] (auxiliary name: main)
+[35mbexas-frontend |[0m     + 2 assets
+[35mbexas-frontend |[0m   asset static/media/background.f4a94c5c48bd14bb9b2d.jpg 852 KiB [emitted] [immutable] [from: src/asset/images/background.jpg] (auxiliary name: main)
+[35mbexas-frontend |[0m asset static/js/bundle.js 3.6 MiB [emitted] (name: main) 1 related asset
+[35mbexas-frontend |[0m asset index.html 1.67 KiB [emitted]
+[35mbexas-frontend |[0m asset asset-manifest.json 1.3 KiB [emitted]
+[35mbexas-frontend |[0m orphan modules 1.15 MiB [orphan] 571 modules
+[35mbexas-frontend |[0m runtime modules 29.6 KiB 14 modules
+[35mbexas-frontend |[0m cacheable modules 2.76 MiB (javascript) 1.32 MiB (asset)
+[35mbexas-frontend |[0m   modules by path ./node_modules/ 2.47 MiB 513 modules
+[35mbexas-frontend |[0m   modules by path ./src/ 304 KiB (javascript) 1.32 MiB (asset)
+[35mbexas-frontend |[0m     javascript modules 298 KiB 60 modules
+[35mbexas-frontend |[0m     asset modules 5.98 KiB (javascript) 1.32 MiB (asset)
+[35mbexas-frontend |[0m       modules by path ./src/asset/images/ 5.69 KiB (javascript) 1.27 MiB (asset)
+[35mbexas-frontend |[0m         ./src/asset/images/ft_transcendance.png 42 bytes (javascript) 47.1 KiB (asset) [built] [code generated]
+[35mbexas-frontend |[0m         ./src/asset/images/42_Logo.png 42 bytes (javascript) 30 KiB (asset) [built] [code generated]
+[35mbexas-frontend |[0m         + 6 modules
+[35mbexas-frontend |[0m       modules by path ./src/asset/fonts/*.woff 294 bytes (javascript) 52.2 KiB (asset)
+[35mbexas-frontend |[0m         ./src/asset/fonts/ManaspaceReg.woff 42 bytes (javascript) 4.28 KiB (asset) [built] [code generated]
+[35mbexas-frontend |[0m         ./src/asset/fonts/Bit5x5.woff 42 bytes (javascript) 3.26 KiB (asset) [built] [code generated]
+[35mbexas-frontend |[0m         + 5 modules
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m WARNING in src/2FA.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:  'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:  'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:  'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:  'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:  'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:  'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:  'ToastContainer' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/App.tsx
+[35mbexas-frontend |[0m   Line 21:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 35:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 43:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 47:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Chat.api.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'useReducer' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'StringLiteralLike' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Users.api.tsx
+[35mbexas-frontend |[0m   Line 109:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 120:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 207:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 222:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 272:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/components/PrivateRoute.tsx
+[35mbexas-frontend |[0m   Line 4:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanAddUser.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'ButtonBase' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:22:  'IconButton' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:58:  'Typography' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:  'Navigate' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'isPrivateIdentifier' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:5:  'height_Box_Admin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 20:5:  'height_Box_Users' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 21:5:  'width_button' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 59:7:  'ret' is assigned a value but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanEdit.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Avatar' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'RenderRows' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:8:    'AddIcon' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 95:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanInfo.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:27:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:52:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'DoneOutlineIcon' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 73:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/Chat.tsx
+[35mbexas-frontend |[0m   Line 1:15:     'ButtonBase' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:     'Navigate' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:     'isPrivateIdentifier' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 66:9:     'chat' is assigned a value but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 143:157:  Expected '===' and instead saw '=='              eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/UserInfo.tsx
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 13:8:   'ReturnButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 52:9:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 55:31:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/MyInfos.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:26:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:  'Stack' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 15:2:  Useless constructor                 @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/Selecter.tsx
+[35mbexas-frontend |[0m   Line 1:62:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:82:   'FormControl' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'InputLabel' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:113:  'NativeSelect' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:142:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:    'SelectUnstyled' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:    'ExpandMoreIcon' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'Backdrop' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'Dialog' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 25:5:   'Hi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'Wi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 29:5:   'maxWchan' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/LaPopUp.tsx
+[35mbexas-frontend |[0m   Line 2:68:   'DialogContentText' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:118:  'TextField' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:11:   'CreateChannelState' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:12:  'owner' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:19:  'setOwner' is assigned a value but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 83:1:   Block is redundant                              no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRows.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:   'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:   'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:   'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:5:    'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'changefriend' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:5:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 17:13:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m   Line 56:37:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRowsEdit.tsx
+[35mbexas-frontend |[0m   Line 1:15:  'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:  'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:  'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:  'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:  'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:  'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:  'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'Link' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/Home.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'Drawer' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'Typography' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Avatar' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:   'Button' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:51:   'TextField' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:62:   'IconButton' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:   'Container' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'SendIcon' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:   'Link' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:24:   'useParams' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'MiniStatus' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'height' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:10:  'ConstructionOutlined' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 16:10:  'info' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/index.tsx
+[35mbexas-frontend |[0m   Line 2:17:  'FC' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'reportWebVitals' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:25:  'Navigate' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Frame.tsx
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Menu.tsx
+[35mbexas-frontend |[0m   Line 32:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/NotFound.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:55:   'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:94:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:109:  'Container' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/Achievement.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:   'Menu' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/First_Row.tsx
+[35mbexas-frontend |[0m   Line 1:27:  'LinearProgress' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:  'Typography' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/AddUserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 36:7:  'ret' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/Friends.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'Menu' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'background' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'InputUnstyled' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 58:19:  Expected '!==' and instead saw '!='        eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/UserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/Game.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'UserDto' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:2:  Useless constructor                     @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/History.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:78:   'TextField' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:   'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:101:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/profile/Profile.tsx
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:   'Helmet' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:   'Menu' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:8:   'background' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:10:  'StatElement' is defined but never used                                                                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:4:   img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/2FASettings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Button' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:    'InputBase' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:42:    'Typography' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:    'Navigate' is defined but never used                                                                       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:    'ToastContainer' is defined but never used                                                                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:    'InputUnstyled' is defined but never used                                                                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 51:35:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 71:19:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 123:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 131:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 163:66:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 171:63:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 192:29:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/AvatarSettings.tsx
+[35mbexas-frontend |[0m   Line 10:10:  'time' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 105:3:  Nested block is redundant         no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/LoginSettings.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:21:   'useEffect' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'ToastContainer' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 47:30:  Expected '===' and instead saw '=='         eqeqeq
+[35mbexas-frontend |[0m   Line 49:35:  Expected '!==' and instead saw '!='         eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/Settings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:16:    'Avatar' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:24:    'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:    'ChangeEvent' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:8:     'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:     'background' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:10:    'rgbaToHsva' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:    'ReactCSSTransitionGroup' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 90:26:   Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 108:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 114:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m webpack 5.72.0 compiled with 1 warning in 40637 ms
+[35mbexas-frontend |[0m No issues found.
+[35mbexas-frontend |[0m Compiling...
+[35mbexas-frontend |[0m Compiled with warnings.
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/2FA.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:  'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:  'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:  'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:  'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:  'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:  'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:  'ToastContainer' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/App.tsx
+[35mbexas-frontend |[0m   Line 21:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 35:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 43:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 47:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Chat.api.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'useReducer' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'StringLiteralLike' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Users.api.tsx
+[35mbexas-frontend |[0m   Line 109:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 120:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 207:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 222:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 272:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/components/PrivateRoute.tsx
+[35mbexas-frontend |[0m   Line 4:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanAddUser.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'ButtonBase' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:22:  'IconButton' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:58:  'Typography' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:  'Navigate' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'isPrivateIdentifier' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:5:  'height_Box_Admin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 20:5:  'height_Box_Users' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 21:5:  'width_button' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 59:7:  'ret' is assigned a value but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanEdit.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Avatar' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'RenderRows' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:8:    'AddIcon' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 95:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanInfo.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:27:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:52:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'DoneOutlineIcon' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 73:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/Chat.tsx
+[35mbexas-frontend |[0m   Line 1:15:     'ButtonBase' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:     'Navigate' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:     'isPrivateIdentifier' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 66:9:     'chat' is assigned a value but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 143:157:  Expected '===' and instead saw '=='              eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/UserInfo.tsx
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 13:8:   'ReturnButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 52:9:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 55:31:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/MyInfos.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:26:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:  'Stack' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 15:2:  Useless constructor                 @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/Selecter.tsx
+[35mbexas-frontend |[0m   Line 1:62:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:82:   'FormControl' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'InputLabel' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:113:  'NativeSelect' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:142:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:    'SelectUnstyled' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:    'ExpandMoreIcon' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'Backdrop' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'Dialog' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 25:5:   'Hi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'Wi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 29:5:   'maxWchan' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/LaPopUp.tsx
+[35mbexas-frontend |[0m   Line 2:68:   'DialogContentText' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:118:  'TextField' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:11:   'CreateChannelState' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:12:  'owner' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:19:  'setOwner' is assigned a value but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 83:1:   Block is redundant                              no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRows.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:   'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:   'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:   'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:5:    'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'changefriend' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:5:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 17:13:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m   Line 56:37:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRowsEdit.tsx
+[35mbexas-frontend |[0m   Line 1:15:  'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:  'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:  'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:  'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:  'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:  'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:  'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'Link' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/Home.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'Drawer' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'Typography' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Avatar' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:   'Button' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:51:   'TextField' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:62:   'IconButton' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:   'Container' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'SendIcon' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:   'Link' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:24:   'useParams' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'MiniStatus' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'height' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:10:  'ConstructionOutlined' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 16:10:  'info' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/index.tsx
+[35mbexas-frontend |[0m   Line 2:17:  'FC' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'reportWebVitals' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:25:  'Navigate' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Frame.tsx
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Menu.tsx
+[35mbexas-frontend |[0m   Line 32:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/NotFound.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:55:   'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:94:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:109:  'Container' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/Achievement.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:   'Menu' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/First_Row.tsx
+[35mbexas-frontend |[0m   Line 1:27:  'LinearProgress' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:  'Typography' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/AddUserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 36:7:  'ret' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/Friends.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'Menu' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'background' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'InputUnstyled' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 58:19:  Expected '!==' and instead saw '!='        eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/UserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/Game.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'UserDto' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:2:  Useless constructor                     @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/History.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:78:   'TextField' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:   'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:101:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/profile/Profile.tsx
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:   'Helmet' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:   'Menu' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:8:   'background' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:10:  'StatElement' is defined but never used                                                                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:4:   img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/2FASettings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Button' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:    'InputBase' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:42:    'Typography' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:    'Navigate' is defined but never used                                                                       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:    'ToastContainer' is defined but never used                                                                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:    'InputUnstyled' is defined but never used                                                                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 51:35:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 71:19:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 123:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 131:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 163:66:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 171:63:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 192:29:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/AvatarSettings.tsx
+[35mbexas-frontend |[0m   Line 10:10:  'time' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 105:3:  Nested block is redundant         no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/LoginSettings.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:21:   'useEffect' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'ToastContainer' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 47:30:  Expected '===' and instead saw '=='         eqeqeq
+[35mbexas-frontend |[0m   Line 49:35:  Expected '!==' and instead saw '!='         eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/Settings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:16:    'Avatar' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:24:    'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:    'ChangeEvent' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:8:     'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:     'background' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:10:    'rgbaToHsva' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:    'ReactCSSTransitionGroup' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 90:26:   Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 108:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 114:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m Search for the keywords to learn more about each warning.
+[35mbexas-frontend |[0m To ignore, add // eslint-disable-next-line to the line before.
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m assets by status 1.32 MiB [cached] 13 assets
+[35mbexas-frontend |[0m assets by status 3.6 MiB [emitted]
+[35mbexas-frontend |[0m   assets by chunk 3.6 MiB (name: main)
+[35mbexas-frontend |[0m     asset static/js/bundle.js 3.6 MiB [emitted] (name: main) 1 related asset
+[35mbexas-frontend |[0m     asset main.68f106435f39236e2f60.hot-update.js 359 bytes [emitted] [immutable] [hmr] (name: main) 1 related asset
+[35mbexas-frontend |[0m   assets by path *.json 1.45 KiB
+[35mbexas-frontend |[0m     asset asset-manifest.json 1.43 KiB [emitted]
+[35mbexas-frontend |[0m     asset main.68f106435f39236e2f60.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+[35mbexas-frontend |[0m   asset index.html 1.67 KiB [emitted]
+[35mbexas-frontend |[0m Entrypoint main 3.6 MiB (4.38 MiB) = static/js/bundle.js 3.6 MiB main.68f106435f39236e2f60.hot-update.js 359 bytes 15 auxiliary assets
+[35mbexas-frontend |[0m cached modules 3.91 MiB (javascript) 1.32 MiB (asset) [cached] 1159 modules
+[35mbexas-frontend |[0m runtime modules 29.6 KiB 14 modules
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m WARNING in src/2FA.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:  'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:  'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:  'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:  'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:  'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:  'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:  'ToastContainer' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/App.tsx
+[35mbexas-frontend |[0m   Line 21:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 35:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 43:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m   Line 47:6:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Chat.api.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'useReducer' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'StringLiteralLike' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/api/Users.api.tsx
+[35mbexas-frontend |[0m   Line 109:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 120:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 207:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 222:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 272:10:  'resp' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/components/PrivateRoute.tsx
+[35mbexas-frontend |[0m   Line 4:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanAddUser.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'ButtonBase' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:22:  'IconButton' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:58:  'Typography' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:  'Navigate' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'isPrivateIdentifier' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:5:  'height_Box_Admin' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 20:5:  'height_Box_Users' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 21:5:  'width_button' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 59:7:  'ret' is assigned a value but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanEdit.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Avatar' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'RenderRows' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:8:    'AddIcon' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 95:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/ChanInfo.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:27:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:52:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'DoneOutlineIcon' is defined but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 73:19:  Expected '!==' and instead saw '!='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/Chat.tsx
+[35mbexas-frontend |[0m   Line 1:15:     'ButtonBase' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:     'Navigate' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:     'isPrivateIdentifier' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 66:9:     'chat' is assigned a value but never used        @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 143:157:  Expected '===' and instead saw '=='              eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/UserInfo.tsx
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:16:   'Navigate' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'isPrivateIdentifier' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 13:8:   'ReturnButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 52:9:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 55:31:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/MyInfos.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Button' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:26:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:  'Stack' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 15:2:  Useless constructor                 @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/header/Selecter.tsx
+[35mbexas-frontend |[0m   Line 1:62:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:82:   'FormControl' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'InputLabel' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:113:  'NativeSelect' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:142:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:    'SelectUnstyled' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:    'ExpandMoreIcon' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'Backdrop' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'Dialog' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 25:5:   'Hi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 26:5:   'Wi' is assigned a value but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 29:5:   'maxWchan' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/LaPopUp.tsx
+[35mbexas-frontend |[0m   Line 2:68:   'DialogContentText' is defined but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:118:  'TextField' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:11:   'CreateChannelState' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:12:  'owner' is assigned a value but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 19:19:  'setOwner' is assigned a value but never used   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 83:1:   Block is redundant                              no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRows.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:   'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:   'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:   'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:   'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:   'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:5:    'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 12:10:  'changefriend' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:5:   Nested block is redundant                          no-lone-blocks
+[35mbexas-frontend |[0m   Line 17:13:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m   Line 56:37:  Expected '===' and instead saw '=='                eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/ChatPannel/tools/RenderRowsEdit.tsx
+[35mbexas-frontend |[0m   Line 1:15:  'Button' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:  'ButtonBase' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:  'Grid' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:  'IconButton' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:53:  'Input' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:60:  'InputBase' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:71:  'List' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:84:  'TextField' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:95:  'Typography' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:  'Link' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:5:   'width_button' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/home/Home.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'Drawer' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:23:   'Typography' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:35:   'Avatar' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:   'Button' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:51:   'TextField' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:62:   'IconButton' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:81:   'Container' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'SendIcon' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:   'Link' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:24:   'useParams' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'MiniStatus' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:10:  'height' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 14:10:  'ConstructionOutlined' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 16:10:  'info' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/index.tsx
+[35mbexas-frontend |[0m   Line 2:17:  'FC' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:8:   'reportWebVitals' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:25:  'Navigate' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Frame.tsx
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/Menu.tsx
+[35mbexas-frontend |[0m   Line 32:5:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/NotFound.tsx
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:55:   'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:94:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:109:  'Container' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'styles' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/Achievement.tsx
+[35mbexas-frontend |[0m   Line 1:10:  'Box' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'Helmet' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:   'Menu' is defined but never used    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/achievement/First_Row.tsx
+[35mbexas-frontend |[0m   Line 1:27:  'LinearProgress' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:43:  'Typography' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/AddUserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 36:7:  'ret' is assigned a value but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/Friends.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 7:8:    'Menu' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:8:    'background' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:10:  'InputUnstyled' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 58:19:  Expected '!==' and instead saw '!='        eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/friends/UserDisplay.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/Game.tsx
+[35mbexas-frontend |[0m   Line 1:18:  'Box' is defined but never used         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:40:  'Typography' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:  'UserAPI' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:  'UserDto' is defined but never used     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 23:2:  Useless constructor                     @typescript-eslint/no-useless-constructor
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/match_history/History.tsx
+[35mbexas-frontend |[0m   Line 1:10:   'Box' is defined but never used                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:15:   'ListItem' is defined but never used                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:25:   'ListItemButton' is defined but never used           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:41:   'ListItemText' is defined but never used             @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:61:   'Divider' is defined but never used                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:70:   'Button' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:78:   'TextField' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:89:   'Typography' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:101:  'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:   'Helmet' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'FixedSizeList' is defined but never used            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:25:   'ListChildComponentProps' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/profile/Profile.tsx
+[35mbexas-frontend |[0m   Line 1:18:   'Box' is defined but never used                                                                            @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 8:10:   'Helmet' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:   'Menu' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 11:8:   'background' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 27:10:  'StatElement' is defined but never used                                                                    @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 30:4:   img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/2FASettings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Button' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:31:    'InputBase' is defined but never used                                                                      @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:42:    'Typography' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 3:10:    'Navigate' is defined but never used                                                                       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:10:    'ToastContainer' is defined but never used                                                                 @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 9:10:    'InputUnstyled' is defined but never used                                                                  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 51:35:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 71:19:   Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 123:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 131:35:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 163:66:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 171:63:  Expected '===' and instead saw '=='                                                                        eqeqeq
+[35mbexas-frontend |[0m   Line 192:29:  img elements must have an alt prop, either with meaningful text, or an empty string for decorative images  jsx-a11y/alt-text
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/AvatarSettings.tsx
+[35mbexas-frontend |[0m   Line 10:10:  'time' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 105:3:  Nested block is redundant         no-lone-blocks
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/LoginSettings.tsx
+[35mbexas-frontend |[0m   Line 1:16:   'InputBase' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:21:   'useEffect' is defined but never used       @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:10:   'ToastContainer' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 47:30:  Expected '===' and instead saw '=='         eqeqeq
+[35mbexas-frontend |[0m   Line 49:35:  Expected '!==' and instead saw '!='         eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m src/menu/settings/Settings.tsx
+[35mbexas-frontend |[0m   Line 1:10:    'Grid' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:16:    'Avatar' is defined but never used                   @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 1:24:    'InputBase' is defined but never used                @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 2:10:    'ChangeEvent' is defined but never used              @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 4:8:     'Menu' is defined but never used                     @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 5:8:     'background' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 6:10:    'rgbaToHsva' is defined but never used               @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 10:8:    'ReactCSSTransitionGroup' is defined but never used  @typescript-eslint/no-unused-vars
+[35mbexas-frontend |[0m   Line 90:26:   Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 108:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m   Line 114:31:  Expected '===' and instead saw '=='                  eqeqeq
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m webpack 5.72.0 compiled with 1 warning in 992 ms
+[35mbexas-frontend |[0m No issues found.
+[36mbexas-adminer exited with code 0
+[0m[33mbexas-backend exited with code 1
+[0m[32mbexas-db    |[0m 2022-05-03 16:45:55.551 UTC [1] LOG:  received fast shutdown request
+[32mbexas-db    |[0m 2022-05-03 16:45:55.557 UTC [1] LOG:  aborting any active transactions
+[32mbexas-db    |[0m 2022-05-03 16:45:55.559 UTC [1] LOG:  background worker "logical replication launcher" (PID 67) exited with exit code 1
+[32mbexas-db    |[0m 2022-05-03 16:45:55.559 UTC [62] LOG:  shutting down
+[35mbexas-frontend |[0m npm ERR! path /app
+[35mbexas-frontend |[0m npm ERR! command failed
+[35mbexas-frontend |[0m npm ERR! signal SIGTERM
+[35mbexas-frontend |[0m npm ERR! command sh -c HTTPS=true SSL_CRT_FILE='./secrets/certificate.pem'  SSL_KEY_FILE='./secrets/key.key' react-scripts start
+[35mbexas-frontend |[0m 
+[35mbexas-frontend |[0m npm ERR! A complete log of this run can be found in:
+[35mbexas-frontend |[0m npm ERR!     /root/.npm/_logs/2022-05-03T16_06_18_889Z-debug-0.log
+[32mbexas-db    |[0m 2022-05-03 16:45:55.615 UTC [1] LOG:  database system is shut down
+[32mbexas-db exited with code 0
+[0m[35mbexas-frontend exited with code 1
+[0m

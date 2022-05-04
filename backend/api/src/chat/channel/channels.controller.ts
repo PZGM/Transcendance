@@ -18,6 +18,12 @@ export class ChannelsController {
     return channels;
   }
 
+  @Get('/name/:name')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string) {
+    return this.channelsService.getOneByName(request.user.login, name);
+  }
+
   @Get(':id')
   @UseGuards(FullyAuthentificatedGuard)
   findOne(@Param('id') id: number, option?: RelationsPicker) {
