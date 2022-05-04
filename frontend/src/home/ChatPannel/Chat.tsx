@@ -5,9 +5,15 @@ import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
+import { ChatAPI } from "../../api/Chat.api";
+import { io } from "socket.io-client";
 
 interface ChatState {
-    chanName?: number
+    chanName: string
+	msg: string
+	channels: null,
+	socket: any,
+	channel: null
 }
 
 interface ChatProps {
@@ -19,11 +25,20 @@ export class Chat extends Component<ChatProps, ChatState> {
 	constructor(props: ChatProps) {
 		super(props);
         this.state = {
-            chanName: undefined,
+            chanName: "",
+            msg: "",
+			channels: null,
+			socket: null,
+			channel: null	
         }
 	}
-
+	sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
 	componentDidMount()  {
+		this.getName();
+		this.configureSocket();
+
 	}
 	
 	async getName() {
@@ -38,11 +53,29 @@ export class Chat extends Component<ChatProps, ChatState> {
 		this.getName();
 	}
 
+	setmsg(letter){
+		let msg =letter;
+		
+		this.setState({
+			msg: msg,
+        })
+
+	}
+	async getmsg() {
+		this.getName();
+		const chat = await ChatAPI.getChannelByName(this.props.params.name)
+		// const chat = await ChatAPI.getChannelByName("qwerty")
+		console.log("le msg est : " + this.state.msg);
+	}
+	async sendMsg(){
+		const channel = await ChatAPI.getChannelByName(this.props.params.name);
+		const author = await UserAPI.getUser();
+		await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
+	}
 // il faut trouver un moyen d'afficher le chat (je dirais qu'il faut le faire a la discord)
 
 	renderMsg(list)
 	{
-		list = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 		const listItems = list.map((msg: string) =>
 		<>
 			<Stack direction="row" spacing={2}>
@@ -55,8 +88,46 @@ export class Chat extends Component<ChatProps, ChatState> {
 		return listItems;
 	}
 
-	render () {
 
+    configureSocket = () => {
+        var socket = io("http://serv.pizzagami.fr:4007");
+		console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
+		console.log(socket);
+        socket.on('connection', () => {
+            console.log("connect");
+            socket.on('disconnect', (reason) => {
+                console.log(reason);
+            });
+        });
+
+        socket.on('msgToClient', (channel) => {
+			console.log("msgToclient ?")
+			console.log(channel);
+        });
+        socket.on('connect_error', (error) => {
+			console.log("il y a vraiment une erreur ?")
+            console.log(error);
+        });
+        socket.on('message', message => {
+			console.log("message ?")
+			console.log(message);
+        });
+        socket.on('disconnect', (reason) => {
+			console.log("dsiconnect ?")
+			console.log(reason);
+        });
+
+        this.setState({
+			socket: socket,
+		})
+    }
+
+    handleSendMessage = () => {
+        console.log("trying");
+
+        this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
+    }
+	render () {
 		return (
             <>
                 <Box height="89%">
@@ -74,8 +145,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
 
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }}/>
-						<IconButton sx={{ color: "white" }}	>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} onChange={(e) => {this.setmsg(e.target.value)}}/>
+						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMsg()}}	>
 							<SendIcon/>
 						</IconButton>
 					</Stack>

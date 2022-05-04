@@ -36,7 +36,6 @@ export class UsersController {
         if (login)
             return login;
         throw new NotFoundException();
-
     }
 
     @Get('/:id/image')

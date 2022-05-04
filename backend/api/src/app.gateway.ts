@@ -6,7 +6,7 @@ import {
     OnGatewayDisconnect,
 } from '@nestjs/websockets';
 
-@WebSocketGateway(parseInt(process.env.SOCKET_PORT, 10) || 8001)
+@WebSocketGateway(8001)
 export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer()
     wss: any;
@@ -14,6 +14,7 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private logger = new Logger('AppGateway');
 
     handleConnection(client: { emit: (arg0: string, arg1: string) => void; }) {
+        console.log("je suis dans app gateway")
         this.logger.log('New client connected');
         client.emit('connection', 'Successfully connected to server');
     }

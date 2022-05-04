@@ -1,23 +1,21 @@
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { ChatService } from './chat.service';
 
-@WebSocketGateway({ namespace: 'chat', cors: true })
+@WebSocketGateway(4007 , { namespace: 'chat', cors: true })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('ChatGateway');
 
-  constructor(private readonly chatService: ChatService) {}
-
   afterInit(server: Server) {
+    console.log("heyyyyy");
     this.logger.log('Init ChatGateway');
   }
 
   async handleConnection(socket: Socket) {
+    console.log("ca marche ? hendle connec")
     this.logger.log(`Client connected: ${socket.id}`);
   }
-
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
   }

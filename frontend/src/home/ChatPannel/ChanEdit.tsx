@@ -124,12 +124,6 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 							<ArrowBackIcon/>
 						</Link>
                     </Stack>
-                    <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-{/* TODO faire un onClick qui va save les changement fait (meme si comme ca je trouve que c'est stupide et que ca devrait le faire auto a chaque clique le changement) */}
-						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
-                            <DoneOutlineIcon/>
-						</Link>
-                    </Stack>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 					<div className="bit5x5" style={{color: "white", fontSize: "64px"}}> {this.state.chan} </div>
@@ -148,7 +142,6 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
                         {/* <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}> */}
-{/* TODO faire un joli bouton pour ca */}
 							<Link  className={"add_user_button but_" + this.getColor(this.index++ % 5)} onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
                                 <div className='bit5x5'> Add user </div>
 							</Link>
