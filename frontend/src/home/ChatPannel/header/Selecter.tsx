@@ -10,7 +10,6 @@ import '../../../style/buttons.css'
 import { UserAPI } from "../../../api/Users.api";
 import { Backdrop } from "@mui/material";
 import { Dialog } from "@mui/material";
-import LaPopUp from "../tools/LaPopUp"
 import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -65,6 +64,11 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		})
 	}
  
+	Select() {
+		this.getChannels();
+		this.getFriends();
+	}
+
 	renderRowsChan(list) {
 		const listItems = list.map((channel: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
@@ -87,12 +91,6 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	  return listItems;
 	}
 
-	updateName(name: string) {
-		this.setState({
-			name
-		})
-	}
-
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (
@@ -106,6 +104,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 								<Select autoWidth disableUnderline variant="standard" sx={{height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
 									  return <div className='bit9x9'>{this.state.name}</div>;
+									//   return <div className='bit9x9'>yo</div>;
 								  }}
 								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>
 									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
@@ -114,7 +113,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 												Channels
 											</AccordionSummary>
 											<AccordionDetails>
-												<LaPopUp></LaPopUp>
+												<CreateChannel/>
 												<List>
 													{this.renderRowsChan(this.state.channels)}
 												</List>

@@ -12,7 +12,7 @@ export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async getChannels() {
-        const resp = await fetch(`https://serv.pizzagami.fr:7333/api/channels`, {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()})
@@ -26,7 +26,7 @@ export class ChatAPI {
     }
     // ${process.env.REACT_APP_GET_CHANNELS_ID}
     public static async getChannelById(id: number) {
-        const resp = await fetch(`https://serv.pizzagami.fr:7333/api/channels/${id}`, {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_ID}${id}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
@@ -37,7 +37,7 @@ export class ChatAPI {
         return resp
     }
     public static async getChannelByName(name: string) {
-        const resp = await fetch(`https://serv.pizzagami.fr:4333/api/channels/name/${name}`, {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
@@ -50,7 +50,7 @@ export class ChatAPI {
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, owner: any, visibility: string, users: any, messages: any, password: any, mute: any, admin: any, id: number) {
         let ret = true;
-        await fetch(`https://serv.pizzagami.fr:7333/api/channels`, {
+        await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({name: name, owner: owner, visibility: visibility, users: users, messages: messages, password: password, mute: mute, admin: admin}),
