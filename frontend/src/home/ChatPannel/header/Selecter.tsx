@@ -100,9 +100,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 							</Link>
 								<Select autoWidth disableUnderline variant="standard" sx={{height: Hchan, minwidth: minWchan,}} value={"Balote"}
 								renderValue={() => {
-									// TODO trouver un moyen d'afficher le nom du channel ou de la personne juste ici
 									  return <div className='bit9x9'>{this.state.name}</div>;
-									//   return <div className='bit9x9'>slt</div>;
 								  }}
 								onOpen={() =>{this.Select()}} onChange={() =>{this.Select()}}>
 									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>

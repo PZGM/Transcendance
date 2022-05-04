@@ -8,7 +8,6 @@ services:
             environment:
                 POSTGRES_PASSWORD: 123456
             ports:
-                - ${chat}:3007
                 - ${db}:5432
             volumes:
                 - ./init.sql://docker-entrypoint-initdb.d/init.sql
@@ -31,7 +30,6 @@ services:
           - db
         restart: unless-stopped
         ports:
-            - ${chat}:3007
             - ${https}:3333
             - ${http}:3001
 
