@@ -24,7 +24,7 @@ export class User {
     avatar: string;
 
     @Column()
-    color: number;
+    color: string;
 
     @Column()
     status?: number;

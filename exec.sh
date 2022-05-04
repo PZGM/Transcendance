@@ -6,6 +6,7 @@ if [[ "$#"  -ge  "1"  &&   $1 = "-a" ]] || [[ "$#"  -ge "2"   &&   $2 = "-a" ]] 
 then
 	export front=4000
 	export http=4001
+	export chat=4007
 	export https=4333
 	export db=4432
 	export adminer=4777

@@ -45,8 +45,9 @@ export class UserAPI {
 
 
 		//getters
-		public static async getUser() {
-			const ret =await fetch(`${process.env.REACT_APP_URL_ME}`, {
+		public static async getUser(): Promise<UserDto|null>
+		{
+			const ret = await fetch(`${process.env.REACT_APP_URL_ME}`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {
@@ -64,30 +65,38 @@ export class UserAPI {
 				return ret;
 		}
 
+		public static async getUserWithStats(): Promise<UserDto|null>
+		{
+			const ret = await fetch(`${process.env.REACT_APP_USER_STATS}`, {
+				method: "GET",
+				credentials: "include"})
+				.then(response => {
+					if (response.ok) {
+						return response.json();
+					}
+					else
+					return null;
+				})
+				.then(json => {return json})
+				.catch(err => {
+					console.log('error catched 3 ')
+					return null;
+				})
+				return ret;
+		}
 
-		public static async getUserById(id: number) {
+
+		public static async getUserById(id: number): Promise<UserDto|null>
+		{
 			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {return response.json()}).then(json => {return json})
 				.catch(err => {
-					console.log('error catched 3 ')
-					return null;
-				})
-			return resp
-		}
-
-		public static async getProfile() {
-			const resp = await fetch(`${process.env.REACT_APP_URL_ME}`, {
-				method: "GET",
-				credentials: "include"})
-				.then(response => {return response.json()})
-				.then(json => {return json})
-				.catch(err => {
 					console.log('error catched 4')
 					return null;
 				})
-			 return resp
+			return resp
 		}
 
 		public static async getAchievement() {
@@ -124,6 +133,15 @@ export class UserAPI {
 				credentials: "include"})
 				.then(handleErrors)
 			return ret;
+		}
+
+		public static async updateColor(color: string) {
+			await fetch((process.env.REACT_APP_UPDATE_COLOR as string), {
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ color: color }),
+				credentials: "include"})
+				.then(handleErrors)
 		}
 
 		public static async updateStatus(id: number, status: number) {

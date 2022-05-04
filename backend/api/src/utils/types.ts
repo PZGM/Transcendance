@@ -9,7 +9,7 @@ export type UserDetails = {
     avatar: string;
     status: number;
     friends: User[];
-    color: number;
+    color: string;
 }
 
 export class GameDetails {

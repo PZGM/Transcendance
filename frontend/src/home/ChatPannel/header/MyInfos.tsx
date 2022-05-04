@@ -20,6 +20,7 @@ export class MyInfos extends Component<MyInfosProps> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
+		if (resp)
 		this.setState({
 			avatar: resp.avatar,
 			login: resp.login

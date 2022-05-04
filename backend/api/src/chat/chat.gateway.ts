@@ -1,19 +1,14 @@
 import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { ChatService } from './chat.service';
 
 @WebSocketGateway(4007 , { namespace: 'chat', cors: true })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('ChatGateway');
 
-  constructor(private readonly chatService: ChatService) {
-    console.log('chat gateway se construit 789456123');
-  }
-
   afterInit(server: Server) {
-    console.log("ca marche afetr init?")
+    console.log("heyyyyy");
     this.logger.log('Init ChatGateway');
   }
 

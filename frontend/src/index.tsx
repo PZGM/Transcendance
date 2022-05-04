@@ -31,6 +31,8 @@ import './asset/fonts/Bit5x5.woff';
 import './asset/fonts/Bit9x9.woff';
 import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
+import { useState } from 'react';
+import { getDefaultLibFilePath } from 'typescript';
 
 const rootElement = document.getElementById("root");
 
@@ -59,14 +61,11 @@ const WrapperChanAddUser = (props) => {
   return <ChanAddUser {...{...props, params} } /> 
 }
 
-
-
 ReactDOM.render(
   <StatusDetector>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-            <Route element={<PrivateRoute/>}>
               <Route element={<Frame/>}>
                 <Route path="profile" element={<Profile/>} />
                 <Route path="friends" element={<Friends/>} />
@@ -75,14 +74,14 @@ ReactDOM.render(
                 <Route path="achievement" element={<Achievement/>} />
               </Route>
 
-            <Route path="home" element={<Home />} >
+            <Route path="home" element={<Home/>} >
               <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
               <Route path="user/:name/info" element={<WrapperUserInfo/>} />
               <Route path="chat/:name/edit" element={<WrapperChanEdit/>} />
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-            </Route>
+
 
             <Route path="2fa" element={<Twofa/>} />
             <Route path="*" element={<NotFound/>} />

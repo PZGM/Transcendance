@@ -8,15 +8,14 @@ import { ImagesModule } from './images/images.module';
 import { StatusModule } from './status/status.module';
 import { FriendsModule } from './friends/friends.module';
 import { AppGateway } from './app.gateway';
-import { ChannelsModule } from './chat/channel/channels.module';
-import { MessagesModule } from './chat/message/messages.module';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { HistoryModule } from './history/history.module';
 import { StatsModule } from './stats/stats.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, ChannelsModule, MessagesModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule],
+  imports: [AuthModule,UsersModule, ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule],
   controllers: [AppController],
   providers: [AppService, AppGateway],
 })

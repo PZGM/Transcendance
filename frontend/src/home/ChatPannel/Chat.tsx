@@ -90,7 +90,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 
     configureSocket = () => {
-        var socket = io("https://serv.pizzagami.fr:4007");
+        var socket = io("http://serv.pizzagami.fr:4007");
 		console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
 		console.log(socket);
         socket.on('connection', () => {
