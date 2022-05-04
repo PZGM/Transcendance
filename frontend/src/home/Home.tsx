@@ -14,6 +14,7 @@ import { ChatAPI } from "../api/Chat.api";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { info } from "console";
+import { PrivateGuard } from "../components/PrivateGuard";
 
 
 interface HomeProps {
@@ -161,6 +162,7 @@ export class Home extends Component<HomeProps, HomeState> {
 	render () {
 		return (
 			<div className="box">
+				<PrivateGuard/>
 				{/* <Box sx={{backgroundColor: 'pink'}} className='left'>
 				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
 				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />

@@ -9,6 +9,7 @@ import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto"
 import "../../style/display.css"
 import { NumericLiteral } from "typescript";
+import { PrivateGuard } from "../../components/PrivateGuard";
 
 type ProfileProps = {
 };
@@ -74,6 +75,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 		else
 			return (
 				<>
+					<PrivateGuard/>
 					<Grid item xs={4}
 						sx={GridItemStyle}
 						justifyContent="center"

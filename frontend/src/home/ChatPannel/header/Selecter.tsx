@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonBase, FormControl, InputLabel, List, NativeSelect, Select, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonBase, ClickAwayListener, Fade, FormControl, Grow, InputLabel, List, ListSubheader, Menu, MenuItem, NativeSelect, Popover, Popper, Select, SelectChangeEvent, Stack, Typography } from "@mui/material";
 import { Component} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { UserAPI } from "../../../api/Users.api";
 import { Backdrop } from "@mui/material";
 import { Dialog } from "@mui/material";
 import LaPopUp from "../tools/LaPopUp"
+import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 
 interface SelecterProps {
@@ -35,32 +36,35 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	backdropopen: boolean = false;
 	constructor(props: SelecterProps) {
 		super(props);
+
 		let name = window.location.pathname.split('/')[3];
 		if (!name)
 			name = 'Channels'
 		this.state = {channels: [], friends: undefined, name};
 	}
+
     async getChannels() {
         let chan = await ChatAPI.getChannels();
+		console.log(chan)
 		this.setState({channels: chan});
     }
-    async getFriend() {
+
+    async getFriends() {
         let friends = await UserAPI.getFriends();
 		this.setState({friends: friends});
-		console.log("Le user")
-		console.log(friends)
     }
 
 	componentDidMount()  {
-		// this.getChannels();
-		// this.getUser();
-	}
-
-	Select() {
 		this.getChannels();
-		this.getFriend();
+		this.getFriends();
 	}
 
+	updateName(name: string) {
+		this.setState({
+			name
+		})
+	}
+ 
 	renderRowsChan(list) {
 		const listItems = list.map((channel: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
@@ -75,7 +79,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	renderRowsFriend(list) {
 		const listItems = list?.map((friend: any) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link onClick={()=> {this.updateName(friend.login)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
+				<Link onClick={()=> {this.updateName(friend.login)}} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
 					<div className='bit9x9'>{friend.login}</div>
 				</Link>
 			</Stack>
@@ -88,6 +92,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 			name
 		})
 	}
+
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (

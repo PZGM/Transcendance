@@ -6,6 +6,7 @@ import { RowRow } from "./Second_Row";
 import { CupRow } from "./Third_Row";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
+import { PrivateGuard } from "../../components/PrivateGuard";
 
 type AchievementProps = {
 };
@@ -49,6 +50,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 		return(
 
 			<Grid container direction="column" justifyContent="space-between" alignItems="center">
+				<PrivateGuard/>
 				<MatchRow value={54}/>
 				<RowRow value={7}/>
 				<CupRow value={6}/>
