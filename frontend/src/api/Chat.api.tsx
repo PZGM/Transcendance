@@ -65,7 +65,7 @@ export class ChatAPI {
     
     public static async addMsg(createdat: Date,content: string,author: any,channel: any) {
         let ret = true;
-        await fetch(`https://serv.pizzagami.fr:4333/api/messages`, {
+        await fetch(`https://serv.pizzagami.fr:${process.env.https}/api/messages`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({createdat: createdat,content: content, author: author, channel: channel}),

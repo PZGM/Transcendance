@@ -68,9 +68,10 @@ export class Chat extends Component<ChatProps, ChatState> {
 		console.log("le msg est : " + this.state.msg);
 	}
 	async sendMsg(){
-		const channel = await ChatAPI.getChannelByName(this.props.params.name);
-		const author = await UserAPI.getUser();
-		await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
+		this.handleSendMessage();
+		// const channel = await ChatAPI.getChannelByName(this.props.params.name);
+		// const author = await UserAPI.getUser();
+		// await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
 	}
 // il faut trouver un moyen d'afficher le chat (je dirais qu'il faut le faire a la discord)
 
@@ -90,8 +91,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 
     configureSocket = () => {
-        var socket = io("http://serv.pizzagami.fr:4007");
-		console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
+        var socket = io(`https://serv.pizzagami.fr:6333`, {secure: true});
+		console.log(`${process.env.https}`);
 		console.log(socket);
         socket.on('connection', () => {
             console.log("connect");
@@ -124,8 +125,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 
     handleSendMessage = () => {
         console.log("trying");
-
-        this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
+		console.log(this.state.socket);
+		this.state.socket.emit('message', { name: 'message', text: 'mytext' });
+        //this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
     }
 	render () {
 		return (
@@ -137,7 +139,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 						</Stack>
 						</List>
 				</Box>
-				  
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
 						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanName + "/info"}}

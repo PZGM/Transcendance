@@ -81,11 +81,9 @@ ReactDOM.render(
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-
-
-            <Route path="2fa" element={<Twofa/>} />
-            <Route path="*" element={<NotFound/>} />
           </Route>
+          <Route path="2fa" element={<Twofa/>} />
+          <Route path="*" element={<NotFound/>} />
 
         </Routes>
     </BrowserRouter>
