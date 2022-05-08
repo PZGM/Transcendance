@@ -4,11 +4,10 @@ import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import './../../style/input.css'
 import { UserAPI } from "../../api/Users.api";
-import Menu from "../Menu";
-import background from "./../../asset/images/background.jpg"
 import { UserDto } from "../../api/dto/user.dto";
 import { InputUnstyled } from "@mui/base";
 import { PrivateGuard } from './../../components/PrivateGuard'
+import './../../style/display.css'
 
 interface FriendsProps {
 };
@@ -25,11 +24,9 @@ export class Friends extends Component<FriendsProps, FriendsState>
 	index:number = 0;
 	index_search:number = 0;
 	renderRows(list)
-	{	
+	{
 		const listItems = list.map((friend: UserDto) =>
-			<div key={friend.id}>
-				<UserDisplay user={friend} index={this.index++} deleteFriend={this.deleteFriend}/>
-			</div>
+				<UserDisplay user={friend} deleteFriend={this.deleteFriend}/>
 		);
 		
 		return listItems;
@@ -37,9 +34,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 
 	renderSearchRows(list) {
 		const listItems = list.map((friend: UserDto) =>
-			<div key={friend.id}>
-				<AddUserDisplay user={friend} index={this.index_search++} addFriend={this.addFriend}/>
-			</div>
+			<AddUserDisplay user={friend} addFriend={this.addFriend}/>
 	  );
 	  return listItems;
 	}
@@ -104,20 +99,29 @@ export class Friends extends Component<FriendsProps, FriendsState>
 		this.index_search = 0;
 		
 		return (
-			<Grid item xs={6}>
-				<PrivateGuard/>
+			<>
+			<PrivateGuard/>
+			<Grid item xs={1}>
+				
 				<input
 					className="friends_search_bar"
 					placeholder="Search Friend"
+					maxLength={10}
 					onChange={ async (e) => {this.onSearch(e)}}
 				/>
-				
-				<List style={{height: "100% -100px", overflow: 'auto'}}>
+	
+			</Grid>
+		
+			<Grid item xs={11} className="search_list">
+
+				<ol>
 					{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 					{!this.state.searchField && this.renderRows(this.state.friends)}
-				</List>
-			
+				</ol>
+
 			</Grid>
+		
+			</>
 		);
 	};
 }

@@ -1,13 +1,9 @@
-import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, InputBase, Button, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Component } from "react";
-import { Helmet } from "react-helmet";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
 import { UserAPI } from "./api/Users.api";
-import Menu from "./menu/Menu";
 import { Navigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import background from "./asset/images/background.jpg"
 import "./style/buttons.css"
 import "./style/display.css"
 
@@ -47,73 +43,38 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
 
 	render ()
     {
-        const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)',
-            width: "100%"
-		};
-
 		return (
 
-            <div style={{
-				backgroundImage: `url(${background})`,
-				backgroundSize: 'cover',
-				height: '100vh',
-				width: '100vw',
-				backgroundRepeat: 'norepeat',
-				}}
-			>
+            <div className="background">
                 {/* Redirect to home */}
                 { this.state.redirect ? (<Navigate to="/home"/>) : null }
 				
-                <div style={{
-					height: '100vh',
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					}}
-				>
-				<Grid container
-                    justifyContent="space-between"
-                    wrap="nowrap"
-                    sx={{
-                            border: '0.5vw solid rgba(0, 70, 109, 1)',
-                            outline: '0.5vw solid rgba(0, 80, 117, 1)',
-                            backgroundColor: 'black',
-                            height: 'undefined',
-                            width: 'undefined',
-                            minWidth: "400px", minHeight: "800px",
-                            maxWidth: "600px", maxHeight: "1000px"
-                        }}
-				>
+                <div className="frame_div">
                     <Grid container
+                        justifyContent="space-evenly"
+                        wrap="nowrap"
+                        className="twofa_frame"
                         direction="column"
-                        justifyContent="space-between"
                         alignItems="center"
-                        sx={{width: '100%'}}
                     >
-                        <Grid item xs={4} sx={GridItemStyle}> 2FA AUTHENTICATION</Grid>
-                        <Grid item xs={3} sx={GridItemStyle}>
-                        <input
-                            id="unstyled"
-                            className="settings_2fa_input"
-                            placeholder="enter code"
-                            onChange={ async (e) => {this.onChange(e.target.value)}}
-                        />
+                        <Grid item xs={4} className="grid_item_style"> 2FA AUTHENTICATION</Grid>
+                        
+                        <Grid item xs={3} className="grid_item_style">
+                            <input
+                                id="unstyled"
+                                className="settings_2fa_input"
+                                placeholder="enter code"
+                                onChange={ async (e) => {this.onChange(e.target.value)}}
+                            />
                         </Grid>
-                        <Grid item xs={5} sx={GridItemStyle}>
+                        
+                        <Grid item xs={5} className="grid_item_style">
                             <div className="settings_edit_button but_green"
                                 onClick={this.onValidation.bind(this)}>
                                 LOGIN
                             </div>
                         </Grid>
                     </Grid>
-				</Grid>
-
 				</div>
             </div>
         );

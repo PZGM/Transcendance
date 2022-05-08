@@ -12,7 +12,6 @@ import ReactCSSTransitionGroup from 'react-transition-group';
 
 
 type SettingsProps = {
-	login?: string,
 };
 
 interface SettingsState {
@@ -53,16 +52,16 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	async updateState({login, avatar, color}) {
 		if (login)
 			this.setState({
-				login: login
+				login
 			})
 		if (avatar)
-		this.setState({
-			avatar: avatar
-		})
+			this.setState({
+				avatar
+			})
 		if (color)
-		this.setState({
-			color: color
-		})
+			this.setState({
+				color
+			})
 	}
 
 	updateDisplay(type: number) {
@@ -80,14 +79,14 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 					<LoginSettings	login={this.state.login}
 									color={this.state.color}
 									updateParentState={this.updateState}
-									updateDisplay={this.updateDisplay}
 					/>
 					<AvatarSettings avatar={this.state.avatar}
 									updateParentState={this.updateState}
 									updateDisplay={this.updateDisplay}
 									editing={false}
 					/>
-					<ColorSettings	color={this.state.color}
+					<ColorSettings	key={this.state.color}
+									color={this.state.color}
 									updateParentState={this.updateState}
 					/>
 					<TwofaSettings	updateParentState={this.updateState}

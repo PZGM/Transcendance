@@ -1,14 +1,9 @@
 import { Avatar, Grid, Stack } from "@mui/material";
-import { ButtonUnstyled } from "@mui/base";
 import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AvatarEditor from "react-avatar-editor";
-import axios from "axios";
 import "../../style/buttons.css";
 import "../../style/display.css"
-import { Vector } from "tsparticles";
 
 type ColorSettingsProps = {
     color: string,
@@ -22,7 +17,9 @@ interface ColorSettingsState {
 export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsState> {
 
 	constructor(props: ColorSettingsProps) {
-		super(props);
+        super(props);
+
+        console.log(`props: ${this.props.color}`)
 
         this.state = {
             selected: this.props.color
@@ -31,42 +28,21 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
 
     getClassName(color: string): string | undefined
 	{
-        console.log("ClassName")
-        console.log(color)
         if (color == this.state.selected)
             return "bc_" + color + " color_selected"
 
 		return "but_" + color
 	}
 
-    updateColor(color: string)
-    {
-        console.log("updateColor()")
-        console.log(this.state.selected)
-        UserAPI.updateColor(color);
-    }
-
     onClick(color: string)
     {
-        console.log("onClick()")
-        console.log(color)
         this.setState({selected: color});
-        this.updateColor(color)
+        UserAPI.updateColor(color);
         this.props.updateParentState({color})
     }
 
     render()
     {
-
-		// Da togliere
-		const GridItemStyle = {
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontSize: 'calc(10px + 1vw)',
-			width: '100%',
-            height: '100%'
-		};
 
         return (
 
@@ -77,19 +53,17 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
                 sx={{height: '33%'}}
             >
                 <Grid item xs={4}
-                    className="bit9x9 white"
-                    style={GridItemStyle}
+                    className="grid_item_style"
                 >
                     COLOR
                 </Grid>
                 
                 <Grid item xs={8}
-                    style={GridItemStyle}
+                    className='grid_item_style'
                 >
                         <Stack direction="row"
-                            justifyContent="center"
+                            justifyContent="space-around"
                             alignItems="center"
-                            spacing={4}
                             style={{width: '100%'}}
                         >
                             <div className={"colors_button " + this.getClassName('green')}

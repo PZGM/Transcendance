@@ -7,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import AvatarEditor from "react-avatar-editor";
 import axios from "axios";
 import "../../style/buttons.css";
-import { time } from "console";
 
 type AvatarSettingsProps = {
     avatar: string
@@ -27,7 +26,6 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 	constructor(props: AvatarSettingsProps) {
 		super(props);
-        this.editing = this.editing.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
 		this.state = {
@@ -59,12 +57,6 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 			fileSelected: fileList[0]
 		})
 	}
-
-    editing() {
-        this.setState({
-            editing: ! this.state.editing,
-        })
-    }
 
 	zoomIn = () => {
 		this.setState({
@@ -100,20 +92,14 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 	setEditorRef = (editor: any) => (this.editor = editor)
 
+	// convertVWtoPX(vw:number):number {
+	// 	console.log(document.documentElement.clientWidth)
+	// 	return  (vw * document.documentElement.clientWidth) / 100
+	// }
+
     render() {
 
-		{console.log("render")}
-
-		// Da togliere
-		const GridItemStyle = {
-			color: 'white',
-			alignItems: 'center',
-			display: "flex",
-			justifyContent: 'center',
-			fontFamily: 'Bit9x9',
-			fontSize: 'calc(10px + 1vw)',
-			width: '100%'
-		};
+		console.log("Avatar render")
 
 		const PlusMinStyle = {
 			color: 'white',
@@ -138,16 +124,12 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 					alignItems="center"
 					sx={{height: '33%'}}
 				>
-					<Grid item xs={4} sx={GridItemStyle}> AVATAR </Grid>
-					<Grid item xs={4} sx={GridItemStyle}>
-							<Avatar	variant='circular'
-								alt="Semy Sharp"
-								src={this.props.avatar}
-								sx={{	width: '200px',
-										height: '200px'}}
-							/>
+					<Grid item xs={4} className="grid_item_style"> AVATAR </Grid>
+					<Grid item xs={4} className="grid_item_style">
+							<img	src={this.props.avatar}
+									className='avatar_round'/>
 					</Grid>
-					<Grid item xs={4} sx={GridItemStyle}>
+					<Grid item xs={4} className="grid_item_style">
 						<div className="settings_button but_blue"
 							onClick={ () => {this.props.updateDisplay(1);}
 						}>
@@ -164,9 +146,10 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				alignItems="center"
 				sx={{height: '100%',
 					width: '100%'}}
+				flexWrap='nowrap'
 				>
-					<Grid item xs={2} sx={GridItemStyle}> AVATAR </Grid>
-					<Grid item xs={6} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style"> AVATAR </Grid>
+					<Grid item xs={6} className="grid_item_style">
 						<Stack
 						direction="row"
 						justifyContent="space-between"
@@ -182,7 +165,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 									height={225}
 									border={50}
 									borderRadius={1000}
-									color={[0, 0, 0, 0.5]} // RGBA
+									color={[0, 0, 0]} // RGBA
 									scale={this.state.scale}
 									rotate={0}
 								/>
@@ -191,7 +174,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							>+</div>
 						</Stack>
 					</Grid>
-					<Grid item xs={2} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style">
 						<Stack
 						direction="row"
 						justifyContent="space-evenly"
@@ -207,7 +190,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 							</div>
 						</Stack>
 					</Grid>
-					<Grid item xs={2} sx={GridItemStyle}>
+					<Grid item xs={2} className="grid_item_style">
 						<ButtonUnstyled className="settings_edit_button but_blue"
 							component="label">
 							CHOOSE FILE

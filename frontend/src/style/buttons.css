@@ -3,7 +3,8 @@
 /* Common attributes to all buttons */
 
 .settings_button, .settings_edit_button, .settings_2fa_input,
-.friends_button,.add_user_button, .home_button, .dropdown_button, .creachan_button,.renderrow_button
+.friends_button, .home_button, .dropdown_button, .creachan_button,
+.renderrow_button, .add_friend_button, .logout_button
 {
 	position: relative;
 	text-align: center;
@@ -28,8 +29,8 @@
 }
 
 .dropdown_button {
-	width: "200px";
-	height: '1000px';
+	width: 200px;
+	height: 1000px;
 	font-size: 25px;
 	font-family: backto1982;
 }
@@ -45,35 +46,69 @@
 	font-size: 24px;
 }
 
+/* Profile */
+
+.logout_button {
+	/* width: 200px;
+	height: 50px;
+	font-size: 20px; */
+	width: 10.4vw;
+	aspect-ratio: 20/5;
+	font-size: 1vw;
+	font-family: backto1982;
+}
+
 /* Friends */
 
 .friends_button {
-	width: 120px;
+	/* width: 120px;
 	height: 50px;
-	font-size: 12px;
-	line-height: 1.5;
+	font-size: 17px; */
+	width: 5vw;
+	aspect-ratio: 12/6;
+	font-size: 0.8vw;
+	font-family: bit5x5;
+}
+
+.add_friend_button {
+	/* width: 150px;
+	height: 50px;
+	font-size: 18px; */
+	width: 7.8vw;
+	aspect-ratio: 3;
+	font-size: 0.8vw;
 	font-family: bit5x5;
 }
 
 /* Settings */
 
 .settings_button {
-	width: 100px;
+	/* width: 100px;
 	height: 70px;
-	font-size: 20px;
+	font-size: 20px; */
+	width: 5vw;
+	aspect-ratio: 5/3;
+	/* Auto would do the job for font-size but this
+	font sizing is broken so I have to use vw*/
+	font-size: 1vw;
 	font-family: backto1982;
 }
 
 .settings_edit_button {
-	width: 200px;
+	/* width: 200px;
 	height: 70px;
-	font-size: 20px;
+	font-size: 20px; */
+	width: 10.4vw;
+	aspect-ratio: 20/7;
+	font-size: 1vw;
 	font-family: backto1982;
 }
 
 .colors_button {
-	width: 30px;
-	height: 30px;
+	/* width: 30px;
+	height: 30px; */
+	width: 1.5vw;
+	aspect-ratio: 1;
 }
 
 /* Connection button */
@@ -112,6 +147,7 @@
 	align-items: center;
 	justify-content: center;
 	color: white;
+	background-color: red;
 	box-shadow: 5px 5px 0px -1px rgba(255, 0, 0, 0.5);
 }
 
