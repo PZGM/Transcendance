@@ -36,7 +36,7 @@ export default function Menu() {
 					justifyContent="space-evenly"
 					alignItems="center" 
 					spacing={1}
-					sx={{width: "100%", height: "100%"}}>
+					sx={{width: "100%", height: "100%", marginTop: '10px'}}>
 				
 				<MenuElement name={"Profile"} url={process.env.REACT_APP_PROFILE}/>
 				<MenuElement name={"Friends"} url={process.env.REACT_APP_FRIENDS}/>

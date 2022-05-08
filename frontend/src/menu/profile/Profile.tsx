@@ -62,13 +62,13 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 	render ()
 	{
 		const IconStyle = {
-			width: '40px',
-			height: '40px'
+			width: '2vw',
+			height: '2vw'
 		}
 
 		if (!this.state.user || !this.state.user.stats)
 			return (
-				<div>LOADING...</div>
+				<div style={{color: 'white'}}>LOADING...</div>
 			)
 		else
 			return (
@@ -81,8 +81,8 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 						<Avatar	variant='circular'
 								alt="Semy Sharp"
 								src={this.state.user.avatar}
-								sx={{	width: '250px',
-										height: '250px'}}
+								sx={{	width: '10.4vw',
+										height: '10.4vw'}}
 						/>
 					</Grid>
 					

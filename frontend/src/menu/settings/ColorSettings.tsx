@@ -53,7 +53,7 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
                 sx={{height: '33%'}}
             >
                 <Grid item xs={4}
-                    className="grid_item_style bit9x9 white"
+                    className="grid_item_style"
                 >
                     COLOR
                 </Grid>
@@ -62,9 +62,8 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
                     className='grid_item_style'
                 >
                         <Stack direction="row"
-                            justifyContent="center"
+                            justifyContent="space-around"
                             alignItems="center"
-                            spacing={4}
                             style={{width: '100%'}}
                         >
                             <div className={"colors_button " + this.getClassName('green')}

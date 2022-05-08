@@ -3,13 +3,13 @@
 .friends_search_bar, .settings_nick_input, .settings_2fa_input,
 .userinit_nick_input {
 	outline: none;
-	position: relative;
+	/* position: relative; */
 	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding-bottom: 10px;
-	padding-top: 10px;
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: center; */
+	padding-bottom: 0.6vw;
+	padding-top: 0.6vw;
 	background: transparent;
 }
 
@@ -17,19 +17,21 @@
 
 .friends_search_bar {
 	color: white;
-	width: 97%;
+	/* 0.1vw for avoid the box-shadow to overlap */
+	width: calc(100% - 0.1vw);
 	font-family: Bit5x5;
-	font-size: calc(10px + 1vw);
-	border: 2px solid var(--yellow);
-	box-shadow: 5px 5px 0px -1px rgba(218, 203, 23, 0.5);
-	margin: 5px;
+	font-size: 2vw;
+	/* Consider border as part of the content */
+	box-sizing: border-box;
+	border: 0.2vw solid var(--yellow);
+	box-shadow: 0.25vw 0.25vw 0px -0.05vw rgba(218, 203, 23, 0.5);
 }
 
 .friends_search_bar:focus::-webkit-input-placeholder { color:transparent; }
 
 .settings_nick_input, .userinit_nick_input {
 	font-family: bit5x5;
-	font-size: 30px;
+	font-size: 1.47vw;
 	border: none;
 	border-bottom: 6px solid var(--blue);
 	box-shadow: 0 6px 1px -1px rgba(0, 117, 253, 0.5);
@@ -51,9 +53,9 @@
 .settings_2fa_input {
 	color: white;
 	font-family: Bit5x5;
-	font-size: calc(10px + 1vw);
-	border: 5px solid var(--blue);
-	box-shadow: 5px 5px 0px -1px rgba(0,117,253,0.5);
+	font-size: 2vw;
+	border: 0.25vw solid var(--blue);
+	box-shadow: 0.25vw 0.25vw 0px -1px rgba(0,117,253,0.5);
 }
 
 .settings_2fa_input:focus::-webkit-input-placeholder { color:transparent; }

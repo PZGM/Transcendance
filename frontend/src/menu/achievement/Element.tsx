@@ -41,7 +41,7 @@ export class Element extends Component<ElementProps, ElementState> {
 					alignItems="center"
 					style={{width: "100%", height: "94%"}}
 				>
-					<div className="manaspace" style={{fontSize: 'calc(10px + 0.5vw)', margin: '5px'}}>
+					<div className="manaspace" style={{fontSize: '1vw', margin: '5px'}}>
 						{this.props.name}
 					</div>
 					
@@ -49,7 +49,7 @@ export class Element extends Component<ElementProps, ElementState> {
 						<div className="bar" style={{width: this.getPercentage()}}/>
 					</div>
 					
-					<div className="bit9x9" style={{fontSize: 'calc(10px + 1vw)'}}>
+					<div className="bit9x9" style={{fontSize: '1.5vw'}}>
 						{this.getPercentage()}
 					</div>
 					

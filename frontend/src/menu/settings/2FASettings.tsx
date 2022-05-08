@@ -171,14 +171,13 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                     alignItems="center"
                     sx={{height: '100%',
 					width: '100%'}}
+                    flexWrap='nowrap'
                 >
                     <Grid item xs={2} className="grid_item_style"> 2FA </Grid>
                     <Grid item xs={4} className="grid_item_style">
                         {this.state.displayQR && 
                             <img    src={process.env.REACT_APP_2FA_GENERATE}
-                                    style={{border: '5px solid #03C7D8',
-                                            boxShadow: '5px 5px 0px -1px rgba(3,199,218,0.5)'
-                                        }}
+                                    className="bor_cyan qrcode"
                             />
                         }
                     </Grid>

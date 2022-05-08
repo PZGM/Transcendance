@@ -8,7 +8,6 @@ import './../../style/colors.css'
 
 type UserDisplayProps = {
 	user: UserDto;
-	index: number;
 	deleteFriend;
 }
 
@@ -57,18 +56,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 		this.eventSource.close();
 	}
 
-	getColor(status: number): string | undefined
-	{
-		let colors = new Map<number, string>([
-			[0, 'white'],
-			[1, 'red'],
-			[2, 'yellow'],
-			[3, 'green'],
-			[4, 'blue']]);
-
-		return colors.get(status)
-	}
-
 	render ()
 	{	
 		let description = new Map<number, string>([
@@ -79,46 +66,52 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[4, 'playing']]);
 
 		return (
-				<div className={"user bor_" + this.getColor(this.props.index % 5)}
+			<li className={"friend_element bor_red"}
+				key={this.props.user.id}>
+				<Stack direction='row'
+					justifyContent='space-between'
+					style={{width: '100%'}}
 				>
-					<ListItem 
-						key={this.props.user.id}
-						secondaryAction	=
-						{	
-							<Stack spacing={1} direction="row">
-								<div	className={"friends_button but_" + this.getColor(this.state.status)}>
-									{description.get(this.state.status)}
-								</div>
-								
-								<div 	className="friends_button but_white">
-									Send Message
-								</div>                    
-								
-								<div	className="friends_button but_red"
-										onClick={this.removeFriend}>
-									Remove Friend
-								</div>
-							
-							</Stack>
-						}
+					<Stack direction='row'
+						justifyContent="space-between"
+						alignItems="center"
+						style={{width: '10vw'}}
 					>
+						<Avatar variant='circular'
+							src={this.props.user.avatar}
+							style={{height: '2.7vw', width: '2.7vw'}}
+						/>
+						
+						<div className={'backto1982 red'}>
+							{/* {this.props.user.login} */}
+							FMANETTI
+						</div>
+					
+					</Stack>
+
+					<Stack>
 						<Stack direction='row'
+							flexDirection='row'
 							justifyContent="space-between"
 							alignItems="center"
-							spacing={1}
-						>
-							<Avatar variant='circular'
-								alt={this.props.user.login}
-								src={this.props.user.avatar}
-							/>
-							
-							<div className={'backto1982 ' + this.props.user.color}>
-								{this.props.user.login}
+							style={{width: '16vw'}}>
+							<div	className={"friends_button but_red"}>
+								{description.get(this.state.status)}
 							</div>
+							
+							<div 	className="friends_button but_white">
+								Send Message
+							</div>                    
+							
+							<div	className="friends_button but_red"
+									onClick={this.removeFriend}>
+								Remove Friend
+							</div>
+						
 						</Stack>
-					
-					</ListItem>
-				</div>
+					</Stack>
+				</Stack>
+			</li>
 		);
 	}
 }

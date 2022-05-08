@@ -1,11 +1,11 @@
 import { Stack, Grid } from "@mui/material";
 import { Component } from "react";
-import { UserAPI } from "../api/Users.api";
+import { UserAPI } from "./api/Users.api";
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "../style/buttons.css"
-import "../style/display.css"
+import "./style/buttons.css"
+import "./style/display.css"
 
 
 interface UserInitProps {
@@ -128,12 +128,12 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
                         className="userinit_frame"
                         direction="column"
                     >
-                        <Grid item xs={5}
+                        <Grid item xs={3}
                             className="grid_item_style">
                             CHOOSE YOUR...
                         </Grid>
                         
-                        <Grid item xs={5}
+                        <Grid item xs={3}
                             className="grid_item_style">
                             <Grid container
                                 direction="row"
@@ -161,7 +161,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
                             </Grid>
                         </Grid>
                         
-                        <Grid item xs={5}
+                        <Grid item xs={3}
                             className="grid_item_style">
                             <Grid container
                                 direction="row"
@@ -179,9 +179,8 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
                                     className="grid_item_style"
                                 >
                                     <Stack direction="row"
-                                        justifyContent="center"
+                                        justifyContent="space-around"
                                         alignItems="center"
-                                        spacing={4}
                                         style={{width: '100%'}}
                                     >
                                         <div className={"colors_button " + this.getClassName('green')}
@@ -201,7 +200,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
                             </Grid>
                         </Grid>
 
-                        <Grid item xs={2}
+                        <Grid item xs={3}
                             className="grid_item_style">
                             <div className="settings_edit_button but_green"
                                 onClick={this.save.bind(this)}>

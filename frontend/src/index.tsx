@@ -13,7 +13,7 @@ import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
 import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
-import { UserInit } from './userinit/UserInit';
+import { UserInit } from './UserInit';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'

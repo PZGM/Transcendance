@@ -92,6 +92,11 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 	setEditorRef = (editor: any) => (this.editor = editor)
 
+	// convertVWtoPX(vw:number):number {
+	// 	console.log(document.documentElement.clientWidth)
+	// 	return  (vw * document.documentElement.clientWidth) / 100
+	// }
+
     render() {
 
 		console.log("Avatar render")
@@ -121,12 +126,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				>
 					<Grid item xs={4} className="grid_item_style"> AVATAR </Grid>
 					<Grid item xs={4} className="grid_item_style">
-							<Avatar	variant='circular'
-								alt="Semy Sharp"
-								src={this.props.avatar}
-								sx={{	width: '200px',
-										height: '200px'}}
-							/>
+							<img	src={this.props.avatar}
+									className='avatar_round'/>
 					</Grid>
 					<Grid item xs={4} className="grid_item_style">
 						<div className="settings_button but_blue"
@@ -145,6 +146,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				alignItems="center"
 				sx={{height: '100%',
 					width: '100%'}}
+				flexWrap='nowrap'
 				>
 					<Grid item xs={2} className="grid_item_style"> AVATAR </Grid>
 					<Grid item xs={6} className="grid_item_style">
@@ -163,7 +165,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 									height={225}
 									border={50}
 									borderRadius={1000}
-									color={[0, 0, 0, 0.5]} // RGBA
+									color={[0, 0, 0]} // RGBA
 									scale={this.state.scale}
 									rotate={0}
 								/>
