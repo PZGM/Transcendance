@@ -117,14 +117,10 @@ ReactDOM.render(
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-
-
-            
-            <Route path="init" element={<ProtectedRoute/>} />
+          </Route>
+            <Route path="init" element={<UserInit/>} />
 			      <Route path="2fa" element={<Twofa/>} />
             <Route path="*" element={<NotFound/>} />
-          </Route>
-
         </Routes>
     </BrowserRouter>
   </StatusDetector>
