@@ -5,7 +5,7 @@ import { Channel } from 'src/typeorm';
 import { User } from 'src/typeorm';
 import { ChannelDto, MuteUser, RelationsPicker } from 'src/dto/chat.dto';
 import { UsersService } from 'src/users/users.service';
-import { createDecipheriv, createCipheriv } from 'crypto';
+import { createDecipheriv, createCipheriv, randomBytes, Hash } from 'crypto';
 
 @Injectable()
 export class ChannelsService {
@@ -84,9 +84,9 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
         name: channelDto.name
       }
     });
-    if (channelDto.visibility !== "public"){
-      const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
-      const encryptedPassword = Buffer.concat([cipher.update(chan.password), cipher.final(),]);
+    if (channelDto.visibility === "protected"){
+      const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV);
+      const encryptedPassword = Buffer.concat([cipher.update(channelDto.password), cipher.final(),]);
       channelDto.password = encryptedPassword.toString();
     }
     if (!chan && channelDto.name.length > 2) {
@@ -142,7 +142,7 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
     }
-    if (chan.visibility !== "public") {
+    if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
