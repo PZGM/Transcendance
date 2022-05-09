@@ -103,7 +103,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	  );
 	  return listItems;
 	}
-
+// TODO mettre un filtre pour pas que notre compte apparaissent dans la liste car on peut pas s'envoyer de msg
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (

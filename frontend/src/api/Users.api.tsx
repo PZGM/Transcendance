@@ -85,10 +85,22 @@ export class UserAPI {
 				return ret;
 		}
 
-
 		public static async getUserById(id: number): Promise<UserDto|null>
 		{
 			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}`, {
+				method: "GET",
+				credentials: "include"})
+				.then(response => {return response.json()}).then(json => {return json})
+				.catch(err => {
+					console.log('error catched 4')
+					return null;
+				})
+			return resp
+		}
+
+		public static async getUserByLogin(login: string): Promise<UserDto|null>
+		{
+			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${login}/user/login`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {return response.json()}).then(json => {return json})

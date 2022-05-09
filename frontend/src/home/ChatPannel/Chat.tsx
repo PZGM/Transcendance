@@ -32,21 +32,19 @@ export class Chat extends Component<ChatProps, ChatState> {
 			channel: null	
         }
 	}
-	sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
+
 	componentDidMount()  {
 		this.getName();
-		this.configureSocket();
+		// this.configureSocket();
 
 	}
 	
 	async getName() {
-        const name = this.props.params.name;
-        this.setState({
-			chanName: name,
-        })
-		console.log("NAME : " + name)
+        // const name = this.props.params.name;
+        // this.setState({
+		// 	chanName: name,
+        // })
+		// console.log("NAME : " + name)
     }
 
 	Select() {
@@ -62,15 +60,15 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	}
 	async getmsg() {
-		this.getName();
-		const chat = await ChatAPI.getChannelByName(this.props.params.name)
-		// const chat = await ChatAPI.getChannelByName("qwerty")
-		console.log("le msg est : " + this.state.msg);
+		// this.getName();
+		// const chat = await ChatAPI.getChannelByName(this.props.params.name)
+		// // const chat = await ChatAPI.getChannelByName("qwerty")
+		// console.log("le msg est : " + this.state.msg);
 	}
 	async sendMsg(){
-		const channel = await ChatAPI.getChannelByName(this.props.params.name);
-		const author = await UserAPI.getUser();
-		await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
+		// const channel = await ChatAPI.getChannelByName(this.props.params.name);
+		// const author = await UserAPI.getUser();
+		// await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
 	}
 // il faut trouver un moyen d'afficher le chat (je dirais qu'il faut le faire a la discord)
 
@@ -90,42 +88,42 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 
     configureSocket = () => {
-        var socket = io("http://serv.pizzagami.fr:4007");
-		console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
-		console.log(socket);
-        socket.on('connection', () => {
-            console.log("connect");
-            socket.on('disconnect', (reason) => {
-                console.log(reason);
-            });
-        });
+        // var socket = io("http://serv.pizzagami.fr:4007");
+		// console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
+		// console.log(socket);
+        // socket.on('connection', () => {
+        //     console.log("connect");
+        //     socket.on('disconnect', (reason) => {
+        //         console.log(reason);
+        //     });
+        // });
 
-        socket.on('msgToClient', (channel) => {
-			console.log("msgToclient ?")
-			console.log(channel);
-        });
-        socket.on('connect_error', (error) => {
-			console.log("il y a vraiment une erreur ?")
-            console.log(error);
-        });
-        socket.on('message', message => {
-			console.log("message ?")
-			console.log(message);
-        });
-        socket.on('disconnect', (reason) => {
-			console.log("dsiconnect ?")
-			console.log(reason);
-        });
+        // socket.on('msgToClient', (channel) => {
+		// 	console.log("msgToclient ?")
+		// 	console.log(channel);
+        // });
+        // socket.on('connect_error', (error) => {
+		// 	console.log("il y a vraiment une erreur ?")
+        //     console.log(error);
+        // });
+        // socket.on('message', message => {
+		// 	console.log("message ?")
+		// 	console.log(message);
+        // });
+        // socket.on('disconnect', (reason) => {
+		// 	console.log("dsiconnect ?")
+		// 	console.log(reason);
+        // });
 
-        this.setState({
-			socket: socket,
-		})
+        // this.setState({
+		// 	socket: socket,
+		// })
     }
 
     handleSendMessage = () => {
-        console.log("trying");
+        // console.log("trying");
 
-        this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
+        // this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
     }
 	render () {
 		return (

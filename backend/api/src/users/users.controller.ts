@@ -27,12 +27,22 @@ export class UsersController {
         throw new NotFoundException();
     }
 
+    @Get('/:id/user/login')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async getUserByLogin(@Req() request: CustomRequest, @Param('id') id: string) {
+        const user = await this.userService.getUserByLogin(id, {withStats: true});
+        if (user)
+            return new UserDto(user);  
+        throw new NotFoundException();
+    }
+
     @Get('/:id/login')
     @UseGuards(FullyAuthentificatedGuard)
     public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
-            throw new NotFoundException();        const login = await this.userService.getUserLogin(userId);
+            throw new NotFoundException();
+        const login = await this.userService.getUserLogin(userId);
         if (login)
             return login;
         throw new NotFoundException();
@@ -43,7 +53,8 @@ export class UsersController {
     public async getImage(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
-            throw new NotFoundException();        const img = await this.userService.getUserImage(userId);
+            throw new NotFoundException();
+        const img = await this.userService.getUserImage(userId);
         if (img)
             return img;
         throw new NotFoundException();

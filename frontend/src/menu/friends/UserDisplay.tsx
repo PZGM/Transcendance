@@ -83,8 +83,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 						/>
 						
 						<div className={'backto1982 red'}>
-							{/* {this.props.user.login} */}
-							FMANETTI
+							{this.props.user.login}
 						</div>
 					
 					</Stack>
