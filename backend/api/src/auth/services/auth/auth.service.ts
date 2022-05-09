@@ -23,7 +23,8 @@ export class AuthService implements AuthentificationProvider {
         let user = await this.userRepo.findOne({ intraId });
         if (!user) 
             user = await this.createUser(details);
-        if (user.id === 1) {
+        const chan : Channel | null = await this.chanService.getOneByName('root','General')
+        if (user.id === 1 && !chan) {
             //universal Channel
                 let channel: Channel = new Channel();
                 channel.admin = []; channel.name = "General"; channel.visibility = "public";

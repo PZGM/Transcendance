@@ -59,14 +59,14 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
           relations.push('owner');
           relations.push('chats');
           relations.push('mute');
-      const chan: Channel = await this.channelsRepository.findOneOrFail({
+      const chan: Channel = await this.channelsRepository.findOne({
           relations,
           where: {
               name: channelName
           }
       });
-      console.log("chan name bachend:" + channelName)
-      console.log(this.getChannels)
+      if (!chan)
+        return null;
       if (chan.visibility === 'private' && chan.owner.login !== userName)
         throw new NotFoundException(`Channel name not found`);
       return chan;
