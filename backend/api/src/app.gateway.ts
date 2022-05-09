@@ -14,8 +14,6 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private logger = new Logger('AppGateway');
 
     handleConnection(client: { emit: (arg0: string, arg1: string) => void; }) {
-        console.log("je suis dans app gateway")
-        this.logger.log('New client connected');
         client.emit('connection', 'Successfully connected to server');
     }
 

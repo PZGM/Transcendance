@@ -32,7 +32,8 @@ export class UsersController {
     public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
-            throw new NotFoundException();        const login = await this.userService.getUserLogin(userId);
+            throw new NotFoundException();        
+            const login = await this.userService.getUserLogin(userId);
         if (login)
             return login;
         throw new NotFoundException();
@@ -43,9 +44,23 @@ export class UsersController {
     public async getImage(@Req() request: CustomRequest, @Param('id') id: string) {
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
-            throw new NotFoundException();        const img = await this.userService.getUserImage(userId);
+            throw new NotFoundException();        
+            const img = await this.userService.getUserImage(userId);
         if (img)
             return img;
+        throw new NotFoundException();
+    }
+
+    @Get('/:id/channels/name')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async getChannelsNames(@Req() request: CustomRequest, @Param('id') id: string) {
+        const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
+        if (!isNumber(userId))
+            throw new NotFoundException();        
+        const chans = await (await this.userService.getChannels(userId));
+        const chanNames = chans.map((chan) => {return chan.name});
+        if (chanNames)
+            return chanNames;
         throw new NotFoundException();
     }
 

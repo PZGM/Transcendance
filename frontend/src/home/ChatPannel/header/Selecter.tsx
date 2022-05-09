@@ -50,6 +50,8 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
         const channels = await ChatAPI.getChannelsNames();
 		if (channels)
 			this.setState({channels: channels});
+		console.log('channels:');
+		console.log(channels);
     }
 
     async getFriends() {

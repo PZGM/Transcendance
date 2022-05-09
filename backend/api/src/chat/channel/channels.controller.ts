@@ -28,7 +28,7 @@ export class ChannelsController {
   @Get('/name/:name')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string) {
-    return this.channelsService.getOneByName(request.user.login, name);
+    return this.channelsService.getOneByName(name);
   }
 
   @Get(':id')

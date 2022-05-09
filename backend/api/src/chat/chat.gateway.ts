@@ -2,7 +2,13 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 
-@WebSocketGateway({cors: {origin : 6200} })
+interface MessageBody{
+  chanName: string;
+  senderId: number;
+  message: string; 
+}
+
+@WebSocketGateway({cors: {origin : 6200}, namespace: '/chat'})
 export class ChatGateway {
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('ChatGateway');
@@ -22,25 +28,25 @@ export class ChatGateway {
   @SubscribeMessage('message')
   async handleMessage(
     @ConnectedSocket() socket: Socket,
-    @MessageBody() data: string
+    @MessageBody() data: MessageBody
   ) {
-    console.log(`Received message: ${data}`);
-    this.server.emit('messageToClient global', { data });
-    this.server.to("test").emit('messageToClient test channel', { data });
+    console.log('Received message:');
     console.log(data);
+    this.server.to(data.chanName).emit('message', {senderId: data.senderId, message: data.message});
+    // socket.to(data.chanName).emit('message', {senderId: data.senderId, message: data.message});
   }
 
-  @SubscribeMessage('joinChannel')
-  handleJoinChannel(socket: Socket, channelName: string) {
-    socket.join(channelName);
-    console.log(`Client [${socket.id}] joined channel ${channelName}`);
-    socket.emit('joinedChannel', channelName);
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(socket: Socket, data: any) {
+    socket.join(data.name);
+    console.log(`Client [${socket.id}] joined Room ${data.name}`);
+    socket.emit('joinedRoom', data.name);
   }
 
-  @SubscribeMessage('leaveChannel')
-  handleLeftChannel(socket: Socket, channelName: string) {
-    socket.leave(channelName);
-    console.log(`Client [${socket.id}] left channel ${channelName}`);
-    socket.emit('leftChannel', channelName);
+  @SubscribeMessage('leaveRoom')
+  handleLeftRoom(socket: Socket, data: any) {
+    socket.leave(data.name);
+    console.log(`Client [${socket.id}] left Room ${data.name}`);
+    socket.emit('leftRoom', data.name);
   }
 }

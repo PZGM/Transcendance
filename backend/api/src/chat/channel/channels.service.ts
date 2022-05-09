@@ -64,7 +64,7 @@ export class ChannelsService {
 }
 
 
-public async getOneByName(userName: string, channelName: string): Promise<Channel|null> {
+public async getOneByName(channelName: string, relationsPicker?: RelationsPicker): Promise<Channel|null> {
   try {
       let relations: string[] = [];
           relations.push('owner');
@@ -78,8 +78,6 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
       });
       console.log("chan name bachend:" + channelName)
       console.log(this.getChannels)
-      if (chan.visibility === 'private' && chan.owner.login !== userName)
-        throw new NotFoundException(`Channel name not found`);
       return chan;
   }
   catch (e) {
@@ -105,7 +103,7 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
     channel.visibility = createChannelDto.visibility;
     channel.owner = owner;
     channel.admin = [owner];
-    channel.users = [];
+    channel.users = [owner];
     channel.mute = [];
     channel.chats = [];
 

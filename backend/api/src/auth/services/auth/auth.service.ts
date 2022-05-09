@@ -23,10 +23,6 @@ export class AuthService implements AuthentificationProvider {
         let user = await this.userRepo.findOne({ intraId });
         if (!user) 
             user = await this.createUser(details);
-        if (user.id === 1) {
-            //general Channel
-                this.chanService.create({name: 'general', visibility: 'public', ownerId: -1});
-        }
         return user;
     }
     
@@ -45,15 +41,14 @@ export class AuthService implements AuthentificationProvider {
             actualWinRow: 0,
             under3min: 0,
             golden: 0,
-            // greaterAvantage: 0,
-            // greaterDisavantage: 0,
-            // averageScore: 0,
-            // averageOponnentScore: 0,
             eloScore: 400,
             rank: 0
         });
         user.stats = stats;
         await this.statsRepo.save(stats);
+        const generalChan = await this.chanService.getOne(1);
+        if (generalChan)
+            user.joinedChannels = [generalChan];
         return await this.userRepo.save(user);
     }
 

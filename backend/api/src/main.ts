@@ -11,6 +11,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { ChannelsService } from './chat/channel/channels.service';
 
 
 async function bootstrap() {
@@ -67,5 +68,10 @@ async function bootstrap() {
    // await app.init();
 
     await app.listen(3333);
+
+    //general channel
+    const channelsService = app.get(ChannelsService);
+    await channelsService.create({name: 'general', visibility: 'public', ownerId: -1});
+
 }
 bootstrap();

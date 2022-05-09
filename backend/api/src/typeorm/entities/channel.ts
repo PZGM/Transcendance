@@ -14,7 +14,7 @@ import { Optional } from "@nestjs/common";
     @Column({ length: 50, unique: true })
     name: string;
   
-    @Optional()
+    @IsOptional()
     @ManyToOne(() => User, owner => owner.ownedChannels, {
       onDelete: "CASCADE", nullable: true
     })
@@ -28,7 +28,7 @@ import { Optional } from "@nestjs/common";
     @Column({ nullable: true })
     password: string;
   
-    @ManyToMany(() => User, user => user.joinedChannels)
+    @ManyToMany(() => User, user => user.joinedChannels, {eager: true})
     @JoinTable()
     users: User[];
 
