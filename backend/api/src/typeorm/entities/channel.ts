@@ -4,6 +4,7 @@ import { IsOptional } from "class-validator";
 import { Chat } from "./chat";
 import { User } from './user'
 import { Mute } from "./mutedUser";
+import { Optional } from "@nestjs/common";
   
   @Entity({ name: 'channel' })
   export class Channel {
@@ -13,8 +14,9 @@ import { Mute } from "./mutedUser";
     @Column({ length: 50, unique: true })
     name: string;
   
+    @Optional()
     @ManyToOne(() => User, owner => owner.ownedChannels, {
-      onDelete: "CASCADE"
+      onDelete: "CASCADE", nullable: true
     })
     owner: User;
   

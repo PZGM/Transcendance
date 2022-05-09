@@ -14,10 +14,11 @@ import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 
 interface SelecterProps {
-	channel: any;
+	channelName: string;
 };
+
 interface SelecterState {
-	channels: any;
+	channels: string[];
 	friends: any;
 	name: any;
 	open: boolean;
@@ -42,12 +43,13 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		let name = window.location.pathname.split('/')[3];
 		if (!name)
 			name = 'Channels'
-		this.state = {channels: [], friends: [], name, open: false, anchorEl: null};	}
+		this.state = {channels: [], friends: [], name, open: false, anchorEl: null};	
+	}
 
     async getChannels() {
-        let chan = await ChatAPI.getChannels();
-		console.log(chan)
-		this.setState({channels: chan});
+        const channels = await ChatAPI.getChannelsNames();
+		if (channels)
+			this.setState({channels: channels});
     }
 
     async getFriends() {
@@ -83,10 +85,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		})
 	}
 	renderRowsChan(list) {
-		const listItems = list.map((channel: any) =>
+		const listItems = list.map((channel: string) =>
 			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link onClick={()=> {this.updateName(channel.name)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel.name}}>
-					<div className='bit9x9'> {channel.name} </div>
+				<Link onClick={()=> {this.updateName(channel)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel}}>
+					<div className='bit9x9'> {channel} </div>
 				</Link>
 			</Stack>
 	  );

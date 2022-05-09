@@ -16,11 +16,11 @@ import { Channel } from "./channel";
     @Column({ length: 640 })
     content: string;
   
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, {eager: true})
     author: User;
   
     @ManyToOne(() => Channel, channel => channel.chats, {
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
     })
     channel: Channel;
   }

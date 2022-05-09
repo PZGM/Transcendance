@@ -6,7 +6,7 @@ import { UserDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { AuthentificationProvider } from './auth';
 import { ChannelsService } from 'src/chat/channel/channels.service';
-import { ChannelDto } from 'src/dto/chat.dto';
+import { ChannelDto, CreateChannelDto } from 'src/dto/chat.dto';
 import { Channel } from 'src/typeorm';
 
 @Injectable()
@@ -24,11 +24,8 @@ export class AuthService implements AuthentificationProvider {
         if (!user) 
             user = await this.createUser(details);
         if (user.id === 1) {
-            //universal Channel
-                let channel: Channel = new Channel();
-                channel.admin = []; channel.name = "General"; channel.visibility = "public";
-                channel.users = []; channel.mute = []; channel.chats = []; channel.id = 0; channel.visibility = 'public'
-                this.chanService.create(new ChannelDto(channel));
+            //general Channel
+                this.chanService.create({name: 'general', visibility: 'public', ownerId: -1});
         }
         return user;
     }
