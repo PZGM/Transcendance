@@ -1,5 +1,5 @@
 import 'react-app-polyfill/stable';
-import React, { FC } from 'react';
+import { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -12,8 +12,8 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
-import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
+import { UserInit } from './home/UserInit';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
@@ -21,6 +21,7 @@ import { UserInfo } from './home/ChatPannel/UserInfo'
 import { ChanInfo } from './home/ChatPannel/ChanInfo'
 import { ChanEdit } from './home/ChatPannel/ChanEdit'
 import { ChanAddUser } from './home/ChatPannel/ChanAddUser'
+import { UserAPI } from './api/Users.api';
 
 // FONTS
 
@@ -61,6 +62,40 @@ const WrapperChanAddUser = (props) => {
   return <ChanAddUser {...{...props, params} } /> 
 }
 
+type ProtectedRouteProps = {}
+
+interface ProtectedRouteState {
+  logged: boolean
+}
+
+class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
+{
+  constructor(props: ProtectedRouteProps) {
+    super(props);
+    this.state = {
+      logged: false
+    }
+    this.fetch();
+  }
+  
+  async fetch()
+  {
+    const usr = await UserAPI.getUser();
+    if (usr)
+      this.setState({
+        logged: usr.firstLog
+      })
+  }
+
+  render()
+  {
+    if (!this.state.logged)
+			  return (<UserInit/>)
+
+    return (<Home/>)
+  }
+}
+
 ReactDOM.render(
   <StatusDetector>
       <BrowserRouter>
@@ -82,6 +117,7 @@ ReactDOM.render(
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
           </Route>
+          <Route path="init" element={<UserInit/>} />
           <Route path="2fa" element={<Twofa/>} />
           <Route path="*" element={<NotFound/>} />
 
@@ -90,4 +126,4 @@ ReactDOM.render(
   </StatusDetector>
 ,
   rootElement
-);
+)

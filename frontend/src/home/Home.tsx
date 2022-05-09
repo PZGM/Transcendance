@@ -163,14 +163,14 @@ export class Home extends Component<HomeProps, HomeState> {
 		return (
 			<div className="box">
 				<PrivateGuard/>
-				{/* <Box sx={{backgroundColor: 'pink'}} className='left'>
+				<Box sx={{backgroundColor: 'pink'}} className='left'>
 				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
 				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
 				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
 				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
 				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
 				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
-				</Box> */}
+				</Box>
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>

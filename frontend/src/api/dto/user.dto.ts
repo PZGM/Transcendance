@@ -8,4 +8,5 @@ export interface UserDto {
     friends: number[];
     color: string;
     stats?: StatsDto;
+    firstLog: boolean;
 }

@@ -41,10 +41,14 @@ export class AuthService implements AuthentificationProvider {
             durationMin: 0,
             durationMax: 0,
             durationAverage: 0,
-            greaterAvantage: 0,
-            greaterDisavantage: 0,
-            averageScore: 0,
-            averageOponnentScore: 0,
+            winRow: 0,
+            actualWinRow: 0,
+            under3min: 0,
+            golden: 0,
+            // greaterAvantage: 0,
+            // greaterDisavantage: 0,
+            // averageScore: 0,
+            // averageOponnentScore: 0,
             eloScore: 400,
             rank: 0
         });

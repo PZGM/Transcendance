@@ -46,12 +46,16 @@ export class StatsService {
         if (lastGame.duration > stats.durationMax)
             stats.durationMax = lastGame.duration
         stats.durationAverage = (stats.durationAverage * (stats.games - 1) + lastGame.duration) / stats.games;
-        if (lastGame.won && lastGame.score - lastGame.opponentScore > stats.greaterAvantage)
-            stats.greaterAvantage = lastGame.score - lastGame.opponentScore;
-        if (!lastGame.won && lastGame.opponentScore - lastGame.score > stats.greaterDisavantage)
-            stats.greaterDisavantage = lastGame.opponentScore - lastGame.score;
-        stats.averageScore = (stats.averageScore * (stats.games - 1) + lastGame.score) / stats.games;
-        stats.averageOponnentScore = (stats.averageOponnentScore * (stats.games - 1) + lastGame.opponentScore) / stats.games;
+        stats.actualWinRow = (lastGame.won) ? stats.actualWinRow + 1 : 0;
+        stats.winRow = (stats.actualWinRow > stats.winRow) ? stats.actualWinRow : stats.winRow;
+        stats.under3min = (lastGame.duration <= 3) ? stats.under3min + 1 : stats.under3min;
+        stats.golden = (lastGame.opponentScore == 0) ? stats.golden + 1 : stats.golden;
+        // if (lastGame.won && lastGame.score - lastGame.opponentScore > stats.greaterAvantage)
+        //     stats.greaterAvantage = lastGame.score - lastGame.opponentScore;
+        // if (!lastGame.won && lastGame.opponentScore - lastGame.score > stats.greaterDisavantage)
+        //     stats.greaterDisavantage = lastGame.opponentScore - lastGame.score;
+        // stats.averageScore = (stats.averageScore * (stats.games - 1) + lastGame.score) / stats.games;
+        // stats.averageOponnentScore = (stats.averageOponnentScore * (stats.games - 1) + lastGame.opponentScore) / stats.games;
         
         const expectedScore = 1 / (1 + Math.pow(10, (lastGame.opponentEloScore - lastGame.eloScore) / 400))
         let K = 40 - stats.games;

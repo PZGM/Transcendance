@@ -8,7 +8,7 @@ import { AuthentificatedGuard, FullyAuthentificatedGuard, IntraAuthGuard } from 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-
+    
     @Get('check')
     isLogeedIn(@Req() request: CustomRequest): boolean {
         return request.isAuthenticated();
@@ -24,7 +24,9 @@ export class AuthController {
     @UseGuards(IntraAuthGuard)
     redirect(@Res() res: Response, @Req() request: CustomRequest, @Session() session: Record<string, any>,
     ) {
-        if (!request.user.twofa || session.istwofa)
+        if (!request.user.firstLog)
+            res.redirect(process.env.USER_INIT);
+        else if (!request.user.twofa || session.istwofa)
             res.redirect(process.env.HOME_URL);
         else
             res.redirect(process.env.TWOFA_URL);
