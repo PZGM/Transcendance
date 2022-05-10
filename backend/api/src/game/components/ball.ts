@@ -53,51 +53,47 @@ export class Ball implements BallDto { //extends?
 		}
 	}
 
-	handleCollision(time: number, p1: Player, p2: Player) {
-		// Collision on the borders of the board game
-		if((this.coor.y + (this.coor.dy * time)) - this.r <= 0 || (this.coor.y + (this.coor.dy * time)) + this.r >= this.coor.screenSizeY)
+	handleCollision(time: number, p1: Player, p2: Player) : boolean {
+		if((this.coor.y + (this.coor.dy * time)) - this.r <= 0 || //border Collision
+            (this.coor.y + (this.coor.dy * time)) + this.r >= this.coor.screenSizeY)
 			this.coor.dy = -this.coor.dy;
-
-        // Detect a collision between he ball and a Paddle
-		if(this.collision(time, p1, p2))
-		{
-			this.coor.speed += this.acceleration;
-			let p = (this.coor.x < this.coor.screenSizeX / 2) ? p1 : p2;
-			let collidePoint = this.coor.y - (p.coor.y + p.width/2);
-			collidePoint = collidePoint/(p.width/2);
-			let angleRad = collidePoint * Math.PI/4;
-			let dir = (this.coor.x < this.coor.screenSizeX / 2) ? 1 : -1;
-			this.coor.dx = dir * (this.coor.speed * Math.cos(angleRad));
-			this.coor.dy = this.coor.speed * Math.sin(angleRad);
-			return true;
-		}
-		return false;
+		return(this.collision(time, p1, p2)) // player collision
 	}
 
-	// Collision between ball and Paddle
 	collision(time: number, p1: Player, p2: Player): boolean {
-		if (this.coor.x <  this.coor.screenSizeX/2) {
+		if (this.coor.x <  this.coor.screenSizeX / 2) {
 			if (((this.coor.x + (this.coor.dx * time)) - this.r) < p1.coor.x + p1.width)
 			{
 				if ((this.coor.y + this.r >= p1.coor.y && this.coor.y + this.r <= p1.coor.y + p1.width)
 				|| (this.coor.y - this.r >= p1.coor.y && this.coor.y - this.r <= p1.coor.y + p1.width))
 				{
 					this.coor.x = (p1.coor.x + p1.width) + this.r;
-					return true;
+					return this.coorAfterCollision(p1, p2);
 				}
 			}
 		}
 		else {
 			if (((this.coor.x + (this.coor.dx * time)) + this.r) > p2.coor.x)
 			 {
-				 if ((this.coor.y + this.r >= p2.coor.y && this.coor.y + this.r <= p2.coor.y + p2.width)
+				 if ((this.coor.y + this.r >= p2.coor.y && this.coor.y + this.r <= p2.coor.y + p2.width) //is this optimisable?
 				 || ( this.coor.y - this.r >= p2.coor.y && this.coor.y - this.r <= p2.coor.y + p2.width))
 				{
 					this.coor.x = p2.coor.x - this.r;
-					return true
-				 }
+					return this.coorAfterCollision(p1, p2);
+				}
 			 }
 		}
 		return false;
 	}
+
+    coorAfterCollision(p1: Player, p2: Player) : boolean {
+        this.coor.speed += this.acceleration;
+        const player = (this.coor.x < this.coor.screenSizeX / 2) ? p1 : p2;
+        const cc = (this.coor.y - (player.coor.y + player.width/2)) / (player.width / 2);
+        const angle = cc * Math.PI / 4;
+        const dir = (this.coor.x < this.coor.screenSizeX / 2) ? 1 : -1;
+        this.coor.dx = dir * (this.coor.speed * Math.cos(angle));
+        this.coor.dy = this.coor.speed * Math.sin(angle);
+        return true;
+    }
 }
