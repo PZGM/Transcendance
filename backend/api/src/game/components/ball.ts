@@ -24,7 +24,7 @@ export class Ball implements BallDto { //extends?
 
 	}
 
-	reset(ballDTO: BallDto) {
+	reset(ballDTO: BallDto): void {
         this.goal = 0;
 		this.coor.x = ballDTO.coor.x;
 		this.coor.y = ballDTO.coor.y;
@@ -33,19 +33,17 @@ export class Ball implements BallDto { //extends?
         this.coor.dx = this.coor.speed * ((this.coor.dx < ballDTO.coor.dx) ? -1 : 1);
 	}
 
-	update(time: number, p1: Player, p2: Player) {
-		if (!this.handleCollision(time, p1, p2))
+	update(time: number, p1: Player, p2: Player): void {
+		if (!this.collision(time, p1, p2))
 		{
 			this.coor.x += this.coor.dx * time;
 			this.coor.y += this.coor.dy * time;
 		}
-
         if(this.coor.x + this.r >= this.coor.screenSizeX)
         {
             p1.goal++;
             this.goal = 1;
         }
-
 		if(this.coor.x - this.r <= 0)
 		{
 			p2.goal++;
@@ -53,14 +51,14 @@ export class Ball implements BallDto { //extends?
 		}
 	}
 
-	handleCollision(time: number, p1: Player, p2: Player) : boolean {
+	collision(time: number, p1: Player, p2: Player) : boolean {
 		if((this.coor.y + (this.coor.dy * time)) - this.r <= 0 || //border Collision
             (this.coor.y + (this.coor.dy * time)) + this.r >= this.coor.screenSizeY)
 			this.coor.dy = -this.coor.dy;
-		return(this.collision(time, p1, p2)) // player collision
+		return(this.playerCollision(time, p1, p2)) // player collision
 	}
 
-	collision(time: number, p1: Player, p2: Player): boolean {
+	playerCollision(time: number, p1: Player, p2: Player): boolean {
 		if (this.coor.x <  this.coor.screenSizeX / 2) {
 			if (((this.coor.x + (this.coor.dx * time)) - this.r) < p1.coor.x + p1.width)
 			{

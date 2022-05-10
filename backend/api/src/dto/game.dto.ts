@@ -1,6 +1,7 @@
 import { Game } from '../typeorm/entities/game'
 import { UserDto } from './user.dto'
 import { CoorI } from 'src/game/components/coor';
+import { User } from 'src/typeorm';
 
 export class GameDto {
 
@@ -41,7 +42,7 @@ export class BallDto {
 
 export class PlayerDTO {
 	
-    user: UserDto;
+    user: User;
     coor: CoorI;
 	width: number;
 	goal: number;
