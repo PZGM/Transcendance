@@ -28,6 +28,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
 	chanName: string = '';
 
+
 	constructor(props: ChatProps) {
 		super(props);
 		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this)});
@@ -63,15 +64,12 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthor: number = -1;
         const listItems = list.map((msg: any) => {
-			console.log('message:');
-			console.log(msg);
 			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId != lastAuthor;
 			lastAuthor = msg.authorId;
-			console.log(`isFirst : ${isFirst}`);
             return <>
                 { isFirst &&
                     <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1vw'}}>
@@ -105,16 +103,19 @@ export class Chat extends Component<ChatProps, ChatState> {
 		})
 	}
 
+	onKeyDown(e) {
+		if (e.keyCode == 13)
+			this.sendMessage(this.chanName);
+	}
+
     sendMessage(chanName: string) {
-		if (chanName) {
+		if (chanName && this.state.input != '') {
 			this.chatSocket.sendMessage(chanName, this.state.input, this.state.user.id);
 			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id);
 			this.setState({
 				input: ''
-			})
+			});
 		}
-		else
-			console.log('chanName is null')
     }
 
 	async switchChannel(newChannelName: string) {
@@ -123,8 +124,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 		const user = await UserAPI.getUser();
 		const channel = await ChatAPI.getChannelByName(this.chanName);
 		let messages = await ChatAPI.getByChannelId(channel.id);
-		if (!messages)
-			messages = [];
 		this.setState({
 			users: channel.users,
 			user,
@@ -151,7 +150,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
 
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>
 						</IconButton>
