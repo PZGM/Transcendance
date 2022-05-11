@@ -1,4 +1,5 @@
-import { Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
+import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
@@ -7,146 +8,151 @@ import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
 import { ChatAPI } from "../../api/Chat.api";
 import { io } from "socket.io-client";
+import { UserDto } from "../../api/dto/user.dto";
 
 interface ChatState {
-    chanName: string
-	msg: string
-	channels: null,
-	socket: any,
-	channel: null
+	socket: any;
+	messages: any[];
+	input: string;
+	chan: any;
+	users: UserDto[];
+	user: any,
 }
 
 interface ChatProps {
-    params: any,
     isPrivateMessage: boolean,
+	params: any
 };
 
 export class Chat extends Component<ChatProps, ChatState> {
+	chatSocket: ChatSocketAPI;
+	chanName: string = '';
+
 	constructor(props: ChatProps) {
 		super(props);
+		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this)});
         this.state = {
-            chanName: "",
-            msg: "",
-			channels: null,
+			messages: [],
 			socket: null,
-			channel: null	
-        }
+			input: '',
+			users: [],
+			user: undefined,
+			chan: undefined
+		}
 	}
-	sleep = (milliseconds) => {
-        return new Promise(resolve => setTimeout(resolve, milliseconds))
-    }
+
 	componentDidMount()  {
 		this.getName();
-		this.configureSocket();
-
 	}
 	
 	async getName() {
         const name = this.props.params.name;
-        this.setState({
-			chanName: name,
-        })
-		console.log("NAME : " + name)
     }
 
-	Select() {
-		this.getName();
-	}
+	// Select() {
+	// 	this.getName();
+	// }
 
-	setmsg(letter){
-		let msg =letter;
-		
+	onInputChange(input){
 		this.setState({
-			msg: msg,
-        })
-
+			input
+		})
 	}
-	async getmsg() {
-		this.getName();
-		const chat = await ChatAPI.getChannelByName(this.props.params.name)
-		// const chat = await ChatAPI.getChannelByName("qwerty")
-		console.log("le msg est : " + this.state.msg);
-	}
-	async sendMsg(){
-		const channel = await ChatAPI.getChannelByName(this.props.params.name);
-		const author = await UserAPI.getUser();
-		await ChatAPI.addMsg(new Date(), this.state.msg, author, channel)
-	}
-// il faut trouver un moyen d'afficher le chat (je dirais qu'il faut le faire a la discord)
 
 	renderMsg(list)
-	{
-		const listItems = list.map((msg: string) =>
-		<>
-			<Stack direction="row" spacing={2}>
-				<Typography color={"white"}> Afreire- </Typography>
-				<Typography color={"white"}> 26/04/2022 15:14 </Typography>
-			</Stack>
-			<Typography color={"white"}> Hello sucker ! </Typography>
-		</>
-		);
-		return listItems;
+    {
+		let lastAuthor: number = -1;
+        const listItems = list.map((msg: any) => {
+			console.log('message:');
+			console.log(msg);
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
+			const color = (sender) ? sender.color : 'white';
+			const login = (sender) ? sender.login : 'unknow';
+			const avatar = (sender) ? sender.avatar : '';
+			const isFirst: boolean = msg.authorId != lastAuthor;
+			lastAuthor = msg.authorId;
+			console.log(`isFirst : ${isFirst}`);
+            return <>
+                { isFirst &&
+                    <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1vw'}}>
+                        <Avatar variant='circular'
+                            src={avatar}
+                            style={{height: '2.7vw', width: '2.7vw'}}
+                        />
+
+                        <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
+                            <div style={{color, fontWeight: "bold"}}> {login} </div>
+                            <div style={{color: "white"}}> {msg.content} </div>
+                        </Stack>
+
+                    </Stack>
+                }
+
+                {!isFirst &&
+                    <div style={{color: "white", paddingLeft: "calc(2.7vw + 5px)", fontSize: '1vw'}}> {msg.content} </div>
+                }
+
+            </>
+		}
+        );
+        return listItems;
+    }
+
+	onMessage(message: any) {
+		this.state.messages.push(message);
+		this.setState({
+			messages: this.state.messages
+		})
 	}
 
+    sendMessage(chanName: string) {
+		if (chanName) {
+			this.chatSocket.sendMessage(chanName, this.state.input, this.state.user.id);
+			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id);
+			this.setState({
+				input: ''
+			})
+		}
+		else
+			console.log('chanName is null')
+    }
 
-    configureSocket = () => {
-        var socket = io("http://serv.pizzagami.fr:4007");
-		console.log("NIKE TA PUTSINDE MERE LES SOCKET CA ME PETE LES COUILLES");
-		console.log(socket);
-        socket.on('connection', () => {
-            console.log("connect");
-            socket.on('disconnect', (reason) => {
-                console.log(reason);
-            });
-        });
-
-        socket.on('msgToClient', (channel) => {
-			console.log("msgToclient ?")
-			console.log(channel);
-        });
-        socket.on('connect_error', (error) => {
-			console.log("il y a vraiment une erreur ?")
-            console.log(error);
-        });
-        socket.on('message', message => {
-			console.log("message ?")
-			console.log(message);
-        });
-        socket.on('disconnect', (reason) => {
-			console.log("dsiconnect ?")
-			console.log(reason);
-        });
-
-        this.setState({
-			socket: socket,
+	async switchChannel(newChannelName: string) {
+		this.chanName = newChannelName;
+		this.chatSocket.joinRoom(this.chanName);
+		const user = await UserAPI.getUser();
+		const channel = await ChatAPI.getChannelByName(this.chanName);
+		let messages = await ChatAPI.getByChannelId(channel.id);
+		if (!messages)
+			messages = [];
+		this.setState({
+			users: channel.users,
+			user,
+			chan: channel,
+			messages
 		})
-    }
+	}
 
-    handleSendMessage = () => {
-        console.log("trying");
-
-        this.state.socket.emit('send-message', { name: 'myname', text: 'mytext' });
-    }
 	render () {
+		if (this.chanName != this.props.params.name) {
+			this.switchChannel(this.props.params.name)
+		}
 		return (
             <>
                 <Box height="89%">
-						<List style={{overflow: 'auto'}} sx={{height: "97%"}}>
-						<Stack spacing={1}>
-							{this.renderMsg([])}
-						</Stack>
-						</List>
+					<ol>
+						{this.renderMsg(this.state.messages)}
+					</ol>
 				</Box>
-				  
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.state.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.chanName + "/info"}}
-						onClickCapture={() => {this.Select()}}>
+						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
+						onClickCapture={() => {}}>
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
 
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} onChange={(e) => {this.setmsg(e.target.value)}}/>
-						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMsg()}}	>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>
 						</IconButton>
 					</Stack>

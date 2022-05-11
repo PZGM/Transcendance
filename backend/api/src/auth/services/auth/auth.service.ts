@@ -6,7 +6,7 @@ import { UserDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { AuthentificationProvider } from './auth';
 import { ChannelsService } from 'src/chat/channel/channels.service';
-import { ChannelDto } from 'src/dto/chat.dto';
+import { ChannelDto, CreateChannelDto } from 'src/dto/chat.dto';
 import { Channel } from 'src/typeorm';
 
 @Injectable()
@@ -49,15 +49,14 @@ export class AuthService implements AuthentificationProvider {
             actualWinRow: 0,
             under3min: 0,
             golden: 0,
-            // greaterAvantage: 0,
-            // greaterDisavantage: 0,
-            // averageScore: 0,
-            // averageOponnentScore: 0,
             eloScore: 400,
             rank: 0
         });
         user.stats = stats;
         await this.statsRepo.save(stats);
+        const generalChan = await this.chanService.getOne(1);
+        if (generalChan)
+            user.joinedChannels = [generalChan];
         return await this.userRepo.save(user);
     }
 

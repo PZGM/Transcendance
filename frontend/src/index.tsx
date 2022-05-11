@@ -12,9 +12,8 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
-import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
-import { UserInit } from './UserInit';
+import { UserInit } from './home/UserInit';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
@@ -35,6 +34,7 @@ import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
 import { useState } from 'react';
 import { getDefaultLibFilePath } from 'typescript';
+import { UserDto } from './api/dto/user.dto';
 
 const rootElement = document.getElementById("root");
 
@@ -63,39 +63,42 @@ const WrapperChanAddUser = (props) => {
   return <ChanAddUser {...{...props, params} } /> 
 }
 
-// type ProtectedRouteProps = {}
+type ProtectedRouteProps = {}
 
-// interface ProtectedRouteState {
-//   logged: boolean
-// }
+interface ProtectedRouteState {
+  logged: boolean
+  user?: UserDto
+}
 
-// class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
-// {
-//   constructor(props: ProtectedRouteProps) {
-//     super(props);
-//     this.state = {
-//       logged: false
-//     }
-//     this.fetch();
-//   }
+class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
+{
+  constructor(props: ProtectedRouteProps) {
+    super(props);
+    this.state = {
+      logged: false,
+      user: undefined
+    }
+    this.fetch();
+  }
   
-//   async fetch()
-//   {
-//     const usr = await UserAPI.getUser();
-//     if (usr)
-//       this.setState({
-//         logged: usr.firstLog
-//       })
-//   }
+  async fetch()
+  {
+    const usr = await UserAPI.getUser();
+    if (usr)
+      this.setState({
+        logged: usr.firstLog,
+        user: usr
+      })
+  }
 
-//   render()
-//   {
-//     if (!this.state.logged)
-// 			  return (<UserInit/>)
+  render()
+  {
+    if (!this.state.logged)
+			  return (<UserInit/>)
+    return (<Home/>)
+  }
+}
 
-//     return (<Home/>)
-//   }
-// }
 
 ReactDOM.render(
   <StatusDetector>
@@ -119,15 +122,14 @@ ReactDOM.render(
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-            </Route>
-
-            <Route path="init" element={<UserInit/>} />
-			      <Route path="2fa" element={<Twofa/>} />
-            <Route path="*" element={<NotFound/>} />
+          </Route>
+          <Route path="init" element={<UserInit/>} />
+          <Route path="2fa" element={<Twofa/>} />
+          <Route path="*" element={<NotFound/>} />
 
         </Routes>
     </BrowserRouter>
   </StatusDetector>
 ,
   rootElement
-);
+)

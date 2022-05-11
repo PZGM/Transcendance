@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Patch, Param, Post, Put, Req, UseGuards 
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ChannelsService } from './channels.service';
 import { CustomRequest } from 'src/utils/types';
-import { RelationsPicker } from 'src/dto/chat.dto';
+import { CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto';
 import { ChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -18,10 +18,17 @@ export class ChannelsController {
     return channels;
   }
 
+  @Get('allNames')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async getChannelsName(@Req() request: CustomRequest): Promise<string[]> {
+    const channelsNames: string[] = await this.channelsService.getChannelsNames(request.user.id);
+    return channelsNames;
+  }
+
   @Get('/name/:name')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string) {
-    return this.channelsService.getOneByName(request.user.login, name);
+    return this.channelsService.getOneByName(name);
   }
 
   @Get(':id')
@@ -32,8 +39,8 @@ export class ChannelsController {
 
   @Post()
   @UseGuards(FullyAuthentificatedGuard)
-  create(@Body() ChannelDto: ChannelDto) {
-    return this.channelsService.create(ChannelDto);
+  create(@Body() createChannelDto: CreateChannelDto) {
+    return this.channelsService.create(createChannelDto);
   }
 
   @Patch(':id')

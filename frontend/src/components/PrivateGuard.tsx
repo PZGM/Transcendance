@@ -22,7 +22,6 @@ export class PrivateGuard extends Component<PrivateGuardProps, PrivateGuardState
 
     async componentDidMount(): Promise<void> {
         const auth = await UserAPI.checkLoggedIn();
-        console.log(`auth = ${auth}`)
         this.setState({
             isAuthenticated: auth,
             isLoaded: true,
