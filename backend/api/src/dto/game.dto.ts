@@ -2,6 +2,8 @@ import { Game } from '../typeorm/entities/game'
 import { UserDto } from './user.dto'
 import { CoorI } from 'src/game/components/coor';
 import { User } from 'src/typeorm';
+import { Player } from 'src/game/components/player';
+import { Ball } from 'src/game/components/ball';
 
 export class GameDto {
 
@@ -34,16 +36,28 @@ export class GameDto {
 export class BallDto {
 	
     coor: CoorI;
-    r: number;
-	acceleration: number;
-    goal: number;
 
 }
 
 export class PlayerDTO {
 	
-    user: User;
+    user: UserDto;
     coor: CoorI;
-	width: number;
 	goal: number;
+}
+
+export interface RoomDto {
+	roomId: number;
+	status: number; // 0 waiting 1 playing 2 goal 3 end enum ?
+	playerOne?: Player | PlayerDTO;
+	playerTwo?: Player | PlayerDTO;
+	ball?: Ball | BallDto;
+	startingTime?: number;
+	updateTime?: number;
+	lastGoal?: Player;
+	winner?: UserDto;
+	loser?: UserDto;
+    pOneScore: number;
+    pTwoScore: number;
+	maxGoal: number;
 }

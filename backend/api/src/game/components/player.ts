@@ -1,21 +1,22 @@
 import { PlayerDTO } from "src/dto/game.dto";
-import { User } from "src/typeorm";
-import { CoorI } from "./coor";
+import { UserDto } from "src/dto/user.dto";
+import { CoorI, Setting } from "./coor";
 
 export class Player implements PlayerDTO {
 	
     coor: CoorI;
-    user: User;
+    user: UserDto;
 	width: number;
 	goal: number;
 
-    constructor(user: User, playerDto: PlayerDTO) {
-		this.user = user;
-
-		this.width = playerDto.width;;
+    constructor(playerDto: PlayerDTO) {
+		
+		this.coor.setting = new Setting(playerDto.coor.difficulty)
+		this.user = playerDto.user;
+		this.width = playerDto.coor.setting.width;
 		this.coor.x = playerDto.coor.x;
 		this.coor.y = (this.coor.screenSizeX / 2) - (this.width/2);
-		this.coor.speed = playerDto.coor.speed;
+		this.coor.setting.speed;
 		this.coor.dx = 0;
 		this.coor.dy = 0;
 		this.coor.color = playerDto.coor.color;
@@ -27,13 +28,13 @@ export class Player implements PlayerDTO {
     update(time: number) : void {
         if(this.coor.dy > 0) {
 			if(this.coor.y > 0)
-				this.coor.y -= this.coor.speed * time;
+				this.coor.y -= this.coor.setting.speed * time;
 			else
 				this.coor.y = 0;
 		}
 		if(this.coor.dy < 0) {
 			if(this.coor.y + this.width < this.coor.screenSizeY)
-				this.coor.y += this.coor.speed * time;
+				this.coor.y += this.coor.setting.speed * time;
 			else
 				this.coor.y = this.coor.screenSizeY - this.width;
 		}
