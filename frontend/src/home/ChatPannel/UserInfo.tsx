@@ -18,8 +18,11 @@ interface UserInfoState {
     login?: any;
     avatar?: string;
     friend: boolean;
+    status: number;
 }
-
+interface StatusData {
+    status: number;
+}
 interface UserInfoProps {
     params: any,
 };
@@ -40,12 +43,15 @@ function StatElement(props) {
 	)
 }
 export class UserInfo extends Component<UserInfoProps, UserInfoState> {
+    eventSource: any;
+
 	constructor(props: UserInfoProps) {
 		super(props);
         this.state = {
             user: null,
             login: "",
             friend: false,
+            status: 0,
         }
 	}
 
@@ -70,16 +76,38 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         }
     }
 
-	componentDidMount()  {
-        this.getUser();
-        this.isFriend();
+	async componentDidMount()  {
+        await this.getUser();
+        await this.isFriend();
 
         const name = this.props.params.name;
         this.setState({
             login: name,
         })
+        if (this.state.user){
+            this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.state.user.id, {withCredentials: true});
+            this.eventSource.onmessage = (e: { data: string; }) => {
+                console.log("salut je suis dans l'event")
+                console.log(e.data)
+                let jsonObj: any = JSON.parse(e.data);
+                let status: StatusData = jsonObj as StatusData;
+                if (status.status < 0 || status.status > 4)
+                    status.status = 0;
+                this.setState({
+                    status: status.status,
+                })
+            };
+            this.eventSource.onerror = (e: any) => {
+                this.setState({
+                    status: 0,
+                })
+            }
+        }
 
+	}
 
+	componentWillUnmount() {
+		this.eventSource.close();
 	}
 
     async changefriend()
@@ -116,8 +144,8 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			[2, 'inactive'],
 			[3, 'connected'],
 			[4, 'playing']]);
-// TODO le status ne marche pas
-		if (!this.state.user || !this.state.user.stats)
+
+        if (!this.state.user || !this.state.user.stats)
 			return (
 				<div style={{color: 'white'}}>LOADING...</div>
 			)
@@ -136,7 +164,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                             <div className='bit9x9'>{this.state.login}</div>
                         </Typography>
                         <Typography variant="h4" color="white">
-                            <div className='bit9x9'> {"Status > "+ description.get(this.state.user.status)} </div>
+                            <div className='bit9x9'> {"Status > "+ description.get(this.state.status)} </div>
                         </Typography>
                         <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
                             <div className="home_button but_red" >
