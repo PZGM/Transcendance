@@ -103,7 +103,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	  );
 	  return listItems;
 	}
-
+// TODO mettre un filtre pour pas que notre compte apparaissent dans la liste car on peut pas s'envoyer de msg
 	render () {
 		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (
@@ -118,7 +118,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 								<div className='bit9x9'>{this.state.name}</div>
 							</ButtonBase>
 							<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={this.handleClickAway}>
-								<Popper sx={{marginTop: "10px"}}open={this.state.open} anchorEl={this.state.anchorEl}>
+								<Popper sx={{marginTop: "10px"}} open={this.state.open} anchorEl={this.state.anchorEl}>
 									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
 										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
 											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon />}>

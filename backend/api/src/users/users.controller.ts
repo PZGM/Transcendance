@@ -27,6 +27,15 @@ export class UsersController {
         throw new NotFoundException();
     }
 
+    @Get('/:id/user/login')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async getUserByLogin(@Req() request: CustomRequest, @Param('id') id: string) {
+        const user = await this.userService.getUserByLogin(id, {withStats: true});
+        if (user)
+            return new UserDto(user);  
+        throw new NotFoundException();
+    }
+
     @Get('/:id/login')
     @UseGuards(FullyAuthentificatedGuard)
     public async getLogin(@Req() request: CustomRequest, @Param('id') id: string) {

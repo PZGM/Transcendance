@@ -38,6 +38,27 @@ export class UsersService {
             return null;
         }
     }
+    public async getUserByLogin(login: string, relationsPicker?:RelationsPicker): Promise<User|null> {
+        try {
+            let relations: string[] = [];
+            if (relationsPicker) {
+                relationsPicker.withGames && relations.push('games') && relations.push('games.players');
+                relationsPicker.withFriends && relations.push('friends');
+                relationsPicker.withStats && relations.push('stats')
+            }
+            const user: User = await this.userRepository.findOneOrFail({
+                relations,
+                where: {
+                    login: login
+                }
+            });
+            return user;
+        }
+        catch (e) {
+            console.log(e)
+            return null;
+        }
+    }
 
     public async getUserLogin(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);
