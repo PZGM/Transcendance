@@ -65,8 +65,15 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[3, 'connected'],
 			[4, 'playing']]);
 
+		let colors = new Map<number, string>([
+			[0, 'white'],
+			[1, 'red'],
+			[2, 'yellow'],
+			[3, 'green'],
+			[4, 'blue']]);
+
 		return (
-			<li className={"friend_element bor_red"}
+			<li className={"friend_element bor_" + this.props.user.color}
 				key={this.props.user.id}>
 				<Stack direction='row'
 					justifyContent='space-between'
@@ -81,8 +88,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							src={this.props.user.avatar}
 							style={{height: '2.7vw', width: '2.7vw'}}
 						/>
-						
-						<div className={'backto1982 red'}>
+						<div className={'backto1982 ' + this.props.user.color}>
 							{this.props.user.login}
 						</div>
 					
@@ -94,7 +100,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							justifyContent="space-between"
 							alignItems="center"
 							style={{width: '16vw'}}>
-							<div	className={"friends_button but_red"}>
+							<div className={"friends_button but_" + colors.get(this.state.status)}>
 								{description.get(this.state.status)}
 							</div>
 							

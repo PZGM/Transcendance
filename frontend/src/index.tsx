@@ -12,9 +12,8 @@ import { Settings } from './menu/settings/Settings';
 import { History } from './menu/match_history/History';
 import { Achievement } from './menu/achievement/Achievement';
 import { StatusDetector } from './components/StatusDetector'
-import { PrivateRoute } from './components/PrivateRoute';
 import { NotFound } from './menu/NotFound';
-import { UserInit } from './UserInit';
+import { UserInit } from './home/UserInit';
 import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
@@ -35,6 +34,7 @@ import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
 import { useState } from 'react';
 import { getDefaultLibFilePath } from 'typescript';
+import { UserDto } from './api/dto/user.dto';
 
 const rootElement = document.getElementById("root");
 
@@ -67,6 +67,7 @@ type ProtectedRouteProps = {}
 
 interface ProtectedRouteState {
   logged: boolean
+  user?: UserDto
 }
 
 class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
@@ -74,7 +75,8 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
   constructor(props: ProtectedRouteProps) {
     super(props);
     this.state = {
-      logged: false
+      logged: false,
+      user: undefined
     }
     this.fetch();
   }
@@ -84,7 +86,8 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
     const usr = await UserAPI.getUser();
     if (usr)
       this.setState({
-        logged: usr.firstLog
+        logged: usr.firstLog,
+        user: usr
       })
   }
 
@@ -92,23 +95,25 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
   {
     if (!this.state.logged)
 			  return (<UserInit/>)
-
     return (<Home/>)
   }
 }
+
 
 ReactDOM.render(
   <StatusDetector>
       <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<App />} />
-              <Route element={<Frame/>}>
-                <Route path="profile" element={<Profile/>} />
-                <Route path="friends" element={<Friends/>} />
-                <Route path="settings" element={<Settings/>} />
-                <Route path="history" element={<History/>} />
-                <Route path="achievement" element={<Achievement/>} />
-              </Route>
+            
+            <Route element={<Frame/>}>
+              <Route path="profile" element={<Profile/>} />
+              <Route path="friends" element={<Friends/>} />
+              <Route path="settings" element={<Settings/>} />
+              <Route path="history" element={<History/>} />
+              <Route path="achievement" element={<Achievement/>} />
+            </Route>
 
             <Route path="home" element={<Home/>} >
               <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
@@ -117,17 +122,14 @@ ReactDOM.render(
               <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
               <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-
-
-            
-            <Route path="init" element={<ProtectedRoute/>} />
-			      <Route path="2fa" element={<Twofa/>} />
-            <Route path="*" element={<NotFound/>} />
           </Route>
+          <Route path="init" element={<UserInit/>} />
+          <Route path="2fa" element={<Twofa/>} />
+          <Route path="*" element={<NotFound/>} />
 
         </Routes>
     </BrowserRouter>
   </StatusDetector>
 ,
   rootElement
-);
+)

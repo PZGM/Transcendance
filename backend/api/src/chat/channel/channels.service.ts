@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Channel } from 'src/typeorm';
+import { Channel, Mute } from 'src/typeorm';
 import { User } from 'src/typeorm';
-import { ChannelDto, MuteUser, RelationsPicker } from 'src/dto/chat.dto';
+import { ChannelDto, CreateChannelDto, MutedUserDto, RelationsPicker } from 'src/dto/chat.dto';
 import { UsersService } from 'src/users/users.service';
 import { createDecipheriv, createCipheriv } from 'crypto';
+import { UserDto } from 'src/dto/user.dto';
 
 @Injectable()
 export class ChannelsService {
@@ -13,6 +14,16 @@ export class ChannelsService {
     @InjectRepository(Channel)
     private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService
   ) {}
+
+  public async getChannelsNames(userId: number): Promise<string[]|null> {
+    let channels  = await this.channelsRepository
+    .createQueryBuilder().select()
+    .getMany()
+    const ret: string[] = channels.map((channel) => {
+      return channel.name;
+    });
+    return ret;
+  }
 
   public async getChannels(userId: number): Promise<ChannelDto[]|null> {
     let channels  = await this.channelsRepository
@@ -22,7 +33,7 @@ export class ChannelsService {
       return new ChannelDto(channel);
     });
     return ret;
-}
+  }
 
   public findAll() {
     return this.channelsRepository.find({
@@ -53,22 +64,18 @@ export class ChannelsService {
 }
 
 
-public async getOneByName(userName: string, channelName: string): Promise<Channel|null> {
+public async getOneByName(channelName: string, relationsPicker?: RelationsPicker): Promise<Channel|null> {
   try {
       let relations: string[] = [];
           relations.push('owner');
           relations.push('chats');
           relations.push('mute');
-      const chan: Channel = await this.channelsRepository.findOneOrFail({
+      const chan: Channel = await this.channelsRepository.findOne({
           relations,
           where: {
               name: channelName
           }
       });
-      console.log("chan name bachend:" + channelName)
-      console.log(this.getChannels)
-      if (chan.visibility === 'private' && chan.owner.login !== userName)
-        throw new NotFoundException(`Channel name not found`);
       return chan;
   }
   catch (e) {
@@ -78,28 +85,33 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
 }
 
   
-  public async create(channelDto: ChannelDto) {
-    const chan : Channel | null = await this.channelsRepository.findOne({
+  public async create(createChannelDto: CreateChannelDto) {
+    if (await this.channelsRepository.count({
       where: {
-        name: channelDto.name
+        name: createChannelDto.name
       }
-    });
-    if (channelDto.visibility !== "public"){
+    }) != 0 || createChannelDto.name.length < 3 || createChannelDto.name.length > 10)
+      throw new NotFoundException(`Channel name invalide or already taken`);
+    
+    
+    let channel: Channel = new Channel();
+    console.log(`owner id : ${createChannelDto.ownerId}`)
+    const owner: User|null = (createChannelDto.ownerId != -1) ? await this.usersService.getOne(createChannelDto.ownerId) : null;
+    channel.name = createChannelDto.name;
+    channel.visibility = createChannelDto.visibility;
+    channel.owner = owner;
+    channel.admin = [owner];
+    channel.users = [owner];
+    channel.mute = [];
+    channel.chats = [];
+
+    if (channel.visibility == "protected"){
       const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
-      const encryptedPassword = Buffer.concat([cipher.update(chan.password), cipher.final(),]);
-      channelDto.password = encryptedPassword.toString();
+      const encryptedPassword = Buffer.concat([cipher.update(createChannelDto.password), cipher.final(),]);
+      channel.password = encryptedPassword.toString();
     }
-    if (!chan && channelDto.name.length > 2) {
-      if (channelDto.owner) {
-        channelDto.owner = await this.usersService.getOne(channelDto.owner.id);
-        channelDto.admin.push(channelDto.owner);
-      }
-      const channel = this.channelsRepository.create(channelDto);
-      return this.channelsRepository.save(channel);
-    }
-    else
-    throw new NotFoundException(`Channel name invalide or already taken`);
-      
+    let ret = await this.channelsRepository.save(channel);
+    return ret;
   }
 
   public async addAdmin(userID: number, adminID : number, chanID: number) {
@@ -142,7 +154,7 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
     }
-    if (chan.visibility !== "public") {
+    if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
@@ -152,6 +164,7 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
     if (!(chan.users.some((user: User) => {return user.id == userID}))) {
     chan.users.push(await this.usersService.getOne(userID));
     }
+    
     return this.channelsRepository.save(chan);
 }
 
@@ -215,9 +228,9 @@ public async getOneByName(userName: string, channelName: string): Promise<Channe
     if (!channel.admin.some((admin) => {return admin.id == userID})) {
       throw new NotFoundException(`User not found in the admin data`);
     }
-    if (!channel.mute.some((mute: MuteUser) => {return  mute.user.id == muteID})) {
+    if (!channel.mute.some((mute: Mute) => {return  mute.user.id == muteID})) {
       try {
-        let muted : MuteUser = new MuteUser();
+        let muted : Mute = new Mute();
         muted.endOfMute = date;
         muted.muter = await this.usersService.getOne(userID);
         muted.user = await this.usersService.getOne(muteID);

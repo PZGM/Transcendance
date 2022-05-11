@@ -61,15 +61,10 @@ export class StatsService {
         let K = 40 - stats.games;
         if (K < 20)
             K = 20;
-        console.log('--------------------')
-        console.log(`old elo : ${user.stats.eloScore}`);
         const score = 0.3*(lastGame.won ? 1:0) + 0.7*(lastGame.score / (lastGame.score + lastGame.opponentScore));
         stats.eloScore = Math.round(stats.eloScore + K * (score - expectedScore));
         stats.rank = 1;
         user.stats = stats;
-        console.log(`expected score : ${expectedScore}`);
-        console.log(`score : ${score}`);
-        console.log(`new elo : ${stats.eloScore}`);
         this.statsRepo.save(stats);
     }
 

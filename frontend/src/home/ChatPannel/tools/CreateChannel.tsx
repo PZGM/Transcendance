@@ -96,14 +96,10 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     const Sendchannel = async () => {
         const resp = await UserAPI.getUser();
-        if (resp){
-            const users:UserDto[] = [resp];
-            const admin:UserDto[] = [resp];
-            await ChatAPI.addChannel(name, resp , visibility, users, [], password, [], admin, 1);
-        }
+        if (resp)
+            await ChatAPI.addChannel(name, resp.id , visibility, password);
     }
 
-    // name: string, owner: any, visibility: string, users: any, messages: any, password: any, mute: any, admin: any, id: number
     return (
         <>
             <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">

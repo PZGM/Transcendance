@@ -2,13 +2,14 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDto } from 'src/dto/user.dto';
 import { ImagesService } from 'src/images/images.service';
-import { Game, User } from 'src/typeorm';
+import { Channel, Game, User } from 'src/typeorm';
 import { Repository } from 'typeorm';
 
 interface RelationsPicker {
     withGames?: boolean,
     withFriends?: boolean,
-    withStats?: boolean
+    withStats?: boolean,
+    withChannels?: boolean,
 }
 
 @Injectable()
@@ -21,7 +22,8 @@ export class UsersService {
             if (relationsPicker) {
                 relationsPicker.withGames && relations.push('games') && relations.push('games.players');
                 relationsPicker.withFriends && relations.push('friends');
-                relationsPicker.withStats && relations.push('stats')
+                relationsPicker.withStats && relations.push('stats');
+                relationsPicker.withChannels && relations.push('joinedChannels')
             }
             const user: User = await this.userRepository.findOneOrFail({
                 relations,
@@ -71,6 +73,13 @@ export class UsersService {
             return user.status;
         return null;
     }
+
+    public async getChannels(userId: number): Promise<Channel[]|null> {
+        const user: User|null = await this.getOne(userId, {withChannels: true});
+        if (user)
+            return user.joinedChannels;
+        return null;
+    }    
 
     public async setUserStatus(userId: number, status: number): Promise<boolean> {
         const user: User|null = await this.getOne(userId);
@@ -135,16 +144,13 @@ export class UsersService {
     }
 
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
-        console.log(`remove friends : ${friendsToRemoveIds}`)
         const user: User|null = await this.getOne(userId, {withFriends: true});
-        console.log(user);
         if (!user.friends)
             user.friends = [];
         user.friends = user.friends.filter((friend) => {
             return !friendsToRemoveIds.includes(friend.id)
         })
-        console.log(`new friends : `);
-        console.log(user.friends);
+
         await this.userRepository.save(user);
     }
 

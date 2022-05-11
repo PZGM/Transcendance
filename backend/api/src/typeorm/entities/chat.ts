@@ -7,20 +7,17 @@ import { Channel } from "./channel";
     @PrimaryGeneratedColumn()
     id: number;
   
-    @CreateDateColumn({
-      type: "timestamp",
-      default: () => "CURRENT_TIMESTAMP(6)"
-    })
-    createdAt: Date;
+    @CreateDateColumn()
+    createdDate: Date;
   
     @Column({ length: 640 })
     content: string;
   
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, {eager: true})
     author: User;
   
     @ManyToOne(() => Channel, channel => channel.chats, {
-      onDelete: "CASCADE"
+      onDelete: "CASCADE",
     })
     channel: Channel;
   }

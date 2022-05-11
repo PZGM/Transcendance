@@ -9,16 +9,16 @@ import { TypeormStore } from 'connect-typeorm';
 import * as fs from 'fs';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ExpressAdapter } from '@nestjs/platform-express';
-import * as http from 'http';
-import * as https from 'https';
 import * as express from 'express';
 import { ValidationPipe } from '@nestjs/common';
+import { ChannelsService } from './chat/channel/channels.service';
 
 
 async function bootstrap() {
   dotenv.config();
 
   //https
+
   const httpsOptions = {
     key: fs.readFileSync('./secrets/key.pem'),
     cert: fs.readFileSync('./secrets/certificate.pem'),
@@ -26,8 +26,9 @@ async function bootstrap() {
 
   const server = express();
   const app = await NestFactory.create(
-    AppModule,
+    AppModule, 
     new ExpressAdapter(server),
+    {httpsOptions },
   );
 
 
@@ -52,6 +53,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
+
     //swagger
     const config = new DocumentBuilder().setTitle('Transcendance API').setVersion('0.9.13').build();
     const document = SwaggerModule.createDocument(app, config);
@@ -63,9 +65,13 @@ async function bootstrap() {
       origin: true,
     });
 
-    await app.init();
+   // await app.init();
 
-    http.createServer(server).listen(3001);
-    https.createServer(httpsOptions, server).listen(3333);
+    await app.listen(3333);
+
+    //general channel
+    const channelsService = app.get(ChannelsService);
+    await channelsService.create({name: 'general', visibility: 'public', ownerId: -1});
+
 }
 bootstrap();

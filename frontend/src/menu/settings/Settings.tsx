@@ -1,4 +1,3 @@
-import { Grid, Avatar, InputBase } from "@mui/material";
 import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
 import Menu from "../Menu";
@@ -9,7 +8,7 @@ import { AvatarSettings } from "./AvatarSettings"
 import { ColorSettings } from "./ColorSettings"
 import { TwofaSettings } from "./2FASettings";
 import ReactCSSTransitionGroup from 'react-transition-group';
-
+import { PrivateGuard } from "../../components/PrivateGuard";
 
 type SettingsProps = {
 };
@@ -65,7 +64,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	}
 
 	updateDisplay(type: number) {
-		console.log(`display [${type}]`)
 		this.setState({
 			display: type
 		})
@@ -75,7 +73,8 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	display() {
 		if (this.state.display == 0)
 			return (
-				<Fragment>
+				<>
+					<PrivateGuard/>
 					<LoginSettings	login={this.state.login}
 									color={this.state.color}
 									updateParentState={this.updateState}
@@ -93,7 +92,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 									updateDisplay={this.updateDisplay}
 									activating={false}
 					/>
-				</Fragment>
+				</>
 			)
 		else if (this.state.display == 1)
 			return (<AvatarSettings avatar={this.state.avatar}
