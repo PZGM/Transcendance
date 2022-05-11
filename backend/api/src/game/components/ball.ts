@@ -9,7 +9,7 @@ export class Ball implements BallDto { //extends?
 	acceleration: number;
     goal: number
 
-	constructor( ballDTO: BallDto) {
+	constructor(ballDTO: BallDto) {
         this.goal = 0;
         this.coor.screenSizeX = ballDTO.coor.screenSizeX;
         this.coor.screenSizeY = ballDTO.coor.screenSizeY;

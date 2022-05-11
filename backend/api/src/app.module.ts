@@ -17,6 +17,6 @@ import { ChatModule } from './chat/chat.module';
 @Module({
   imports: [AuthModule,UsersModule, ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule],
   controllers: [AppController],
-  providers: [AppService, AppGateway],
+  providers: [AppService, AppGateway]
 })
 export class AppModule { }
