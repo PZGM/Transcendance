@@ -43,7 +43,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
         this.activeChan = chanName;
     }
 
-    sendMessage(chanName: string, message: string, senderId) {
-        this.socket.emit('message', {senderId, message, chanName});
+    sendMessage(chanName: string, content: string, authorId) {
+        this.socket.emit('message', {authorId, content, chanName});
     }
 }

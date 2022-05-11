@@ -99,7 +99,6 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
     }
 
     async onValidation() {
-        console.log(this.state.input)
         const isValid = await UserAPI.turnTwofaOn(this.state.input);
         if (isValid) {
             toast.success("2FA activated", {

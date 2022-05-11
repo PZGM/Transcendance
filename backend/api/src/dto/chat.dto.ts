@@ -27,15 +27,16 @@ export class MutedUserDto {
 export class MessageDto {
   constructor(message?: Chat){
     if (message) {
-      this.createdAt = message.createdAt;
+      if (message.channel)
+        this.channelId = message.channel.id;
       this.content = message.content;
-      this.author = new UserDto(message.author);
+      this.authorId = message.author.id;
     }
   }
 
-  readonly createdAt: Date;
-  readonly content: string;
-  readonly author: UserDto;
+  channelId: number ;
+  content: string;
+  authorId: number;
 }
 
 export class ChannelDto {

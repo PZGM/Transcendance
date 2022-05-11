@@ -34,6 +34,7 @@ import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
 import { useState } from 'react';
 import { getDefaultLibFilePath } from 'typescript';
+import { UserDto } from './api/dto/user.dto';
 
 const rootElement = document.getElementById("root");
 
@@ -66,6 +67,7 @@ type ProtectedRouteProps = {}
 
 interface ProtectedRouteState {
   logged: boolean
+  user?: UserDto
 }
 
 class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
@@ -73,7 +75,8 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
   constructor(props: ProtectedRouteProps) {
     super(props);
     this.state = {
-      logged: false
+      logged: false,
+      user: undefined
     }
     this.fetch();
   }
@@ -83,7 +86,8 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
     const usr = await UserAPI.getUser();
     if (usr)
       this.setState({
-        logged: usr.firstLog
+        logged: usr.firstLog,
+        user: usr
       })
   }
 
@@ -91,7 +95,6 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
   {
     if (!this.state.logged)
 			  return (<UserInit/>)
-
     return (<Home/>)
   }
 }

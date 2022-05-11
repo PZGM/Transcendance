@@ -51,7 +51,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
     {
         {/* TODO faire une ternaire pour savoir si c'est un ami ou pas et donc l'ajouter ou le remove */}
 
-        console.log("je suis dedans")
         if (this.state.friend == false)
         {
             this.setState({

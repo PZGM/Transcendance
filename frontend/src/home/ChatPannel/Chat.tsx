@@ -1,4 +1,4 @@
-import { Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -12,10 +12,11 @@ import { UserDto } from "../../api/dto/user.dto";
 
 interface ChatState {
 	socket: any;
-	chanName: string|null;
 	messages: any[];
 	input: string;
+	chan: any;
 	users: UserDto[];
+	user: any,
 }
 
 interface ChatProps {
@@ -25,6 +26,7 @@ interface ChatProps {
 
 export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
+	chanName: string = '';
 
 	constructor(props: ChatProps) {
 		super(props);
@@ -32,9 +34,10 @@ export class Chat extends Component<ChatProps, ChatState> {
         this.state = {
 			messages: [],
 			socket: null,
-			chanName: null,
-			input: '...',
+			input: '',
 			users: [],
+			user: undefined,
+			chan: undefined
 		}
 	}
 
@@ -44,52 +47,58 @@ export class Chat extends Component<ChatProps, ChatState> {
 	
 	async getName() {
         const name = this.props.params.name;
-        this.setState({
-			chanName: name,
-        })
     }
 
 	// Select() {
 	// 	this.getName();
 	// }
 
-	setmsg(input){
+	onInputChange(input){
 		this.setState({
 			input
 		})
 	}
 
-	async getChannel(chanName: string) {
-		const channel = await ChatAPI.getChannelByName(chanName);
-		this.setState({
-			users: channel.users
-		})
-		console.log(channel);
-	}
-
 	renderMsg(list)
-	{
-		const listItems = list.map((msg: any) => {
-			console.log('----')
+    {
+		let lastAuthor: number = -1;
+        const listItems = list.map((msg: any) => {
+			console.log('message:');
 			console.log(msg);
-			console.log(this.state.users);
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.senderId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
 			const color = (sender) ? sender.color : 'white';
-			const login = (sender) ? sender.login : 'unknow'
-			return (
-			<>
-				<Typography color={color}>{login}</Typography>
-				<Typography color={'white'}>{msg.message}</Typography>
-			</> 
-			);
-			
-		});
-		return listItems;
-	}
+			const login = (sender) ? sender.login : 'unknow';
+			const avatar = (sender) ? sender.avatar : '';
+			const isFirst: boolean = msg.authorId != lastAuthor;
+			lastAuthor = msg.authorId;
+			console.log(`isFirst : ${isFirst}`);
+            return <>
+                { isFirst &&
+                    <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1vw'}}>
+                        <Avatar variant='circular'
+                            src={avatar}
+                            style={{height: '2.7vw', width: '2.7vw'}}
+                        />
+
+                        <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
+                            <div style={{color, fontWeight: "bold"}}> {login} </div>
+                            <div style={{color: "white"}}> {msg.content} </div>
+                        </Stack>
+
+                    </Stack>
+                }
+
+                {!isFirst &&
+                    <div style={{color: "white", paddingLeft: "calc(2.7vw + 5px)", fontSize: '1vw'}}> {msg.content} </div>
+                }
+
+            </>
+		}
+        );
+        return listItems;
+    }
 
 	onMessage(message: any) {
-		console.log('message in front:');
-		console.log(message);
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages
@@ -97,18 +106,36 @@ export class Chat extends Component<ChatProps, ChatState> {
 	}
 
     sendMessage(chanName: string) {
-		if (this.state.chanName)
-			this.chatSocket.sendMessage(this.state.chanName, this.state.input, 1);
+		if (chanName) {
+			this.chatSocket.sendMessage(chanName, this.state.input, this.state.user.id);
+			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id);
+			this.setState({
+				input: ''
+			})
+		}
 		else
 			console.log('chanName is null')
     }
 
+	async switchChannel(newChannelName: string) {
+		this.chanName = newChannelName;
+		this.chatSocket.joinRoom(this.chanName);
+		const user = await UserAPI.getUser();
+		const channel = await ChatAPI.getChannelByName(this.chanName);
+		let messages = await ChatAPI.getByChannelId(channel.id);
+		if (!messages)
+			messages = [];
+		this.setState({
+			users: channel.users,
+			user,
+			chan: channel,
+			messages
+		})
+	}
+
 	render () {
-		console.log('render chat')
-		const chanName:string = this.props.params.name;
-		if (chanName && this.chatSocket) {
-			this.getChannel(chanName);
-			this.chatSocket.joinRoom(chanName);
+		if (this.chanName != this.props.params.name) {
+			this.switchChannel(this.props.params.name)
 		}
 		return (
             <>
@@ -119,13 +146,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + chanName + "/info"}}
+						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
 						onClickCapture={() => {}}>
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
 
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} onChange={(e) => {this.setmsg(e.target.value)}}/>
-						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(chanName)}}	>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>
 						</IconButton>
 					</Stack>

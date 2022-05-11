@@ -90,13 +90,6 @@ export class Home extends Component<HomeProps, HomeState> {
 	async getChannel() {
         let chan = await ChatAPI.getChannelById(1);
 		this.setState({channel: chan});
-		console.log("fuck 1");
-		// console.log(this.state.channel.users)
-		console.log(this.state.channel.name)
-		console.log("fuck 2");
-		// console.log(JSON.parse(chan));
-
-		// return JSON.parse(chan);
     }
 
 

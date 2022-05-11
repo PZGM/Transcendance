@@ -8,6 +8,7 @@ import { Optional } from "@nestjs/common";
   
   @Entity({ name: 'channel' })
   export class Channel {
+
     @PrimaryGeneratedColumn()
     id: number;
   

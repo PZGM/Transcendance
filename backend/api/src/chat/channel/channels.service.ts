@@ -166,6 +166,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (!(chan.users.some((user: User) => {return user.id == userID}))) {
     chan.users.push(await this.usersService.getOne(userID));
     }
+    
     return this.channelsRepository.save(chan);
 }
 

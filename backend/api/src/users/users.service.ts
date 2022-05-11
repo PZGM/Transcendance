@@ -123,16 +123,13 @@ export class UsersService {
     }
 
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
-        console.log(`remove friends : ${friendsToRemoveIds}`)
         const user: User|null = await this.getOne(userId, {withFriends: true});
-        console.log(user);
         if (!user.friends)
             user.friends = [];
         user.friends = user.friends.filter((friend) => {
             return !friendsToRemoveIds.includes(friend.id)
         })
-        console.log(`new friends : `);
-        console.log(user.friends);
+
         await this.userRepository.save(user);
     }
 

@@ -80,12 +80,13 @@ export class ChatAPI {
         return ret;
     }
     
-    public static async addMsg(createdat: Date,content: string,author: any,channel: any) {
+    public static async addMessage(message: string, authorId: number,channelId: number) {
         let ret = true;
-        await fetch(`https://serv.pizzagami.fr:${process.env.https}/api/messages`, {
+        console.log('post message from front')
+        await fetch(`${process.env.REACT_APP_MESSAGES}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({createdat: createdat,content: content, author: author, channel: channel}),
+        body: JSON.stringify({content: message, authorId: authorId, channelId}),
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {
@@ -93,6 +94,20 @@ export class ChatAPI {
             ret = false;
         })
         return ret;
+    }
+
+    public static async getByChannelId(channelId: number) {
+        const resp = await fetch(`${process.env.REACT_APP_MESSAGES_BY_CHANNEL}/${channelId}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json})
+            .catch(err => {
+                console.log('No channels')
+                return null;
+            })
+            console.log(resp)
+         return resp
     }
 
 }

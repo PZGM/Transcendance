@@ -34,9 +34,6 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     const Sendchannel = async () => {
         const resp = await UserAPI.getUser();
-        // console.log(this.state.name);
-        // console.log(resp);
-        // console.log(this.state.visibility);
         if (resp)
             await ChatAPI.addChannel(name, resp.id , visibility, password);
     }

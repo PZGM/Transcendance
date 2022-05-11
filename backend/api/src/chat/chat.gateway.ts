@@ -4,8 +4,8 @@ import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect,
 
 interface MessageBody{
   chanName: string;
-  senderId: number;
-  message: string; 
+  authorId: number;
+  content: string; 
 }
 
 @WebSocketGateway({cors: {origin : 6200}, namespace: '/chat'})
@@ -14,8 +14,6 @@ export class ChatGateway {
   private logger: Logger = new Logger('ChatGateway');
 
   afterInit(server: Server) {
-    console.log("heyyyyy");
-    console.log('Init ChatGateway');
   }
 
   async handleConnection(socket: Socket) {
@@ -32,8 +30,7 @@ export class ChatGateway {
   ) {
     console.log('Received message:');
     console.log(data);
-    this.server.to(data.chanName).emit('message', {senderId: data.senderId, message: data.message});
-    // socket.to(data.chanName).emit('message', {senderId: data.senderId, message: data.message});
+    this.server.to(data.chanName).emit('message', {authorId: data.authorId, content: data.content});
   }
 
   @SubscribeMessage('joinRoom')

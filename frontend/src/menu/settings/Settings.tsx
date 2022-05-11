@@ -65,7 +65,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	}
 
 	updateDisplay(type: number) {
-		console.log(`display [${type}]`)
 		this.setState({
 			display: type
 		})
