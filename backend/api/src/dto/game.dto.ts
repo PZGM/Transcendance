@@ -54,10 +54,9 @@ export interface RoomDto {
 	ball?: Ball | BallDto;
 	startingTime?: number;
 	updateTime?: number;
+    duration: number;
 	lastGoal?: Player;
 	winner?: UserDto;
 	loser?: UserDto;
-    pOneScore: number;
-    pTwoScore: number;
 	maxGoal: number;
 }

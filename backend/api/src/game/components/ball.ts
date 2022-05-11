@@ -21,13 +21,13 @@ export class Ball implements BallDto { //extends?
 
 	}
 
-	reset(ballDTO: BallDto): void {
+	reset(): void {
         this.goal = 0;
-		this.coor.x = ballDTO.coor.screenSizeX / 2;
-		this.coor.y = ballDTO.coor.screenSizeY / 2;
+		this.coor.x = this.coor.screenSizeX / 2;
+		this.coor.y = this.coor.screenSizeY / 2;
 		this.coor.speed = this.coor.setting.speed;
 		this.coor.dy = 0;
-        this.coor.dx = this.coor.setting.speed * ((this.coor.dx < ballDTO.coor.dx) ? -1 : 1);
+        this.coor.dx = this.coor.setting.speed * ((this.coor.dx < 0) ? -1 : 1);
 	}
 
 	update(time: number, p1: Player, p2: Player): void {

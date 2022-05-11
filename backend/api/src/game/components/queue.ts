@@ -16,11 +16,11 @@ export default class Queue {
     }
 
     find(user: User): boolean {
-        return (this.queue.find(el => el.login === user.login) !== undefined);
+        return (this.queue.find(resu => resu.login === user.login) !== undefined);
     }
 
     rmToQueue(user: User): void {
         if (this.find(user))
-            this.queue.splice(this.queue.findIndex(user => user.login === user.login), 1);
+            this.queue.splice(this.queue.findIndex(resu => resu.login === user.login), 1);
     }
 }
