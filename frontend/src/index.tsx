@@ -99,18 +99,21 @@ class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
   }
 }
 
+
 ReactDOM.render(
   <StatusDetector>
       <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<App />} />
-              <Route element={<Frame/>}>
-                <Route path="profile" element={<Profile/>} />
-                <Route path="friends" element={<Friends/>} />
-                <Route path="settings" element={<Settings/>} />
-                <Route path="history" element={<History/>} />
-                <Route path="achievement" element={<Achievement/>} />
-              </Route>
+            
+            <Route element={<Frame/>}>
+              <Route path="profile" element={<Profile/>} />
+              <Route path="friends" element={<Friends/>} />
+              <Route path="settings" element={<Settings/>} />
+              <Route path="history" element={<History/>} />
+              <Route path="achievement" element={<Achievement/>} />
+            </Route>
 
             <Route path="home" element={<Home/>} >
               <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
