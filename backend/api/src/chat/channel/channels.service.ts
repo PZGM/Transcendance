@@ -70,14 +70,12 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
           relations.push('owner');
           relations.push('chats');
           relations.push('mute');
-      const chan: Channel = await this.channelsRepository.findOneOrFail({
+      const chan: Channel = await this.channelsRepository.findOne({
           relations,
           where: {
               name: channelName
           }
       });
-      console.log("chan name bachend:" + channelName)
-      console.log(this.getChannels)
       return chan;
   }
   catch (e) {
@@ -156,7 +154,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
     }
-    if (chan.visibility !== "public") {
+    if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
