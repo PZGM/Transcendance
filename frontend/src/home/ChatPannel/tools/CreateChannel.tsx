@@ -36,7 +36,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
     };
   
     const handleCloseCreate = () => {
-        if ((visibility == "private" || visibility == "protected") && password == "") {
+        if (visibility == "protected" && password == "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
@@ -64,7 +64,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     const handleCloseJoin = () => {
         // TODO le join du channel
-        if ((visibility == "private" || visibility == "protected") && password == "") {
+        if (visibility == "protected" && password == "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
@@ -128,7 +128,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility == "public")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility != "protected")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleForceCloseCreate}>
