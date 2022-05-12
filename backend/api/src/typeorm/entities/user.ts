@@ -67,4 +67,11 @@ export class User {
     @OneToOne(() => Stats)
     @JoinColumn()
     stats: Stats;
+
+    @Column()
+    rStatus?: number;
+    @Column()
+    roomId?: number;
+    @Column()
+    socketId?: string;
 }

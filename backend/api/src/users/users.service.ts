@@ -58,7 +58,34 @@ export class UsersService {
         user.status = status;
         await this.userRepository.save(user);
         return true;
-    }   
+    }  
+
+    public async setUserRStatus(userId: number, status: number): Promise<boolean> {
+        const user: User|null = await this.getOne(userId);
+        if (!user)
+            return false;
+        user.rStatus = status;
+        await this.userRepository.save(user);
+        return true;
+    }
+
+    public async setUserRoom(userId: number, roomId: number): Promise<boolean> {
+        const user: User|null = await this.getOne(userId);
+        if (!user)
+            return false;
+        user.roomId = roomId;
+        await this.userRepository.save(user);
+        return true;
+    }
+
+    public async setUserSocket(userId: number, socket: string): Promise<boolean> {
+        const user: User|null = await this.getOne(userId);
+        if (!user)
+            return false;
+        user.socketId= socket;
+        await this.userRepository.save(user);
+        return true;
+    }
 
     public async getUserImage(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);

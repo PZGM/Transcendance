@@ -1,24 +1,24 @@
-import { RoomDto } from "src/dto/game.dto";
+import { RoomDto, roomEnum } from "src/dto/game.dto";
 import { UserDto } from "src/dto/user.dto";
 import { Ball } from "./ball";
 import { Player } from "./player";
 
 export default class Room implements RoomDto {
-    roomId: number;
-	status: number;
+    roomId: string;
+	status?: number;
 	playerOne: Player;
 	playerTwo: Player;
 	ball: Ball;
-	startingTime: number;
-	updateTime: number;
+	startingTime?: number;
+	updateTime?: number;
 	lastGoal?: Player;
 	winner?: UserDto;
 	loser?: UserDto;
 	maxGoal: number;
-	duration: number;
-    constructor(roomDto: RoomDto) {
-		this.roomId = roomDto.roomId;
-		this.status = 0;
+	duration?: number;
+    constructor(roomId: string ,roomDto: RoomDto) {
+		this.roomId = roomId;
+		this.status = roomEnum.waiting;
 		this.duration = 0;
         this.playerOne = new Player(roomDto.playerOne);
         this.playerTwo = new Player(roomDto.playerTwo);
@@ -28,6 +28,15 @@ export default class Room implements RoomDto {
 		this.maxGoal = 10;
     }
 
+	length() : number {
+		let i : number = 0;
+		if (this.playerOne != null)
+			i++;
+		if (this.playerTwo != null)
+			i++;
+		return i;
+	}
+
     isPlayerOne(user: UserDto): boolean {
 		return (this.playerOne.user.login === user.login);
 	}
@@ -35,6 +44,21 @@ export default class Room implements RoomDto {
     isPlayerTwo(user: UserDto): boolean {
 		return (this.playerTwo.user.login === user.login);
 	}
+
+	isPlayer(user: UserDto): boolean {
+		return (this.isPlayerOne(user) || this.isPlayerTwo(user));
+	}
+
+	removeUser(user: UserDto) : boolean {
+		if (!this.isPlayer(user))
+		return false;
+		if (this.isPlayerOne(user))
+			this.playerOne = null;
+		if (this.isPlayerTwo(user))
+			this.playerTwo = null;
+		return true;
+	}
+
 	resetPosition(): void {
 		this.playerOne.reset();
 		this.playerTwo.reset();
@@ -47,31 +71,31 @@ export default class Room implements RoomDto {
 		this.playerOne.update(this.duration);
 		this.playerTwo.update(this.duration);
 		this.ball.update(this.duration, this.playerOne, this.playerTwo);
-		if (this.ball.goal === -1)
+		if (this.ball.goal === -1 || this.playerOne.goal === this.maxGoal)
 		{
 			this.playerOne.goal++;
-			if (this.playerOne.goal === this.maxGoal)
+			if (this.playerOne.goal >= this.maxGoal)
 			{
 				this.winner = this.playerOne.user;
 				this.loser = this.playerTwo.user;
-				this.status = 3;
+				this.status = roomEnum.end;
 			}
 			else
-				this.status = 2;
+				this.status = roomEnum.goal;
 		}
-		else if (this.ball.goal === 1)
+		else if (this.ball.goal === 1 || this.playerTwo.goal === this.maxGoal)
 		{
 			this.playerTwo.goal++;
-			if (this.playerTwo.goal === this.maxGoal)
+			if (this.playerTwo.goal >= this.maxGoal)
 			{
 				this.winner = this.playerTwo.user;
 				this.loser = this.playerOne.user;
-				this.status = 3;
+				this.status = roomEnum.end;
 			}
 			else
-				this.status = 2;
+				this.status = roomEnum.goal;
 		}
 		else
-			this.status = 1;
+			this.status = roomEnum.playing;
 	}
 }

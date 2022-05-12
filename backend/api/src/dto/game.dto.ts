@@ -5,6 +5,14 @@ import { User } from 'src/typeorm';
 import { Player } from 'src/game/components/player';
 import { Ball } from 'src/game/components/ball';
 
+
+export enum roomEnum {
+    waiting,
+    playing,
+    goal,
+    end
+}
+
 export class GameDto {
 
     constructor(game?: Game) {
@@ -47,16 +55,15 @@ export class PlayerDTO {
 }
 
 export interface RoomDto {
-	roomId: number;
-	status: number; // 0 waiting 1 playing 2 goal 3 end enum ?
-	playerOne?: Player | PlayerDTO;
-	playerTwo?: Player | PlayerDTO;
+	roomId?: string;
+	status?: number;
+	playerOne?: Player | PlayerDTO | null;
+	playerTwo?: Player | PlayerDTO | null;
 	ball?: Ball | BallDto;
 	startingTime?: number;
 	updateTime?: number;
-    duration: number;
+    duration?: number;
 	lastGoal?: Player;
 	winner?: UserDto;
 	loser?: UserDto;
-	maxGoal: number;
 }
