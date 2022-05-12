@@ -91,7 +91,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
     };
 
     const JoinChannel= async () => {
-        // TODO a faire un join channel il faut check si le mdp est bon ainsi que le nom
+        ChatAPI.join
     }
 
     const Sendchannel = async () => {

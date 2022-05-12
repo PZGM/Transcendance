@@ -18,6 +18,13 @@ export class ChannelsController {
     return channels;
   }
 
+  @Put('/join/:id')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async joinChannel(@Req() request: CustomRequest, @Param('id') id: string): Promise<boolean>{
+    const chanId:number = parseInt(id, 10);
+    return await this.channelsService.join(request.user.id, chanId)
+  }
+
   @Get('allNames')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelsName(@Req() request: CustomRequest): Promise<string[]> {

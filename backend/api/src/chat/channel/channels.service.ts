@@ -154,19 +154,22 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     const chan: Channel | null = await this.getOne(chanID);
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
+      return false;
     }
     if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
         throw new NotFoundException(`Incorrect password`);
+        return false;
       }
     }
     if (!(chan.users.some((user: User) => {return user.id == userID}))) {
     chan.users.push(await this.usersService.getOne(userID));
     }
     this.chatGateway.handleJoinChannel();
-    return this.channelsRepository.save(chan);
+    this.channelsRepository.save(chan);
+    return true;
 }
 
   public async removeUser(userID: number, rmID : number, chanID: number) {
