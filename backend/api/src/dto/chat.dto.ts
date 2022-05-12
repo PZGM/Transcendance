@@ -31,9 +31,11 @@ export class MessageDto {
         this.channelId = message.channel.id;
       this.content = message.content;
       this.authorId = message.author.id;
+      this.service = message.service;
     }
   }
 
+  service: boolean;
   channelId: number ;
   content: string;
   authorId: number;

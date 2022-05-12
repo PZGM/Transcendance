@@ -7,12 +7,13 @@ import { ChannelDto, CreateChannelDto, MutedUserDto, RelationsPicker } from 'src
 import { UsersService } from 'src/users/users.service';
 import { createDecipheriv, createCipheriv } from 'crypto';
 import { UserDto } from 'src/dto/user.dto';
+import { ChatGateway } from '../chat.gateway';
 
 @Injectable()
 export class ChannelsService {
   constructor(
     @InjectRepository(Channel)
-    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService
+    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService, private readonly chatGateway: ChatGateway
   ) {}
 
   public async getChannelsNames(userId: number): Promise<string[]|null> {
@@ -164,7 +165,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (!(chan.users.some((user: User) => {return user.id == userID}))) {
     chan.users.push(await this.usersService.getOne(userID));
     }
-    
+    this.chatGateway.handleJoinChannel();
     return this.channelsRepository.save(chan);
 }
 

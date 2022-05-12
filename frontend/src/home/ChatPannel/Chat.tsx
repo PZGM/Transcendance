@@ -31,7 +31,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	constructor(props: ChatProps) {
 		super(props);
-		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this)});
+		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this), transmitService: this.onService.bind(this)});
         this.state = {
 			messages: [],
 			socket: null,
@@ -50,9 +50,6 @@ export class Chat extends Component<ChatProps, ChatState> {
         const name = this.props.params.name;
     }
 
-	// Select() {
-	// 	this.getName();
-	// }
 
 	onInputChange(input){
 		this.setState({
@@ -70,6 +67,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId != lastAuthor;
 			lastAuthor = msg.authorId;
+			if (msg.service)
+				return  <div style={{color: "white"}}> {`→ ${login} has ${msg.content}`} </div>
             return <>
                 { isFirst &&
                     <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1vw'}}>
@@ -103,6 +102,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 		})
 	}
 
+	onService(message: any) {
+		message.service = true;
+		this.setState({
+			messages: this.state.messages
+		})
+	}
+
 	onKeyDown(e) {
 		if (e.keyCode == 13)
 			this.sendMessage(this.chanName);
@@ -111,7 +117,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     sendMessage(chanName: string) {
 		if (chanName && this.state.input != '') {
 			this.chatSocket.sendMessage(chanName, this.state.input, this.state.user.id);
-			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id);
+			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id); //deplacer dans le gateway
 			this.setState({
 				input: ''
 			});

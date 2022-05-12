@@ -20,5 +20,8 @@ import { Channel } from "./channel";
       onDelete: "CASCADE",
     })
     channel: Channel;
+
+    @Column({default: false})
+    service: boolean
   }
   

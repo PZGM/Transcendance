@@ -47,10 +47,9 @@ export class AuthService implements AuthentificationProvider {
         });
         user.stats = stats;
         await this.statsRepo.save(stats);
-        const generalChan = await this.chanService.getOne(1);
-        if (generalChan)
-            user.joinedChannels = [generalChan];
-        return await this.userRepo.save(user);
+        const ret = await this.userRepo.save(user);
+        this.chanService.join(user.id, 1);
+        return ret;
     }
 
     findUser(intraId: string) : Promise<User | undefined>{

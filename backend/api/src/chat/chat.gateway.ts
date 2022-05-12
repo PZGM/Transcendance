@@ -16,6 +16,11 @@ export class ChatGateway {
   afterInit(server: Server) {
   }
 
+  handleJoinChannel() {
+    console.log('bonjour')
+    this.server.to('general').emit('service', {authorId: 1, content: 'JOINED'})
+  }
+
   async handleConnection(socket: Socket) {
     console.log(`Client connected: ${socket.id}`);
   }
