@@ -1,7 +1,8 @@
 import { RoomDto, roomEnum } from "src/dto/game.dto";
 import { UserDto } from "src/dto/user.dto";
 import { Ball } from "./ball";
-import { Player } from "./player";
+import { Difficulty } from "./coor";
+import { PInit, Player } from "./player";
 
 export default class Room implements RoomDto {
     roomId: string;
@@ -16,13 +17,13 @@ export default class Room implements RoomDto {
 	loser?: UserDto;
 	maxGoal: number;
 	duration?: number;
-    constructor(roomId: string ,roomDto: RoomDto) {
+    constructor(roomId: string ,difficulty: Difficulty, p1: UserDto, p2: UserDto) {
 		this.roomId = roomId;
 		this.status = roomEnum.waiting;
 		this.duration = 0;
-        this.playerOne = new Player(roomDto.playerOne);
-        this.playerTwo = new Player(roomDto.playerTwo);
-		this.ball = new Ball(roomDto.ball);
+        this.playerOne = new Player(new PInit(difficulty, 1 , p1));
+        this.playerTwo = new Player(new PInit(difficulty, 2 , p2));
+		this.ball = new Ball(difficulty);
 		this.startingTime = Date.now();
         this.updateTime = this.startingTime;
 		this.maxGoal = 10;
