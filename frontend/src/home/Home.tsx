@@ -15,6 +15,7 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { info } from "console";
 import { PrivateGuard } from "../components/PrivateGuard";
+import { UserInfo } from "./ChatPannel/UserInfo";
 
 
 interface HomeProps {
@@ -113,7 +114,10 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: this.state.loserId,
 			winnerScore: this.state.winnerScore,
 			loserScore: this.state.loserScore,
-			duration: this.state.duration
+			duration: this.state.duration,
+			roomId: "test",
+			createdDate: new Date(Date.now()),
+			players : [],
 		})
     }
 

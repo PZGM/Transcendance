@@ -4,10 +4,13 @@ import { User } from "..";
 @Entity({ name: 'game' })
 export class Game {
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column()
     duration: number;
+
+    @Column()
+    roomId: string;
 
     @Column()
     winnerId: number;

@@ -42,7 +42,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 		return (
 
 			<div className={"user bor_" + this.getColor()}>
-				<ListItem key={this.props.game.id}>
+				<ListItem key={this.props.game.roomId}>
 					<Stack direction='row'
 						justifyContent="space-between"
 						alignItems="center"

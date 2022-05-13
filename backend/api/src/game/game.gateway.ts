@@ -4,7 +4,7 @@ import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect,
 import Queue from './components/queue';
 import Room from './components/room';
 import { UserDto } from 'src/dto/user.dto';
-import { User } from 'src/typeorm';
+import { Game, User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
 import { roomEnum } from 'src/dto/game.dto';
@@ -12,6 +12,7 @@ import { statusEnum } from 'src/status/status.service';
 import { Player } from './components/player';
 import { Difficulty } from './components/coor';
 import { GameService } from './game.service';
+import { HistoryService } from 'src/history/history.service';
 
 
 @WebSocketGateway({namespace: '/game', cors: true})
@@ -20,6 +21,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     wss: any;
     private readonly usersService: UsersService;
 	private readonly gameService: GameService;
+	private readonly historyService: HistoryService;
     private readonly queue: Queue = new Queue();
     private readonly pool: Pool = new Pool();
     private readonly rooms: Map<string, Room> = new Map();
@@ -190,17 +192,17 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			{
 				room.update();
 				if (room.status = roomEnum.end) {
-					const playerOne = await this.usersService.getOne(room.playerOne.user.id);
-					const playerTwo = await this.usersService.getOne(room.playerTwo.user.id);
-					await this.gameService.create({
-						players: [playerOne, playerTwo],
-						winnerId: room.winner.id,
-						loserId: room.loser.id,
+					const winner = await this.usersService.getOne(room.winner.id);
+					const loser = await this.usersService.getOne(room.loser.id);
+					await this.historyService.createGameHistory({
+						players: [winner, loser],
+						winnerId: winner.id,
+						loserId: loser.id,
 						createdDate: new Date(room.startingTime),
 						duration: room.duration,
 						winnerScore: 10,
 						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
-						id : room.roomId
+						roomId : room.roomId
 					});
 				}
 			}
@@ -213,7 +215,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 		}
 	}
 
-	@SubscribeMessage('keyD')
+	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket, roomId: string, key: string, login: string) {
 		const room: Room = this.rooms.get(roomId);
 

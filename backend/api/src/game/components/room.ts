@@ -10,8 +10,8 @@ export default class Room implements RoomDto {
 	playerOne: Player;
 	playerTwo: Player;
 	ball: Ball;
-	startingTime?: number;
-	updateTime?: number;
+	startingTime: number;
+	updateTime: number;
 	lastGoal?: Player;
 	winner?: UserDto;
 	loser?: UserDto;

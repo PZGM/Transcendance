@@ -1,8 +1,8 @@
 import { UserDto } from "./user.dto";
 
 export interface GameDto {
-    id: number,
-    duraton: number,
+    roomId: string,
+    duration: number,
     winnerId: number,
     loserId: number,
     winnerScore: number,

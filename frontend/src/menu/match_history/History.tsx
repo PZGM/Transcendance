@@ -16,7 +16,7 @@ export class History extends Component<HistoryProps,HistoryState> {
 
 	renderRows(list) {
 		const listItems = list.map((game: GameDto) =>
-			<div key={game.id}>
+			<div key={game.roomId}>
 				<GameDisplay game={game} index={0}/>
 			</div>
 	  );

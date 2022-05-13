@@ -17,7 +17,7 @@ export class GameDto {
 
     constructor(game?: Game) {
         if (game){
-            this.id = game.id;
+            this.roomId = game.roomId;
             this.duration = game.duration;
             this.winnerId = game.winnerId;
             this.loserId = game.loserId;
@@ -31,7 +31,7 @@ export class GameDto {
         }
     }
 
-    id: string;
+    roomId: string;
     duration: number;
     winnerId: number;
     loserId: number;
@@ -59,9 +59,9 @@ export interface RoomDto {
 	status?: number;
 	playerOne?: Player | PlayerDTO | null;
 	playerTwo?: Player | PlayerDTO | null;
-	ball?: Ball | BallDto;
-	startingTime?: number;
-	updateTime?: number;
+	ball: Ball | BallDto;
+	startingTime: number;
+	updateTime: number;
     duration?: number;
 	lastGoal?: Player;
 	winner?: UserDto;

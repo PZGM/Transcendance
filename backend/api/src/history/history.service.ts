@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { randomInt } from 'crypto';
 import { truncate } from 'fs/promises';
 import { networkInterfaces } from 'os';
+import { GameDto } from 'src/dto/game.dto';
 import { StatsService } from 'src/stats/stats.service';
 import { Game, User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
@@ -14,19 +15,12 @@ export class HistoryService {
 
     constructor(@InjectRepository(Game) private gameRepository: Repository<Game>, private userService: UsersService, private statsService: StatsService){}
 
-    async createGameHistory(details: GameDetails) {
+    async createGameHistory(details: GameDto) {
         const winner: User = await this.userService.getOne(details.winnerId, {withStats: true});
         const loser: User = await this.userService.getOne(details.loserId, {withStats: true});
         if (!winner || !loser)
             throw new NotFoundException();
-        let game: Game = this.gameRepository.create();
-        game.duration = details.duration
-        game.players = [winner, loser]
-        game.winnerId = details.winnerId;
-        game.loserId = details.loserId;
-        game.winnerScore = details.winnerScore;
-        game.loserScore = details.loserScore;
-        await this.gameRepository.save(game);
+        const game: Game = this.gameRepository.create(details);
         this.userService.addGame(game.winnerId, game);
         this.userService.addGame(game.loserId, game);
         this.statsService.setStats(

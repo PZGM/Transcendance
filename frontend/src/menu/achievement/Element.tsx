@@ -11,7 +11,6 @@ interface ElementProps {
 }
 
 interface ElementState {
-	completed: boolean
 }
 
 export class Element extends Component<ElementProps, ElementState> {
@@ -19,7 +18,6 @@ export class Element extends Component<ElementProps, ElementState> {
 	constructor (props: ElementProps)
 	{
 		super(props);
-		this.state = { completed: props.actual >= props.max}
 	}
 
 	getPercentage() : string
@@ -53,14 +51,14 @@ export class Element extends Component<ElementProps, ElementState> {
 						{this.getPercentage()}
 					</div>
 					
-					{this.state.completed &&
+					{this.props.actual >= this.props.max &&
 						<div className="case">
 							<img	src={require('../../asset/images/green_checkmark.png')}
 									style={{width: '200%', justifyContent: 'center'}}
 							/>
 						</div>
 					}
-					{!this.state.completed && <div className="case"/>}				
+					{!(this.props.actual >= this.props.max) && <div className="case"/>}				
 				</Stack>
 			</>
 		);
