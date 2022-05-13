@@ -98,9 +98,6 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 	// }
 
     render() {
-
-		console.log("Avatar render")
-
 		const PlusMinStyle = {
 			color: 'white',
 			alignItems: 'center',

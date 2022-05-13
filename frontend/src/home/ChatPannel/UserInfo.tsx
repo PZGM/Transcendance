@@ -85,8 +85,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         if (this.state.user){
             this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.state.user.id, {withCredentials: true});
             this.eventSource.onmessage = (e: { data: string; }) => {
-                console.log("salut je suis dans l'event")
-                console.log(e.data)
                 let jsonObj: any = JSON.parse(e.data);
                 let status: StatusData = jsonObj as StatusData;
                 if (status.status < 0 || status.status > 4)

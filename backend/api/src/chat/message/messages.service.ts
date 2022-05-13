@@ -44,8 +44,6 @@ export class MessagesService {
   }
 
   async create(messageDto: MessageDto) {
-    console.log('create message');
-    console.log(messageDto);
     const message = new Chat();
     message.content = messageDto.content;
     // const channel: Channel = await this.channelsService.getOne(messageDto.channelId);

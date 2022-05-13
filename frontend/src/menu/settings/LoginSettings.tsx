@@ -22,9 +22,6 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
 	
     constructor(props: LoginSettingsProps) {
 		super(props);
-
-        console.log(`Login props: ${this.props.color}`)
-
         this.handleChangeLogin = this.handleChangeLogin.bind(this)
 		this.updateLogin = this.updateLogin.bind(this)
         this.state = {
@@ -42,8 +39,6 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
     }
     
     async updateLogin() {
-        console.log(this.state.input)
-        console.log(this.props.login)
         if (this.state.input == this.props.login)
             this.setState({editing: false})
         else if (this.state.input != '')

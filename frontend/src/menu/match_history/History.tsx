@@ -33,7 +33,6 @@ export class History extends Component<HistoryProps,HistoryState> {
 
 	async getHistory() {
 		const history: GameDto[] = await UserAPI.getHistory();
-		console.log(history);
 		this.setState({
 			history
 		})

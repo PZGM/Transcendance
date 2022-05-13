@@ -18,9 +18,6 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
 
 	constructor(props: ColorSettingsProps) {
         super(props);
-
-        console.log(`props: ${this.props.color}`)
-
         this.state = {
             selected: this.props.color
         }

@@ -71,8 +71,5 @@ async function bootstrap() {
     //general channel
     const channelsService = app.get(ChannelsService);
     await channelsService.create({name: 'general', visibility: 'public', ownerId: -1});
-    console.log(Date.now());
-    console.log(new Date(Date.now()));
-
 }
 bootstrap();
