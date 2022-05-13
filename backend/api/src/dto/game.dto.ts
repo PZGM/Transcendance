@@ -31,7 +31,7 @@ export class GameDto {
         }
     }
 
-    id: number;
+    id: string;
     duration: number;
     winnerId: number;
     loserId: number;

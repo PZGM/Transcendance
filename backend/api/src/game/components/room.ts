@@ -60,7 +60,7 @@ export default class Room implements RoomDto {
 		return true;
 	}
 
-	resetPosition(): void {
+	reset(): void {
 		this.playerOne.reset();
 		this.playerTwo.reset();
 		this.ball.reset();

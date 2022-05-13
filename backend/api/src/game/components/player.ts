@@ -1,6 +1,5 @@
 import { PlayerDTO } from "src/dto/game.dto";
 import { UserDto } from "src/dto/user.dto";
-import { User } from "src/typeorm";
 import { CoorI, Difficulty, screenSizeX, screenSizeY, Setting } from "./coor";
 
 export class PInit {

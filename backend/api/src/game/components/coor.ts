@@ -1,5 +1,5 @@
-export const  screenSizeX: number = 720;
-export const  screenSizeY: number = 420;
+export const  screenSizeX: number = 1500;
+export const  screenSizeY: number = 900;
 
 export enum Difficulty {
   Easy,

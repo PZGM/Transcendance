@@ -37,6 +37,21 @@ export class UsersService {
         }
     }
 
+    public async getOneBySocket(socketId: string, relationsPicker?:RelationsPicker): Promise<User|null> {
+        try {
+            const user: User = await this.userRepository.findOneOrFail({
+                where: {
+                    socketId: socketId
+                }
+            });
+            return user;
+        }
+        catch (e) {
+            console.log(e)
+            return null;
+        }
+    }
+
     public async getUserLogin(userId: number): Promise<string|null> {
         const user: User|null = await this.getOne(userId);
         if (user)

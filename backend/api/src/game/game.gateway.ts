@@ -11,13 +11,15 @@ import { roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Player } from './components/player';
 import { Difficulty } from './components/coor';
+import { GameService } from './game.service';
 
 
 @WebSocketGateway({namespace: '/game', cors: true})
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer() server: Server
     wss: any;
-    private readonly usersService: UsersService; //add  something for  spectator
+    private readonly usersService: UsersService;
+	private readonly gameService: GameService;
     private readonly queue: Queue = new Queue();
     private readonly pool: Pool = new Pool();
     private readonly rooms: Map<string, Room> = new Map();
@@ -61,33 +63,16 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				this.rooms.set(roomId, room);
 				this.server.emit("New Hard Room", roomId);
 			}
-		}, 3000);
+		}, 5432);
 		this.logger.log(`Init Pong Gateway`);
     }
 
     handleConnection(socket: Socket) {
-        console.log(`Client connected: ${socket.id}`);
+        console.log(`socket connected: ${socket.id}`);
     }
 
-    handleDisconnect(client: Socket) {
-        console.log(`Client disconnected: ${client.id}`);
-      }
-
-    @SubscribeMessage('handleUserConnect')
-	async handleUserConnect(@ConnectedSocket() client: Socket, userId : number) {
-		const user : User = await this.usersService.getOne(userId);
-        this.rooms.forEach((room: Room) => {
-			if (room.isPlayer(user) && room.status !== 3)
-				return ;
-		});
-		this.pool.addToPool(user);
-        this.server.to(client.id).emit('joinedPool');
-        this.usersService.setUserSocket(userId, client.id);
-        this.usersService.setUserStatus(userId, statusEnum.connected);
-	}
-
-    async handleDisconnect2(client: Socket, userId: number) {
-        const user : User = await this.usersService.getOne(userId);
+    async handleDisconnect(socket: Socket) {
+		const user : User = await this.usersService.getOneBySocket(socket.id);
         if (user) {
 			this.rooms.forEach((room: Room) => {
 				if (room.isPlayer(user))
@@ -104,44 +89,58 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
                     }
                 }
 			});
-
 			this.queue.rmToQueue(user);
             this.pool.rmToPool(user);
-			this.logger.log(`Client ${user.login} disconnected: ${client.id}`);
-		}
-        this.usersService.setUserStatus(userId, statusEnum.disconected);
-    }
-    @SubscribeMessage('joinQueue') //roomDto
-	async handleJoinQueue(@ConnectedSocket() client: Socket, userId : number, difficulty: Difficulty) {
+			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
+        	console.log(`socket disconnected: ${socket.id}`);
+			this.usersService.setUserStatus(user.id, statusEnum.disconected);
+      }
+	}
+
+    @SubscribeMessage('handleUserConnect')
+	async handleUserConnect(@ConnectedSocket() socket: Socket, userId : number) {
+		const user : User = await this.usersService.getOne(userId);
+        this.rooms.forEach((room: Room) => {
+			if (room.isPlayer(user) && room.status !== 3)
+				return ;
+		});
+		this.pool.addToPool(user);
+        this.server.to(socket.id).emit('joinedPool');
+        this.usersService.setUserSocket(userId, socket.id);
+        this.usersService.setUserStatus(userId, statusEnum.connected);
+	}
+
+    @SubscribeMessage('joinQueue')
+	async handleJoinQueue(@ConnectedSocket() socket: Socket, userId : number, difficulty: Difficulty) {
 		const user : User = await this.usersService.getOne(userId);
 		if (user && !this.queue.find(user))
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, difficulty);
-			this.server.to(client.id).emit('joinedQueue');
-			this.logger.log(`Client ${user.login}: ${client.id} was added to queue !`);
+			this.server.to(socket.id).emit('joinedQueue');
+			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
 		}
         this.usersService.setUserStatus(userId, statusEnum.inQueue);
 	}
 
 	@SubscribeMessage('leaveQueue')
-	async handleLeaveQueue(@ConnectedSocket() client: Socket, userId : number) {
+	async handleLeaveQueue(@ConnectedSocket() socket: Socket, userId : number) {
     const user : User = await this.usersService.getOne(userId);
 		if (user && this.queue.find(user))
 		{
 			this.queue.rmToQueue(user);
             this.pool.changeStatus(statusEnum.idle, user);
-			this.server.to(client.id).emit('leavedQueue');
+			this.server.to(socket.id).emit('leavedQueue');
 		}
         this.usersService.setUserStatus(userId, statusEnum.idle);
 	}
     @SubscribeMessage('spectateRoom')
-	async handleSpectateRoom(@ConnectedSocket() client: Socket, userId: number, roomId: string) {
+	async handleSpectateRoom(@ConnectedSocket() socket: Socket, userId: number, roomId: string) {
 		const room: Room = this.rooms.get(roomId);
 		if (room) {
 			const user = this.pool.find(await this.usersService.getOne(userId));
 			if (!room.isPlayer(user)) {
-				this.server.to(client.id).emit("Game Room", room);
+				this.server.to(socket.id).emit("Game Room", room);
                 this.pool.changeStatus(statusEnum.watching, user);
             }
             this.usersService.setUserStatus(userId, statusEnum.watching);
@@ -149,7 +148,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	}
 
     @SubscribeMessage('leaveRoom')
-	async handleLeaveRoom(@ConnectedSocket() client: Socket, userId : number ,roomId: string) {
+	async handleLeaveRoom(@ConnectedSocket() socket: Socket, userId : number ,roomId: string) {
 		const room: Room = this.rooms.get(roomId);
 		const user = this.pool.find(await this.usersService.getOne(userId));
 		if (user && room) {
@@ -173,6 +172,69 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			this.pool.changeStatus(statusEnum.idle, user);
             this.usersService.setUserStatus(userId, statusEnum.idle);
 		}
-		this.server.to(client.id).emit("leavedRoom");
+		this.server.to(socket.id).emit("leavedRoom");
+	}
+
+	@SubscribeMessage('update')
+	async handleRequestUpdate(@ConnectedSocket() socket: Socket, @MessageBody() roomId: string) {
+		
+		const room: Room = this.rooms.get(roomId);
+		if (room) {
+			const now = Date.now();
+			if (room.status === roomEnum.waiting) {
+				room.startingTime = now;
+				room.updateTime = now;
+				room.status = roomEnum.playing;
+			}
+			else if (room.status === roomEnum.playing)
+			{
+				room.update();
+				if (room.status = roomEnum.end) {
+					const playerOne = await this.usersService.getOne(room.playerOne.user.id);
+					const playerTwo = await this.usersService.getOne(room.playerTwo.user.id);
+					await this.gameService.create({
+						players: [playerOne, playerTwo],
+						winnerId: room.winner.id,
+						loserId: room.loser.id,
+						createdDate: new Date(room.startingTime),
+						duration: room.duration,
+						winnerScore: 10,
+						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
+						id : room.roomId
+					});
+				}
+			}
+			else if (room.status === roomEnum.goal) {
+				room.reset();
+				room.status = roomEnum.playing;
+				room.updateTime = now;
+			}
+			this.server.to(room.roomId).emit("updateRoom", room);
+		}
+	}
+
+	@SubscribeMessage('keyD')
+	async handleKeyUp(@ConnectedSocket() socket: Socket, roomId: string, key: string, login: string) {
+		const room: Room = this.rooms.get(roomId);
+
+		if (room && room.playerOne.user.login === login)
+		{
+			if (key === 'Up')
+				room.playerOne.coor.dy = 1;
+			else if (key === 'Down')
+				room.playerOne.coor.dy = -1;
+			else
+				room.playerOne.coor.dy = 0;
+
+		}
+		else if (room && room.playerTwo.user.login === login)
+		{
+			if (key === 'Up')
+				room.playerTwo.coor.dy = 1;
+			else if (key === 'Down')
+				room.playerTwo.coor.dy = -1;
+			else
+				room.playerTwo.coor.dy = 0;
+		}
 	}
 }
