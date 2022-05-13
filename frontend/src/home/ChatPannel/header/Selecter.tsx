@@ -25,13 +25,9 @@ interface SelecterState {
 	anchorEl: any;
 };
 
-let Hbar = "50px";
+let Hbar = "3.8vh";
 let Hi = 15;
-let Wi = 15;
 let Hchan = 25;
-let minWchan = 25;
-let maxWchan = 50;
-let width_button = "150px"
 
 
 export class Selecter extends Component<SelecterProps, SelecterState> {
@@ -105,11 +101,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	}
 // TODO mettre un filtre pour pas que notre compte apparaissent dans la liste car on peut pas s'envoyer de msg
 	render () {
-		let marge = (parseInt(Hbar, 10) - Hchan) / 2;
 		return (
 			<>
-				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8", justifyContent: "center", alignItems: "center"}}>
-					<Stack direction="row" justifyContent="center" alignItems="center" sx={{mt: marge.toString().concat("px") }} >
+				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8",display: "flex", justifyContent: "center", alignItems: "center"}}>
+					<Stack direction="row" justifyContent="center" alignItems="center"  >
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
 							<Link style={{height: Hchan, width: Hi, textDecoration: 'none',fontSize: "large"}} to={{pathname: (window.location.pathname.search("/home/chat")) ? process.env.REACT_APP_USER + "" + this.state.name + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.name + "/info"}}>
 								<InfoIcon sx={{backgroundColor: "#03C7D8",color: "white"}}/>
@@ -118,11 +113,11 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 								<div className='bit9x9'>{this.state.name}</div>
 							</ButtonBase>
 							<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={this.handleClickAway}>
-								<Popper sx={{marginTop: "10px"}} open={this.state.open} anchorEl={this.state.anchorEl}>
-									<List sx={{maxHeight: "400px", mb: -1, mt: -1}} disablePadding>
-										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
-											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon />}>
-												Channels
+								<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black"}} open={this.state.open} anchorEl={this.state.anchorEl}>
+									<List sx={{maxHeight: "30.5vh", mb: -1, mt: -1}} disablePadding>
+										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
+											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon style={{color: "white"}} />}>
+												<div className='bit9x9' style={{color: "white"}}> CHannels </div>
 											</AccordionSummary>
 											<AccordionDetails>
 												<CreateChannel/>
@@ -131,9 +126,9 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 												</List>
 											</AccordionDetails>
 										</Accordion>
-										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "#9e9e9e"}}>
-											<AccordionSummary  expandIcon={<ArrowDropDownTwoToneIcon />}>
-												Chats
+										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
+											<AccordionSummary  expandIcon={<ArrowDropDownTwoToneIcon style={{color: "white"}}/>}>
+												<div className='bit9x9' style={{color: "white"}}> Chats </div>
 											</AccordionSummary>
 											<AccordionDetails>
 												<List>

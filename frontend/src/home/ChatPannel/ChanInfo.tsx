@@ -19,8 +19,7 @@ interface ChanInfoProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "59vh"
-let width_button = "70px"
+let height_Box_Users = "60vh"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	index:number = 0;
@@ -80,7 +79,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 	renderRowsAdmins(list) {
 		list=[1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: any) =>
+		const listItems = list.map((user: UserDto) =>
 		<RenderRows index={this.index++} getColor={this.getColor} user={user}  third_button="REMOVE FRIEND" ></RenderRows>
 		
 	  );
@@ -89,7 +88,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 	renderRowsUsers(list) {
 		list=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: any) =>
+		const listItems = list.map((user: UserDto) =>
 		<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
 	  );
 	  return listItems;
@@ -115,7 +114,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 						{/* <div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div> */}
 						{/* <Typography variant="h1" color='white'> */}
-							<div className="bit5x5" style={{color: "white", fontSize: "64px"}}>{this.state.chan}</div>
+							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.chan}</div>
 						{/* </Typography> */}
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
