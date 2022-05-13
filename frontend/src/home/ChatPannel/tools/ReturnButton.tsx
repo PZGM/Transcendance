@@ -7,10 +7,6 @@ import '../../../style/colors.css'
 import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-
-
-let width_button = "90px"
-
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 function ReturnButton(props) {

@@ -16,10 +16,6 @@ interface ChanAddUserProps {
     params: any,
 };
 
-let height_Box_Admin = "20vh"
-let height_Box_Users = "58vh"
-let width_button = "100px"
-
 export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 	constructor(props: ChanAddUserProps) {
 		super(props);
@@ -70,9 +66,8 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center">
-					<InputBase className="friends_search_bar" sx={{width: "480px", color: 'white'}} inputProps={{min: 0, style: { textAlign: 'center' }}}  placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
-                    {/* className={styles.input} */}
-					<List style={{height: "100% -100px",overflow: 'auto'}}>
+					<input className="friends_search_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+					<List style={{overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>
 				</Stack>
