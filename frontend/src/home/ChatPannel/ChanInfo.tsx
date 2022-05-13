@@ -19,7 +19,7 @@ interface ChanInfoProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "60vh"
+let height_Box_Users = "65vh"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	index:number = 0;
