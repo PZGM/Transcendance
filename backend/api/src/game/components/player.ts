@@ -10,7 +10,7 @@ export class PInit {
 	constructor(difficulty: Difficulty , n : number, user: UserDto) {
 		this.user = user;
 		this.difficulty = difficulty;
-		this.color = (n === 1) ? 'red' : 'blue';
+		this.color = user.color;
 		this.x = ( n == 1) ? 0 : screenSizeX;
 
 
