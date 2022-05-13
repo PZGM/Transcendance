@@ -68,15 +68,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const isFirst: boolean = msg.authorId != lastAuthor;
 			lastAuthor = msg.authorId;
 			if (msg.service)
-				return  <div style={{color: "white"}}> {`→ ${login} has ${msg.content}`} </div>
+				return  <div style={{color: "white", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} has ${msg.content}`} </div>
             return <>
                 { isFirst &&
-                    <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1vw'}}>
-                        <Avatar variant='circular'
-                            src={avatar}
-                            style={{height: '2.7vw', width: '2.7vw'}}
-                        />
-
+                    <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
+                        <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
                         <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
                             <div style={{color: "white"}}> {msg.content} </div>
@@ -86,7 +82,7 @@ export class Chat extends Component<ChatProps, ChatState> {
                 }
 
                 {!isFirst &&
-                    <div style={{color: "white", paddingLeft: "calc(2.7vw + 5px)", fontSize: '1vw'}}> {msg.content} </div>
+                    <div style={{color: "white", paddingLeft: "68px", fontSize: '1.5rem'}}> {msg.content} </div>
                 }
 
             </>
@@ -112,6 +108,10 @@ export class Chat extends Component<ChatProps, ChatState> {
 	onKeyDown(e) {
 		if (e.keyCode == 13)
 			this.sendMessage(this.chanName);
+	}
+
+	onFocus(e) {
+		if (e.relatedTarget){}
 	}
 
     sendMessage(chanName: string) {
