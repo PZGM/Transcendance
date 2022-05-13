@@ -13,7 +13,7 @@ import { ChatGateway } from '../chat.gateway';
 export class ChannelsService {
   constructor(
     @InjectRepository(Channel)
-    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService, private readonly chatGateway: ChatGateway
+    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService
   ) {}
 
   public async getChannelsNames(userId: number): Promise<string[]|null> {
@@ -150,23 +150,27 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return this.channelsRepository.save(chan);
   }
   
-  public async join(userID: number, chanID: number, password?: string) {
-    const chan: Channel | null = await this.getOne(chanID);
+  public async join(userId: number, chanId: number, password?: string) {
+    console.log(`+++++ chan id ${chanId}`);
+    console.log(`+++++ user id ${userId}`);
+    const chan: Channel | null = await this.getOne(chanId);
     if (!chan) {
-      throw new NotFoundException(`Channel [${chanID}] not found`);
+      return false;
     }
     if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
-        throw new NotFoundException(`Incorrect password`);
+        return false;
       }
     }
-    if (!(chan.users.some((user: User) => {return user.id == userID}))) {
-    chan.users.push(await this.usersService.getOne(userID));
+    if (!(chan.users.some((user: User) => {return user.id == userId}))) {
+    chan.users.push(await this.usersService.getOne(userId));
     }
-    this.chatGateway.handleJoinChannel();
-    return this.channelsRepository.save(chan);
+    this.channelsRepository.save(chan);
+    console.log('channel after join:');
+    console.log(chan);
+    return true;
 }
 
   public async removeUser(userID: number, rmID : number, chanID: number) {

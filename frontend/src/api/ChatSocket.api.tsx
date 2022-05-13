@@ -17,7 +17,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
 		throw new Error("Method not implemented.");
 	}
     socket:any;
-    activeChan?: string;
+    activeChan?: number;
 
     constructor(props: ChatSocketAPIProps) {
         super(props)
@@ -39,14 +39,15 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
         });
     }
 
-    joinRoom(chanName: string) {
+    joinRoom(chanId: number) {
+        console.log(`joinRoom ____ ${chanId}`)
         if (this.activeChan)
-            this.socket.emit('leaveRoom', {name: chanName});
-        this.socket.emit('joinRoom', {name: chanName});
-        this.activeChan = chanName;
+            this.socket.emit('leaveRoom', {id: chanId});
+        this.socket.emit('joinRoom', {id: chanId});
+        this.activeChan = chanId;
     }
 
-    sendMessage(chanName: string, content: string, authorId) {
-        this.socket.emit('message', {authorId, content, chanName});
+    sendMessage(chanId: number, content: string, authorId) {
+        this.socket.emit('message', {authorId, content, chanId, service: false});
     }
 }

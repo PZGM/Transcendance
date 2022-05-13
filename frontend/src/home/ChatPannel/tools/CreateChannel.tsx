@@ -7,7 +7,8 @@ import "../../../style/input.css"
 import { UserDto } from "../../../api/dto/user.dto"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface CreateChannelProps{
 }
@@ -27,6 +28,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
     const [name, setName] = React.useState("");
     const [visibility, setVisibility] = React.useState("public");
     const [password, setPassword] = React.useState("");
+    const [redirect, setRedirect] = React.useState("");
 
     const handleClickOpenCreate = () => {
       setOpenCreate(true);
@@ -35,7 +37,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
       setOpenJoin(true);
     };
   
-    const handleCloseCreate = () => {
+    const handleCreate = () => {
         if (visibility == "protected" && password == "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
@@ -55,14 +57,14 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
         }
     };
 
-    const handleForceCloseCreate = () => {
+    const handleCancelCreate = () => {
         setName("");
         setVisibility("public")
         setPassword("")
         setOpenCreate(false);
     };
 
-    const handleCloseJoin = () => {
+    const handleJoin = () => {
         // TODO le join du channel
         if (visibility == "protected" && password == "") {
             toast.error("No password for the channel", {
@@ -75,24 +77,26 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
             })
         }
         else{
-            JoinChannel();
+            const channel = await ChatAPI.getChannelByName(name);
+            console.log('channel to join :');
+            console.log(channel);
+            await ChatAPI.joinChannel(channel.id);
+            //redirect to /
             setName("");
             setVisibility("public")
             setPassword("")    
             setOpenCreate(false);
+            setRedirect(`/home/chat/${name}`);
+
         }
     };
 
-    const handleForceCloseJoin = () => {
+    const handleCancelJoin = () => {
         setName("");
         setVisibility("public")
         setPassword("")
         setOpenJoin(false);
     };
-
-    const JoinChannel= async () => {
-        // TODO a faire un join channel il faut check si le mdp est bon ainsi que le nom
-    }
 
     const Sendchannel = async () => {
         const resp = await UserAPI.getUser();
@@ -102,6 +106,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     return (
         <>
+            { redirect ? (<Navigate to={redirect} />) : null }
             <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                 <ButtonBase className="creachan_button" onClick={handleClickOpenCreate}>
                     Create
@@ -110,7 +115,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                     Join
                 </ButtonBase>
             </Stack>
-            <Dialog open={openCreate} onClose={handleForceCloseCreate}>
+            <Dialog open={openCreate} onClose={handleCancelCreate}>
                 <DialogContent sx={{backgroundColor: "black"}}>
                     <Stack spacing={2} direction="column" >
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
@@ -131,40 +136,40 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             {(visibility != "protected")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div className="home_button but_red" onClick={handleForceCloseCreate}>
+                            <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <Link onClick={handleCloseCreate} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + name}}>
+                            <ButtonBase onClick={handleCreate} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
                                 <div className='bit5x5'> Save </div>
-                            </Link>
+                            </ButtonBase>
                         </Stack>
                     </Stack>
                 </DialogContent>
             </Dialog>
-            <Dialog open={openJoin} onClose={handleForceCloseJoin}>
+            <Dialog open={openJoin} onClose={handleCancelJoin}>
                 <DialogContent sx={{backgroundColor: "black"}}>
                     <Stack spacing={2} direction="column" >
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
                             <input className="friends_search_bar" maxLength={10} style={{width: "480px", color: 'white'}} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
+                            <div centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
                                 <div className='bit5x5'> Public </div>
-                            </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
+                            </div>
+                            <div centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
                                 <div className='bit5x5'> Protected </div>
-                            </ButtonBase>
+                            </div>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
                             {(visibility == "public")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div className="home_button but_red" onClick={handleForceCloseJoin}>
+                            <div className="home_button but_red" onClick={handleCancelJoin}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <Link onClick={handleCloseJoin} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + name}}>
+                            <div onClick={handleJoin} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
                                 <div className='bit5x5'> join </div>
-                            </Link>
+                            </div>
                         </Stack>
                     </Stack>
                 </DialogContent>
