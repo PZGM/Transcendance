@@ -64,7 +64,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
         setOpenCreate(false);
     };
 
-    const handleJoin = () => {
+    const handleJoin = async () => {
         // TODO le join du channel
         if (visibility == "protected" && password == "") {
             toast.error("No password for the channel", {
@@ -153,10 +153,10 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             <input className="friends_search_bar" maxLength={10} style={{width: "480px", color: 'white'}} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
+                            <div className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
                                 <div className='bit5x5'> Public </div>
                             </div>
-                            <div centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
+                            <div className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
                                 <div className='bit5x5'> Protected </div>
                             </div>
                         </Stack>
