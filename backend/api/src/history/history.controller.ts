@@ -12,7 +12,7 @@ export class HistoryController {
 
     constructor(private readonly historyService: HistoryService, private userService: UsersService) {}
 
-    @Get()
+  /*  @Get()
     @UseGuards(FullyAuthentificatedGuard)
     public async getHistory(@Req() request: CustomRequest) {
         const hist = await this.historyService.getHistory(request.user.id);
@@ -27,5 +27,5 @@ export class HistoryController {
     @UseGuards(FullyAuthentificatedGuard)
     public async newGame(@Body() newGameRequest: GameDto) {
         await this.historyService.createGameHistory(newGameRequest);
-    }
+    }*/
 }
