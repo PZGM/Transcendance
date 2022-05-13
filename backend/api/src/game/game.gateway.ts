@@ -32,7 +32,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 			if (this.queue.sizeEasy() > 1) {
 				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Easy);
                 const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Easy);
-				const  roomId: string = `Easy: ${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+				const  roomId: string = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${Date.now().toPrecision(5)}`;
 				
 				let room  = new Room(roomId, Difficulty.Easy, playerOne, playerTwo);
 				
@@ -44,7 +44,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
             if (this.queue.sizeMedium() > 1) {
 				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Medium);
                 const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Medium);
-				const  roomId: string = `Medium :${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+				const  roomId: string = `${Difficulty.Medium}${playerOne.id}${playerTwo.id}${Date.now().toPrecision(5)}`;
 				
 				let room  = new Room(roomId, Difficulty.Medium, playerOne, playerTwo);
 				
@@ -56,7 +56,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
             if (this.queue.sizeHard() > 1) {
 				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Hard);
                 const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Hard);
-				const  roomId: string = `Hard :${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+				const  roomId: string = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${Date.now().toPrecision(5)}`;
 				
 				let room  = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				
