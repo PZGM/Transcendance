@@ -4,7 +4,7 @@ import { User } from "..";
 @Entity({ name: 'game' })
 export class Game {
     @PrimaryGeneratedColumn()
-    id: number;
+    id: string;
 
     @Column()
     duration: number;

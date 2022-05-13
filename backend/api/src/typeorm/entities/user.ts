@@ -67,4 +67,11 @@ export class User {
     @OneToOne(() => Stats)
     @JoinColumn()
     stats: Stats;
+
+    @Column({ nullable: true })
+    rStatus: number;
+    @Column({ nullable: true })
+    roomId: number;
+    @Column({ nullable: true })
+    socketId: string;
 }

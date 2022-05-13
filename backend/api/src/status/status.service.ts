@@ -3,12 +3,14 @@ import {fromEvent, Observable} from "rxjs";
 import {EventEmitter} from "events";
 import { UsersService } from 'src/users/users.service';
 
-enum statusEnum {
+export enum statusEnum {
     unknow,
     disconected,
     idle,
     connected,
-    playing
+    playing,
+    watching,
+    inQueue
 }
 
 @Injectable()
