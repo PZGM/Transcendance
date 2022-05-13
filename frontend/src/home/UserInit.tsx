@@ -1,11 +1,11 @@
 import { Stack, Grid } from "@mui/material";
 import { Component } from "react";
-import { UserAPI } from "./api/Users.api";
+import { UserAPI } from "../api/Users.api";
 import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./style/buttons.css"
-import "./style/display.css"
+import "../style/buttons.css"
+import "../style/display.css"
 
 
 interface UserInitProps {
@@ -39,7 +39,6 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
-		console.log(resp)
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,

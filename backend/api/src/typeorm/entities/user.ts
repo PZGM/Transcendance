@@ -68,10 +68,10 @@ export class User {
     @JoinColumn()
     stats: Stats;
 
-    @Column()
-    rStatus?: number;
-    @Column()
-    roomId?: number;
-    @Column()
-    socketId?: string;
+    @Column({ nullable: true })
+    rStatus: number;
+    @Column({ nullable: true })
+    roomId: number;
+    @Column({ nullable: true })
+    socketId: string;
 }

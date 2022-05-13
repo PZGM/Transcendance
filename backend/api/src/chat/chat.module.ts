@@ -1,13 +1,14 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ChannelsModule } from './channel/channels.module';
 import { ChatGateway } from './chat.gateway';
 import { MessagesModule } from './message/messages.module';
 
+//forwardRed -> solve circular dependency
 
 @Module({
-  imports: [ChannelsModule, MessagesModule],
+  imports: [forwardRef(() => ChannelsModule), forwardRef(() => MessagesModule)],
   controllers: [],
   providers: [ChatGateway],
-  exports: []
+  exports: [ChatGateway]
 })
 export class ChatModule {}

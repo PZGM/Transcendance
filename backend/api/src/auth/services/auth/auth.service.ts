@@ -6,7 +6,7 @@ import { UserDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { AuthentificationProvider } from './auth';
 import { ChannelsService } from 'src/chat/channel/channels.service';
-import { ChannelDto } from 'src/dto/chat.dto';
+import { ChannelDto, CreateChannelDto } from 'src/dto/chat.dto';
 import { Channel } from 'src/typeorm';
 
 @Injectable()
@@ -23,14 +23,7 @@ export class AuthService implements AuthentificationProvider {
         let user = await this.userRepo.findOne({ intraId });
         if (!user) 
             user = await this.createUser(details);
-        const chan : Channel | null = await this.chanService.getOneByName('root','General')
-        if (user.id === 1 && !chan) {
-            //universal Channel
-                let channel: Channel = new Channel();
-                channel.admin = []; channel.name = "General"; channel.visibility = "public";
-                channel.users = []; channel.mute = []; channel.chats = []; channel.id = 0; channel.visibility = 'public'
-                this.chanService.create(new ChannelDto(channel));
-        }
+        const chan : Channel | null = await this.chanService.getOneByName('general')
         return user;
     }
     
@@ -49,16 +42,14 @@ export class AuthService implements AuthentificationProvider {
             actualWinRow: 0,
             under3min: 0,
             golden: 0,
-            // greaterAvantage: 0,
-            // greaterDisavantage: 0,
-            // averageScore: 0,
-            // averageOponnentScore: 0,
             eloScore: 400,
             rank: 0
         });
         user.stats = stats;
         await this.statsRepo.save(stats);
-        return await this.userRepo.save(user);
+        const ret = await this.userRepo.save(user);
+        this.chanService.join(user.id, 1);
+        return ret;
     }
 
     findUser(intraId: string) : Promise<User | undefined>{

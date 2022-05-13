@@ -88,7 +88,6 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							src={this.props.user.avatar}
 							style={{height: '2.7vw', width: '2.7vw'}}
 						/>
-						
 						<div className={'backto1982 ' + this.props.user.color}>
 							{this.props.user.login}
 						</div>
