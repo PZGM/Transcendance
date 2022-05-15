@@ -1,6 +1,6 @@
 import { Box, ButtonBase, IconButton, Stack, List, Typography } from "@mui/material";
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useResolvedPath } from "react-router-dom";
 import { isPrivateIdentifier } from "typescript";
 import { UserAPI } from "../../api/Users.api";
 import RenderRows from "./tools/RenderRows";
@@ -10,26 +10,27 @@ import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 
 interface ChanInfoState {
-    chan?: any;
+	chan?: any;
 	friends: any;
 }
 
 interface ChanInfoProps {
-    params: any,
+	params: any,
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "65vh"
+let height_Box_Users = "60vh"
+// let height_Box_Users = "65vh"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	index:number = 0;
 
 	constructor(props: ChanInfoProps) {
 		super(props);
-        this.state = {
-            chan: undefined,
+		this.state = {
+			chan: undefined,
 			friends: [],
-        }
+		}
 		this.deleteFriend = this.deleteFriend.bind(this);
 		this.addFriend = this.addFriend.bind(this);
 	}
@@ -48,13 +49,13 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	}
 
 	componentDidMount()  {
-        const id = this.props.params.name;
-        // if (this.props.isPrivateMessage)
-        //     chanId = getPrivateMessageChannel(id);
-        // else
-        this.setState({
-            chan: id,
-        })
+		const id = this.props.params.name;
+		// if (this.props.isPrivateMessage)
+		//     chanId = getPrivateMessageChannel(id);
+		// else
+		this.setState({
+			chan: id,
+		})
 	}
 
 	async addFriend(user: UserDto) {
@@ -79,20 +80,20 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 	renderRowsAdmins(list) {
 		list=[1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: UserDto) =>
-		<div key={user.id}>
-			<RenderRows index={this.index++} getColor={this.getColor} user={user}  third_button="REMOVE FRIEND" ></RenderRows>
-		</div>
+		const listItems = list?.map((admin: UserDto) =>
+		<li key={admin.id}>
+			<RenderRows index={this.index++} getColor={this.getColor} user={admin}  third_button="REMOVE FRIEND" ></RenderRows>
+		</li>
 	  );
 	  return listItems;
 	}
 
 	renderRowsUsers(list) {
-		list=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: UserDto) =>
-		<div key={user.id}>
+		list=[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
+		const listItems = list?.map((user: UserDto) =>
+		<li key={user.id}>
 			<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
-		</div>
+		</li>
 	  );
 	  return listItems;
 	}
@@ -100,7 +101,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	render () {
 
 		return (
-            <>
+			<>
 				<Stack direction="row" justifyContent="space-between">
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan }}>
@@ -108,19 +109,19 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</Link>
 					</Stack>
 {/* TODO faire une ternaire pour savoir s'il est admin afin d'afficher l'icone */}
-                    { (false) ? <></> :<Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+					{ (false) ? <></> :<Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
 							<AddIcon/>
 						</Link>
-                    </Stack>}
-                </Stack>
-                <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+					</Stack>}
+				</Stack>
+				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 						{/* <div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div> */}
 						{/* <Typography variant="h1" color='white'> */}
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.chan}</div>
 						{/* </Typography> */}
-                </Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+				</Stack>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  width={"26vw"}>
 					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
 						<List style={{overflow: 'auto'}}>
@@ -130,7 +131,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</List>
 					</Stack>
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} width={"26vw"}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
 						<List style={{ overflow: 'auto'}}>
@@ -140,7 +141,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</List>
 					</Stack>
 				</Stack>
-            </>
+			</>
 
 		)
 	}
