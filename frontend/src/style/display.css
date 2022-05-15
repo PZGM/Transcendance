@@ -10,6 +10,13 @@
 	background-repeat: no-repeat;
 }
 
+.game_frame {
+	background-color: black;
+	width: 55vw;
+	height: calc(55vw * 3/4);
+	border: 10px solid magenta;
+}
+
 .frame_div {
 	height: 100vh;
 	display: flex;

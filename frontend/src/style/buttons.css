@@ -2,6 +2,7 @@
 
 /* Common attributes to all buttons */
 
+.play_button,
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
 .renderrow_button, .add_friend_button, .logout_button, .add_user_button
@@ -12,6 +13,41 @@
 	align-items: center;
 	justify-content: center;
 	color: white;
+}
+
+/* Game Buttons */
+
+.play_button {
+	width: 50%;
+	height: 20%;
+	font-family: backto1982;
+	font-size: 3vw;
+	background-color: black;
+	/* box-shadow: 10px 10px 0px -1px rgba(142, 0, 174 ,0.5); */
+	-webkit-animation: glow 1s ease-in-out infinite alternate;
+	-moz-animation: glow 1s ease-in-out infinite alternate;
+	animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+	from {
+	  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #2ABADE, 0 0 40px #2ABADE, 0 0 50px #2ABADE, 0 0 60px #2ABADE, 0 0 70px #2ABADE;
+	}
+	to {
+	  text-shadow: 0 0 20px #fff, 0 0 30px #2ABADE, 0 0 40px #2ABADE, 0 0 50px #2ABADE, 0 0 60px #2ABADE, 0 0 70px #2ABADE, 0 0 80px #2ABADE;
+	}
+  }
+
+.play_button:hover {
+	transform: translateX(5px) translateY(5px);
+	box-shadow: 5px 5px 0px -1px rgba(142, 0, 174 ,0.5);
+	cursor: pointer;
+}
+
+.play_button:active {
+	transform: translateX(10px) translateY(10px);
+	box-shadow: 0px 0px 0px -1px rgba(142, 0, 174 ,0.5);
+	cursor: pointer;
 }
 
 /* Home */

@@ -27,15 +27,18 @@ function App() {
 					className="conn_button"
 				>
 					<Stack
-					direction="row"
-					justifyContent="center"
-					alignItems="center"
-					sx={{width: '100%', height: '100%'}}>
-					CONNECT
-					<img
-						src={require('./asset/images/42_Logo.png')}
-						style={{width: '15%', margin: '2%'}}
-					/>
+						direction="row"
+						justifyContent="center"
+						alignItems="center"
+						sx={{width: '100%', height: '100%'}}
+					>
+						CONNECT
+					
+						<img
+							src={require('./asset/images/42_Logo.png')}
+							style={{width: '15%', margin: '2%'}}
+						/>
+					
 					</Stack>
 				</div>
 				

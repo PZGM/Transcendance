@@ -1,0 +1,16 @@
+/* Players */
+
+.easy {
+	height: 40px;
+	width: 5px;
+}
+
+.medium {
+	height: 30px;
+	width: 5px;
+}
+
+.hard {
+	height: 20px;
+	width: 5px;
+}

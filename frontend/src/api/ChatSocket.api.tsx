@@ -12,11 +12,13 @@ interface ChatSocketAPIProps{
     transmitService: any;
 }
 
-export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
+export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
+{
 	join(chanName: string) {
 		throw new Error("Method not implemented.");
 	}
-    socket:any;
+
+    socket: any;
     activeChan?: string;
 
     constructor(props: ChatSocketAPIProps) {

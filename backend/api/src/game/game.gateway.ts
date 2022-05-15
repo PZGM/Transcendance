@@ -16,7 +16,8 @@ import { HistoryService } from 'src/history/history.service';
 
 
 @WebSocketGateway({namespace: '/game', cors: true})
-export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
+{
     @WebSocketServer() server: Server
     wss: any;
     private readonly usersService: UsersService;
@@ -39,7 +40,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				this.server.to(playerOne.socketId).emit("Easy Room", room);
 				this.server.to(playerTwo.socketId).emit("Easy Room",  room);
 				this.rooms.set(roomId, room);
-				this.server.emit("New Easy Room", roomId);
+				this.server.emit("New Room", roomId);
 			}
             if (this.queue.sizeMedium() > 1) {
 				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Medium);
@@ -51,7 +52,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				this.server.to(playerOne.socketId).emit("Medium Room", room);
 				this.server.to(playerTwo.socketId).emit("Medium Room",  room);
 				this.rooms.set(roomId, room);
-				this.server.emit("New  Medium Room", roomId);
+				this.server.emit("New Room", roomId);
 			}
             if (this.queue.sizeHard() > 1) {
 				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Hard);
@@ -63,7 +64,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 				this.server.to(playerOne.socketId).emit("Hard Room", room);
 				this.server.to(playerTwo.socketId).emit("Hard Room",  room);
 				this.rooms.set(roomId, room);
-				this.server.emit("New Hard Room", roomId);
+				this.server.emit("New Room", roomId);
 			}
 		}, 5432);
 		this.logger.log(`Init Pong Gateway`);
@@ -150,7 +151,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	}
 
     @SubscribeMessage('leaveRoom')
-	async handleLeaveRoom(@ConnectedSocket() socket: Socket, userId : number ,roomId: string) {
+	async handleLeaveRoom(@ConnectedSocket() socket: Socket, userId: number, roomId: string) {
 		const room: Room = this.rooms.get(roomId);
 		const user = this.pool.find(await this.usersService.getOne(userId));
 		if (user && room) {

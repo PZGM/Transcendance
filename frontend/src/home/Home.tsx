@@ -4,7 +4,8 @@ import { Helmet } from "react-helmet";
 import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
-import {UserAPI} from "../api/Users.api";
+import { UserAPI } from "../api/Users.api";
+import { GameAPI } from "../api/Game.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
 import { MiniStatus } from "../asset/MiniStatus";
@@ -15,6 +16,7 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { info } from "console";
 import { PrivateGuard } from "../components/PrivateGuard";
+import { Game } from "./Game/Game";
 import { UserInfo } from "./ChatPannel/UserInfo";
 
 
@@ -34,6 +36,7 @@ interface HomeState {
 	loserScore: number,
 	duration: number,
 	channel: any;
+	room: any;
 }
 
 
@@ -57,7 +60,9 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      channel: undefined,}
+      		channel: undefined,
+			room: undefined
+		}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
 		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
@@ -93,6 +98,11 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.setState({channel: chan});
     }
 
+
+	async getRoom() {
+		let room = await GameAPI.getRoom();
+		this.setState({room})
+	}
 
 	componentDidMount()  {
 		this.fetchUser();
@@ -159,16 +169,10 @@ export class Home extends Component<HomeProps, HomeState> {
 	render () {
 		return (
 			<div className="box">
-				<PrivateGuard/>
-				<Box sx={{backgroundColor: 'pink'}} className='left'>
-				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
-				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
-				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
-				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
-				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
-				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
-				</Box>
-					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
+				{/* <PrivateGuard/> */}
+				
+				<Game room={this.state.room}/>
+
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
 					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
