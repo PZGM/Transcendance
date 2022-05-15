@@ -26,6 +26,12 @@ export class ChatGateway {
 
   handleJoinChannel(chanId: number, userId: number) {
     this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN'});
+    this.messageService.create({channelId: chanId, authorId: userId, content: 'JOIN', service: true});
+  }
+
+  handleleaveChannel(chanId: number, userId: number) {
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'LEAVE'});
+    this.messageService.create({channelId: chanId, authorId: userId, content: 'LEAVE', service: true});
   }
 
   async handleConnection(socket: Socket) {
@@ -41,7 +47,7 @@ export class ChatGateway {
     @MessageBody() data: MessageBody
   ) {
     this.server.to('' + data.chanId).emit('message', {authorId: data.authorId, content: data.content});
-    // this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
+    this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
   }
 
   @SubscribeMessage('joinRoom')

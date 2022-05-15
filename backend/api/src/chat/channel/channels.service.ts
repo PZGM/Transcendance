@@ -96,7 +96,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     
     
     let channel: Channel = new Channel();
-    console.log(`owner id : ${createChannelDto.ownerId}`)
     const owner: User|null = (createChannelDto.ownerId != -1) ? await this.usersService.getOne(createChannelDto.ownerId) : null;
     channel.name = createChannelDto.name;
     channel.visibility = createChannelDto.visibility;
@@ -151,8 +150,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   }
   
   public async join(userId: number, chanId: number, password?: string) {
-    console.log(`+++++ chan id ${chanId}`);
-    console.log(`+++++ user id ${userId}`);
     const chan: Channel | null = await this.getOne(chanId);
     if (!chan) {
       return false;
@@ -168,7 +165,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     chan.users.push(await this.usersService.getOne(userId));
     }
     this.channelsRepository.save(chan);
-    console.log(`channel ${chanId} joined by ${userId}`);
     this.chatGateway.handleJoinChannel(chanId, userId);
     return true;
 }

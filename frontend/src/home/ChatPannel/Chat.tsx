@@ -129,7 +129,6 @@ export class Chat extends Component<ChatProps, ChatState> {
     sendMessage(chanName: string) {
 		if (chanName && this.state.input != '') {
 			this.chatSocket.sendMessage(this.state.chan.id, this.state.input, this.state.user.id);
-			ChatAPI.addMessage(this.state.input, this.state.user.id, this.state.chan.id); //deplacer dans le gateway
 			this.setState({
 				input: ''
 			});
@@ -137,13 +136,10 @@ export class Chat extends Component<ChatProps, ChatState> {
     }
 
 	async switchChannel(newChannelName: string) {
-		console.log('SWITCH CHANNEL ')
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
 		const channel = await ChatAPI.getChannelByName(this.chanName);
 		let messages = await ChatAPI.getByChannelId(channel.id);
-		console.log('_____channel');
-		console.log(channel);
 		this.chatSocket.joinRoom(channel.id);
 		this.setState({
 			users: channel.users,

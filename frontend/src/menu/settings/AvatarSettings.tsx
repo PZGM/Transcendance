@@ -1,4 +1,4 @@
-import { Avatar, Grid, Stack } from "@mui/material";
+import { Grid, Stack } from "@mui/material";
 import { ButtonUnstyled } from "@mui/base";
 import { ChangeEvent, Component, Fragment } from "react";
 import { UserAPI } from "../../api/Users.api";
@@ -92,15 +92,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 
 	setEditorRef = (editor: any) => (this.editor = editor)
 
-	// convertVWtoPX(vw:number):number {
-	// 	console.log(document.documentElement.clientWidth)
-	// 	return  (vw * document.documentElement.clientWidth) / 100
-	// }
-
     render() {
-
-		console.log("Avatar render")
-
 		const PlusMinStyle = {
 			color: 'white',
 			alignItems: 'center',
@@ -127,7 +119,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 					<Grid item xs={4} className="grid_item_style"> AVATAR </Grid>
 					<Grid item xs={4} className="grid_item_style">
 							<img	src={this.props.avatar}
-									className='avatar_round'/>
+									className='avatar_round'
+									alt='avatar'/>
 					</Grid>
 					<Grid item xs={4} className="grid_item_style">
 						<div className="settings_button but_blue"

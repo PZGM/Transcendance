@@ -42,8 +42,6 @@ export class MessagesService {
   }
 
   async create(messageDto: MessageDto) {
-    console.log('create message');
-    console.log(messageDto);
     const message = new Chat();
     message.content = messageDto.content;
     let channel = new Channel();
@@ -52,6 +50,7 @@ export class MessagesService {
     let author = new User();
     author.id = messageDto.authorId;
     message.author = author;
+    message.service = messageDto.service
     return this.messagesRepository.save(message);
   }
 

@@ -1,9 +1,3 @@
-import { Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
-import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
-import SendIcon from '@mui/icons-material/Send';
-import InfoIcon from '@mui/icons-material/Info';
 import { io } from "socket.io-client";
 import React from "react";
 
@@ -35,14 +29,11 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
         });
 
         this.socket.on('service', message => {
-            console.log('new service in fronted:');
-            console.log(message);
             this.props.transmitService(message);
         });
     }
 
     joinRoom(chanId: number) {
-        console.log(`joinRoom ____ ${chanId}`)
         if (this.activeChan)
             this.socket.emit('leaveRoom', {id: chanId});
         this.socket.emit('joinRoom', {id: chanId});

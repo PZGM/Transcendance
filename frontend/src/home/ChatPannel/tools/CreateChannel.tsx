@@ -78,8 +78,6 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
         }
         else{
             const channel = await ChatAPI.getChannelByName(name);
-            console.log('channel to join :');
-            console.log(channel);
             await ChatAPI.joinChannel(channel.id);
             //redirect to /
             setName("");

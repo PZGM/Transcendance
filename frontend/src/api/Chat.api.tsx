@@ -1,6 +1,3 @@
-import { useReducer } from "react";
-import { StringLiteralLike } from "typescript";
-
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
