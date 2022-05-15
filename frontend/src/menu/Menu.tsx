@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import '../style/display.css'
 import React from "react";
+import { PrivateGuard } from "../components/PrivateGuard";
 
 function MenuElement(props) {
 	return (
@@ -17,7 +18,7 @@ export default function Menu() {
 	return (
 
 		<React.Fragment>
-
+			<PrivateGuard/>
 			<div	onClick={() => window.open(process.env.REACT_APP_HOME, "_self")}
 					className="exit_button"
 					style={{backgroundColor: 'red',

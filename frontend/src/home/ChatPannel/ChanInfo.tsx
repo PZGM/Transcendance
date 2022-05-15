@@ -80,8 +80,9 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	renderRowsAdmins(list) {
 		list=[1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
 		const listItems = list.map((user: UserDto) =>
-		<RenderRows index={this.index++} getColor={this.getColor} user={user}  third_button="REMOVE FRIEND" ></RenderRows>
-		
+		<div key={user.id}>
+			<RenderRows index={this.index++} getColor={this.getColor} user={user}  third_button="REMOVE FRIEND" ></RenderRows>
+		</div>
 	  );
 	  return listItems;
 	}
@@ -89,7 +90,9 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	renderRowsUsers(list) {
 		list=[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1]
 		const listItems = list.map((user: UserDto) =>
-		<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
+		<div key={user.id}>
+			<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
+		</div>
 	  );
 	  return listItems;
 	}
