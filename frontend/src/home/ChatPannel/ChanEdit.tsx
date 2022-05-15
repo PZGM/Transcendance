@@ -22,8 +22,7 @@ interface ChanEditProps {
 };
 
 let height_Box_Admin = "20vh"
-let height_Box_Users = "59vh"
-let width_button = "90px"
+let height_Box_Users = "65vh"
 
 export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 	index:number = 0;
@@ -126,7 +125,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
                     </Stack>
                 </Stack>
                 <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-					<div className="bit5x5" style={{color: "white", fontSize: "64px"}}> {this.state.chan} </div>
+					<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}> {this.state.chan} </div>
                 </Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
@@ -140,13 +139,11 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users}>
-                        {/* <ButtonBase className="home_button" centerRipple style={{width: "480px", height: '60px', borderRadius: 0, backgroundColor: "red"}} onClick={ () => {}}> */}
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users} spacing={2}>
 							<Link  className={"add_user_button but_" + this.getColor(this.index++ % 5)} onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
                                 <div className='bit5x5'> Add user </div>
 							</Link>
-                        {/* </ButtonBase> */}
-                        <List style={{overflow: 'auto'}} sx={{height: "800px"}}>
+                        <List style={{overflow: 'auto'}} sx={{height: "61vh"}}>
 {/* TODO envoyer le state user du channel */}
 							{this.renderRowsUsers([])}
 							{/* {this.renderRows(this.state.friends)} */}

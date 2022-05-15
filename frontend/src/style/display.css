@@ -89,7 +89,7 @@ ol {
 	height: calc(100% - 0.8vw);
 }
 
-.search_element, .friend_element {
+.search_element, .friend_element, .chan_element {
 	border: 0.2vw solid;
 	width: 100%;
 	box-sizing: border-box;
@@ -109,6 +109,12 @@ ol {
 
 .friend_element {
 	font-size: 1vw;
+	margin-bottom: 0.35vw;
+	padding: 0.35vw;
+	/* width: calc(100% - 0.1vw); */
+}
+.chan_element {
+	font-size: 0.6vw;
 	margin-bottom: 0.35vw;
 	padding: 0.35vw;
 	/* width: calc(100% - 0.1vw); */

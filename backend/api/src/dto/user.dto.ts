@@ -16,12 +16,16 @@ export class UserDto {
             this.color = user.color;
             this.stats = user.stats;
             this.firstLog = user.firstLog;
+            this.roomId = user.roomId;
+            this.socketId = user.socketId;
         }
     }
     id: number;
+    roomId? : number;
+    socketId? :  string;
     login: string;
     avatar: string;
-    status: number;
+    status?: number; 
     blockedUsers?: User[];
     adminChannels?: Channel[];
     color: string;

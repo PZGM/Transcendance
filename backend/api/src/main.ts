@@ -66,12 +66,10 @@ async function bootstrap() {
     });
 
    // await app.init();
-
     await app.listen(3333);
 
     //general channel
     const channelsService = app.get(ChannelsService);
     await channelsService.create({name: 'general', visibility: 'public', ownerId: -1});
-
 }
 bootstrap();

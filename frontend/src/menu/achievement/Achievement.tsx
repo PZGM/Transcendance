@@ -42,7 +42,8 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 	render (){
 		return(
 				
-			<Grid container direction="column"
+			<Grid container
+				direction="column"
 				justifyContent="space-between"
 				alignItems="center"
 				style={{width: "99%", height: "99%"}}
@@ -61,7 +62,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 				<Stack direction="row" style={{width: "100%", height: "33%"}}>
 					<Element name="Win 10 match under 3 min" actual={this.state.under3min} max={10} color="red"/>
 					<Element name="Win 5 golden match" actual={this.state.golden} max={5} color="pink"/>
-					<Element name="Get 1000 as elo score" actual={this.state.elo - 400} max={600} color="cyan"/>
+					<Element name="Get 1000 as elo score" actual={this.state.elo} max={1000} color="cyan"/>
 				</Stack>
 			</Grid>
 

@@ -104,34 +104,34 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     return (
         <>
-            { redirect ? (<Navigate to={redirect} />) : null }
-            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+        { redirect ? (<Navigate to={redirect} />) : null }
+            <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" style={{color: "white"}}>
                 <ButtonBase className="creachan_button" onClick={handleClickOpenCreate}>
                     Create
                 </ButtonBase>
-                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin}>
+                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin} style={{color: "white"}}>
                     Join
                 </ButtonBase>
             </Stack>
             <Dialog open={openCreate} onClose={handleCancelCreate}>
                 <DialogContent sx={{backgroundColor: "black"}}>
-                    <Stack spacing={2} direction="column" >
+                    <Stack spacing={2} direction="column">
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} style={{width: "480px", color: 'white'}} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
+                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
                                 <div className='bit5x5'> Public </div>
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "private")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "private")? "yellow": "red"}} onClick={() => {setVisibility("private")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "private")? "yellow": "red")} style={{backgroundColor: (visibility == "private")? "yellow": "red"}} onClick={() => {setVisibility("private")}}>
                                 <div className='bit5x5'> Private </div>
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
                                 <div className='bit5x5'> Protected </div>
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility != "protected")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility != "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelCreate}>
@@ -148,7 +148,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                 <DialogContent sx={{backgroundColor: "black"}}>
                     <Stack spacing={2} direction="column" >
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} style={{width: "480px", color: 'white'}} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
+                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
@@ -159,7 +159,7 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             </div>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility == "public")? <></>:<input className="friends_search_bar" style={{width: "480px", color: 'white'}} placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility == "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelJoin}>
