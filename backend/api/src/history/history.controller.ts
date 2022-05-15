@@ -22,10 +22,10 @@ export class HistoryController {
         })
         return ret;
     }
-
+    /*
     @Put('/new')
     @UseGuards(FullyAuthentificatedGuard)
-    public async newGame(@Body() newGameRequest: GameDetails) {
+    public async newGame(@Body() newGameRequest: GameDto) {
         await this.historyService.createGameHistory(newGameRequest);
-    }
+    }*/
 }

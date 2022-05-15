@@ -16,7 +16,7 @@ export class History extends Component<HistoryProps,HistoryState> {
 
 	renderRows(list) {
 		const listItems = list.map((game: GameDto) =>
-			<div key={game.id}>
+			<div key={game.roomId}>
 				<GameDisplay game={game} index={0}/>
 			</div>
 	  );
@@ -33,7 +33,6 @@ export class History extends Component<HistoryProps,HistoryState> {
 
 	async getHistory() {
 		const history: GameDto[] = await UserAPI.getHistory();
-		console.log(history);
 		this.setState({
 			history
 		})

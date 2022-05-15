@@ -33,7 +33,35 @@ export class StatsService {
         throw new NotFoundException();
     }
 
-    public async setStats(userId: number, lastGame: LastGame){
+
+    // async getUserRank(userId: number) {
+
+    //     console.log('getUserStats')
+
+    //     let stats: Stats[] = await this.statsRepo.find({ 
+    //         order: {
+    //             eloScore: "DESC"
+    //         }
+    //     })
+
+    //     console.log(stats)
+
+    //     if (stats)
+    //     {
+    //         for (let i: number = 0; i < stats.length; i++)
+    //         {
+    //             console.log(`userId = ${userId}`)
+    //             console.log(`stats.id = ${stats[i].id}`)
+    //             if (stats[i].id = userId)
+    //                 return i + 1;
+    //         }
+    //         return 1
+    //     }
+    //     throw new NotFoundException();
+    // }
+
+    public async setStats(userId: number, lastGame: LastGame)
+    {
         let user: User = await this.userService.getOne(userId, {withStats: true});
         let stats: Stats = user.stats;
         
@@ -48,21 +76,16 @@ export class StatsService {
         stats.durationAverage = (stats.durationAverage * (stats.games - 1) + lastGame.duration) / stats.games;
         stats.actualWinRow = (lastGame.won) ? stats.actualWinRow + 1 : 0;
         stats.winRow = (stats.actualWinRow > stats.winRow) ? stats.actualWinRow : stats.winRow;
-        stats.under3min = (lastGame.duration <= 3) ? stats.under3min + 1 : stats.under3min;
+        stats.under3min = (lastGame.won && lastGame.duration <= 3) ? stats.under3min + 1 : stats.under3min;
         stats.golden = (lastGame.opponentScore == 0) ? stats.golden + 1 : stats.golden;
-        // if (lastGame.won && lastGame.score - lastGame.opponentScore > stats.greaterAvantage)
-        //     stats.greaterAvantage = lastGame.score - lastGame.opponentScore;
-        // if (!lastGame.won && lastGame.opponentScore - lastGame.score > stats.greaterDisavantage)
-        //     stats.greaterDisavantage = lastGame.opponentScore - lastGame.score;
-        // stats.averageScore = (stats.averageScore * (stats.games - 1) + lastGame.score) / stats.games;
-        // stats.averageOponnentScore = (stats.averageOponnentScore * (stats.games - 1) + lastGame.opponentScore) / stats.games;
-        
         const expectedScore = 1 / (1 + Math.pow(10, (lastGame.opponentEloScore - lastGame.eloScore) / 400))
         let K = 40 - stats.games;
         if (K < 20)
             K = 20;
-        const score = 0.3*(lastGame.won ? 1:0) + 0.7*(lastGame.score / (lastGame.score + lastGame.opponentScore));
+        const score = 0.3 * (lastGame.won ? 1 : 0) + 0.7 * (lastGame.score / (lastGame.score + lastGame.opponentScore));
         stats.eloScore = Math.round(stats.eloScore + K * (score - expectedScore));
+        user.stats = stats;
+        this.statsRepo.save(stats);
         stats.rank = 1;
         user.stats = stats;
         this.statsRepo.save(stats);

@@ -69,10 +69,14 @@ export class ChannelsController {
       const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
   }
 
-  @Put('/update/join')
+  @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
-  public async join(@Req() request: CustomRequest,@Body()  channelID: number, password?: string) {
-      const ret =  await this.channelsService.join(request.user.id, channelID, password);
+  public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number}) {
+      console.log('body:');
+      console.log(join);
+      console.log('user id :')
+      console.log(request.user.id);
+      return await this.channelsService.join(request.user.id, join.channelId);
   }
 
   @Put('update/rmUser')

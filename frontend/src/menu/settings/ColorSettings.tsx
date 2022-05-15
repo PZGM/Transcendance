@@ -1,5 +1,5 @@
-import { Avatar, Grid, Stack } from "@mui/material";
-import { ChangeEvent, Component, Fragment } from "react";
+import { Grid, Stack } from "@mui/material";
+import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
@@ -18,9 +18,6 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
 
 	constructor(props: ColorSettingsProps) {
         super(props);
-
-        console.log(`props: ${this.props.color}`)
-
         this.state = {
             selected: this.props.color
         }
@@ -28,7 +25,7 @@ export class ColorSettings extends Component<ColorSettingsProps, ColorSettingsSt
 
     getClassName(color: string): string | undefined
 	{
-        if (color == this.state.selected)
+        if (color === this.state.selected)
             return "bc_" + color + " color_selected"
 
 		return "but_" + color

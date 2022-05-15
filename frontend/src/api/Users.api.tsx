@@ -1,3 +1,4 @@
+import { GameDto } from "./dto/game.dto";
 import { UserDto } from "./dto/user.dto";
 
 export const URL_ME = () => {
@@ -13,14 +14,6 @@ export const URL_ME = () => {
     	return response;
 }
 
-type GameDetails = {
-	winnerId: number;
-	loserId: number;
-	winnerScore: number,
-	loserScore: number;
-	duration: number;
-  }
- 
 export class UserAPI {
 
 		//check login
@@ -297,7 +290,7 @@ export class UserAPI {
 
 		//history
 
-		public static async createNewGame(details: GameDetails) : Promise<boolean> {
+		public static async createNewGame(details: GameDto) : Promise<boolean> {
 			let ret = true;
 			const resp = await fetch((process.env.REACT_APP_HISTORY_NEW_GAME as string), {
 				method: "PUT",

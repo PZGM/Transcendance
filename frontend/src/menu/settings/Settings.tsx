@@ -1,13 +1,9 @@
-import { ChangeEvent, Component, Fragment } from "react";
+import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import Menu from "../Menu";
-import background from "./../../asset/images/background.jpg"
-import { rgbaToHsva } from "tsparticles"
 import { LoginSettings } from "./LoginSettings"
 import { AvatarSettings } from "./AvatarSettings"
 import { ColorSettings } from "./ColorSettings"
 import { TwofaSettings } from "./2FASettings";
-import ReactCSSTransitionGroup from 'react-transition-group';
 import { PrivateGuard } from "../../components/PrivateGuard";
 
 type SettingsProps = {
@@ -35,7 +31,6 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
-		console.log(resp)
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,
@@ -71,7 +66,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 
 	// Add transitions
 	display() {
-		if (this.state.display == 0)
+		if (this.state.display === 0)
 			return (
 				<>
 					<PrivateGuard/>
@@ -94,13 +89,13 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 					/>
 				</>
 			)
-		else if (this.state.display == 1)
+		else if (this.state.display === 1)
 			return (<AvatarSettings avatar={this.state.avatar}
 									updateParentState={this.updateState}
 									updateDisplay={this.updateDisplay}
 									editing={true}
 					/>)
-		else if (this.state.display == 2)
+		else if (this.state.display === 2)
 			return (<TwofaSettings	updateParentState={this.updateState}
 									updateDisplay={this.updateDisplay}
 									activating={true}

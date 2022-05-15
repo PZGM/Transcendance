@@ -7,7 +7,6 @@ import '../style/home.css'
 import {UserAPI} from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-import { MiniStatus } from "../asset/MiniStatus";
 import { height } from "@mui/system";
 import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
@@ -15,6 +14,7 @@ import { ConstructionOutlined } from "@mui/icons-material";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { info } from "console";
 import { PrivateGuard } from "../components/PrivateGuard";
+import { UserInfo } from "./ChatPannel/UserInfo";
 
 
 interface HomeProps {
@@ -64,7 +64,7 @@ export class Home extends Component<HomeProps, HomeState> {
         this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
         this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
         this.handleChangeDuration = this.handleChangeDuration.bind(this);
-		this.createNewGame = this.createNewGame.bind(this);
+		//this.createNewGame = this.createNewGame.bind(this);
 	}
 
 	async updateHomeState({login, avatar} : HomeState) {
@@ -107,15 +107,18 @@ export class Home extends Component<HomeProps, HomeState> {
 		})
 	}
 
-	async createNewGame() {
+	/*async createNewGame() {
         UserAPI.createNewGame({
 			winnerId: this.state.winnerId,
 			loserId: this.state.loserId,
 			winnerScore: this.state.winnerScore,
 			loserScore: this.state.loserScore,
-			duration: this.state.duration
+			duration: this.state.duration,
+			roomId: "test",
+			createdDate: new Date(Date.now()),
+			players : [],
 		})
-    }
+    }*/
 
     handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
         const log = e.target.value;
@@ -156,14 +159,6 @@ export class Home extends Component<HomeProps, HomeState> {
 		return (
 			<div className="box">
 				<PrivateGuard/>
-				<Box sx={{backgroundColor: 'pink'}} className='left'>
-				<TextField placeholder='winner id' onChange={this.handleChangeWinnerId} />
-				<TextField placeholder='winner score' onChange={this.handleChangeWinnerScore} />
-				<TextField placeholder='loser id' onChange={this.handleChangeLoserId} />
-				<TextField placeholder='loser score' onChange={this.handleChangeLoserScore} />
-				<TextField placeholder='duration' onChange={this.handleChangeDuration} />
-				<Button onClick={this.createNewGame} variant="contained" style={{borderRadius: 0}} >New!</Button>
-				</Box>
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>

@@ -1,6 +1,3 @@
-import { useReducer } from "react";
-import { StringLiteralLike } from "typescript";
-
 function handleErrors(response) {
     if (!response.ok) {
         throw Error(response.statusText);
@@ -97,8 +94,25 @@ export class ChatAPI {
     }
 
     public static async getByChannelId(channelId: number) {
+        console.log(`get messages from channel: ${channelId}`);
         const resp = await fetch(`${process.env.REACT_APP_MESSAGES_BY_CHANNEL}/${channelId}`, {
             method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json})
+            .catch(err => {
+                console.log('No channels')
+                return null;
+            })
+         return resp
+    }
+
+    public static async joinChannel(channelId: number) {
+        console.log('join API')
+        const resp = await fetch(`${process.env.REACT_APP_JOIN_CHANNEL}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId}),
             credentials: "include"})
             .then(response => {return response.json()})
             .then(json => {return json})

@@ -10,6 +10,9 @@ export class Game {
     duration: number;
 
     @Column()
+    roomId: string;
+
+    @Column()
     winnerId: number;
 
     @Column()

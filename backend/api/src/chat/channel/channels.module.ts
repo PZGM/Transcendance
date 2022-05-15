@@ -10,7 +10,7 @@ import { ChannelsService } from './channels.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Channel]),
-            UsersModule, forwardRef(() => ChatModule)],
+            UsersModule, ChatModule],
   controllers: [ChannelsController],
   providers: [ChannelsService],
   exports: [ChannelsService]

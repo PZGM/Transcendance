@@ -27,14 +27,12 @@ interface UserInfoProps {
     params: any,
 };
 
-let width_button = "100px"
-
 function StatElement(props) {
 	return (
 		<Stack direction="row"
-			justifyContent="space-between"
+			justifyContent="space-evenly"
             alignItems="center"
-        	sx={{width: '80%', fontSize: 'calc(1vw)'}}
+        	sx={{width: '90%', fontSize: '2rem'}}
 			className={"bit9x9 " + props.color} >
 			<div>{props.logo}</div>
 			<div>{props.name}</div>
@@ -62,7 +60,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
             this.setState({
                 user
             })
-        console.log(user?.stats)
     }
 
     async isFriend(){
@@ -87,8 +84,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         if (this.state.user){
             this.eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + this.state.user.id, {withCredentials: true});
             this.eventSource.onmessage = (e: { data: string; }) => {
-                console.log("salut je suis dans l'event")
-                console.log(e.data)
                 let jsonObj: any = JSON.parse(e.data);
                 let status: StatusData = jsonObj as StatusData;
                 if (status.status < 0 || status.status > 4)
@@ -135,16 +130,28 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
 	render () {
         const IconStyle = {
-			width: '1vw',
-			height: '1vw'
+			width: '2vw',
+			height: '2vh'
 		}
 		let description = new Map<number, string>([
-			[0, 'unknow'],
-			[1, 'offline'],
-			[2, 'inactive'],
-			[3, 'connected'],
-			[4, 'playing']]);
-
+			[0, 'Unknow'],
+			[1, 'Offline'],
+			[2, 'Inactive'],
+			[3, 'Connected'],
+			[4, 'Playing']]);
+		let action = new Map<number, string>([
+			[0, 'Unknow'],
+			[1, 'Offline'],
+			[2, 'Inactive'],
+			[3, 'Play match'],
+			[4, 'Watch match']]);
+        let colors = new Map<number, string>([
+            [0, 'white'],
+            [1, 'red'],
+            [2, 'yellow'],
+            [3, 'green'],
+            [4, 'blue']]);
+    
         if (!this.state.user || !this.state.user.stats)
 			return (
 				<div style={{color: 'white'}}>LOADING...</div>
@@ -161,23 +168,28 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                         <Avatar sx={{	width: '10.4vw',
 										height: '10.4vw'}} variant='circular' alt="" src={this.state.user.avatar}/>
                         <Typography variant="h3" color="white">
-                            <div className='bit9x9'>{this.state.login}</div>
+                            <div className='backto1982'>{this.state.login}</div>
                         </Typography>
-                        <Typography variant="h4" color="white">
-                            <div className='bit9x9'> {"Status > "+ description.get(this.state.status)} </div>
-                        </Typography>
-                        <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                            <div className="home_button but_red" >
-                                <div className='bit5x5'> Play Match </div>
+                        <Stack direction="row" justifyContent="center" alignItems="center">
+                            <Typography variant="h4" color="white">
+                                <div className='arcade'> {"Status > "} </div>
+                            </Typography>
+                            <Typography variant="h4" color={colors.get(this.state.status)}>
+                                <div className='arcade'> {description.get(this.state.status)} </div>
+                            </Typography>
+                        </Stack>
+                        <Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1}>
+                            <div className={"home_button but_" + colors.get(this.state.status)} >
+                                <div className='bit5x5'> {action.get(this.state.status)} </div>
                             </div >
-                            <Link className="home_button but_red" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
+                            <Link className="home_button but_white" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
                                 <div className='bit5x5'> Send Message </div>
                             </Link>
-                            <div className="home_button but_red"  onClick={() => {this.changefriend()}}>
+                            <div className={"home_button but_" + ((this.state.friend) ? "red" : "yellow")}  onClick={() => {this.changefriend()}}>
                                 {(this.state.friend) ? <div className='bit5x5'> Remove Friend </div> : <div className='bit5x5'> add Friend </div>}
                             </div>
                         </Stack>
-                        <Box sx={{ p: 1, border: '3px solid grey' }} width="23vh">
+                        <Box sx={{ p: 1, border: '3px solid grey' }} width="15vw">
                             <Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2}>
                                 <StatElement color="red" logo={<GamepadIcon style={IconStyle}/>} name="games" data={this.state.user.stats.games} />
                                 <StatElement color="green" logo={<EmojiEventsIcon style={IconStyle}/>} name="wins" data={this.state.user.stats.gameWins} />

@@ -13,8 +13,6 @@ export class MessagesService {
   constructor(
     @InjectRepository(Chat)
     private readonly messagesRepository: Repository<Chat>,
-    private readonly channelsService: ChannelsService,
-    private readonly usersService: UsersService
   ) {}
 
   findAll() {
@@ -44,18 +42,15 @@ export class MessagesService {
   }
 
   async create(messageDto: MessageDto) {
-    console.log('create message');
-    console.log(messageDto);
     const message = new Chat();
     message.content = messageDto.content;
-    // const channel: Channel = await this.channelsService.getOne(messageDto.channelId);
     let channel = new Channel();
     channel.id = messageDto.channelId;
     message.channel = channel;
-    // let author: User = await this.usersService.getOne(messageDto.authorId);
     let author = new User();
     author.id = messageDto.authorId;
     message.author = author;
+    message.service = messageDto.service
     return this.messagesRepository.save(message);
   }
 
