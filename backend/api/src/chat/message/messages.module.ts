@@ -7,7 +7,7 @@ import { MessagesController } from './messages.controller';
 import { MessagesService } from './messages.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Chat]), ChannelsModule, UsersModule],
+  imports: [TypeOrmModule.forFeature([Chat])],
   controllers: [MessagesController],
   providers: [MessagesService],
   exports: [MessagesService]

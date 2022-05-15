@@ -24,7 +24,8 @@ export class ChatGateway {
   
   }
 
-  handleJoinChannel() {
+  handleJoinChannel(chanId: number, userId: number) {
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN'});
   }
 
   async handleConnection(socket: Socket) {

@@ -35,6 +35,8 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
         });
 
         this.socket.on('service', message => {
+            console.log('new service in fronted:');
+            console.log(message);
             this.props.transmitService(message);
         });
     }

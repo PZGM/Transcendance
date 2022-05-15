@@ -13,7 +13,7 @@ import { ChatGateway } from '../chat.gateway';
 export class ChannelsService {
   constructor(
     @InjectRepository(Channel)
-    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService
+    private readonly channelsRepository: Repository<Channel>, private readonly usersService: UsersService, private readonly chatGateway: ChatGateway
   ) {}
 
   public async getChannelsNames(userId: number): Promise<string[]|null> {
@@ -168,8 +168,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     chan.users.push(await this.usersService.getOne(userId));
     }
     this.channelsRepository.save(chan);
-    console.log('channel after join:');
-    console.log(chan);
+    console.log(`channel ${chanId} joined by ${userId}`);
+    this.chatGateway.handleJoinChannel(chanId, userId);
     return true;
 }
 
