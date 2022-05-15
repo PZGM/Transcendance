@@ -30,43 +30,40 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 
     afterInit(server: Server) {
         setInterval(() => {
+
+			let playerOne: UserDto
+			let playerTwo: UserDto
+			let roomId: string
+			let room: Room
+
 			if (this.queue.sizeEasy() > 1) {
-				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Easy);
-                const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Easy);
-				const  roomId: string = `Easy: ${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+				playerOne = this.queue.getOneUser(Difficulty.Easy);
+                playerTwo = this.queue.getOneUser(Difficulty.Easy);
+				roomId = `Easy: ${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
 				
-				let room  = new Room(roomId, Difficulty.Easy, playerOne, playerTwo);
-				
-				this.server.to(playerOne.socketId).emit("Easy Room", room);
-				this.server.to(playerTwo.socketId).emit("Easy Room",  room);
-				this.rooms.set(roomId, room);
-				this.server.emit("New Room", roomId);
+				room = new Room(roomId, Difficulty.Easy, playerOne, playerTwo);
 			}
-            if (this.queue.sizeMedium() > 1) {
-				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Medium);
-                const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Medium);
-				const  roomId: string = `Medium :${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+            else if (this.queue.sizeMedium() > 1) {
+				playerOne = this.queue.getOneUser(Difficulty.Medium);
+                playerTwo = this.queue.getOneUser(Difficulty.Medium);
+				roomId = `Medium: ${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
 				
-				let room  = new Room(roomId, Difficulty.Medium, playerOne, playerTwo);
-				
-				this.server.to(playerOne.socketId).emit("Medium Room", room);
-				this.server.to(playerTwo.socketId).emit("Medium Room",  room);
-				this.rooms.set(roomId, room);
-				this.server.emit("New Room", roomId);
+				room = new Room(roomId, Difficulty.Medium, playerOne, playerTwo);
 			}
-            if (this.queue.sizeHard() > 1) {
-				const playerOne : UserDto= this.queue.getOneUser(Difficulty.Hard);
-                const playerTwo : UserDto = this.queue.getOneUser(Difficulty.Hard);
-				const  roomId: string = `Hard :${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
-				
-				let room  = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
-				
-				this.server.to(playerOne.socketId).emit("Hard Room", room);
-				this.server.to(playerTwo.socketId).emit("Hard Room",  room);
-				this.rooms.set(roomId, room);
-				this.server.emit("New Room", roomId);
+            else if (this.queue.sizeHard() > 1) {
+				playerOne = this.queue.getOneUser(Difficulty.Hard);
+                playerTwo = this.queue.getOneUser(Difficulty.Hard);
+				roomId = `Hard: ${playerOne.id} vs ${playerTwo.id} at ${Date.now()}`;
+
+				room = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 			}
-		}, 5432);
+
+			this.server.to(playerOne.socketId).emit("gameRoom", room);
+			this.server.to(playerTwo.socketId).emit("gameRoom",  room);
+			this.rooms.set(roomId, room);
+			// this.server.emit("newRoom", roomId);
+
+		}, 2000);
 		this.logger.log(`Init Pong Gateway`);
     }
 
@@ -133,17 +130,18 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 		{
 			this.queue.rmToQueue(user);
             this.pool.changeStatus(statusEnum.idle, user);
-			this.server.to(socket.id).emit('leavedQueue');
+			this.server.to(socket.id).emit('leftQueue');
 		}
         this.usersService.setUserStatus(userId, statusEnum.idle);
 	}
+
     @SubscribeMessage('spectateRoom')
 	async handleSpectateRoom(@ConnectedSocket() socket: Socket, userId: number, roomId: string) {
 		const room: Room = this.rooms.get(roomId);
 		if (room) {
 			const user = this.pool.find(await this.usersService.getOne(userId));
 			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("Game Room", room);
+				this.server.to(socket.id).emit("spectRoom", room);
                 this.pool.changeStatus(statusEnum.watching, user);
             }
             this.usersService.setUserStatus(userId, statusEnum.watching);
@@ -175,10 +173,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 			this.pool.changeStatus(statusEnum.idle, user);
             this.usersService.setUserStatus(userId, statusEnum.idle);
 		}
-		this.server.to(socket.id).emit("leavedRoom");
+		this.server.to(socket.id).emit("leftRoom");
 	}
 
-	@SubscribeMessage('update')
+	@SubscribeMessage('updateRoom')
 	async handleRequestUpdate(@ConnectedSocket() socket: Socket, @MessageBody() roomId: string) {
 		
 		const room: Room = this.rooms.get(roomId);
@@ -217,10 +215,10 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 	}
 
 	@SubscribeMessage('key')
-	async handleKeyUp(@ConnectedSocket() socket: Socket, roomId: string, key: string, login: string) {
+	async handleKeyUp(@ConnectedSocket() socket: Socket, userId: number, roomId: string, key: string) {
 		const room: Room = this.rooms.get(roomId);
 
-		if (room && room.playerOne.user.login === login)
+		if (room && room.playerOne.user.id === userId)
 		{
 			if (key === 'Up')
 				room.playerOne.coor.dy = 1;
@@ -230,7 +228,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 				room.playerOne.coor.dy = 0;
 
 		}
-		else if (room && room.playerTwo.user.login === login)
+		else if (room && room.playerTwo.user.id === userId)
 		{
 			if (key === 'Up')
 				room.playerTwo.coor.dy = 1;
