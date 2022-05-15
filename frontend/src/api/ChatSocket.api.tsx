@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import React from "react";
 
 interface ChatSocketAPIProps{
-    transmitMessage: any;
+    receiveMessage: any;
     transmitService: any;
 }
 
@@ -33,7 +33,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
         });
 
         this.socket.on('message', message => {
-            this.props.transmitMessage(message);
+            this.props.receiveMessage(message);
         });
 
         this.socket.on('service', message => {

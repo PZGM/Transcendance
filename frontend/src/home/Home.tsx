@@ -36,7 +36,6 @@ interface HomeState {
 	loserScore: number,
 	duration: number,
 	channel: any;
-	room: any;
 }
 
 
@@ -60,8 +59,7 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      		channel: undefined,
-			room: undefined
+      		channel: undefined
 		}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
@@ -97,12 +95,6 @@ export class Home extends Component<HomeProps, HomeState> {
         let chan = await ChatAPI.getChannelById(1);
 		this.setState({channel: chan});
     }
-
-
-	async getRoom() {
-		let room = await GameAPI.getRoom();
-		this.setState({room})
-	}
 
 	componentDidMount()  {
 		this.fetchUser();
@@ -171,7 +163,7 @@ export class Home extends Component<HomeProps, HomeState> {
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game room={this.state.room}/>
+				<Game/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
