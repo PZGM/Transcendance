@@ -60,7 +60,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
             this.setState({
                 user
             })
-        console.log(user?.stats)
     }
 
     async isFriend(){

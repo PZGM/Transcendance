@@ -1,4 +1,4 @@
-import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
+import { Avatar, ListItem, Stack } from "@mui/material";
 import { Component } from "react";
 import { GameDto } from '../../api/dto/game.dto'
 import moment from 'moment'
@@ -27,7 +27,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 
 	getColor(): string
 	{
-		if (this.props.index == this.props.game.winnerId)
+		if (this.props.index === this.props.game.winnerId)
 			return "green";
 
 		return "red";
@@ -35,8 +35,8 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 
 	render () {
 
-		const w_id: number = this.props.game.winnerId == this.props.game.players[0].id ? 0 : 1;
-		const l_id: number = this.props.game.loserId == this.props.game.players[0].id ? 0 : 1;
+		const w_id: number = this.props.game.winnerId === this.props.game.players[0].id ? 0 : 1;
+		const l_id: number = this.props.game.loserId === this.props.game.players[0].id ? 0 : 1;
 		const date: string = moment(this.props.game.createdDate).format("DD.MM.YYYY - HH:MM")
 
 		return (

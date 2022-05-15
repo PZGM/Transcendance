@@ -1,7 +1,7 @@
-import { Grid, InputBase } from "@mui/material";
-import { Component, useEffect } from "react";
+import { Grid } from "@mui/material";
+import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
 
@@ -39,9 +39,9 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
     }
     
     async updateLogin() {
-        if (this.state.input == this.props.login)
+        if (this.state.input === this.props.login)
             this.setState({editing: false})
-        else if (this.state.input != '')
+        else if (this.state.input !== '')
         {
             let isValid = await UserAPI.updateLogin(this.state.input);
             if (isValid) {

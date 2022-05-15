@@ -1,7 +1,7 @@
-import { Button, Stack, Grid, InputBase, Typography } from "@mui/material";
+import { Stack, Grid } from "@mui/material";
 import { Fragment, Component } from "react";
 import { UserAPI } from "../../api/Users.api";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
 import "../../style/input.css";
@@ -44,7 +44,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
 	}
 
     componentDidMount() {
-        if (this.props.activating == true)
+        if (this.props.activating === true)
             this.enable()
     }
 
@@ -64,7 +64,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
     
     async enable() {
         let state = this.state.twofaState;
-        if (state == 0)
+        if (state === 0)
             state = 1;
         this.setState({
             twofaState: state,
@@ -115,7 +115,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
     }
 
     on() {
-        if (this.state.twofaState == TwofaState.disabled)
+        if (this.state.twofaState === TwofaState.disabled)
             this.props.updateDisplay(2);
         else
             toast.error("2FA is aready active", {
@@ -123,7 +123,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
     }
 
     off() {
-        if (this.state.twofaState == TwofaState.enabled)
+        if (this.state.twofaState === TwofaState.enabled)
             this.disable();
         else
             toast.error("2FA is not active", {
@@ -145,7 +145,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                 >
                     <Grid item xs={4} className="grid_item_style"> 2FA </Grid>
                     <Grid item xs={4} className="grid_item_style">
-                        <div    className={this.state.twofaState == TwofaState.enabled ?
+                        <div    className={this.state.twofaState === TwofaState.enabled ?
                                         "settings_button but_green" : "settings_button but_white"}
                                 onClick={this.on.bind(this)}
                         >
@@ -153,7 +153,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                         </div>
                     </Grid>
                     <Grid item xs={4} className="grid_item_style">
-                        <div className={this.state.twofaState == TwofaState.disabled ?
+                        <div className={this.state.twofaState === TwofaState.disabled ?
                                         "settings_button but_red" : "settings_button but_white"}
                             onClick={this.off.bind(this)}
                         >
@@ -177,6 +177,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
                         {this.state.displayQR && 
                             <img    src={process.env.REACT_APP_2FA_GENERATE}
                                     className="bor_cyan qrcode"
+                                    alt='2FA QR code'
                             />
                         }
                     </Grid>
