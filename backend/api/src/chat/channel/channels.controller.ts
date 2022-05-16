@@ -5,6 +5,7 @@ import { CustomRequest } from 'src/utils/types';
 import { CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto';
 import { ChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
+import passport from 'passport';
 
 @ApiTags('Channel')
 @Controller('channels')
@@ -71,12 +72,16 @@ export class ChannelsController {
 
   @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
-  public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number}) {
-      console.log('body:');
-      console.log(join);
-      console.log('user id :')
-      console.log(request.user.id);
+  public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number, password?: string}) {
+      if (join.password)
+        return await this.channelsService.join(request.user.id, join.channelId, join.password);
       return await this.channelsService.join(request.user.id, join.channelId);
+  }
+
+  @Put('leave')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async leave(@Req() request: CustomRequest,@Body()  leave:{channelId: number}) {
+      return await this.channelsService.removeUser(request.user.id, request.user.id, leave.channelId);
   }
 
   @Put('update/rmUser')
