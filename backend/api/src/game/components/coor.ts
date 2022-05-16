@@ -46,5 +46,5 @@ export interface CoorI {
     speed?: number;
     color? : string;
     difficulty: Difficulty;
-    setting?: Setting;
+    setting: Setting;
   }

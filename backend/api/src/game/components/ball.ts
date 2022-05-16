@@ -8,13 +8,17 @@ export class Ball implements BallDto { //extends?
     goal: number
 
 	constructor(difficulty : Difficulty) {
-        this.goal = 0;
-		this.coor.setting = new Setting(difficulty);
+        
+		this.coor = { 
+			setting : new Setting(difficulty),
+			x : screenSizeX / 2,
+			y : screenSizeY / 2,
+			difficulty : difficulty,
+			dy : 0
+		}
+		this.coor.dx = this.coor.setting.speed * (Math.random() < 0.5 ? 1 : -1);
 		this.coor.speed = this.coor.setting.speed;
-		this.coor.x = screenSizeX / 2;
-        this.coor.y = screenSizeY / 2;
-        this.coor.dx = this.coor.setting.speed * (Math.random() < 0.5 ? 1 : -1);
-        this.coor.dy = 0;
+		this.goal = 0;
 
 	}
 

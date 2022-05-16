@@ -24,15 +24,17 @@ export class Player implements PlayerDTO {
 
     constructor(pInit : PInit) {
 		
-		this.coor.setting = new Setting(pInit.difficulty)
+		this.coor = {setting : new Setting(pInit.difficulty),
+		x : pInit.x,
+		difficulty : pInit.difficulty,
+		y : (screenSizeX / 2) - (this.width/2),
+		dx : 0,
+		dy : 0,
+		color : pInit.color }
+
+		this.coor.speed = this.coor.setting.speed;
 		this.user = pInit.user;
 		this.width = this.coor.setting.width;
-		this.coor.x = pInit.x;
-		this.coor.y = (screenSizeX / 2) - (this.width/2);
-		this.coor.setting.speed;
-		this.coor.dx = 0;
-		this.coor.dy = 0;
-		this.coor.color = pInit.color;
         this.goal = 0;
 	}
     reset(): void {

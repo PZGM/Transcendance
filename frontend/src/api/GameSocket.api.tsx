@@ -16,8 +16,33 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         this.socket = io(`https://serv.pizzagami.fr:6333/game`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
-            this.socket.on('disconnect', (reason) => {
-                console.log(reason);
+                this.socket.on("gameRoom", (room: RoomDto) => {
+                    this.props.receiveGameRoom(room);
+                    console.log(room);
+                    this.socket.emit('joinRoom', room.roomId);
+                });
+    
+                this.socket.on('updateRoom', (room) => {
+                    this.props.updateRoom(room);
+                });
+        
+                this.socket.on('leftRoom', () => {
+                    console.log('Left Room')
+                });
+        
+                this.socket.on('joinedPool', () => {
+                    console.log('Joined Pool')
+                });
+        
+                this.socket.on('joinedQueue', () => {
+                    console.log('Joined Queue')
+                });
+
+                this.socket.on('leftQueue', () => {
+                    console.log('Left Queue')
+                });
+                this.socket.on('disconnect', (reason) => {
+                    console.log(reason);
             });
         });
     }
@@ -29,7 +54,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 	}
 
 	joinQueue(userId: number, difficulty: Difficulty) {
-		this.socket.emit('joinQueue', {id: userId, difficulty :difficulty});
+		this.socket.emit('joinQueue', {userId: userId, difficulty :difficulty});
 	}
 
     leaveQueue(userId: number) {
@@ -54,52 +79,53 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
     // Gateway functions receivers
 
-    receiveGameRoom() {
-        this.socket.on('gameRoom', (room: RoomDto) => {
-            this.props.receiveGameRoom(room);
-            this.socket.emit('joinRoom', room.roomId);
-        });
-    }
-
-    // receiveNewRoomId() {
-    //     this.socket.on('newRoom', room => {
-    //         this.props.receiveRoom(room);
+    // receiveGameRoom() {
+    //     this.socket.on('gameRoom', (room: RoomDto) => {
+    //         this.props.receiveGameRoom(room);
+    //         console.log(room);
+    //         this.socket.emit('joinRoom', room.roomId);
     //     });
     // }
+
+    // // receiveNewRoomId() {
+    // //     this.socket.on('newRoom', room => {
+    // //         this.props.receiveRoom(room);
+    // //     });
+    // // }
     
-    // receiveSpectateRoom() {
-    //     this.socket.on('spectRoom', (room) => {
-    //         this.props.receiveSpectRoom(room)
+    // // receiveSpectateRoom() {
+    // //     this.socket.on('spectRoom', (room) => {
+    // //         this.props.receiveSpectRoom(room)
+    // //     })
+    // // }
+
+    // recieveUpdateRoom() {
+    //     this.socket.on('updateRoom', (room) => {
+    //         this.props.updateRoom(room);
     //     })
     // }
 
-    recieveUpdateRoom() {
-        this.socket.on('updateRoom', (room) => {
-            this.props.updateRoom(room);
-        })
-    }
+    // receiveLeftRoomConf() {
+    //     this.socket.on('leftRoom', () => {
+    //         console.log('Left Room')
+    //     });
+    // }
 
-    receiveLeftRoomConf() {
-        this.socket.on('leftRoom', () => {
-            console.log('Left Room')
-        });
-    }
+    // receiveJoinPoolConf() {
+    //     this.socket.on('joinedPool', () => {
+    //         console.log('Joined Pool')
+    //     });
+    // }
 
-    receiveJoinPoolConf() {
-        this.socket.on('joinedPool', () => {
-            console.log('Joined Pool')
-        });
-    }
+    // receiveJoinQueueConf() {
+    //     this.socket.on('joinedQueue', () => {
+    //         console.log('Joined Queue')
+    //     });
+    // }
 
-    receiveJoinQueueConf() {
-        this.socket.on('joinedQueue', () => {
-            console.log('Joined Queue')
-        });
-    }
-
-    receiveLeftQueueConf() {
-        this.socket.on('leftQueue', () => {
-            console.log('Left Queue')
-        });
-    }
+    // receiveLeftQueueConf() {
+    //     this.socket.on('leftQueue', () => {
+    //         console.log('Left Queue')
+     //   });
+   // }
 }

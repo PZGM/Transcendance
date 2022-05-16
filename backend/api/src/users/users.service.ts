@@ -127,7 +127,7 @@ export class UsersService {
         const user: User|null = await this.getOne(userId);
         if (!user)
             return false;
-        user.socketId= socket;
+        user.socketId = socket;
         await this.userRepository.save(user);
         return true;
     }

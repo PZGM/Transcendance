@@ -56,6 +56,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.server.to(playerOne.socketId).emit("gameRoom", room);
 				this.server.to(playerTwo.socketId).emit("gameRoom",  room);
+				this.server.emit("gameRoom", room);
+				console.log(playerOne.socketId);
 				this.rooms.set(roomId, room);
 			}
 		}, 2000);
@@ -94,12 +96,12 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
-		console.log(userId.id);
 		const user : UserDto = await this.usersService.getOne(userId.id);
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
 				return ;
 		});
+		user.socketId = socket.id;
 		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
         this.server.to(socket.id).emit('joinedPool');
@@ -141,6 +143,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
+		console.log(data.userId);
 		if (user && !this.queue.find(user))
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
@@ -148,8 +151,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.server.to(socket.id).emit('joinedQueue');
 			console.log(`socket ${user.login}: ${socket.id} was added to queue !`)
 			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
+			this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
 		}
-        this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
 	}
 
 	@SubscribeMessage('leaveQueue')
