@@ -19,7 +19,7 @@ interface AchievementState {
 export class Achievement extends Component<AchievementProps, AchievementState> {
 	constructor(props: AchievementProps) {
 		super(props);
-		this.state = {games: 0, winRow: 0, under3min: 0, golden: 0, elo: 0}
+		this.state = {games: 0, winRow: 0, under3min: 0, golden: 0, elo: 400}
 	}
 	
 	async fetchProfile() {

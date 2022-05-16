@@ -11,10 +11,15 @@
 }
 
 .game_frame {
+	width: 60vw;
+	height: calc(60vw * 3/4);
+	/* padding: 5px; */
+	border: 0.5vw solid rgba(142, 0, 172, 1);
+	outline: 0.5vw solid rgba(142, 0, 172, 0.5);
 	background-color: black;
-	width: 55vw;
-	height: calc(55vw * 3/4);
-	border: 10px solid magenta;
+	justify-content: center;
+	display: flex;
+	flex-direction: row;
 }
 
 .frame_div {

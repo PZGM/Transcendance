@@ -85,7 +85,9 @@ export class Game extends Component<GameProps, GameState>
 		return (
 			<div className="background">
 				<div className="frame_div">
-					{this.display()}
+					<div className="game_frame">
+						{this.display()}
+					</div>
 				</div>
             </div>
 		)
