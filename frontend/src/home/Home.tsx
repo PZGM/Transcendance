@@ -8,6 +8,8 @@ import { Link, Outlet, useParams } from "react-router-dom";
 import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
+import { Stack } from "@mui/material";
+import { Selecter } from "./ChatPannel/header/Selecter";
 
 
 interface HomeProps {
