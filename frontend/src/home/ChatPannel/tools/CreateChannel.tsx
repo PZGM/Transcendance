@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
+import { Button, ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
 import '../../../style/colors.css'
 import { UserAPI } from '../../../api/Users.api';
@@ -7,7 +7,7 @@ import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 function CreateChannel() {
@@ -49,11 +49,12 @@ function CreateChannel() {
             })
         }
         else{
+            setRedirect(`/home/chat/${name}`);
+            setOpenCreate(false);
             Sendchannel();
             setName("");
             setVisibility("public")
             setPassword("")    
-            setOpenCreate(false);
         }
     };
 
@@ -172,9 +173,9 @@ function CreateChannel() {
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <ButtonBase component={Navigate} to={redirect} onClick={handleCreate} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
+                            <NavLink to={redirect} onClick={handleCreate} className="home_button but_red">
                                 <div className='bit5x5'> Save </div>
-                            </ButtonBase>
+                            </NavLink>
                         </Stack>
                     </Stack>
                 </DialogContent>
