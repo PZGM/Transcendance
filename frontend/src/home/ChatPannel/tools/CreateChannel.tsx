@@ -172,7 +172,7 @@ function CreateChannel() {
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <ButtonBase onClick={handleCreate} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
+                            <ButtonBase component={Navigate} to={redirect} onClick={handleCreate} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
                                 <div className='bit5x5'> Save </div>
                             </ButtonBase>
                         </Stack>

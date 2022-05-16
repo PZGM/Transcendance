@@ -6,7 +6,7 @@ import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
-
+import EditIcon from '@mui/icons-material/Edit';
 interface ChanInfoState {
 	chan?: any;
 	friends: any;
@@ -109,7 +109,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 {/* TODO faire une ternaire pour savoir s'il est admin afin d'afficher l'icone */}
 					{ (false) ? <></> :<Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
-							<AddIcon/>
+							<EditIcon/>
 						</Link>
 					</Stack>}
 				</Stack>
