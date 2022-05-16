@@ -99,7 +99,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	render () {
 		return (
 			<>
-				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8",display: "flex", justifyContent: "center", alignItems: "center"}}>
+				<Box width="19.5vw" height={Hbar} sx={{backgroundColor: "#03C7D8", display: "flex", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center"  >
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
 							<Link style={{height: Hchan, width: Hi, textDecoration: 'none',fontSize: "large"}} to={{pathname: (window.location.pathname.search("/home/chat")) ? process.env.REACT_APP_USER + "" + this.state.name + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.name + "/info"}}>
