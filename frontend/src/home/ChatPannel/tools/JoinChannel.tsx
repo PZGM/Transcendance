@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { WhatsappOutlined } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { UserAPI } from '../../../api/Users.api';
+import { Navigate } from 'react-router-dom';
 
 interface JoinChannelProps{
     setOpen: any,
