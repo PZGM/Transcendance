@@ -7,6 +7,7 @@ import "../../../style/input.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Navigate } from 'react-router-dom';
+import JoinChannel from './JoinChannel'
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 function CreateChannel() {
@@ -51,31 +52,6 @@ function CreateChannel() {
         setOpenCreate(false);
     };
 
-    const handleJoin = async () => {
-        // TODO le join du channel
-        if (visibility === "protected" && password === "") {
-            toast.error("No password for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
-            })
-        }
-        else if(name === "") {
-            toast.error("No name for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
-            })
-        }
-        else{
-            const channel = await ChatAPI.getChannelByName(name);
-            await ChatAPI.joinChannel(channel.id);
-            //redirect to /
-            setName("");
-            setVisibility("public")
-            setPassword("")    
-            setOpenCreate(false);
-            setRedirect(`/home/chat/${name}`);
-
-        }
-    };
-
     const handleCancelJoin = () => {
         setName("");
         setVisibility("public")
@@ -101,7 +77,7 @@ function CreateChannel() {
                 </ButtonBase>
             </Stack>
             <Dialog open={openCreate} onClose={handleCancelCreate}>
-                <DialogContent sx={{backgroundColor: "black"}}>
+                <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column">
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
                             <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
@@ -132,32 +108,7 @@ function CreateChannel() {
                 </DialogContent>
             </Dialog>
             <Dialog open={openJoin} onClose={handleCancelJoin}>
-                <DialogContent sx={{backgroundColor: "black"}}>
-                    <Stack spacing={2} direction="column" >
-                        <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
-                        </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
-                                <div className='bit5x5'> Public </div>
-                            </div>
-                            <div className={"home_button but_" + ((visibility === "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
-                                <div className='bit5x5'> Protected </div>
-                            </div>
-                        </Stack>
-                        <Stack justifyContent="center" alignItems="center">
-                            {(visibility === "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
-                        </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div className="home_button but_red" onClick={handleCancelJoin}>
-                                <div className='bit5x5' > Cancel </div>
-                            </div>
-                            <div onClick={handleJoin} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
-                                <div className='bit5x5'> join </div>
-                            </div>
-                        </Stack>
-                    </Stack>
-                </DialogContent>
+                <JoinChannel setOpen={setOpenJoin} />
             </Dialog>
 
         </>
