@@ -1,15 +1,18 @@
 import { Stack, List } from "@mui/material";
 import { Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 import EditIcon from '@mui/icons-material/Edit';
+import { ChatAPI } from "../../api/Chat.api";
+
 interface ChanInfoState {
 	chan?: any;
 	friends: any;
+	redirect: string;
 }
 
 interface ChanInfoProps {
@@ -28,6 +31,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		this.state = {
 			chan: undefined,
 			friends: [],
+			redirect: '',
 		}
 		this.deleteFriend = this.deleteFriend.bind(this);
 		this.addFriend = this.addFriend.bind(this);
@@ -96,10 +100,18 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	  return listItems;
 	}
 
+	async leave() {
+		await ChatAPI.leaveChannel(this.state.chan);
+		this.setState({
+			redirect: '/home'
+		})
+	}
+
 	render () {
 
 		return (
 			<>
+			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan }}>
@@ -140,7 +152,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 					</Stack>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
-					<div className="add_user_button but_red" >
+					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
 					</div>
 				</Stack>
