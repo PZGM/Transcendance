@@ -4,7 +4,6 @@ import { Difficulty, RoomDto } from './dto/game.dto';
 
 interface GameSocketAPIProps{
     receiveGameRoom: any;
-    receiveSpectRoom: any;
     updateRoom: any;
 }
 
@@ -67,11 +66,11 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     //     });
     // }
     
-    receiveSpectateRoom() {
-        this.socket.on('spectRoom', (room) => {
-            this.props.receiveSpectRoom(room)
-        })
-    }
+    // receiveSpectateRoom() {
+    //     this.socket.on('spectRoom', (room) => {
+    //         this.props.receiveSpectRoom(room)
+    //     })
+    // }
 
     recieveUpdateRoom() {
         this.socket.on('updateRoom', (room) => {
