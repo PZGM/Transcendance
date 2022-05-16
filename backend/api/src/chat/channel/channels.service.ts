@@ -152,15 +152,13 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   public async join(userId: number, chanId: number, password?: string) {
     const chan: Channel | null = await this.getOne(chanId);
     if (!chan) {
-      throw new NotFoundException(`Channel [${chanId}] not found`);
       return false;
     }
     if (chan.visibility === "protected") {
-      const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
-      const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
-      if(decryptedPassword.toString() !== password) {
-        throw new NotFoundException(`Incorrect password`);
-        return false;
+      const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
+      const encryptedPassword = Buffer.concat([cipher.update(password), cipher.final()]);
+      if(encryptedPassword.toString() !== chan.password) {
+         return false;
       }
     }
     if (!(chan.users.some((user: User) => {return user.id == userId}))) {
