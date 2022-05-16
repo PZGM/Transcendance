@@ -107,9 +107,19 @@ export class ChatAPI {
          return resp
     }
 
-    public static async joinChannel(channelId: number) {
-        console.log('join API')
+    public static async joinChannel(channelId: number, password?: string): Promise<boolean> {
         const resp = await fetch(`${process.env.REACT_APP_JOIN_CHANNEL}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: password ? JSON.stringify({channelId, password}) : JSON.stringify({channelId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async leaveChannel(channelId: number) {
+        const resp = await fetch(`${process.env.REACT_APP_LEAVE_CHANNEL}`, {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({channelId}),
