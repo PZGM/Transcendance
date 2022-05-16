@@ -7,7 +7,8 @@ import '../../../style/buttons.css'
 import { UserAPI } from "../../../api/Users.api";
 import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
-
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 interface SelecterProps {
 	channelName: string;
 };
@@ -106,6 +107,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 							</Link>
 							<ButtonBase onClick={this.handleClick} style={{height: Hchan,fontSize: "large"}} >
 								<div className='bit9x9'>{this.state.name}</div>
+								<div>{(this.state.open == false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
 							</ButtonBase>
 							<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={this.handleClickAway}>
 								<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black"}} open={this.state.open} anchorEl={this.state.anchorEl}>
