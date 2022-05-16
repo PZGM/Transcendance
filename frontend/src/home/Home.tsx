@@ -1,4 +1,3 @@
-import { Stack } from "@mui/material";
 import React, { Component } from "react";
 import '../App.css';
 import '../style/style.css'
@@ -6,13 +5,9 @@ import '../style/home.css'
 import { UserAPI } from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-import { height } from "@mui/system";
 import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
-import { Selecter } from './ChatPannel/header/Selecter'
-import { PrivateGuard } from "../components/PrivateGuard";
 import { Game } from "./Game/Game";
-import { UserInfo } from "./ChatPannel/UserInfo";
 
 
 interface HomeProps {
