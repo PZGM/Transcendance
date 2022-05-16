@@ -6,7 +6,7 @@ import { MessagesModule } from './message/messages.module';
 //forwardRed -> solve circular dependency
 
 @Module({
-  imports: [forwardRef(() => ChannelsModule), forwardRef(() => MessagesModule)],
+  imports: [MessagesModule],
   controllers: [],
   providers: [ChatGateway],
   exports: [ChatGateway]

@@ -20,6 +20,7 @@ function App() {
 			>
 				<img	src={require('./asset/images/ft_transcendance.png')}
 						style={{width: '100%'}}
+						alt='transcendance logo'
 				/>
 				
 				<div
@@ -35,6 +36,7 @@ function App() {
 					<img
 						src={require('./asset/images/42_Logo.png')}
 						style={{width: '15%', margin: '2%'}}
+						alt='42 connnect'
 					/>
 					</Stack>
 				</div>
@@ -43,10 +45,12 @@ function App() {
 					<img
 						src={require('./asset/images/afreire_braimbau.png')}
 						style={{width: '50%'}}
+						alt='afreire braimabu'
 						/>
 					<img
 						src={require('./asset/images/fmanetti_selgrabl.png')}
 						style={{width: '50%'}}
+						alt='fmanetti slegrabl'
 						/>
 				</div>
 

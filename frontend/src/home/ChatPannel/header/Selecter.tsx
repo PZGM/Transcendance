@@ -1,15 +1,10 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonBase, ClickAwayListener, Fade, FormControl, Grow, InputLabel, List, ListSubheader, Menu, MenuItem, NativeSelect, Popover, Popper, Select, SelectChangeEvent, Stack, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, ButtonBase, ClickAwayListener, List, Popper, Stack } from "@mui/material";
 import { Component} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 import { Link } from "react-router-dom";
-import SelectUnstyled from '@mui/base/SelectUnstyled';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ChatAPI } from "../../../api/Chat.api";
-import styles from './../../style/dac.module.css'
 import '../../../style/buttons.css'
 import { UserAPI } from "../../../api/Users.api";
-import { Backdrop } from "@mui/material";
-import { Dialog } from "@mui/material";
 import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 

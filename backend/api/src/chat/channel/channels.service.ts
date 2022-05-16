@@ -96,7 +96,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     
     
     let channel: Channel = new Channel();
-    console.log(`owner id : ${createChannelDto.ownerId}`)
     const owner: User|null = (createChannelDto.ownerId != -1) ? await this.usersService.getOne(createChannelDto.ownerId) : null;
     channel.name = createChannelDto.name;
     channel.visibility = createChannelDto.visibility;
@@ -150,23 +149,26 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return this.channelsRepository.save(chan);
   }
   
-  public async join(userID: number, chanID: number, password?: string) {
-    const chan: Channel | null = await this.getOne(chanID);
+  public async join(userId: number, chanId: number, password?: string) {
+    const chan: Channel | null = await this.getOne(chanId);
     if (!chan) {
-      throw new NotFoundException(`Channel [${chanID}] not found`);
+      throw new NotFoundException(`Channel [${chanId}] not found`);
+      return false;
     }
     if (chan.visibility === "protected") {
       const decipher = createDecipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const decryptedPassword = Buffer.concat([decipher.update(Buffer.from(chan.password)), decipher.final(),]);
       if(decryptedPassword.toString() !== password) {
         throw new NotFoundException(`Incorrect password`);
+        return false;
       }
     }
-    if (!(chan.users.some((user: User) => {return user.id == userID}))) {
-    chan.users.push(await this.usersService.getOne(userID));
+    if (!(chan.users.some((user: User) => {return user.id == userId}))) {
+    chan.users.push(await this.usersService.getOne(userId));
     }
-    this.chatGateway.handleJoinChannel();
-    return this.channelsRepository.save(chan);
+    this.channelsRepository.save(chan);
+    this.chatGateway.handleJoinChannel(chanId, userId);
+    return true;
 }
 
   public async removeUser(userID: number, rmID : number, chanID: number) {

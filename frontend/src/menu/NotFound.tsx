@@ -1,11 +1,9 @@
-import { Box, ListItem, ListItemButton, ListItemText, Grid, Divider, Typography, ButtonBase, Button, Stack, Container } from "@mui/material";
+import { Box, Typography, ButtonBase, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
-import { FixedSizeList, ListChildComponentProps } from "react-window";
 import '../style/basics.css'
 import './../asset/fonts/fonts.css'
-import styles from './../style/dac.module.css'
 
 
 interface NotFoundProps {

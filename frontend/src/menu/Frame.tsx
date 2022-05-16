@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import { Component} from "react";
 import Menu from "./Menu";
-import background from "./../asset/images/background.jpg"
 import { Outlet } from "react-router-dom";
 import "../style/display.css";
 

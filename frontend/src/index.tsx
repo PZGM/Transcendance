@@ -1,10 +1,8 @@
 import 'react-app-polyfill/stable';
-import { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useParams } from 'react-router-dom';
 import { Home } from './home/Home';
 import { Profile } from './menu/profile/Profile';
 import { Friends } from './menu/friends/Friends';
@@ -21,7 +19,6 @@ import { UserInfo } from './home/ChatPannel/UserInfo'
 import { ChanInfo } from './home/ChatPannel/ChanInfo'
 import { ChanEdit } from './home/ChatPannel/ChanEdit'
 import { ChanAddUser } from './home/ChatPannel/ChanAddUser'
-import { UserAPI } from './api/Users.api';
 
 // FONTS
 
@@ -32,9 +29,6 @@ import './asset/fonts/Bit5x5.woff';
 import './asset/fonts/Bit9x9.woff';
 import './asset/fonts/lemon.woff';
 import './asset/fonts/ManaspaceReg.woff';
-import { useState } from 'react';
-import { getDefaultLibFilePath } from 'typescript';
-import { UserDto } from './api/dto/user.dto';
 
 const rootElement = document.getElementById("root");
 
@@ -62,42 +56,6 @@ const WrapperChanAddUser = (props) => {
   const params = useParams();
   return <ChanAddUser {...{...props, params} } /> 
 }
-
-// type ProtectedRouteProps = {}
-
-// interface ProtectedRouteState {
-//   logged: boolean
-//   user?: UserDto
-// }
-
-// class ProtectedRoute extends Component<ProtectedRouteProps, ProtectedRouteState>
-// {
-//   constructor(props: ProtectedRouteProps) {
-//     super(props);
-//     this.state = {
-//       logged: false,
-//       user: undefined
-//     }
-//     this.fetch();
-//   }
-  
-//   async fetch()
-//   {
-//     const usr = await UserAPI.getUser();
-//     if (usr)
-//       this.setState({
-//         logged: usr.firstLog,
-//         user: usr
-//       })
-//   }
-
-//   render()
-//   {
-//     if (!this.state.logged)
-// 			  return (<UserInit/>)
-//     return (<Home/>)
-//   }
-// }
 
 
 ReactDOM.render(

@@ -1,5 +1,5 @@
-import { Avatar, Box, Stack, Grid, Typography } from "@mui/material";
-import React, { Component } from "react";
+import { Avatar, Stack, Grid } from "@mui/material";
+import { Component } from "react";
 import GamepadIcon from '@mui/icons-material/Gamepad';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import FaceIcon from '@mui/icons-material/Face';

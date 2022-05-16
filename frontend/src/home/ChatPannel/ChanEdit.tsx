@@ -1,13 +1,9 @@
-import { Avatar, Box, ButtonBase, IconButton, List, Stack, Typography } from "@mui/material";
+import { List, Stack } from "@mui/material";
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
+import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import RenderRows from "./tools/RenderRows";
 import RenderRowsEdit from "./tools/RenderRowsEdit";
-import AddIcon from '@mui/icons-material/Add';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import "../../style/buttons.css"
 import { UserDto } from "../../api/dto/user.dto";
 import '../../style/display.css';
@@ -91,7 +87,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	deleteFriend(id:number) {
 		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id != id;
+			return user.id !== id;
 		});
 
 		this.setState({
