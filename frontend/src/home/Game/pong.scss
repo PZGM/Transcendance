@@ -1,0 +1,180 @@
+/* ----- vars ----- */
+$black: #000000;
+$white: #ffffff;
+
+// ----- general -----
+body {
+	display: flex;
+	height: 100vh;
+	box-sizing: border-box;
+	background: $black;
+}
+
+.field {
+	margin: auto auto;
+	width: 400px;
+	height: 260px;
+	position: relative;
+	
+	border-width: 6px;
+	border-style: solid;
+	border-color: $white;
+	
+	.ping, .pong {
+		width: 6px;
+		height: 30px;
+		
+		position: absolute;
+		
+		background: $white;
+	}
+	
+	.ping {
+		left: 6%;
+		animation: ping 6s infinite linear;
+	}
+	
+	.pong {
+		right: 6%;
+		animation: pong 6s infinite linear;
+	}
+	
+	.ball {
+		width: 8px;
+		height: 8px;
+		
+		position: absolute;
+		background: $white;
+		
+		animation: ball 6s infinite linear;
+	}
+}
+
+// ----- keyframes ------
+
+@keyframes ball {
+	0% { // start in the middle
+		top: 34%;
+		left: 52%;
+	}
+	8.3% { // pong
+		top: 52%;
+		left: 90%;
+	}
+	24.9% { // ping
+		top: 85%;
+		left: 8%;
+	}
+	30% {
+		top: 98%;
+		left: 27%;
+	}
+	41.5% { // pong
+		top: 70%;
+		left: 90%;
+	}
+	58.1% { // ping
+		top: 55%;
+		left: 8%;
+	}
+	74.7% { //pong
+		top: 13%;
+		left: 90%;
+	}
+	79% {
+		top: 1%;
+		left: 70%;
+	}
+	91.3% { // ping
+		top: 22%;
+		left: 8%;
+	}
+	100% { // back to center
+		top: 34%;
+		left: 52%;
+	}
+}
+
+@keyframes ping { // left player
+	0% {
+		top: 10%;
+	}
+	5% {
+		top: 10%;
+	}
+	9% {
+		top: 24%;
+	}
+	13% {
+		top: 17%;
+	}
+	24.9% { // tap
+		top: 82%;
+	}
+	47% {
+		top: 37%;
+	}
+	52% {
+		top: 41%;
+	}
+	56% {
+		top: 64%;
+	}
+	58.1% { // tap
+		top: 54%;
+	}
+	70% {
+		top: 74%;
+	}
+	84% {
+		top: 12%;
+	}
+	91.3% { // tap
+		top: 18%;
+	}
+	100% {
+		top: 10%;
+	}
+}
+
+@keyframes pong { // right player
+	0% {
+		top: 90%;
+	}
+	8.3% { // tap
+		top: 51%;
+	}
+	20% {
+		top: 60%;
+	}
+	25% {
+		top: 34%;
+	}
+	41.5% { // tap
+		top: 68%;
+	}
+	46% {
+		top: 36%;
+	}
+	52% {
+		top: 18%;
+	}
+	58.1% {
+		top: 53%;
+	}
+	66% {
+		top: 14%;
+	}
+	70% {
+		top: 20%;
+	}
+	74.7% {
+		top: 10%;
+	}
+	91.3% { // tap
+		top: 10%;
+	}
+	100% {
+		top: 90%;
+	}
+}

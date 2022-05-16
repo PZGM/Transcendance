@@ -3,12 +3,26 @@ import React, { Component } from "react";
 import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
+<<<<<<< HEAD
 import {UserAPI} from "../api/Users.api";
 import { Outlet } from "react-router-dom";
+=======
+import { UserAPI } from "../api/Users.api";
+import { GameAPI } from "../api/Game.api";
+import SendIcon from '@mui/icons-material/Send';
+import { Link, Outlet, useParams } from "react-router-dom";
+import { MiniStatus } from "../asset/MiniStatus";
+import { height } from "@mui/system";
+>>>>>>> eb4967d0ab1221f09b385e5602196f4fb485736a
 import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { PrivateGuard } from "../components/PrivateGuard";
+<<<<<<< HEAD
+=======
+import { Game } from "./Game/Game";
+import { UserInfo } from "./ChatPannel/UserInfo";
+>>>>>>> eb4967d0ab1221f09b385e5602196f4fb485736a
 
 
 interface HomeProps {
@@ -50,7 +64,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      channel: undefined,}
+      		channel: undefined
+		}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
 		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
@@ -85,7 +100,6 @@ export class Home extends Component<HomeProps, HomeState> {
         let chan = await ChatAPI.getChannelById(1);
 		this.setState({channel: chan});
     }
-
 
 	componentDidMount()  {
 		this.fetchUser();

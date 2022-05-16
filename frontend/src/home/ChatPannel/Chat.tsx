@@ -29,7 +29,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	constructor(props: ChatProps) {
 		super(props);
-		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this), transmitService: this.onService.bind(this)});
+		this.chatSocket = new ChatSocketAPI({receiveMessage: this.onMessage.bind(this),
+											transmitService: this.onService.bind(this)});
         this.state = {
 			messages: [],
 			socket: null,

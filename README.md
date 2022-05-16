@@ -31,3 +31,6 @@ For a live version go on :
 ```
 https://serv.pizzagami.fr:{PORT} (http for adminer)
 ```
+
+## Sources
+[`Game Canvas`](https://medium.com/@pdx.lucasm/canvas-with-react-js-32e133c05258)
