@@ -45,13 +45,9 @@ export class Play extends Component<PlayProps, PlayState>
 			)
 		else
 			return (
-				<>
-					<div className="game_frame">
-						<Canvas room={this.props.room}
-								socket={this.props.socket}
-								userId={this.props.userId}/>
-					</div>
-				</>
+				<Canvas room={this.props.room}
+						socket={this.props.socket}
+						userId={this.props.userId}/>
 			)
 	}
 }
