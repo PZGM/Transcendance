@@ -27,11 +27,14 @@ export class Game extends Component<GameProps, GameState>
 
 		this.gameSocket = new GameSocketAPI({receiveGameRoom: this.recieveGameRoom.bind(this),
 											updateRoom: this.updateRoom.bind(this)})
+		this.updateDisplay = this.updateDisplay.bind(this)
+		
 		this.state = {
 			room: undefined,
 			display: this.props.userStatus,
 			userId: 0
 		}
+		this.fetchUser()
 	}
 
 	async fetchUser() {
@@ -43,17 +46,30 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	recieveGameRoom(room: RoomDto) {
-		this.setState({room})
+		this.setState({
+			display: 2,
+			room
+		})
 	}
 
 	updateRoom (room: RoomDto) {
 		this.setState({room})
 	}
 
+	updateDisplay(type: number) {
+		this.setState({
+			display: type
+		})
+		console.log('updateDisplay')
+	}
+
 	display()
 	{
 		if (this.state.display == 0)
-			return <PlayButton/>
+			return <PlayButton socket={this.gameSocket}
+								userId={this.state.userId}
+								updateDisplay={this.updateDisplay}
+					/>
 		else if (this.state.display == 1)
 			return <Loading/>
 		else if (this.state.display == 2)
