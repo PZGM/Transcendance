@@ -9,9 +9,8 @@ import '../../../style/colors.css'
 
 function RenderRows(props) {
     const [ami, setAmi] = React.useState(false);
-    // + props.user.color
     return (
-        <Box width="18.4vw" className={"chan_element bor_"+ props.user.color} ml="5px" mr="2px" mb="10px">
+        <Box width="18.4vw" className={"chan_element bor_"+ props.user.color} ml="0.26vw" mr="0.1vw" mb="1vh">
             <Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
                 {/* TODO mettre les liens avec les props des bon user */}
                 <Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>

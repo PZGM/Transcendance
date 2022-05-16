@@ -75,22 +75,22 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	}
 	renderRowsChan(list) {
 		const listItems = list.map((channel: string) =>
-			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link onClick={()=> {this.updateName(channel)}}	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel}}>
-					<div className='bit9x9'> {channel} </div>
-				</Link>
-			</Stack>
+		<li key={channel}>
+			<Link onClick={()=> {this.updateName(channel)}}	style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel}}>
+				<div className='bit9x9'> {channel} </div>
+			</Link>
+		</li>
 	  );
 	  return listItems;
 	}
 	
 	renderRowsFriend(list) {
 		const listItems = list?.map((friend: any) =>
-			<Stack direction='row' justifyContent="space-evenly"  alignItems="center" sx={{width: "95%", marginBottom: 1}}>
-				<Link onClick={()=> {this.updateName(friend.login)}} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
-					<div className='bit9x9'>{friend.login}</div>
-				</Link>
-			</Stack>
+		<>
+			<Link onClick={()=> {this.updateName(friend.login)}} style={{ textDecoration: 'none', color: 'white', marginBottom: 1}} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
+				<div className='bit9x9'>{friend.login}</div>
+			</Link>
+		</>
 	  );
 	  return listItems;
 	}
@@ -116,8 +116,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 											</AccordionSummary>
 											<AccordionDetails>
 												<CreateChannel/>
-												<List>
-													{this.renderRowsChan(this.state.channels)}
+												<List sx={{display: "flex", justifyContent: "center"}}>
+													<Stack direction="column">
+														{this.renderRowsChan(this.state.channels)}
+													</Stack>
 												</List>
 											</AccordionDetails>
 										</Accordion>
@@ -126,8 +128,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 												<div className='bit9x9' style={{color: "white"}}> Chats </div>
 											</AccordionSummary>
 											<AccordionDetails>
-												<List>
-													{this.renderRowsFriend(this.state.friends)}
+												<List sx={{display: "flex", justifyContent: "center"}}>
+													<Stack direction="column">
+														{this.renderRowsFriend(this.state.friends)}
+													</Stack>
 												</List>
 											</AccordionDetails>
 										</Accordion>
