@@ -1,8 +1,8 @@
+import { render } from '@testing-library/react'
 import React, { useEffect, useRef, useState } from 'react'
-// import useCanvas from './useCanvas'
-
-interface CanvasProps {
-}
+import { Socket } from 'socket.io-client'
+import { BallDto, PlayerDTO, RoomDto, roomEnum } from '../../api/dto/game.dto'
+import { GameSocketAPI } from '../../api/GameSocket.api'
 
 function resizeCanvas(canvas) {
 	console.log('resize')
@@ -13,85 +13,130 @@ function resizeCanvas(canvas) {
 		const context = canvas.getContext('2d')
 		canvas.width = width * ratio
 		canvas.height = height * ratio
-		context.scale(ratio, ratio)
+		// context.scale(ratio, ratio)
 		return true
     }
 
     return false
 }
 
-// function resizeCanvasToDisplaySize(canvas: HTMLCanvasElement) {
-    
-// 	const { width, height } = canvas.getBoundingClientRect()
+interface CanvasProps {
+	room: RoomDto,
+	socket: GameSocketAPI,
+	userId: number
+}
 
-// 	if (canvas.width !== width || canvas.height !== height) {
-// 		canvas.width = width
-// 		canvas.height = height
-// 		return true // here you can return some usefull information like delta width and delta height instead of just true
-// 		// this information can be used in the next redraw...
-// 	}
+interface CanvasState {
+	ball: BallDto,
+	playerOne: PlayerDTO,
+	playerTwo: PlayerDTO
+}
 
-// 	return false
-// }
+export class Canvas extends React.Component<CanvasProps, CanvasState>
+{
+	canvas: any = undefined
+	context: any = undefined
+	keystate = {}
+	// _ball: require('./ball'),
+	// _player: require('./player'),
+	loop: any =  null
 
-const Canvas = (props: CanvasProps) => {
-	const {...rest} = props
-	// Personalized Hook for Canvas
-	const canvasRef = useRef<HTMLCanvasElement>(null)
+	constructor(props: CanvasProps) {
+		super(props);
 
-	const [y, sety] = useState(10);
-
-	const keyDownHandler = (event: React.KeyboardEvent) => {
-		if (event.code === "ArrowUp")
-		{
-			console.log(`ArrowUp: ${y}`)
-			if (y > 10)
-				sety(y - 20);
+		this.state = {
+			ball: this.props.room.ball,
+			playerOne: this.props.room.playerOne,
+			playerTwo: this.props.room.playerTwo
 		}
-		else if (event.code === "ArrowDown")
-		{
-			sety(y + 20)
+	}
+
+	componentDidMount() {
+		this.setupCanvas()
+		this.startGame()
+	}
+
+	setupCanvas()
+	{
+		this.canvas = document.getElementById("canvas")
+		this.canvas.height = this.canvas.width * 3/4
+		resizeCanvas(this.canvas)
+		if (this.canvas) {
+			console.log('context')
+			this.context = this.canvas.getContext("2d")
 		}
+	}
+
+	startGame()
+	{
+		if (this.loop)
+			return;
+		
+		const kstate = this.keystate
+		document.addEventListener('keydown', function(event) {
+			kstate[event.code] = true;
+		});
+		document.addEventListener('keyup', function(event) {
+			delete kstate[event.code];
+		});
+		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
+		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
+
+		this.loop = setInterval( () => {
+			this.updatePosition();
+			this.draw();
+		}, 1);
 	}
 	
-	const draw = (ctx: CanvasRenderingContext2D) => {
-		console.log('ciao')
-		// ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-		ctx.fillStyle = 'white'
-		ctx.fillRect(50, y, 20, 150)
-		ctx.fill()
+	draw()
+	{
+		// draw background
+		const state = this.state;
+		const ctx: CanvasRenderingContext2D = this.context;
+	
+		//draw ball
+		ctx.beginPath();
+		ctx.arc(state.ball.x,
+						state.ball.y,
+						state.ball.diameter, 0, 2 * Math.PI);
+		ctx.fillStyle = 'green';
+		ctx.fill();
+		ctx.lineWidth = 0;
+      	ctx.strokeStyle = '#fff';
+      	ctx.stroke();
+		
+		//draw paddles
+		ctx.fillStyle = 'magenta';
+		ctx.fillRect(state.playerOne.x,
+							state.playerOne.y,
+							15,
+							state.playerOne.height);
+		ctx.fillStyle = 'red';
+		console.log(`width: ${ctx.canvas.clientWidth}`)
+		ctx.fillRect(ctx.canvas.clientWidth - 25,
+						state.playerTwo.y,
+						15,
+						state.playerTwo.height);
 	}
 
-	useEffect(() => {
-    
-		const canvas = canvasRef.current
-		if (canvas)
+	updatePosition()
+	{
+		if (this.props.userId === this.props.room.playerOne.user.id ||
+			this.props.userId === this.props.room.playerTwo.user.id)
 		{
-			const context = canvas.getContext('2d')
-			if (context)
-			{
-				let animationFrameId: number
-			
-				const render = () => {
-					// predraw(canvas)
-					canvas.height = canvas.width * 3/4
-					draw(context)
-					// Calls render recursively
-					// animationFrameId = window.requestAnimationFrame(render)
-					// postdraw(frameCount, context)
-				}
-				// Resize canvas before the animation loop otherwise isn't gonna
-				// be responsive to vw.
-				resizeCanvas(canvas)
-				render()
-			}
-			// return () => {
-			// 	window.cancelAnimationFrame(animationFrameId)
-			// }
+			if (this.keystate[38])
+				this.props.socket.key(this.props.userId, this.props.room.roomId, "Up")
+			else if (this.keystate[40])
+				this.props.socket.key(this.props.userId, this.props.room.roomId, "Down")
 		}
-	}, [draw, y])
-  
-	return <canvas ref={canvasRef} onKeyDown={keyDownHandler} tabIndex={0}/>
+	}
+
+	render()
+	{
+		return (
+			<canvas id="canvas"/>
+		)
+	}
 }
 
 export default Canvas

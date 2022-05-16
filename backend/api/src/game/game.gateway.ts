@@ -141,7 +141,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 		if (room) {
 			const user = this.pool.find(await this.usersService.getOne(userId));
 			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("spectRoom", room);
+				this.server.to(socket.id).emit("gameRoom", room);
                 this.pool.changeStatus(statusEnum.watching, user);
             }
             this.usersService.setUserStatus(userId, statusEnum.watching);

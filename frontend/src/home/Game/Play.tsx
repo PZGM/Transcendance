@@ -2,10 +2,13 @@ import { Component } from "react";
 import '../../style/display.css';
 import { RoomDto } from '../../api/dto/game.dto';
 import Canvas from './Canvas';
+import { GameSocketAPI } from '../../api/GameSocket.api';
 
 
 interface PlayProps {
-	room: RoomDto | undefined;
+	room?: RoomDto,
+	socket: GameSocketAPI,
+	userId: number
 };
 
 interface PlayState {
@@ -29,14 +32,26 @@ export class Play extends Component<PlayProps, PlayState>
 	// 	ctx.restore()
 	// }
 
+	roomCheck()
+	{
+	}
+
 	render () {
 		console.log('render')
-		return (
-			<>
-				<div className="game_frame">
-					<Canvas/>
-				</div>
-			</>
-		)
+		
+		if (!this.props.room)
+			return (
+				<div style={{color: 'white'}}>LOADING...</div>
+			)
+		else
+			return (
+				<>
+					<div className="game_frame">
+						<Canvas room={this.props.room}
+								socket={this.props.socket}
+								userId={this.props.userId}/>
+					</div>
+				</>
+			)
 	}
 }

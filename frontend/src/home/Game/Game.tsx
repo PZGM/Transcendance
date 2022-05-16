@@ -5,12 +5,17 @@ import { Loading } from './Loading';
 import { Play } from './Play';
 import { RoomDto } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
+import { UserDto } from "../../api/dto/user.dto";
+import { UserAPI } from "../../api/Users.api";
 
-interface GameProps {}
+interface GameProps {
+	userStatus: number
+}
 
 interface GameState {
-	room: RoomDto | undefined;
-	display: number;
+	room?: RoomDto,
+	display: number,
+	userId: number
 }
 
 export class Game extends Component<GameProps, GameState>
@@ -21,24 +26,28 @@ export class Game extends Component<GameProps, GameState>
 		super(props);
 
 		this.gameSocket = new GameSocketAPI({receiveGameRoom: this.recieveGameRoom.bind(this),
-											receiveSpectRoom: this.recieveSpectRoom.bind(this),
 											updateRoom: this.updateRoom.bind(this)})
 		this.state = {
 			room: undefined,
-			display: 2,
+			display: this.props.userStatus,
+			userId: 0
 		}
+	}
+
+	async fetchUser() {
+		const user = await UserAPI.getUser()
+		if (user)
+			this.setState({
+				userId: user.id
+			})
 	}
 
 	recieveGameRoom(room: RoomDto) {
 		this.setState({room})
 	}
 
-	recieveSpectRoom() {
-
-	}
-
-	updateRoom () {
-
+	updateRoom (room: RoomDto) {
+		this.setState({room})
 	}
 
 	display()
@@ -48,7 +57,10 @@ export class Game extends Component<GameProps, GameState>
 		else if (this.state.display == 1)
 			return <Loading/>
 		else if (this.state.display == 2)
-			return <Play room={this.state.room}/>
+			return <Play room={this.state.room}
+						socket={this.gameSocket}
+						userId={this.state.userId}
+					/> 
 	}
 
     /* render the jsx */

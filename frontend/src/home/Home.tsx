@@ -35,7 +35,8 @@ interface HomeState {
 	loserId: number,
 	loserScore: number,
 	duration: number,
-	channel: any;
+	channel: any,
+	userStatus: number
 }
 
 
@@ -59,7 +60,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      		channel: undefined
+      		channel: undefined,
+			userStatus: 0
 		}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
@@ -87,7 +89,8 @@ export class Home extends Component<HomeProps, HomeState> {
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,
-				login: resp.login
+				login: resp.login,
+				userStatus: resp.status
 			})
 	}
 
@@ -163,13 +166,13 @@ export class Home extends Component<HomeProps, HomeState> {
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game/>
+				<Game userStatus={this.state.userStatus}/>
 
-				<Stack sx={{backgroundColor: 'black'}} className='right'>
+				{/* <Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
 					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
 					<Outlet/>
-				</Stack>
+				</Stack> */}
 			</div>
 		)
 	}
