@@ -19,8 +19,8 @@ interface ChanInfoProps {
 };
 
 let height_Box_Admin = "20vh"
+// let height_Box_Users = "50vh"
 let height_Box_Users = "60vh"
-// let height_Box_Users = "65vh"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	index:number = 0;
@@ -121,7 +121,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.chan}</div>
 						{/* </Typography> */}
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  width={"26vw"}>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
 						<List style={{overflow: 'auto'}}>
@@ -131,7 +131,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</List>
 					</Stack>
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} width={"26vw"}>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
 						<List style={{ overflow: 'auto'}}>
@@ -140,6 +140,11 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 							{/* {this.renderRows(this.state.friends)} */}
 						</List>
 					</Stack>
+				</Stack>
+				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
+					<div className="add_user_button but_red" >
+						<div className='bit5x5'>Leave</div>
+					</div>
 				</Stack>
 			</>
 

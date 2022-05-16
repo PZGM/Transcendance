@@ -17,32 +17,32 @@
 /* Home */
 
 .home_button {
-	width: 100px;
-	height: 50px;
+	width: 3.9vw;
+	height: 3.7vh;
 	font-family: backto1982;
 }
 
 .creachan_button {
 	font-size: 12px;
-	height: 50px;
+	height: 3.7vh;
 	font-family: backto1982;
 }
 
 .dropdown_button {
-	width: 200px;
-	height: 1000px;
+	width: 7.8vw;
+	height: 75vh;
 	font-size: 25px;
 	font-family: backto1982;
 }
 
 .renderrow_button{
-	width: 90px;
-	height: 50px;
+	width: 3.5vw;
+	height: 3.7vh;
 }
 
 .add_user_button{
-	width: 495px;
-	height: 60px;
+	width: 19vw;
+	height: 4.5vh;
 	font-size: 24px;
 }
 
