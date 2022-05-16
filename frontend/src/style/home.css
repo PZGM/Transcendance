@@ -6,11 +6,11 @@
   .right {
     flex: 0 0 19.5vw; /* do not grow, do not shrink, start at 500px */
     border-left: 0.5vw solid red;
-    max-width: 19.5vw;
+    width: 19.5vw;
   }
   
   .left {
-    width: 100%;
+    width: 70vw;
     flex: 1;  /* grow */
   }
   
@@ -25,9 +25,7 @@
       overflow: hidden;
       box-sizing: border-box;
       position: relative; */
-      width: 100%;
-      height: 100%; 
-      object-fit: contain;
+      width: 70vw;
   }
 
   .chibre {

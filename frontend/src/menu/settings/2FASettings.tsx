@@ -94,7 +94,9 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
             twofaState: TwofaState.disabled,
         });
         toast.success("2FA disabled", {
-            position: toast.POSITION.BOTTOM_CENTER
+            position: toast.POSITION.BOTTOM_CENTER,
+            pauseOnHover: false,
+            closeOnClick: true,
         })
     }
 
@@ -102,14 +104,18 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
         const isValid = await UserAPI.turnTwofaOn(this.state.input);
         if (isValid) {
             toast.success("2FA activated", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
             this.setState({twofaState: 2})
             this.props.updateDisplay(0)
         }
         else
             toast.error("Invalid code", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
          
     }
@@ -119,7 +125,9 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
             this.props.updateDisplay(2);
         else
             toast.error("2FA is aready active", {
-                position: toast.POSITION.BOTTOM_CENTER })
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true, })
     }
 
     off() {
@@ -127,7 +135,9 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
             this.disable();
         else
             toast.error("2FA is not active", {
-            position: toast.POSITION.BOTTOM_CENTER })
+            position: toast.POSITION.BOTTOM_CENTER,
+            pauseOnHover: false,
+            closeOnClick: true, })
     }
 
     render() {
