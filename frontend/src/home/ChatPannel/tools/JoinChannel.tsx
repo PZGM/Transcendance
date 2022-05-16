@@ -16,6 +16,7 @@ function JoinChannel(props: JoinChannelProps) {
     const [name, setName] = React.useState("");
     const [visibility, setVisibility] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [redirect, setRedirect] = React.useState('');
 
     const cancel = () => {
         props.setOpen(false);
@@ -69,7 +70,7 @@ function JoinChannel(props: JoinChannelProps) {
                 setVisibility("")
                 setPassword("")    
                 props.setOpen(false);
-                // setRedirect(`/home/chat/${name}`);
+                setRedirect(`/home/chat/${name}`);
             }
             else {
                 toast.error("Can't join the channel", {
@@ -99,23 +100,26 @@ function JoinChannel(props: JoinChannelProps) {
         </DialogContent>
     )
     return (
-        <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
-            <Stack spacing={2} direction="column" >
-            <div className='bit5x5' style={{color: 'white', fontSize: '2vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{name}</div>
-            <div className='bit5x5' style={{color: 'grey', fontSize: '1vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{visibility}</div>
-            {(visibility === "protected") && <input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
-                <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                    <div onClick={returnButton} className="home_button but_red" >
-                        <div className='bit5x5' > Return </div>
-                    </div>
-                    { (visibility !== 'private') &&
-                    <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
-                        <div onClick={join} className='bit5x5'> join </div>
-                    </div>
-                    }
+        <>
+            { redirect ? (<Navigate to={redirect} />) : null }
+            <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
+                <Stack spacing={2} direction="column" >
+                <div className='bit5x5' style={{color: 'white', fontSize: '2vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{name}</div>
+                <div className='bit5x5' style={{color: 'grey', fontSize: '1vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{visibility}</div>
+                {(visibility === "protected") && <input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                        <div onClick={returnButton} className="home_button but_red" >
+                            <div className='bit5x5' > Return </div>
+                        </div>
+                        { (visibility !== 'private') &&
+                        <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
+                            <div onClick={join} className='bit5x5'> join </div>
+                        </div>
+                        }
+                    </Stack>
                 </Stack>
-            </Stack>
-        </DialogContent>
+            </DialogContent>
+        </>
     )
 
 }
