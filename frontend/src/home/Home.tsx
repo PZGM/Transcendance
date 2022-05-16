@@ -5,6 +5,10 @@ import '../style/home.css'
 import { UserAPI } from "../api/Users.api";
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
+import { Stack } from "@mui/material";
+import { MyInfos } from "./ChatPannel/header/MyInfos";
+import { Selecter } from "./ChatPannel/header/Selecter";
+import { Outlet } from "react-router-dom";
 
 
 interface HomeProps {
@@ -155,11 +159,11 @@ export class Home extends Component<HomeProps, HomeState> {
 				
 				<Game userStatus={this.state.userStatus}/>
 
-				{/* <Stack sx={{backgroundColor: 'black'}} className='right'>
+				{ <Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
 					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
 					<Outlet/>
-				</Stack> */}
+				</Stack> }
 			</div>
 		)
 	}

@@ -7,26 +7,23 @@ import { UserDto } from 'src/dto/user.dto';
 import { Game, User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
-import { PlayerDTO, roomEnum } from 'src/dto/game.dto';
-import { statusEnum, StatusService } from 'src/status/status.service';
-import { PInit, Player } from './components/player';
+import { roomEnum } from 'src/dto/game.dto';
+import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
-import { GameService } from './game.service';
 import { HistoryService } from 'src/history/history.service';
-import { runInThisContext } from 'vm';
-
 
 @WebSocketGateway({namespace: '/game', cors: true})
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
-    @WebSocketServer() server: Server
-    wss: any;
-    private readonly usersService: UsersService;
-	private readonly historyService: HistoryService;
-    private readonly queue: Queue = new Queue();
-    private readonly pool: Pool = new Pool();
-    private readonly rooms: Map<string, Room> = new Map();
-    private logger = new Logger('GameGateway');
+	@WebSocketServer() server: Server;
+	private readonly queue: Queue = new Queue();
+	private readonly pool: Pool = new Pool();
+	private readonly rooms: Map<string, Room> = new Map();
+	private logger = new Logger('GameGateway')
+	
+	constructor(
+		private readonly usersService: UsersService,
+		private readonly historyService: HistoryService){}
 
     afterInit(server: Server) {
         setInterval(() => {
@@ -96,40 +93,41 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
     @SubscribeMessage('handleUserConnect')
-	async handleUserConnect(@ConnectedSocket() socket: Socket, userId : number) {
-		const user : User = await this.usersService.getOne(userId);
+	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
+		console.log(userId.id);
+		const user : UserDto = await this.usersService.getOne(userId.id);
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
 				return ;
 		});
+		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
         this.server.to(socket.id).emit('joinedPool');
-        this.usersService.setUserSocket(userId, socket.id);
-        this.usersService.setUserStatus(userId, statusEnum.connected);
+        this.usersService.setUserSocket(userId.id, socket.id);
+		this.usersService.setUserStatus(userId.id, statusEnum.connected);
 	}
 
 	@SubscribeMessage('joinRoom')
-	async handleJoinRoom(@ConnectedSocket() socket: Socket, roomId: string) {
-		const room: Room = this.rooms.get(roomId);
+	async handleJoinRoom(@ConnectedSocket() socket: Socket, @MessageBody() data : {roomId: string }) {
+		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const user : User = await this.usersService.getOneBySocket(socket.id);
-			socket.join(roomId);
-			if (room.isPlayerTwo(user)) {
+			socket.join(data.roomId);
+			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
-				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
-				this.server.to(room.playerOne.user.socketId).emit("gameRoom", room);
-				this.server.to(room.playerTwo.user.socketId).emit("gameRoom", room);
+				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
+				this.server.to(room.roomId).emit("updateRoom", room);
 			}
 		}
 	}
 
 	@SubscribeMessage('RoomInvite')
-	async handleRoomInvite(@ConnectedSocket() socket: Socket, inviteId : number, difficulty: Difficulty) {
+	async handleRoomInvite(@ConnectedSocket() socket: Socket, @MessageBody() data : { inviteId : number, difficulty: Difficulty } ) {
 		const user : User = await this.usersService.getOneBySocket(socket.id);
-		const guest : User = await this.usersService.getOne(inviteId);
+		const guest : User = await this.usersService.getOne(data.inviteId);
 		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing)
 		{
-			const roomId = `${difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
+			const roomId = `${data.difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
 			const room = new Room(roomId, Difficulty.Easy, user, guest);
 			this.rooms.set(roomId, room);
 			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
@@ -141,48 +139,48 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
     @SubscribeMessage('joinQueue')
-	async handleJoinQueue(@ConnectedSocket() socket: Socket, userId : number, difficulty: Difficulty) {
-		const user : User = await this.usersService.getOne(userId);
+	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
+		const user : UserDto = this.pool.findById(data.userId);
 		if (user && !this.queue.find(user))
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
-			this.queue.addToQueue(user, difficulty);
+			this.queue.addToQueue(user, data.difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
 			console.log(`socket ${user.login}: ${socket.id} was added to queue !`)
 			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
 		}
-        this.usersService.setUserStatus(userId, statusEnum.inQueue);
+        this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
 	}
 
 	@SubscribeMessage('leaveQueue')
-	async handleLeaveQueue(@ConnectedSocket() socket: Socket, userId : number) {
-    const user : User = await this.usersService.getOne(userId);
+	async handleLeaveQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number } ) {
+    const user : User = await this.usersService.getOne(data.userId);
 		if (user && this.queue.find(user))
 		{
 			this.queue.rmToQueue(user);
             this.pool.changeStatus(statusEnum.idle, user);
 			this.server.to(socket.id).emit('leftQueue');
 		}
-        this.usersService.setUserStatus(userId, statusEnum.idle);
+        this.usersService.setUserStatus(data.userId, statusEnum.idle);
 	}
 
     @SubscribeMessage('spectateRoom')
-	async handleSpectateRoom(@ConnectedSocket() socket: Socket, userId: number, roomId: string) {
-		const room: Room = this.rooms.get(roomId);
+	async handleSpectateRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : {  userId: number, roomId: string } ) {
+		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
-			const user = this.pool.find(await this.usersService.getOne(userId));
+			const user = this.pool.find(await this.usersService.getOne(data.userId));
 			if (!room.isPlayer(user)) {
 				this.server.to(socket.id).emit("gameRoom", room);
                 this.pool.changeStatus(statusEnum.watching, user);
             }
-            this.usersService.setUserStatus(userId, statusEnum.watching);
+            this.usersService.setUserStatus(data.userId, statusEnum.watching);
         }
 	}
 
     @SubscribeMessage('leaveRoom')
-	async handleLeaveRoom(@ConnectedSocket() socket: Socket, userId: number, roomId: string) {
-		const room: Room = this.rooms.get(roomId);
-		const user = this.pool.find(await this.usersService.getOne(userId));
+	async handleLeaveRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string}) {
+		const room: Room = this.rooms.get(data.roomId);
+		const user = this.pool.find(await this.usersService.getOne(data.userId));
 		if (user && room) {
 			room.removeUser(user);
 			if (room.length() === 0) {
@@ -202,15 +200,15 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
                 }
             }
 			this.pool.changeStatus(statusEnum.idle, user);
-            this.usersService.setUserStatus(userId, statusEnum.idle);
+            this.usersService.setUserStatus(data.userId, statusEnum.idle);
 		}
 		this.server.to(socket.id).emit("leftRoom");
 	}
 
 	@SubscribeMessage('updateRoom')
-	async handleRequestUpdate(@ConnectedSocket() socket: Socket, @MessageBody() roomId: string) {
+	async handleRequestUpdate(@ConnectedSocket() socket: Socket,  @MessageBody() data : { roomId: string }) {
 		
-		const room: Room = this.rooms.get(roomId);
+		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const now = Date.now();
 			if (room.status === roomEnum.waiting) {
@@ -246,24 +244,24 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	@SubscribeMessage('key')
-	async handleKeyUp(@ConnectedSocket() socket: Socket, userId: number, roomId: string, key: string) {
-		const room: Room = this.rooms.get(roomId);
+	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
+		const room: Room = this.rooms.get(data.roomId);
 
-		if (room && room.playerOne.user.id === userId)
+		if (room && room.playerOne.user.id === data.userId)
 		{
-			if (key === 'Up')
+			if (data.key === 'Up')
 				room.playerOne.coor.dy = 1;
-			else if (key === 'Down')
+			else if (data.key === 'Down')
 				room.playerOne.coor.dy = -1;
 			else
 				room.playerOne.coor.dy = 0;
 
 		}
-		else if (room && room.playerTwo.user.id === userId)
+		else if (room && room.playerTwo.user.id === data.userId)
 		{
-			if (key === 'Up')
+			if (data.key === 'Up')
 				room.playerTwo.coor.dy = 1;
-			else if (key === 'Down')
+			else if (data.key === 'Down')
 				room.playerTwo.coor.dy = -1;
 			else
 				room.playerTwo.coor.dy = 0;

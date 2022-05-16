@@ -13,7 +13,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
 	constructor(props: GameSocketAPIProps) {
         super(props)
-        this.socket = io(`https://serv.pizzagami.fr:5333/game`, {secure: true});
+        this.socket = io(`https://serv.pizzagami.fr:6333/game`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
             this.socket.on('disconnect', (reason) => {
@@ -25,11 +25,11 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     // Gateway functions callers
 
 	userConnection(userId: number) {
-		this.socket.emit('handleUserConnect', userId);
+		this.socket.emit('handleUserConnect', {id: userId});
 	}
 
 	joinQueue(userId: number, difficulty: Difficulty) {
-		this.socket.emit('joinQueue', userId, difficulty);
+		this.socket.emit('joinQueue', {id: userId, difficulty :difficulty});
 	}
 
     leaveQueue(userId: number) {
@@ -37,19 +37,19 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 	}
 
     spectateRoom(userId: number, roomId: string) {
-		this.socket.emit('spectateRoom', userId, roomId);
+		this.socket.emit('spectateRoom', {userId: userId, roomId :roomId});
 	}
 
     leaveRoom(userId: number, roomId: string) {
-		this.socket.emit('leaveRoom', userId, roomId);
+		this.socket.emit('leaveRoom', {userId: userId, roomId : roomId});
 	}
 
     updateRoom(roomId: string) {
-		this.socket.emit('updateRoom', roomId);
+		this.socket.emit('updateRoom', { roomId : roomId});
 	}
 
     key(userId: number, roomId: string, key: string) {
-		this.socket.emit('joinQueue', userId, roomId, key);
+		this.socket.emit('joinQueue', {userId: userId, roomId : roomId, key : key});
 	}
 
     // Gateway functions receivers
@@ -57,6 +57,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     receiveGameRoom() {
         this.socket.on('gameRoom', (room: RoomDto) => {
             this.props.receiveGameRoom(room);
+            this.socket.emit('joinRoom', room.roomId);
         });
     }
 

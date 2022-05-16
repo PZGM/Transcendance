@@ -39,10 +39,11 @@ export class Game extends Component<GameProps, GameState>
 
 	async fetchUser() {
 		const user = await UserAPI.getUser()
-		if (user)
-			this.setState({
-				userId: user.id
-			})
+		if (user) {
+			console.log(user);
+			this.gameSocket.userConnection(user.id);
+			this.setState({ userId: user.id });
+		}
 	}
 
 	recieveGameRoom(room: RoomDto) {
