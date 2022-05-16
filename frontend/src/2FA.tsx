@@ -37,7 +37,9 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
             this.setState({redirect: true});
         else
             toast.error("Invalid code", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
     }
 

@@ -4,7 +4,7 @@
 
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
-.renderrow_button, .add_friend_button, .logout_button, .add_user_button
+.renderrow_button, .add_friend_button, .logout_button, .add_user_button,.send_msg_button
 {
 	position: relative;
 	text-align: center;
@@ -44,6 +44,11 @@
 	width: 19vw;
 	height: 4.5vh;
 	font-size: 24px;
+}
+
+.send_msg_button{
+	width: 2vw;
+	height: 3.7vh;
 }
 
 /* Profile */

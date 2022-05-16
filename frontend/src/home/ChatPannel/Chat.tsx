@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
+import { Avatar, Box, ButtonBase, IconButton, InputBase, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
 import { ChatAPI } from "../../api/Chat.api";
 import { UserDto } from "../../api/dto/user.dto";
-
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 interface ChatState {
 	socket: any;
 	messages: any[];
@@ -57,9 +57,19 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
 			if (msg.service && msg.content === 'JOIN')
-				return  <div style={{color: "green", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} joined the channel`} </div>;
+				return  <div style={{color: "green", width: '100%', fontSize: '1.5rem'}}>
+							<Stack direction="row" justifyContent="flex-start" alignItems="center">
+								<ArrowRightAltIcon/>
+								{`${login} joined the channel`} 
+							</Stack>
+						</div>;
 				if (msg.service && msg.content === 'LEAVE')
-			return  <div style={{color: "red", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} left the channel`} </div>
+			return  <div style={{color: "red", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} left the channel`}
+						<Stack direction="row" justifyContent="flex-start" alignItems="center">
+							<ArrowRightAltIcon/>
+							{`→ ${login} left the channel`}
+						</Stack>
+					</div>
             return <>
                 { isFirst &&
                     <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
@@ -149,15 +159,16 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage === true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
-						onClickCapture={() => {}}>
-							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
-						</Link>
-
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
-						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
+						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "85%", height: "3.7vh" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						{/* <IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>
-						</IconButton>
+						</IconButton> */}
+						<div className="send_msg_button but_green" >
+							<img	src={require('../../asset/images/white_x.png')}
+							style={{width: '150%'}}
+							alt='cross'
+							/>
+						</div>
 					</Stack>
 				</Box>
             </>

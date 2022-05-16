@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
+import '../../../style/colors.css'
 import { UserAPI } from '../../../api/Users.api';
 import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
@@ -27,18 +28,24 @@ function CreateChannel() {
     const handleCreate = () => {
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else if(name === "") {
             toast.error("No name for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else if(name.match(/[a-zA-Z]/i) == null)
         {
             toast.error("Channel name invalid. Only alphanumeric allowed", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else{
@@ -61,24 +68,32 @@ function CreateChannel() {
         // TODO le join du channel
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else if (visibility == "protected" && password.match(/w/i)) {
             toast.error("Invalid password. only alphanumeric allowed", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else if(name == "") {
 
             toast.error("No name for the channel", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else if(name.match(/[a-zA-Z]/i) == null)
         {
             toast.error("Channel name invalid. Only alphanumeric allowed", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
         else{
@@ -107,6 +122,21 @@ function CreateChannel() {
             await ChatAPI.addChannel(name, resp.id , visibility, password);
     }
 
+	const searchName = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.target.value = e.target.value.replace(/\W/g, "");
+		const search = e.target.value;
+		if (!search || search === '')
+			return;
+        setName(search)
+	}
+	const searchPassword = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.target.value = e.target.value.replace(/\W/g, "");
+		const search = e.target.value;
+		if (!search || search === '')
+			return;
+        setPassword(search)
+	}
+
     return (
         <>
         { redirect ? (<Navigate to={redirect} />) : null }
@@ -119,10 +149,10 @@ function CreateChannel() {
                 </ButtonBase>
             </Stack>
             <Dialog open={openCreate} onClose={handleCancelCreate}>
-                <DialogContent sx={{backgroundColor: "black"}}>
+                <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column">
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {setName(e.target.value)}}/>
+                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {searchName(e)}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
@@ -136,7 +166,7 @@ function CreateChannel() {
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility !== "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility !== "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelCreate}>
@@ -150,10 +180,10 @@ function CreateChannel() {
                 </DialogContent>
             </Dialog>
             <Dialog open={openJoin} onClose={handleCancelJoin}>
-                <DialogContent sx={{backgroundColor: "black"}}>
+                <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column" >
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
+                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {searchName(e)}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
@@ -164,7 +194,7 @@ function CreateChannel() {
                             </div>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility === "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility === "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelJoin}>
@@ -185,5 +215,3 @@ function CreateChannel() {
 export default CreateChannel;
 
 
-    // Il faut faire tout les input texte en propre 
-    // On peut rajouter 2 list lors de la creation en disant qui mettre en admin et ajouter des gens directement dedans depuis une liste d'amis
