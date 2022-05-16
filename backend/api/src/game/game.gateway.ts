@@ -36,6 +36,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 			let room: Room
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				if (this.queue.sizeEasy() > 1) {
+					console.log('Easy Room')
 					playerOne = this.queue.getOneUser(Difficulty.Easy);
 					playerTwo  = this.queue.getOneUser(Difficulty.Easy);
 					roomId = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${Date.now().toPrecision(5)}`;	
@@ -130,6 +131,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
+			console.log(`socket ${user.login}: ${socket.id} was added to queue !`)
 			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
 		}
         this.usersService.setUserStatus(userId, statusEnum.inQueue);

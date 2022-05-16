@@ -4,7 +4,6 @@ import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
 import { UserAPI } from "../api/Users.api";
-import { GameAPI } from "../api/Game.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
 import { height } from "@mui/system";
