@@ -17,6 +17,9 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	}
 
 	async fetchUser(){
+		const logged = await UserAPI.checkLoggedIn();
+		if (logged == false)
+			return;
 		const resp = await UserAPI.getUser();
 		if (!resp)
 			return;

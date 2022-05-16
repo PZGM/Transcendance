@@ -25,7 +25,9 @@ export class Friends extends Component<FriendsProps, FriendsState>
 	renderRows(list)
 	{
 		const listItems = list.map((friend: UserDto) =>
+		<div key={friend.id}>
 				<UserDisplay user={friend} deleteFriend={this.deleteFriend}/>
+		</div>
 		);
 		
 		return listItems;
@@ -33,7 +35,9 @@ export class Friends extends Component<FriendsProps, FriendsState>
 
 	renderSearchRows(list) {
 		const listItems = list.map((friend: UserDto) =>
+		<div key={friend.id}>
 			<AddUserDisplay user={friend} addFriend={this.addFriend}/>
+		</div>
 	  );
 	  return listItems;
 	}

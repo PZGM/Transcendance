@@ -35,6 +35,12 @@ function CreateChannel() {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
+        else if(name.match(/[a-zA-Z]/i) == null)
+        {
+            toast.error("Channel name invalid. Only alphanumeric allowed", {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
+        }
         else{
             Sendchannel();
             setName("");
@@ -58,8 +64,20 @@ function CreateChannel() {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
-        else if(name === "") {
+        else if (visibility == "protected" && password.match(/w/i)) {
+            toast.error("Invalid password. only alphanumeric allowed", {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
+        }
+        else if(name == "") {
+
             toast.error("No name for the channel", {
+                position: toast.POSITION.BOTTOM_CENTER
+            })
+        }
+        else if(name.match(/[a-zA-Z]/i) == null)
+        {
+            toast.error("Channel name invalid. Only alphanumeric allowed", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
@@ -104,7 +122,7 @@ function CreateChannel() {
                 <DialogContent sx={{backgroundColor: "black"}}>
                     <Stack spacing={2} direction="column">
                         <Stack justifyContent="center" alignItems="center" spacing={2}>
-                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
+                            <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {setName(e.target.value)}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
