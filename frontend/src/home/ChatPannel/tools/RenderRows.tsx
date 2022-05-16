@@ -1,25 +1,11 @@
-import { Box, Button, ButtonBase, Grid, IconButton, Input, InputBase, List, Stack, TextField, Typography, Avatar } from "@mui/material";
+import { Box, Stack, Avatar } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
-import { UserAPI } from "../../../api/Users.api";
 import '../../../style/buttons.css'
 import '../../../style/colors.css'
 import '../../../style/colors.css'
 
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
-function changefriend(ami)
-{
-    {/* TODO faire une ternaire pour savoir si c'est un ami ou pas et donc l'ajouter ou le remove */}
-
-    if (ami == false)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 function RenderRows(props) {
     const [ami, setAmi] = React.useState(false);
@@ -43,9 +29,9 @@ function RenderRows(props) {
                         <div className='bit5x5'> SEND MESSAGE </div>
                     </Link>
 {/* TODO faire une ternaire pour savoir si c'est un amis ou pas */}
-                    <div className={"renderrow_button but_" + ((ami == false) ? "red" : "yellow")}>
+                    <div className={"renderrow_button but_" + ((ami === false) ? "red" : "yellow")}>
                         <div className='bit5x5' onClick={() => {
-                            if (ami == false)
+                            if (ami === false)
                                 setAmi(true);
                             else
                                 setAmi(false);

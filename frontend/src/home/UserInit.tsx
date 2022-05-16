@@ -62,7 +62,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 
     async updateLogin(): Promise<boolean>
     {
-        if (this.state.input != '')
+        if (this.state.input !== '')
         {
             let isValid = await UserAPI.updateLogin(this.state.input);
             if (isValid) {
@@ -88,7 +88,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 
     getClassName(color: string): string | undefined
 	{
-        if (color == this.state.color)
+        if (color === this.state.color)
             return "bc_" + color + " color_selected"
 
 		return "but_" + color

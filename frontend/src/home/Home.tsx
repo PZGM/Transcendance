@@ -1,20 +1,14 @@
-import { Box, Drawer, Typography, Avatar, Button, TextField, IconButton, Stack, Container } from "@mui/material";
+import { Stack } from "@mui/material";
 import React, { Component } from "react";
-import { Helmet } from "react-helmet";
 import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
 import {UserAPI} from "../api/Users.api";
-import SendIcon from '@mui/icons-material/Send';
-import { Link, Outlet, useParams } from "react-router-dom";
-import { height } from "@mui/system";
+import { Outlet } from "react-router-dom";
 import { MyInfos } from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
-import { ConstructionOutlined } from "@mui/icons-material";
 import { Selecter } from './ChatPannel/header/Selecter'
-import { info } from "console";
 import { PrivateGuard } from "../components/PrivateGuard";
-import { UserInfo } from "./ChatPannel/UserInfo";
 
 
 interface HomeProps {

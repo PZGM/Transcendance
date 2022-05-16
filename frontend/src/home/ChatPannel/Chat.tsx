@@ -1,15 +1,12 @@
-import { Avatar, Box, ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
+import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
 import { ChatAPI } from "../../api/Chat.api";
-import { io } from "socket.io-client";
 import { UserDto } from "../../api/dto/user.dto";
-import { Message } from "@mui/icons-material";
 
 interface ChatState {
 	socket: any;
@@ -43,15 +40,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
 	}
 
-	componentDidMount()  {
-		this.getName();
-	}
-	
-	async getName() {
-        const name = this.props.params.name;
-    }
-
-
 	onInputChange(input){
 		this.setState({
 			input
@@ -62,15 +50,15 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: any) => {
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
-			const isFirst: boolean = msg.authorId != lastAuthorId;
+			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
-			if (msg.service && msg.content == 'JOIN')
+			if (msg.service && msg.content === 'JOIN')
 				return  <div style={{color: "green", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} joined the channel`} </div>;
-				if (msg.service && msg.content == 'LEAVE')
+				if (msg.service && msg.content === 'LEAVE')
 			return  <div style={{color: "red", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} left the channel`} </div>
             return <>
                 { isFirst &&
@@ -106,7 +94,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const user = await UserAPI.getUserById(message.authorId);
 			if (user == null) {
 				throw(Error('unknow new user'));
-				return;
 			}
 			this.state.users.push(user);
 		}
@@ -118,7 +105,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	}
 
 	onKeyDown(e) {
-		if (e.keyCode == 13)
+		if (e.keyCode === 13)
 			this.sendMessage(this.chanName);
 	}
 
@@ -127,7 +114,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	}
 
     sendMessage(chanName: string) {
-		if (chanName && this.state.input != '') {
+		if (chanName && this.state.input !== '') {
 			this.chatSocket.sendMessage(this.state.chan.id, this.state.input, this.state.user.id);
 			this.setState({
 				input: ''
@@ -150,7 +137,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	}
 
 	render () {
-		if (this.chanName != this.props.params.name) {
+		if (this.chanName !== this.props.params.name) {
 			this.switchChannel(this.props.params.name)
 		}
 		return (
@@ -162,7 +149,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage == true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
+						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage === true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
 						onClickCapture={() => {}}>
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>

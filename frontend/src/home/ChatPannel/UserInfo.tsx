@@ -1,7 +1,6 @@
-import { Avatar, Box, ButtonBase, IconButton, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
+import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto"
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -11,7 +10,6 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
-import ReturnButton from "./tools/ReturnButton";
 
 interface UserInfoState {
     user: UserDto | null;
@@ -66,7 +64,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
         const friends = await UserAPI.getFriends();
         const me = await UserAPI.getUser();
         if (me){
-            if (friends.find(user => user.login === me.login) == undefined)
+            if (friends.find(user => user.login === me.login) === undefined)
                 this.setState({friend: false})
             else
             this.setState({friend: true})
@@ -107,10 +105,10 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
     async changefriend()
     {
-        if (this.state.friend == false)
+        if (this.state.friend === false)
         {
             if (this.state.user){
-                const ret = await UserAPI.addFriend(this.state.user.id);
+                await UserAPI.addFriend(this.state.user.id);
                 this.setState({
                     friend: true,
                 })

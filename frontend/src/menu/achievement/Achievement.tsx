@@ -1,4 +1,4 @@
-import { Box, Grid, Stack} from "@mui/material";
+import { Grid, Stack} from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { PrivateGuard } from "../../components/PrivateGuard";

@@ -1,7 +1,6 @@
-import { ButtonBase, IconButton, InputBase, List, Stack, Typography } from "@mui/material";
+import { List, Stack } from "@mui/material";
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
+import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import "../../style/input.css"
@@ -52,7 +51,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
-		let ret = await UserAPI.searchFriend(search);
+		await UserAPI.searchFriend(search);
 		// this.setState({searchResults: ret}); //new implementation of search
 	}
 

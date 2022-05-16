@@ -1,28 +1,15 @@
 import * as React from 'react';
-import { Button, ButtonBase, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputBase, Stack, TextField } from "@mui/material";
+import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
 import { UserAPI } from '../../../api/Users.api';
 import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
-import { UserDto } from "../../../api/dto/user.dto"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link, Navigate } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
-interface CreateChannelProps{
-}
-
-interface CreateChannelState {
-    name: string;
-    owner?: any;
-    visibility: string;
-    password?: any;
-}
-
+import { Navigate } from 'react-router-dom';
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
-function CreateChannel(props: CreateChannelProps, CreateChannelState) {
+function CreateChannel() {
     const [openCreate, setOpenCreate] = React.useState(false);
     const [openJoin, setOpenJoin] = React.useState(false);
     const [name, setName] = React.useState("");
@@ -38,12 +25,12 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
     };
   
     const handleCreate = () => {
-        if (visibility == "protected" && password == "") {
+        if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
-        else if(name == "") {
+        else if(name === "") {
             toast.error("No name for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
@@ -66,12 +53,12 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
     const handleJoin = async () => {
         // TODO le join du channel
-        if (visibility == "protected" && password == "") {
+        if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
         }
-        else if(name == "") {
+        else if(name === "") {
             toast.error("No name for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER
             })
@@ -120,18 +107,18 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
                                 <div className='bit5x5'> Public </div>
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "private")? "yellow": "red")} style={{backgroundColor: (visibility == "private")? "yellow": "red"}} onClick={() => {setVisibility("private")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "private")? "yellow": "red")} style={{backgroundColor: (visibility === "private")? "yellow": "red"}} onClick={() => {setVisibility("private")}}>
                                 <div className='bit5x5'> Private </div>
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "protected")? "yellow": "red")} style={{backgroundColor: (visibility === "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
                                 <div className='bit5x5'> Protected </div>
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility != "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility !== "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelCreate}>
@@ -151,15 +138,15 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
                             <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <div className={"home_button but_" + ((visibility == "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
+                            <div className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
                                 <div className='bit5x5'> Public </div>
                             </div>
-                            <div className={"home_button but_" + ((visibility == "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility == "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
+                            <div className={"home_button but_" + ((visibility === "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
                                 <div className='bit5x5'> Protected </div>
                             </div>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility == "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                            {(visibility === "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelJoin}>
@@ -179,7 +166,6 @@ function CreateChannel(props: CreateChannelProps, CreateChannelState) {
 
 export default CreateChannel;
 
-{/*
-    Il faut faire tout les input texte en propre 
-    On peut rajouter 2 list lors de la creation en disant qui mettre en admin et ajouter des gens directement dedans depuis une liste d'amis
-*/}
+
+    // Il faut faire tout les input texte en propre 
+    // On peut rajouter 2 list lors de la creation en disant qui mettre en admin et ajouter des gens directement dedans depuis une liste d'amis

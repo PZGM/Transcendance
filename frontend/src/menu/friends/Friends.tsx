@@ -1,11 +1,10 @@
-import { Grid, InputBase, List} from "@mui/material";
+import { Grid } from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
 import { AddUserDisplay } from "./AddUserDisplay";
 import './../../style/input.css'
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto";
-import { InputUnstyled } from "@mui/base";
 import { PrivateGuard } from './../../components/PrivateGuard'
 import './../../style/display.css'
 
@@ -50,7 +49,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 
 	deleteFriend(id:number) {
 		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id != id;
+			return user.id !== id;
 		});
 
 		this.setState({

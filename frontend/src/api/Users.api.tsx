@@ -120,7 +120,7 @@ export class UserAPI {
 		//updaters
 		public static async updateAvatar(avatar_url: string) {
 			let ret = true;
-			const resp = await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
+			await fetch(`${process.env.REACT_APP_UPDATE_AVATAR}`, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ image: avatar_url }),
@@ -131,7 +131,7 @@ export class UserAPI {
 
 		public static async updateLogin(login: string) {
 			let ret = true;
-			const resp = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
+			await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ login: login }),
@@ -227,7 +227,7 @@ export class UserAPI {
 
 		public static async turnTwofaOn(code: string) {
 			let ret = true;
-			const resp = await fetch((process.env.REACT_APP_TURN_ON_2FA as string), {
+			await fetch((process.env.REACT_APP_TURN_ON_2FA as string), {
 				method: "POST",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ twofaCode: code }),
@@ -242,7 +242,7 @@ export class UserAPI {
 
 		public static async authenticateTwofa(code: string) : Promise<boolean> {
 			let ret = true;
-			const resp = await fetch((process.env.REACT_APP_LOGIN_IN_2FA as string), {
+			await fetch((process.env.REACT_APP_LOGIN_IN_2FA as string), {
 				method: "POST",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ twofaCode: code }),
@@ -292,7 +292,7 @@ export class UserAPI {
 
 		public static async createNewGame(details: GameDto) : Promise<boolean> {
 			let ret = true;
-			const resp = await fetch((process.env.REACT_APP_HISTORY_NEW_GAME as string), {
+			await fetch((process.env.REACT_APP_HISTORY_NEW_GAME as string), {
 				method: "PUT",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(details),

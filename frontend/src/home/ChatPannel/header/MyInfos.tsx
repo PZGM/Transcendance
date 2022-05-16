@@ -1,4 +1,4 @@
-import { Button, Avatar, Box, Stack, Typography, ButtonBase } from "@mui/material";
+import { Avatar, ButtonBase } from "@mui/material";
 import { Component} from "react";
 import { Link } from "react-router-dom";
 import { UserAPI } from "../../../api/Users.api";
@@ -12,11 +12,6 @@ interface MyInfosProps {
 
 
 export class MyInfos extends Component<MyInfosProps> {
-	constructor(props: MyInfosProps) {
-		super(props);
-	}
-
-
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
@@ -30,8 +25,6 @@ export class MyInfos extends Component<MyInfosProps> {
 	componentDidMount()  {
 		this.fetchUser();
 	}
-
-
 
 	render () {
 		return (

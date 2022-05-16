@@ -29,7 +29,9 @@ export default function Menu() {
 						}}
 			>
 				<img	src={require('../asset/images/white_x.png')}
-						style={{width: '100%'}}/>
+						style={{width: '100%'}}
+						alt='cross'
+				/>
 			</div>
 
 			<Stack	direction="column"

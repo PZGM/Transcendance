@@ -62,7 +62,7 @@ export class ChatAPI {
     }
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
-        const body = (password && visibility == 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
+        const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
         let ret = true;
         await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
         method: "POST",

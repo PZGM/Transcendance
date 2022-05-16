@@ -1,4 +1,4 @@
-import { Avatar, Box, ButtonBase, ListItem, Stack, Typography } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import './../../style/buttons.css';
@@ -32,7 +32,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 		if (this.state.done)
 			return;
 		this.setState({done: true});
-		let ret = await UserAPI.addFriend(this.props.user.id);
+		await UserAPI.addFriend(this.props.user.id);
 		this.props.addFriend(this.props.user);
 	}
 

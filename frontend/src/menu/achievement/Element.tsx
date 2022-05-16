@@ -1,4 +1,3 @@
-import { RoundedCornerTwoTone } from "@mui/icons-material";
 import { Stack } from "@mui/material";
 import { Component } from "react";
 import "../../style/display.css"
@@ -14,11 +13,6 @@ interface ElementState {
 }
 
 export class Element extends Component<ElementProps, ElementState> {
-
-	constructor (props: ElementProps)
-	{
-		super(props);
-	}
 
 	getPercentage() : string
 	{
@@ -55,6 +49,7 @@ export class Element extends Component<ElementProps, ElementState> {
 						<div className="case">
 							<img	src={require('../../asset/images/green_checkmark.png')}
 									style={{width: '200%', justifyContent: 'center'}}
+									alt='check'
 							/>
 						</div>
 					}

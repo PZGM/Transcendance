@@ -1,11 +1,9 @@
-import { Box, ButtonBase, IconButton, Stack, List, Typography } from "@mui/material";
+import { Stack, List } from "@mui/material";
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
-import { isPrivateIdentifier } from "typescript";
+import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import RenderRows from "./tools/RenderRows";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 
@@ -69,7 +67,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	deleteFriend(duser: UserDto) {
 		UserAPI.removeFriend(duser.id);
 		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id != duser.id;
+			return user.id !== duser.id;
 		});
 
 		this.setState({

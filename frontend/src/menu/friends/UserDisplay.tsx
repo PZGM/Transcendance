@@ -1,4 +1,4 @@
-import { Avatar, Box, ListItem, Stack, Typography } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from '../../api/dto/user.dto'
