@@ -212,7 +212,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const now = Date.now();
-			if (room.status === roomEnum.waiting) {
+			if (room.status === roomEnum.waiting  && (now  - room.updateTime) >= 1000) {
 				room.startingTime = now;
 				room.updateTime = now;
 				room.status = roomEnum.playing;
@@ -221,7 +221,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			{
 				room.status = room.status;
 				room.update();
-				if (room.status === roomEnum.end) {
+				if (room.status === roomEnum.end  && (now - room.updateTime) >= 1000) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -236,7 +236,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					});
 				}
 			}
-			else if (room.status === roomEnum.goal) {
+			else if (room.status === roomEnum.goal  && (now - room.updateTime) >= 1000) {
 				room.reset();
 				room.status = roomEnum.playing;
 				room.updateTime = now;

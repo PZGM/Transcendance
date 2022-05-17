@@ -67,11 +67,12 @@ export default class Room implements RoomDto {
 	}
 
 	update(): void {
-		this.updateTime = Date.now();
+		const now = Date.now();
+		this.playerOne.update(now);
+		this.playerTwo.update(now);
+		this.ball.update(now, this.playerOne, this.playerTwo);
+		this.updateTime = now;
 		this.duration = (this.updateTime - this.startingTime) / 1000;
-		this.playerOne.update(this.duration);
-		this.playerTwo.update(this.duration);
-		this.ball.update(this.duration, this.playerOne, this.playerTwo);
 		if (this.ball.goal === -1 || this.playerOne.goal === this.maxGoal)
 		{
 			this.playerOne.goal++;
