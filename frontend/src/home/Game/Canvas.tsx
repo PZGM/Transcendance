@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { Socket } from 'socket.io-client'
+import { threadId } from 'worker_threads'
 import { BallDto, PlayerDTO, RoomDto, roomEnum } from '../../api/dto/game.dto'
 import { GameSocketAPI } from '../../api/GameSocket.api'
 
@@ -29,7 +30,7 @@ interface CanvasProps {
 interface CanvasState {
 	ball: BallDto,
 	playerOne: PlayerDTO,
-	playerTwo: PlayerDTO
+	playerTwo: PlayerDTO,
 }
 
 export class Canvas extends React.Component<CanvasProps, CanvasState>
@@ -51,6 +52,14 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		}
 	}
 
+	updateCanvas(){
+		this.state = {
+			ball: this.props.room.ball,
+			playerOne: this.props.room.playerOne,
+			playerTwo: this.props.room.playerTwo
+		}
+	}
+
 	componentDidMount() {
 		this.setupCanvas()
 		this.startGame()
@@ -62,16 +71,17 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.canvas.height = this.canvas.width * 3/4
 		resizeCanvas(this.canvas)
 		if (this.canvas) {
-			console.log('context')
 			this.context = this.canvas.getContext("2d")
+			console.log("context :"); console.log(this.context);
 		}
+		else
+			console.log("not here dude");
 	}
 
 	startGame()
 	{
 		if (this.loop)
 			return;
-		
 		const kstate = this.keystate
 		document.addEventListener('keydown', function(event) {
 			kstate[event.code] = true;
@@ -81,42 +91,44 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		});
 		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
 		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
-
-		this.loop = setInterval( () => {
-			this.updatePosition();
-			this.draw();
-		}, 1);
+		console.log("context 2 :"); console.log(this.context);
+		this.loop = setInterval(this.looping.bind(this), 1);
 	}
 	
+	looping() {
+		console.log("context 2.5 :"); console.log(this.context);
+		this.updatePosition()
+		console.log("context 3 :"); console.log(this.context);
+		this.draw();
+		this.updateCanvas();
+	}
+
 	draw()
 	{
-		// draw background
-		const state = this.state;
+		console.log("context 4 :"); console.log(this.context);
 		const ctx: CanvasRenderingContext2D = this.context;
-	
+		// draw background
+		console.log(ctx);
+		const state = this.state;
 		//draw ball
-		ctx.beginPath();
-		ctx.arc(state.ball.x,
-						state.ball.y,
-						state.ball.diameter, 0, 2 * Math.PI);
-		ctx.fillStyle = 'green';
-		ctx.fill();
-		ctx.lineWidth = 0;
-      	ctx.strokeStyle = '#fff';
-      	ctx.stroke();
+		this.context.beginPath();
+		this.context.arc(state.ball.x,state.ball.y,state.ball.diameter, 0, 2 * Math.PI, true);
+		this.context.fillStyle = 'green';
+		this.context.fill();
+		this.context.lineWidth = 0;
+		this.context.strokeStyle = '#fff';
+		this.context.stroke();
 		
 		//draw paddles
-		ctx.fillStyle = 'magenta';
-		ctx.fillRect(state.playerOne.x,
-							state.playerOne.y,
-							15,
-							state.playerOne.height);
-		ctx.fillStyle = 'red';
-		console.log(`width: ${ctx.canvas.clientWidth}`)
-		ctx.fillRect(ctx.canvas.clientWidth - 25,
-						state.playerTwo.y,
-						15,
-						state.playerTwo.height);
+		this.context.beginPath();
+		this.context.fillStyle = this.state.playerOne.user.color;
+		this.context.rect(state.playerOne.x, state.playerOne.y, 15, state.playerOne.height);
+		this.context.fill();
+
+		this.context.beginPath();
+		this.context.fillStyle =  this.state.playerTwo.user.color;;
+		console.log(`width: ${this.context.canvas.clientWidth}`)
+		this.context.fillRect(this.context.canvas.clientWidth - 25, state.playerTwo.y, 15, state.playerTwo.height);
 	}
 
 	updatePosition()
@@ -129,6 +141,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 			else if (this.keystate[40])
 				this.props.socket.key(this.props.userId, this.props.room.roomId, "Down")
 		}
+		this.props.socket.updateRoom(this.props.room.roomId);
 	}
 
 	render()

@@ -4,7 +4,7 @@ import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect,
 import Queue from './components/queue';
 import Room from './components/room';
 import { UserDto } from 'src/dto/user.dto';
-import { Game, User } from 'src/typeorm';
+import {  User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
 import { roomEnum } from 'src/dto/game.dto';
@@ -57,10 +57,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.server.to(playerOne.socketId).emit("gameRoom", room);
 				this.server.to(playerTwo.socketId).emit("gameRoom",  room);
 				this.server.emit("gameRoom", room);
-				console.log(playerOne.socketId);
 				this.rooms.set(roomId, room);
 			}
-		}, 2000);
+		}, 3000);
 		this.logger.log(`Init Pong Gateway`);
     }
 
@@ -143,7 +142,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
-		console.log(data.userId);
 		if (user && !this.queue.find(user))
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
@@ -221,8 +219,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			}
 			else if (room.status === roomEnum.playing)
 			{
+				room.status = room.status;
 				room.update();
-				if (room.status = roomEnum.end) {
+				if (room.status === roomEnum.end) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
