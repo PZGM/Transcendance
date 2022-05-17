@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,7 +11,6 @@ import { MessageDto } from '../../api/dto/chat.dto';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { ChannelDto } from "../../api/dto/channel.dto";
-
 
 interface ChatState {
 	socket: any;
@@ -30,7 +29,6 @@ interface ChatProps {
 export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
 	chanName: string = '';
-
 
 	constructor(props: ChatProps) {
 		super(props);
@@ -136,13 +134,12 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
     }
 
-	async switchChannel(newChannelName: string): Promise<boolean> {
+	async switchChannel(newChannelName: string){
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
 		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
 		if (!channel) {
-			console.log('!!!!!')
-			return false;
+			return;
 		}
 		console.log('yeah');
 		console.log(channel)
@@ -154,14 +151,17 @@ export class Chat extends Component<ChatProps, ChatState> {
 			chan: channel,
 			messages
 		});
-		return true;
 	}
 
 	render () {
 		if (this.chanName !== this.props.params.name) {
 			if (!this.switchChannel(this.props.params.name))
-				return <div>Loading...</div>
+			{
+				console.log('tes cense redirect')
+				return <Navigate to='404' />
+			}
 		}
+		console.log('merde')
 		return (
             <>
                 <Box height="89%">
