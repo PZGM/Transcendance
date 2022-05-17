@@ -55,8 +55,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				this.server.to(playerOne.socketId).emit("gameRoom", room);
-				this.server.to(playerTwo.socketId).emit("gameRoom",  room);
+				console.log(room)
+				this.server.to(playerOne.socketId).emit("gameRoom", {room });
+				this.server.to(playerTwo.socketId).emit("gameRoom", { room });
 				this.rooms.set(roomId, room);
 			}
 		}, 3000);
@@ -95,6 +96,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = await this.usersService.getOne(userId.id);
+		this.logger.log(`${user.login} i'm back`);0
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
 				return ;
@@ -116,6 +118,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
+				console.log(room)
 				this.server.to(room.roomId).emit("updateRoom", room);
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
@@ -142,7 +145,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
-		if (user && !this.queue.find(user))
+		if (user && !this.queue.find(user) && user.status !== statusEnum.playing)
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);

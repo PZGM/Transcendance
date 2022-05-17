@@ -12,7 +12,6 @@ export class Setting {
     if(difficulty = Difficulty.Hard) {
       this.width = 20;
 	    this.speed = 700;
-
 	    this.acceleration = 55;
       this.color = 'purple';
     }
@@ -32,7 +31,6 @@ export class Setting {
   readonly color: string;
   readonly width: number;
 	readonly speed: number;
-	readonly r : number;
 	readonly acceleration : number;
 }
 

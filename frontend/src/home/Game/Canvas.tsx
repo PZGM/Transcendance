@@ -28,12 +28,12 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 function reactiveCoords(room: RoomDto, canvas: HTMLCanvasElement): RoomDto {
 	const ratio = canvas.width / Sam;
 
-	console.log(`reactiveCoords = ${ratio}`)
+	// console.log(`reactiveCoords = ${ratio}`)
 
 	// ball
 	room.ball.coor.x *= ratio
 	room.ball.coor.y *= ratio
-	room.ball.coor.setting.width *= ratio
+	room.ball.r *= ratio
 	
 	// playerOne
 	room.playerOne.coor.x *= ratio
@@ -168,10 +168,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// draw ball
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 		ctx.beginPath();
-		this.context.arc(state.ball.coor.x,
-						state.ball.coor.y,
-						state.ball.coor.setting.width,
-						0, 2 * Math.PI, true);
+		this.context.arc(state.ball.coor.x, state.ball.coor.y, state.ball.r, 0, 2 * Math.PI, true);
 		// ctx.arc(100 * this.ratio, 100* this.ratio, 10* this.ratio, 0, 2 * Math.PI, true);
 		ctx.fillStyle = 'green';
 		ctx.fill();

@@ -44,6 +44,7 @@ export interface CoorI {
 
 export interface BallDto {
     coor: CoorI;
+    r : number;
 }
 
 export interface PlayerDTO {
