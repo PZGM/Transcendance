@@ -7,18 +7,19 @@ import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate, NavLink } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import JoinChannel from './JoinChannel'
+
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
-function CreateChannel() {
+function CreateChannel(props) {
     const [openCreate, setOpenCreate] = React.useState(false);
     const [openJoin, setOpenJoin] = React.useState(false);
     const [name, setName] = React.useState("");
     const [visibility, setVisibility] = React.useState("public");
     const [password, setPassword] = React.useState("");
-    const [redirect, setRedirect] = React.useState("");
+
+    let navigate = useNavigate();
 
     const handleClickOpenCreate = () => {
       setOpenCreate(true);
@@ -42,21 +43,22 @@ function CreateChannel() {
                 closeOnClick: true,
             })
         }
-        else if(name.match(/[a-zA-Z]/i) == null)
+        else if(name.length < 3)
         {
-            toast.error("Channel name invalid. Only alphanumeric allowed", {
+            toast.error("Channel name too short", {
                 position: toast.POSITION.BOTTOM_CENTER,
                 pauseOnHover: false,
                 closeOnClick: true,
             })
         }
         else{
-            setRedirect(`/home/chat/${name}`);
-            setOpenCreate(false);
             Sendchannel();
-            setName("");
             setVisibility("public")
             setPassword("")    
+            setName("");
+            setOpenCreate(false);
+            navigate(`/home/chat/${name}`);
+            props.close();
         }
     };
 
@@ -97,7 +99,6 @@ function CreateChannel() {
 
     return (
         <>
-        { redirect ? (<Navigate to={redirect} />) : null }
             <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" style={{color: "white"}}>
                 <ButtonBase className="creachan_button" onClick={handleClickOpenCreate}>
                     Create
@@ -130,9 +131,9 @@ function CreateChannel() {
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <NavLink to={redirect} onClick={handleCreate} className="home_button but_red">
+                            <Button onClick={handleCreate} className="home_button but_red">
                                 <div className='bit5x5'> Save </div>
-                            </NavLink>
+                            </Button>
                         </Stack>
                     </Stack>
                 </DialogContent>

@@ -54,12 +54,26 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		this.getFriends();
 	}
 
+	// componentWillUnmount()  {
+	// }
+	
+	componentWillUpdate() {
+		if (this.state.name != window.location.pathname.split('/')[3])
+	 		this.setState({name: window.location.pathname.split('/')[3]})
+	}
+
 	updateName(name: string) {
 		this.setState({
 			name
 		})
 	}
- 
+
+	changeName() {
+		this.setState({
+			name: window.location.pathname.split('/')[3]
+		})
+	}
+
 	handleClick(event: React.MouseEvent<HTMLElement>) {
 		this.getChannels();
 		this.getFriends();
@@ -114,10 +128,10 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 									<List sx={{maxHeight: "30.5vh", mb: -1, mt: -1}} disablePadding>
 										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
 											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon style={{color: "white"}} />}>
-												<div className='bit9x9' style={{color: "white"}}> CHannels </div>
+												<div className='bit9x9' style={{color: "white"}}> Channels </div>
 											</AccordionSummary>
 											<AccordionDetails>
-												<CreateChannel/>
+												<CreateChannel close={this.handleClickAway}/>
 												<List sx={{display: "flex", justifyContent: "center"}}>
 													<Stack direction="column">
 														{this.renderRowsChan(this.state.channels)}
