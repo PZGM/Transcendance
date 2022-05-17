@@ -65,7 +65,6 @@ function JoinChannel(props: JoinChannelProps) {
             else {
                 join = await ChatAPI.joinChannel(channel.id, password);
             }
-            console.log(`JOIN ${join}`)
             if (join) {
                 setName("");
                 setVisibility("")

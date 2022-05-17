@@ -7,10 +7,14 @@ import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
 import { ChatAPI } from "../../api/Chat.api";
 import { UserDto } from "../../api/dto/user.dto";
+import { MessageDto } from '../../api/dto/chat.dto';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+
 
 interface ChatState {
 	socket: any;
-	messages: any[];
+	messages: MessageDto[];
 	input: string;
 	chan: any;
 	users: UserDto[];
@@ -49,20 +53,30 @@ export class Chat extends Component<ChatProps, ChatState> {
 	renderMsg(list)
     {
 		let lastAuthorId: number = -1;
-        const listItems = list.map((msg: any) => {
+        const listItems = list.map((msg: MessageDto) => {
 			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
+
 			if (msg.service && msg.content === 'JOIN')
-				return  <div style={{color: "green", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} joined the channel`} </div>;
-				if (msg.service && msg.content === 'LEAVE')
-			return  <div style={{color: "red", width: '100%', fontSize: '1.5rem'}}> {`→ ${login} left the channel`} </div>
-            return <>
-                { isFirst &&
-                    <Stack direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
+				return (
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<KeyboardDoubleArrowRightIcon sx={{width: "68px", color: 'green'}}/>
+					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} joined the channel`}</div>
+				</Stack> )
+				
+			if (msg.service && msg.content === 'LEAVE')
+				return (
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
+					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} left the channel`}</div>
+				</Stack>)
+
+			if (isFirst)
+            return <Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
                         <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
                         <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
@@ -70,14 +84,10 @@ export class Chat extends Component<ChatProps, ChatState> {
                         </Stack>
 
                     </Stack>
-                }
+			
 
-                {!isFirst &&
-                    <div style={{color: "white", paddingLeft: "68px", fontSize: '1.5rem'}}> {msg.content} </div>
-                }
-            </>
-		}
-        );
+            return <div key={msg.date.toString()} style={{color: "white", paddingLeft: "68px", fontSize: '1.5rem'}}> {msg.content} </div>;
+		});
         return listItems;
     }
 
@@ -125,7 +135,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	async switchChannel(newChannelName: string) {
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
-		const channel = await ChatAPI.getChannelByName(this.chanName);
+		const channel = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id);
 		this.setState({
@@ -153,7 +163,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 						onClickCapture={() => {}}>
 							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
 						</Link>
-
 						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>

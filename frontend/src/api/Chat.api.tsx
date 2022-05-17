@@ -5,6 +5,26 @@ function handleErrors(response) {
     return response;
 }
 
+export class RelationsPicker {
+    withOwner?: boolean;
+    withChat?: boolean;
+    withMuted?: boolean;
+    withAdmin?: boolean;
+}
+
+function optionsToQuery(options: RelationsPicker) {
+    let tab: string[] = [];
+    if (options.withAdmin)
+        tab.push('withAdmin=true');
+    if (options.withOwner)
+        tab.push('withOwner=true');
+    if (options.withChat)
+        tab.push('withChat=true');
+    if (options.withMuted)
+        tab.push('withMuted=true');
+    return tab.join('&');
+}
+
 export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
@@ -49,17 +69,24 @@ export class ChatAPI {
             })
         return resp
     }
-    public static async getChannelByName(name: string) {
-        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}`, {
+    public static async getChannelByName(name: string, options?: RelationsPicker) {
+        console.log('get channel by name');
+        console.log(options);
+        const query = (options) ? `?${optionsToQuery(options)}` : '';
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
             .catch(err => {
-                console.log("Channel name not found")
+                console.log('error:')
+                console.log(err)
                 return null;
             })
+        console.log(resp);
+        console.log('.....');
         return resp
     }
+
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
