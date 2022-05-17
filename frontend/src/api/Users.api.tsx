@@ -171,7 +171,7 @@ export class UserAPI {
 				})
 			}
 			catch {
-				console.log('loool')
+				console.log('error')
 			}
 			return ret;
 		}

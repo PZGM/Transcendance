@@ -10,6 +10,7 @@ import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import { ChannelDto } from "../../api/dto/channel.dto";
 
 
 interface ChatState {
@@ -135,10 +136,16 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
     }
 
-	async switchChannel(newChannelName: string) {
+	async switchChannel(newChannelName: string): Promise<boolean> {
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
-		const channel = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
+		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
+		if (!channel) {
+			console.log('!!!!!')
+			return false;
+		}
+		console.log('yeah');
+		console.log(channel)
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id);
 		this.setState({
@@ -146,12 +153,14 @@ export class Chat extends Component<ChatProps, ChatState> {
 			user,
 			chan: channel,
 			messages
-		})
+		});
+		return true;
 	}
 
 	render () {
 		if (this.chanName !== this.props.params.name) {
-			this.switchChannel(this.props.params.name)
+			if (!this.switchChannel(this.props.params.name))
+				return <div>Loading...</div>
 		}
 		return (
             <>

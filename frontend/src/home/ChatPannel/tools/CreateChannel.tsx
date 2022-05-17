@@ -27,7 +27,7 @@ function CreateChannel(props) {
       setOpenJoin(true);
     };
   
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER,
@@ -51,7 +51,7 @@ function CreateChannel(props) {
             })
         }
         else{
-            Sendchannel();
+            await Sendchannel();
             setVisibility("public")
             setPassword("")    
             setName("");

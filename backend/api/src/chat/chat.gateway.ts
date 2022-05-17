@@ -24,14 +24,14 @@ export class ChatGateway {
   
   }
 
-  handleJoinChannel(chanId: number, userId: number) {
-    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN'});
-    this.messageService.create({channelId: chanId, authorId: userId, content: 'JOIN', service: true});
+  async handleJoinChannel(chanId: number, userId: number) {
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'JOIN', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN', serice: true, channelId: chanId, date: message.createdDate});
   }
 
-  handleleaveChannel(chanId: number, userId: number) {
-    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'LEAVE'});
-    this.messageService.create({channelId: chanId, authorId: userId, content: 'LEAVE', service: true});
+  async handleleaveChannel(chanId: number, userId: number) {
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'LEAVE', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'LEAVE', serice: true, channelId: chanId, date: message.createdDate});
   }
 
   async handleConnection(socket: Socket) {
@@ -46,6 +46,7 @@ export class ChatGateway {
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: MessageBody
   ) {
+    console.log('chat gateway ')
     let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
     this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service});
   }

@@ -58,7 +58,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	// componentWillUnmount()  {
 	// }
 	
-	componentWillUpdate() {
+	componentDidUpdate() {
 		if (this.state.name != window.location.pathname.split('/')[3])
 	 		this.setState({name: window.location.pathname.split('/')[3]})
 	}

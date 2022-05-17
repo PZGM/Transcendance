@@ -44,7 +44,9 @@ export class ChannelsController {
       withOwner: query.withOwner === 'true',
     }
     const channel = await this.channelsService.getOneByName(name, options);
-    return new ChannelDto(channel);
+    if (channel)
+      return new ChannelDto(channel);
+    return null;
   }
 
   @Get(':id')

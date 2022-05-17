@@ -71,20 +71,14 @@ export class ChatAPI {
         return resp
     }
     public static async getChannelByName(name: string, options?: RelationsPicker) {
-        console.log('get channel by name');
-        console.log(options);
         const query = (options) ? `?${optionsToQuery(options)}` : '';
         const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
             .catch(err => {
-                console.log('error:')
-                console.log(err)
                 return null;
             })
-        console.log(resp);
-        console.log('.....');
         return resp
     }
 
@@ -122,7 +116,6 @@ export class ChatAPI {
     }
 
     public static async getByChannelId(channelId: number) {
-        console.log(`get messages from channel: ${channelId}`);
         const resp = await fetch(`${process.env.REACT_APP_MESSAGES_BY_CHANNEL}/${channelId}`, {
             method: "GET",
             credentials: "include"})

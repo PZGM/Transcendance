@@ -20,12 +20,10 @@ function ChanInfoUser(props: ChanInfoUserProps) {
     const [isFriend, setFriendship] = useState(props.isFriend);
 
     const toggleFriendship = async () => {
-        console.log(`toggle friends : now you are friend : ${isFriend}`);
         if (isFriend)
             await UserAPI.removeFriend(props.user.id)
         else
             await UserAPI.addFriend(props.user.id);
-        console.log('toggled !')
         setFriendship(!isFriend);
     }
 
