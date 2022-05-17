@@ -36,18 +36,15 @@ export class Ball implements BallDto { //extends?
 	}
 
 	update(time: number, p1: Player, p2: Player): void {
-		if (!this.collision(time, p1, p2))
-		{
+		if (!this.collision(time, p1, p2)) {
 			this.coor.x += this.coor.dx * time;
 			this.coor.y += this.coor.dy * time;
 		}
-        if(this.coor.x + this.coor.setting.r >= screenSizeX)
-        {
+        if(this.coor.x + this.coor.setting.r >= screenSizeX) {
             p1.goal++;
             this.goal = 1;
         }
-		if(this.coor.x - this.coor.setting.r <= 0)
-		{
+		else if(this.coor.x - this.coor.setting.r <= 0) {
 			p2.goal++;
 			this.goal = -1;
 		}
