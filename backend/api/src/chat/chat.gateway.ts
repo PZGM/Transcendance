@@ -46,8 +46,8 @@ export class ChatGateway {
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: MessageBody
   ) {
-    this.server.to('' + data.chanId).emit('message', {authorId: data.authorId, content: data.content});
-    this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
+    let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
+    this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service});
   }
 
   @SubscribeMessage('joinRoom')
