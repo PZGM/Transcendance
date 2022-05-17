@@ -7,7 +7,7 @@ import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import JoinChannel from './JoinChannel'
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
