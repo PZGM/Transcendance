@@ -39,12 +39,12 @@ export class Setting {
 }
 
 export interface CoorI {
-    x?: number;
-    y?: number;
-    dx?: number;
-    dy?: number;
+    x: number;
+    y: number;
+    dx: number;
+    dy: number;
     speed?: number;
-    color? : string;
+    color : string;
     difficulty: Difficulty;
     setting: Setting;
   }
