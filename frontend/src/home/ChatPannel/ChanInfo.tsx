@@ -134,11 +134,9 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
-						<li>
-							{this.renderRowsUsers(this.state.channel.users)}
-						</li>
-					</Stack>
+					<li>
+						{this.renderRowsUsers(this.state.channel.users)}
+					</li>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
 					<div onClick={this.leave} className="add_user_button but_red" >
