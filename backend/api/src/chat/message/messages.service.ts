@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chat } from 'src/typeorm/entities/chat';
-import { MessageDto } from 'src/dto/chat.dto';
+import { CreateMessageDto, MessageDto } from 'src/dto/chat.dto';
 import { Channel, User } from 'src/typeorm';
 import { ChannelsService } from '../channel/channels.service';
 import { UsersService } from 'src/users/users.service';
@@ -41,7 +41,7 @@ export class MessagesService {
     return messages;
   }
 
-  async create(messageDto: MessageDto) {
+  async create(messageDto: CreateMessageDto) {
     const message = new Chat();
     message.content = messageDto.content;
     let channel = new Channel();
