@@ -6,7 +6,9 @@ import ChanInfoUser from "./ChanInfoUser";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
+import EditIcon from '@mui/icons-material/Edit';
 import { ChannelDto } from "../../api/dto/channel.dto";
+
 import { ChatAPI } from "../../api/Chat.api";
 import { ThirtyFpsSharp } from "@mui/icons-material";
 
