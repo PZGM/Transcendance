@@ -68,6 +68,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
 
     async handleDisconnect(socket: Socket) {
+		this.logger.getLog();
 		const user : User = await this.usersService.getOneBySocket(socket.id);
         if (user) {
 			this.rooms.forEach((room: Room) => {
@@ -118,6 +119,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room);
+				this.logger.log(`${user.login} joined room ${room.roomId}!`);
+				console.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
 	}
