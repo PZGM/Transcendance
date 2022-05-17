@@ -88,7 +88,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.queue.rmToQueue(user);
             this.pool.rmToPool(user);
 			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
-        	console.log(`socket disconnected: ${socket.id}`);
 			this.usersService.setUserStatus(user.id, statusEnum.disconected);
       }
 	}
