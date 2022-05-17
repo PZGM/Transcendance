@@ -64,11 +64,10 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
 
     handleConnection(socket: Socket) {
-        console.log(`socket connected: ${socket.id}`);
+        this.logger.log(`socket connected: ${socket.id}`);
     }
 
     async handleDisconnect(socket: Socket) {
-		this.logger.getLog();
 		const user : User = await this.usersService.getOneBySocket(socket.id);
         if (user) {
 			this.rooms.forEach((room: Room) => {
@@ -120,7 +119,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room);
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
-				console.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
 	}
@@ -150,7 +148,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
-			console.log(`socket ${user.login}: ${socket.id} was added to queue !`)
 			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
 			this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
 		}
