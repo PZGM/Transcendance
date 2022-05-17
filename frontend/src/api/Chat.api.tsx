@@ -42,20 +42,21 @@ export class ChatAPI {
          return resp
     }
 
-        // ${process.env.REACT_APP_GET_CHANNELS_NAMES}
-        public static async getChannelsNames(): Promise<string[]|null> {
-            const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_NAMES}`, {
-                method: "GET",
-                credentials: "include"})
-                .then(response => {return response.json()})
-                .then(json => {return json})
-                .catch(err => {
-                    console.log('No channels')
-                    return null;
-                })
-                console.log(resp)
-             return resp
-        }
+    // ${process.env.REACT_APP_GET_CHANNELS_NAMES}
+    public static async getChannelsNames(): Promise<string[]|null> {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_NAMES}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json})
+            .catch(err => {
+                console.log('No channels')
+                return null;
+            })
+            console.log(resp)
+         return resp
+    }
+
 
     // ${process.env.REACT_APP_GET_CHANNELS_ID}
     public static async getChannelById(id: number) {

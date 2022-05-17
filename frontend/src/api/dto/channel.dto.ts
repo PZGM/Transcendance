@@ -8,4 +8,4 @@ export interface ChannelDto {
     password: string;
     users: UserDto[];
     admin: UserDto[]; 
-}
+} 

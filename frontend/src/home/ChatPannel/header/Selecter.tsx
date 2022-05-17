@@ -9,6 +9,7 @@ import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+
 interface SelecterProps {
 	channelName: string;
 };

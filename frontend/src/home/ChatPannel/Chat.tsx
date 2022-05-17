@@ -162,14 +162,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<Link style={{backgroundColor: "black", display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: (this.props.isPrivateMessage === true) ? process.env.REACT_APP_USER + "" + this.chanName + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.chanName + "/info"}}
-						onClickCapture={() => {}}>
-							<InfoIcon fontSize="large" sx={{backgroundColor: "black",color: "white"}}/>
-						</Link>
 						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
-						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
-							<SendIcon/>
-						</IconButton>
+						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
+							<img	src={require('../../asset/images/xwhite.png')}
+							style={{width: '75%'}}
+							alt='cross'
+							/>
+						</div>
 					</Stack>
 				</Box>
             </>
