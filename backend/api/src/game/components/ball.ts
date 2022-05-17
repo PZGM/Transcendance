@@ -9,7 +9,7 @@ export class Ball implements BallDto { //extends?
 
 	constructor(difficulty : Difficulty) {
         
-		this.coor = { 
+		this.coor = {
 			setting : new Setting(difficulty),
 			x : screenSizeX / 2,
 			y : screenSizeY / 2,
