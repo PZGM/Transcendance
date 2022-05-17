@@ -85,7 +85,7 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				fileSelected: undefined,
 				editing: false,
 			})
-			toast.success('Avatar successfuly updated', { position: toast.POSITION.BOTTOM_CENTER })
+			toast.success('Avatar successfuly updated', { position: toast.POSITION.BOTTOM_CENTER, pauseOnHover: false, closeOnClick: true })
 		}
 		this.props.updateDisplay(0)
 	};

@@ -1,4 +1,4 @@
-import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
+import { Avatar, Box, ButtonBase, IconButton, InputBase, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
 import { Link } from "react-router-dom";
@@ -10,7 +10,6 @@ import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-
 
 interface ChatState {
 	socket: any;
@@ -166,7 +165,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						<IconButton sx={{ color: "white" }} onClick={ () => {this.sendMessage(this.chanName)}}	>
 							<SendIcon/>
-						</IconButton>
+						</IconButton> */}
+						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
+							<img	src={require('../../asset/images/xwhite.png')}
+							style={{width: '75%'}}
+							alt='cross'
+							/>
+						</div>
 					</Stack>
 				</Box>
             </>
