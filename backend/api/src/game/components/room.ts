@@ -66,7 +66,7 @@ export default class Room implements RoomDto {
 		this.ball.reset();
 	}
 
-	update(): void {
+	update(): number {
 		this.updateTime = Date.now();
 		this.duration = (this.updateTime - this.startingTime) / 1000;
 		this.playerOne.update(this.duration);
@@ -98,5 +98,6 @@ export default class Room implements RoomDto {
 		}
 		else
 			this.status = roomEnum.playing;
+		return this.status;
 	}
 }

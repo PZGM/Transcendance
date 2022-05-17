@@ -31,7 +31,7 @@ export class Game extends Component<GameProps, GameState>
 		
 		this.state = {
 			room: undefined,
-			display: this.props.userStatus,
+			display: 2,
 			userId: 0
 		}
 		this.fetchUser()
