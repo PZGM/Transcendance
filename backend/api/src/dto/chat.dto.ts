@@ -8,7 +8,8 @@ import { UserDto } from './user.dto';
 export class RelationsPicker {
   withOwner?: boolean;
   withChat?: boolean;
-  withMuted?:boolean;
+  withMuted?: boolean;
+  withAdmin?: boolean;
 }
 
 export class MutedUserDto {
@@ -32,9 +33,17 @@ export class MessageDto {
       this.content = message.content;
       this.authorId = message.author.id;
       this.service = message.service;
+      this.date = message.createdDate;
     }
   }
+  date: Date;
+  service: boolean;
+  channelId: number ;
+  content: string;
+  authorId: number;
+}
 
+export class CreateMessageDto {
   service: boolean;
   channelId: number ;
   content: string;
@@ -42,20 +51,20 @@ export class MessageDto {
 }
 
 export class ChannelDto {
-
     constructor (channel?: Channel) {
       if(channel) {
         if (channel.admin)
           this.admin = channel.admin.map((user) => {return new UserDto(user)});
-        this.messages = channel.chats;
+        if (channel.chats)
+          this.messages = channel.chats.map((chat) => {return new MessageDto(chat)});
         this.mute = channel.mute;
         this.name = channel.name;
-        if (this.owner)
+        if (channel.owner)
           this.owner = new UserDto(channel.owner);
-        if (this.users)
+        if (channel.users)
           this.users = channel.users.map((user) => {return new UserDto(user)});
         this.visibility = channel.visibility;
-        this.password = channel.password;
+        this.id = channel.id;
       }
     }
 
@@ -65,11 +74,10 @@ export class ChannelDto {
   owner: UserDto;
   @IsIn(["public", "private", "protected"])
   readonly visibility: string;
-  password?: string;
   readonly users: UserDto[];
   mute: Mute[];
   admin: UserDto[];
-  readonly messages: Chat[];
+  readonly messages: MessageDto[];
   readonly id: number;
 }
 

@@ -33,33 +33,6 @@ export class StatsService {
         throw new NotFoundException();
     }
 
-
-    // async getUserRank(userId: number) {
-
-    //     console.log('getUserStats')
-
-    //     let stats: Stats[] = await this.statsRepo.find({ 
-    //         order: {
-    //             eloScore: "DESC"
-    //         }
-    //     })
-
-    //     console.log(stats)
-
-    //     if (stats)
-    //     {
-    //         for (let i: number = 0; i < stats.length; i++)
-    //         {
-    //             console.log(`userId = ${userId}`)
-    //             console.log(`stats.id = ${stats[i].id}`)
-    //             if (stats[i].id = userId)
-    //                 return i + 1;
-    //         }
-    //         return 1
-    //     }
-    //     throw new NotFoundException();
-    // }
-
     public async setStats(userId: number, lastGame: LastGame)
     {
         let user: User = await this.userService.getOne(userId, {withStats: true});

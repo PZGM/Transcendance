@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Param, Post, Put, Req, UseGuards, Query } from '@nestjs/common';
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ChannelsService } from './channels.service';
 import { CustomRequest } from 'src/utils/types';
@@ -6,6 +6,7 @@ import { CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto';
 import { ChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 import passport from 'passport';
+import { QueryResult } from 'typeorm';
 
 @ApiTags('Channel')
 @Controller('channels')
@@ -35,14 +36,22 @@ export class ChannelsController {
 
   @Get('/name/:name')
   @UseGuards(FullyAuthentificatedGuard)
-  public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string) {
-    return this.channelsService.getOneByName(name);
+  public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string, @Query() query) {
+    const options: RelationsPicker = {
+      withAdmin: query.withAdmin === 'true',
+      withChat: query.withChat === 'true',
+      withMuted: query.withMuted === 'true',
+      withOwner: query.withOwner === 'true',
+    }
+    const channel = await this.channelsService.getOneByName(name, options);
+    return new ChannelDto(channel);
   }
 
   @Get(':id')
   @UseGuards(FullyAuthentificatedGuard)
-  findOne(@Param('id') id: number, option?: RelationsPicker) {
-    return this.channelsService.getOne(id, option);
+  async findOne(@Param('id') id: number) {
+    const channel = await this.channelsService.getOne(id);
+    return new ChannelDto(channel);
   }
 
   @Post()
