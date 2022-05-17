@@ -6,7 +6,7 @@ import { PInit, Player } from "./player";
 
 export default class Room implements RoomDto {
     roomId: string;
-	status?: number;
+	status: number;
 	playerOne: Player;
 	playerTwo: Player;
 	ball: Ball;
@@ -16,7 +16,7 @@ export default class Room implements RoomDto {
 	winner?: UserDto;
 	loser?: UserDto;
 	maxGoal: number;
-	duration?: number;
+	duration: number;
     constructor(roomId: string ,difficulty: Difficulty, p1: UserDto, p2: UserDto) {
 		this.roomId = roomId;
 		this.status = roomEnum.waiting;

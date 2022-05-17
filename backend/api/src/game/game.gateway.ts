@@ -33,30 +33,30 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			let roomId: string
 			let room: Room
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
+				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
 					console.log('Easy Room')
 					playerOne = this.queue.getOneUser(Difficulty.Easy);
 					playerTwo  = this.queue.getOneUser(Difficulty.Easy);
-					roomId = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${Date.now().toString.prototype.substring(0, 5)}`;	
+					roomId = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${date}`;	
 					room = new Room(roomId, Difficulty.Easy, playerOne, playerTwo);
 				}
 				else if (this.queue.sizeMedium() > 1) {
 					playerOne = this.queue.getOneUser(Difficulty.Medium);
 					playerTwo = this.queue.getOneUser(Difficulty.Medium);
-					roomId = `${Difficulty.Medium}${playerOne.id}${playerTwo.id}${Date.now().toString.prototype.substring(0, 5)}`;
+					roomId = `${Difficulty.Medium}${playerOne.id}${playerTwo.id}${date}`;
 					room = new Room(roomId, Difficulty.Medium, playerOne, playerTwo);
 				}
 				else if (this.queue.sizeHard() > 1) {
 					playerOne = this.queue.getOneUser(Difficulty.Hard);
 					playerTwo = this.queue.getOneUser(Difficulty.Hard);
-					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${Date.now().toString.prototype.substring(0, 5)}`;
+					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${date}`;
 					room = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.server.to(playerOne.socketId).emit("gameRoom", room);
 				this.server.to(playerTwo.socketId).emit("gameRoom",  room);
-				this.server.emit("gameRoom", room);
 				this.rooms.set(roomId, room);
 			}
 		}, 3000);

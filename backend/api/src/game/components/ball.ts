@@ -14,8 +14,12 @@ export class Ball implements BallDto { //extends?
 			x : screenSizeX / 2,
 			y : screenSizeY / 2,
 			difficulty : difficulty,
-			dy : 0
+			dy : 0,
+			dx : 0,
+			color : 'white',
+
 		}
+		this.coor.color = this.coor.setting.color;
 		this.coor.dx = this.coor.setting.speed * (Math.random() < 0.5 ? 1 : -1);
 		this.coor.speed = this.coor.setting.speed;
 		this.goal = 0;
