@@ -24,23 +24,32 @@ export enum Difficulty {
     Hard
 }
 
-export interface BallDto {
+export interface Setting {
+    readonly color: string;
+    width: number;
+    readonly speed: number;
+    readonly acceleration : number;
+}
+
+export interface CoorI {
     x: number;
     y: number;
     dx: number;
     dy: number;
-    speed: number;
+    speed?: number;
     color: string;
-    diameter: number;
-    acceleration: number;
+    difficulty: Difficulty;
+    setting: Setting;
+}
+
+export interface BallDto {
+    coor: CoorI;
 }
 
 export interface PlayerDTO {
-    x: number;
-    y: number;
-    height: number;
     user: UserDto;
-	score: number;
+    coor: CoorI;
+	goal: number;
 }
 
 export interface RoomDto {
@@ -51,7 +60,7 @@ export interface RoomDto {
 	ball: BallDto;
 	startingTime: number;
 	updateTime: number;
-    duration?: number;
+    duration: number;
 	lastGoal?: PlayerDTO;
 	winner?: UserDto;
 	loser?: UserDto;

@@ -218,9 +218,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			}
 			else if (room.status === roomEnum.playing)
 			{
-				room.status = room.status;
-				room.update();
-				if (room.status === roomEnum.end  && (now - room.updateTime) >= 1000) {
+				if (room.update() === roomEnum.end  && (now - room.updateTime) >= 1000) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -247,6 +245,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
 		const room: Room = this.rooms.get(data.roomId);
+
+		console.log(data.key)
 
 		if (room && room.playerOne.user.id === data.userId)
 		{

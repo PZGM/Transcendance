@@ -16,26 +16,7 @@ interface PlayState {
 };
 
 export class Play extends Component<PlayProps, PlayState>
-{ 
-	// predraw = (canvas: HTMLCanvasElement) => {
-	// 	const context = canvas.getContext('2d')
-	// 	if (context) {
-	// 		context.save()
-	// 		resizeCanvas(canvas)
-	// 		const { width, height } = context.canvas
-	// 		context.clearRect(0, 0, width, height)
-	// 	}
-	// }
-	
-	// postdraw = (index: number, ctx: CanvasRenderingContext2D) => {
-	// 	index++
-	// 	ctx.restore()
-	// }
-
-	roomCheck()
-	{
-	}
-
+{
 	render () {
 		console.log('render')
 		

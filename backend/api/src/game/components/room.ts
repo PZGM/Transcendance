@@ -66,7 +66,7 @@ export default class Room implements RoomDto {
 		this.ball.reset();
 	}
 
-	update(): void {
+	update(): number {
 		const now = Date.now();
 		this.playerOne.update(now);
 		this.playerTwo.update(now);
@@ -99,5 +99,6 @@ export default class Room implements RoomDto {
 		}
 		else
 			this.status = roomEnum.playing;
+		return this.status;
 	}
 }
