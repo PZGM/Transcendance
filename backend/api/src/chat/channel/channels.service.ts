@@ -117,7 +117,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     }
     let ret = await this.channelsRepository.save(channel);
     if (createChannelDto.ownerId !== -1)
-      this.chatGateway.handleJoinChannel(ret.id, createChannelDto.ownerId);
+      this.chatGateway.broadcastJoinChannel(ret.id, createChannelDto.ownerId);
     return ret;
   }
 
@@ -137,12 +137,9 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if ((chan.admin.some((admin) => {return admin.id == adminID}))) {
       throw new NotFoundException(`This user is already admin in this chan`);
     }
-    console.log('admins 1:');
-    console.log(chan.admin);
     chan.admin.push(await this.usersService.getOne(adminID));
     await this.channelsRepository.save(chan);
-    console.log('admins 2:');
-    console.log(chan.admin);
+    this.chatGateway.broadcastPromoteAdmin(chanID, adminID);
     return;
 }
 
@@ -160,6 +157,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     chan.admin = chan.admin.filter((admin: User) => {
       return admin.id != adminID;
     })
+    this.chatGateway.broadcastDemoteAdmin(chanID, adminID);
     return this.channelsRepository.save(chan);
   }
   
@@ -180,7 +178,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     }
     chan.users.push(await this.usersService.getOne(userId));
     this.channelsRepository.save(chan);
-    this.chatGateway.handleJoinChannel(chanId, userId);
+    this.chatGateway.broadcastJoinChannel(chanId, userId);
     return true;
 }
 
@@ -198,14 +196,18 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {
       channel.users = channel.users.filter((user) => { return user.id !== rmID});
-      this.chatGateway.handleleaveChannel(chanID, rmID);
+      this.chatGateway.broadcastLeaveChannel(chanID, rmID);
       if (isAdmin) {
         channel.admin = channel.admin.filter((user) => { return user.id !== rmID});
         if (isOwner) {
-          if (channel.admin.length > 0)
+          if (channel.admin.length > 0){
             channel.owner = channel.admin[0];
-          else if (channel.users.length > 0)
+            this.chatGateway.broadcastNewOwner(chanID, channel.admin[0].id);
+          }
+          else if (channel.users.length > 0) {
             channel.owner = channel.users[0];
+            this.chatGateway.broadcastNewOwner(chanID, channel.users[0].id);
+          }
           else
             this.delete(userID, chanID);
         }

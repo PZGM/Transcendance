@@ -2,7 +2,7 @@ import { Stack, List } from "@mui/material";
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
-import ChanInfoUser from "./ChanInfoUser";
+import ChanInfoMember from "./ChanInfoMember";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
@@ -55,14 +55,25 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	}
 
 	renderRowsUsers(list) {
-		const listItems = list?.map((user: UserDto) => {
-		const isFriend = this.state.friends.some((friend) => {return friend.id === user.id});
-		const isMe = this.state.user?.id === user.id;
-		let grade = this.state.channel?.admin.some((admin) => {return admin.id === user.id}) ? 'admin' : '';
-		if (this.state.channel?.owner && this.state.channel?.owner.id === user.id)
+		list = list.sort((a: UserDto, b: UserDto) => {
+			if (this.state.channel?.owner.id === a.id)
+				return -1;
+			if (this.state.channel?.owner.id === b.id)
+				return 1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
+				return -1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
+				return 1;
+			return 0;
+		})
+		const listItems = list?.map((member: UserDto) => {
+		const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
+		const isMe = this.state.user?.id === member.id;
+		let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
+		if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
 			grade = 'owner';
 		return (
-			<ChanInfoUser isMe={isMe} key={this.index} index={this.index++} user={user} grade={grade} isFriend={isFriend}></ChanInfoUser>);
+			<ChanInfoMember isMe={isMe} key={this.index} index={this.index++} member={member} grade={grade} isFriend={isFriend}></ChanInfoMember>);
 		}
 	  );
 	  return listItems;

@@ -24,25 +24,31 @@ export class ChatGateway {
   
   }
 
-  async handleJoinChannel(chanId: number, userId: number) {
+  async broadcastJoinChannel(chanId: number, userId: number) {
     const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'JOIN', service: true});
     this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN', serice: true, channelId: chanId, date: message.createdDate});
   }
 
-  async handleleaveChannel(chanId: number, userId: number) {
+  async broadcastLeaveChannel(chanId: number, userId: number) {
     const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'LEAVE', service: true});
     this.server.to('' + chanId).emit('service', {authorId: userId, content: 'LEAVE', serice: true, channelId: chanId, date: message.createdDate});
   }
 
-  // async handleJoinChannel(chanId: number, userId: number) {
-  //   const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'JOIN', service: true});
-  //   this.server.to('' + chanId).emit('service', {authorId: userId, content: 'JOIN', serice: true, channelId: chanId, date: message.createdDate});
-  // }
+  async broadcastPromoteAdmin(chanId: number, userId: number) {
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'PROMOTE', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'PROMOTE', serice: true, channelId: chanId, date: message.createdDate});
+  }
 
-  // async handleleaveChannel(chanId: number, userId: number) {
-  //   const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'LEAVE', service: true});
-  //   this.server.to('' + chanId).emit('service', {authorId: userId, content: 'LEAVE', serice: true, channelId: chanId, date: message.createdDate});
-  // }
+  async broadcastDemoteAdmin(chanId: number, userId: number) {
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'DEMOTE', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'DEMOTE', serice: true, channelId: chanId, date: message.createdDate});
+  }
+
+  async broadcastNewOwner(chanId: number, userId: number) {
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'OWNERED', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'OWNERED', serice: true, channelId: chanId, date: message.createdDate});
+  }
+
 
   async handleConnection(socket: Socket) {
     console.log(`Client connected: ${socket.id}`);
