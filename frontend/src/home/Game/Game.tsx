@@ -55,6 +55,7 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateRoom (room: Room) {
+		console.log('UPDATE ROOM')
 		this.setState({room})
 	}
 
@@ -84,6 +85,7 @@ export class Game extends Component<GameProps, GameState>
     /* render the jsx */
     render()
 	{
+		console.log('RENDER GAME')
 		return (
 			<div className="background">
 				<div className="frame_div">
