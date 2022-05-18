@@ -7,7 +7,7 @@ import { UserDto } from 'src/dto/user.dto';
 import {  User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
-import { roomEnum } from 'src/dto/game.dto';
+import { RoomDto, roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
@@ -51,14 +51,15 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					playerOne = this.queue.getOneUser(Difficulty.Hard);
 					playerTwo = this.queue.getOneUser(Difficulty.Hard);
 					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${date}`;
-					room = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
+					const room : RoomDto = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				console.log(room)
-				this.server.to(playerOne.socketId).emit("gameRoom", {room });
-				this.server.to(playerTwo.socketId).emit("gameRoom", { room });
+				console.log("avant"); console.log(room);
+				this.server.to(playerOne.socketId).emit("gameRoom", room.toFront());
+				this.server.to(playerTwo.socketId).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
+				console.log("apres"); console.log(room);
 			}
 		}, 3000);
 		this.logger.log(`Init Pong Gateway`);
@@ -119,7 +120,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				console.log(room)
-				this.server.to(room.roomId).emit("updateRoom", room);
+				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
@@ -135,7 +136,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const room = new Room(roomId, Difficulty.Easy, user, guest);
 			this.rooms.set(roomId, room);
 			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
-			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room);
+			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room.toFront());
 			this.logger.log(`You succesfully invited ${guest.login} !`);
 		}
 		else
@@ -173,7 +174,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		if (room) {
 			const user = this.pool.find(await this.usersService.getOne(data.userId));
 			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("gameRoom", room);
+				this.server.to(socket.id).emit("gameRoom", room.toFront());
                 this.pool.changeStatus(statusEnum.watching, user);
             }
             this.usersService.setUserStatus(data.userId, statusEnum.watching);
@@ -241,7 +242,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
-			this.server.to(room.roomId).emit("updateRoom", room);
+			this.server.to(room.roomId).emit("updateRoom", room.toFront());
 		}
 	}
 

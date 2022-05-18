@@ -13,49 +13,23 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
 	constructor(props: GameSocketAPIProps) {
         super(props)
-        this.socket = io(`https://serv.pizzagami.fr:6333/game`, {secure: true});
+        this.socket = io(`https://serv.pizzagami.fr:5333/game`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
             this.socket.on('disconnect', (reason) => {
                 console.log(reason);
             });
         });
-        this.socket.on("gameRoom", (data :{room: RoomDto}) => {
-            this.props.receiveGameRoom(data.room);
-            console.log(data.room);
-            this.socket.emit('joinRoom', data.room.roomId);
-        });
-
-        this.socket.on('updateRoom', (room) => {
-            this.props.updateRoom(room);
-        });
-
-        this.socket.on('leftRoom', () => {
-            console.log('Left Room')
-        });
-
-        this.socket.on('joinedPool', () => {
-            console.log('Joined Pool')
-        });
-
-        this.socket.on('joinedQueue', () => {
-            console.log('Joined Queue')
-        });
-
-        this.socket.on('leftQueue', () => {
-            console.log('Left Queue')
-        });
-               
     }
 
     // Gateway functions callers
 
 	userConnection(userId: number) {
-		this.socket.emit('handleUserConnect', {id: userId});
+		this.socket.emit('handleUserConnect', userId);
 	}
 
 	joinQueue(userId: number, difficulty: Difficulty) {
-		this.socket.emit('joinQueue', {userId: userId, difficulty :difficulty});
+		this.socket.emit('joinQueue', userId, difficulty);
 	}
 
     leaveQueue(userId: number) {
@@ -63,18 +37,68 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 	}
 
     spectateRoom(userId: number, roomId: string) {
-		this.socket.emit('spectateRoom', {userId: userId, roomId :roomId});
+		this.socket.emit('spectateRoom', userId, roomId);
 	}
 
     leaveRoom(userId: number, roomId: string) {
-		this.socket.emit('leaveRoom', {userId: userId, roomId : roomId});
+		this.socket.emit('leaveRoom', userId, roomId);
 	}
 
     updateRoom(roomId: string) {
-		this.socket.emit('updateRoom', { roomId : roomId});
+		this.socket.emit('updateRoom', roomId);
 	}
 
     key(userId: number, roomId: string, key: string) {
-		this.socket.emit('joinQueue', {userId: userId, roomId : roomId, key : key});
+		this.socket.emit('joinQueue', userId, roomId, key);
 	}
+
+    // Gateway functions receivers
+
+    receiveGameRoom() {
+        this.socket.on('gameRoom', (room: RoomDto) => {
+            this.props.receiveGameRoom(room);
+        });
+    }
+
+    // receiveNewRoomId() {
+    //     this.socket.on('newRoom', room => {
+    //         this.props.receiveRoom(room);
+    //     });
+    // }
+    
+    // receiveSpectateRoom() {
+    //     this.socket.on('spectRoom', (room) => {
+    //         this.props.receiveSpectRoom(room)
+    //     })
+    // }
+
+    recieveUpdateRoom() {
+        this.socket.on('updateRoom', (room) => {
+            this.props.updateRoom(room);
+        })
+    }
+
+    receiveLeftRoomConf() {
+        this.socket.on('leftRoom', () => {
+            console.log('Left Room')
+        });
+    }
+
+    receiveJoinPoolConf() {
+        this.socket.on('joinedPool', () => {
+            console.log('Joined Pool')
+        });
+    }
+
+    receiveJoinQueueConf() {
+        this.socket.on('joinedQueue', () => {
+            console.log('Joined Queue')
+        });
+    }
+
+    receiveLeftQueueConf() {
+        this.socket.on('leftQueue', () => {
+            console.log('Left Queue')
+        });
+    }
 }

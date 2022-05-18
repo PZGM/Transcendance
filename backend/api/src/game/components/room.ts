@@ -66,6 +66,32 @@ export default class Room implements RoomDto {
 		this.ball.reset();
 	}
 
+	toFront(){
+		return {
+				ballX: this.ball.coor.x,
+				ballY: this.ball.coor.y,
+				ballR : this.ball.r,
+				ballColor : this.ball.coor.setting.color,
+				
+				pOneX : this.playerOne.coor.x,
+				pOneY : this.playerOne.coor.y,
+				playerSize : this.playerOne.width,
+				pOneColor: this.playerOne.user.color,
+				pOneId : this.playerOne.user.id,
+				pOneScore : this.playerOne.goal,
+
+				pTwoX : this.playerTwo.coor.x,
+				pTwoY : this.playerTwo.coor.y,
+				pTwoSize : this.playerTwo.width,
+				pTwoColor : this.playerOne.user.color,
+				pTwoId : this.playerTwo.user.id,	
+				pTwoScore : this.playerTwo.goal,
+				
+				roomId : this.roomId,
+				status : this.status
+		}
+	}
+
 	update(): number {
 		const now = Date.now();
 		this.playerOne.update(now);
