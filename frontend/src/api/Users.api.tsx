@@ -155,6 +155,11 @@ export class UserAPI {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ status: status }),
 				credentials: "include"})
+				.catch(err => {
+					console.log('error catched in status:');
+					console.log(err);
+					return null;
+				})
 		}
 		
 		//status

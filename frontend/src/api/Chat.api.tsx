@@ -151,8 +151,29 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
+    }
+
+    public static async promoteAdmin(channelId: number, adminId: number): Promise<boolean> {
+        const resp = await fetch(`${process.env.REACT_APP_PROMOTE_ADMIN}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId, adminId}),
+            credentials: "include"})
+            .then(response => {console.log(response); return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async demoteAdmin(channelId: number, adminId: number): Promise<string> {
+        const resp = await fetch(`${process.env.REACT_APP_DEMOTE_ADMIN}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId, adminId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
     }
 
 }

@@ -2,7 +2,7 @@ import { Stack, List } from "@mui/material";
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
-import ChanEditUser from "./ChanEditUser";
+import ChanEditMember from './ChanEditMember';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
@@ -13,9 +13,10 @@ import EditIcon from '@mui/icons-material/Edit';
 
 interface ChanEditState {
 	channel?: ChannelDto;
-	friends: any;
+	admins: any;
 	redirect: string;
-	isAdmin: boolean
+	isAdmin: boolean;
+	user?: UserDto;
 }
 
 interface ChanEditProps {
@@ -29,58 +30,36 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		super(props);
 		this.state = {
 			channel: undefined,
-			friends: [],
+			admins: [],
 			redirect: '',
 			isAdmin: false,
+			user: undefined
 		}
-		this.deleteFriend = this.deleteFriend.bind(this);
-		this.addFriend = this.addFriend.bind(this);
 		this.leave = this.leave.bind(this);
 	}
 
 	async componentDidMount()  {
 		const name = this.props.params.name;
 		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
-		const friends = await UserAPI.getFriends();
+		const admins = channel.admin;
 		const user = await UserAPI.getUser();
 		if (!user || !channel)
 			return;
 		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
 		this.setState({
 			channel,
-			friends,
+			admins,
 			isAdmin,
+			user
 		})
 	}
 
-	async addFriend(user: UserDto) {
-		await UserAPI.addFriend(user.id);
-		let newFriends: UserDto[] = this.state.friends;
-		newFriends.push(user);
-		this.setState({
-			friends: newFriends
-		}); 
-	}
-
-	deleteFriend(duser: UserDto) {
-		UserAPI.removeFriend(duser.id);
-		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id !== duser.id;
-		});
-
-		this.setState({
-			friends: newFriends
-		});
-	}
-
 	renderRowsUsers(list) {
-		const listItems = list?.map((user: UserDto) => {
-		const isFriend = this.state.friends.some((friend) => {return friend.id === user.id});
-		let grade = this.state.channel?.admin.some((admin) => {return admin.id === user.id}) ? 'admin' : '';
-		if (this.state.channel?.owner && this.state.channel?.owner.id === user.id)
-			grade = 'owner';
+		const listItems = list?.map((member: UserDto) => {
+		if (!this.state.channel || !this.state.user)
+			return <div>error</div>
 		return (
-			<ChanEditUser index={this.index++} user={user} grade={grade} isFriend={isFriend}></ChanEditUser>);
+			<ChanEditMember channel={this.state.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>);
 		}
 	  );
 	  return listItems;
@@ -106,11 +85,6 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
-					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-									<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
-										<EditIcon/>
-									</Link>
-								</Stack>}
 				</Stack>
 				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>

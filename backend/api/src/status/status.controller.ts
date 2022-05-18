@@ -28,6 +28,7 @@ export class StatusController {
     public async updateStatus(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
         this.statusService.updateStatus(id, updateStatusRequest.status);
         this.statusService.reportActivity(id);
+        return true;
     }
 
     @Get('/users/activity/:id')

@@ -8,6 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import { createDecipheriv, createCipheriv } from 'crypto';
 import { UserDto } from 'src/dto/user.dto';
 import { ChatGateway } from '../chat.gateway';
+import { channel } from 'diagnostics_channel';
 
 @Injectable()
 export class ChannelsService {
@@ -120,34 +121,41 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return ret;
   }
 
-  public async addAdmin(userID: number, adminID : number, chanID: number) {
-    const chan: Channel | null = await this.getOne(chanID);
-    if (chan.owner.id !== userID) {
+  public async promote(userID: number, adminID : number, chanID: number) {
+    console.log(`promote admin ${userID} ${adminID} ${chanID}`)
+    const chan: Channel | null = await this.getOne(chanID, {withAdmin: true, withOwner: true});
+    if (!chan) {
+      throw new NotFoundException(`Channel [${chanID}] not found`);
+    }
+    if (!chan.owner || chan.owner.id !== userID) {
+      if (chan.owner)
+        console.log(chan.owner.id);
+      else
+        console.log()
       throw new NotFoundException(`Only the owner can promote admin`);
     }
-    /*if (!chan.admin.some((admin) => {return admin.id == userID})) {
-      throw new NotFoundException(`User not found in the admin data`);
-    }*/
-    if (!chan) {
-      throw new NotFoundException(`Channel [${chanID}] not found`);
+    if ((chan.admin.some((admin) => {return admin.id == adminID}))) {
+      throw new NotFoundException(`This user is already admin in this chan`);
     }
-    if (!(chan.admin.some((admin) => {return admin.id == adminID}))) {
+    console.log('admins 1:');
+    console.log(chan.admin);
     chan.admin.push(await this.usersService.getOne(adminID));
-    }
-    return this.channelsRepository.save(chan);
+    await this.channelsRepository.save(chan);
+    console.log('admins 2:');
+    console.log(chan.admin);
+    return;
 }
 
-  public async removeAdmin(userID: number, adminID : number, chanID: number) {
-    const chan: Channel | null = await this.getOne(chanID);
-    if (chan.owner.id !== userID) {
-      throw new NotFoundException(`Only the owner can demote admin`);
-    }
-    /*if (!chan.admin.some((admin) => {return admin.id == userID})) {
-      throw new NotFoundException(`User not found in the admin data`);
-    }
-    */
+  public async demote(userID: number, adminID : number, chanID: number) {
+    const chan: Channel | null = await this.getOne(chanID, {withAdmin: true, withOwner: true});
     if (!chan) {
       throw new NotFoundException(`Channel [${chanID}] not found`);
+    }
+    if (!chan.owner || chan.owner.id !== userID) {
+      throw new NotFoundException(`Only the owner can demote admin`);
+    }
+    if (!(chan.admin.some((admin) => {return admin.id == adminID}))) {
+      throw new NotFoundException(`This user isn't admin in this chan`);
     }
     chan.admin = chan.admin.filter((admin: User) => {
       return admin.id != adminID;

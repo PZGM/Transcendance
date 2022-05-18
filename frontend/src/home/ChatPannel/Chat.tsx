@@ -60,9 +60,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
 
-			console.log('message:');
-			console.log(msg);
-
 			if (msg.service && msg.content === 'JOIN')
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
@@ -141,8 +138,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 		if (!channel) {
 			return;
 		}
-		console.log('yeah');
-		console.log(channel)
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id);
 		this.setState({
@@ -157,11 +152,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 		if (this.chanName !== this.props.params.name) {
 			if (!this.switchChannel(this.props.params.name))
 			{
-				console.log('tes cense redirect')
 				return <Navigate to='404' />
 			}
 		}
-		console.log('merde')
 		return (
             <>
                 <Box height="89%">
