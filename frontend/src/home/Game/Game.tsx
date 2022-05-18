@@ -55,7 +55,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateRoom (room: Room) {
-		console.log('UPDATE ROOM')
 		this.setState({room})
 	}
 

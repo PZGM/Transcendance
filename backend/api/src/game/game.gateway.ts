@@ -115,6 +115,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		if (room) {
 			const user : User = await this.usersService.getOneBySocket(socket.id);
 			socket.join(data.roomId);
+			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
@@ -123,6 +124,19 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
+	}
+
+	@SubscribeMessage('spectateRoom')
+	async handleSpectateRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : {  userId: number, roomId: string } ) {
+		const room: Room = this.rooms.get(data.roomId);
+		if (room) {
+			const user = this.pool.find(await this.usersService.getOne(data.userId));
+			if (!room.isPlayer(user)) {
+				this.server.to(socket.id).emit("gameRoom", room.toFront());
+                this.pool.changeStatus(statusEnum.watching, user);
+				this.usersService.setUserStatus(data.userId, statusEnum.watching);
+			}
+        }
 	}
 
 	@SubscribeMessage('RoomInvite')
@@ -167,19 +181,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         this.usersService.setUserStatus(data.userId, statusEnum.idle);
 	}
 
-    @SubscribeMessage('spectateRoom')
-	async handleSpectateRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : {  userId: number, roomId: string } ) {
-		const room: Room = this.rooms.get(data.roomId);
-		if (room) {
-			const user = this.pool.find(await this.usersService.getOne(data.userId));
-			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("gameRoom", room.toFront());
-                this.pool.changeStatus(statusEnum.watching, user);
-            }
-            this.usersService.setUserStatus(data.userId, statusEnum.watching);
-        }
-	}
-
     @SubscribeMessage('leaveRoom')
 	async handleLeaveRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string}) {
 		const room: Room = this.rooms.get(data.roomId);
@@ -211,7 +212,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('updateRoom')
 	async handleRequestUpdate(@ConnectedSocket() socket: Socket,  @MessageBody() data : { roomId: string }) {
 		
-		// console.log('UPDATE ROOM')
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const now = Date.now();
@@ -242,6 +242,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
+			console.log(room.toFront());
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
 		}
 	}
@@ -267,6 +268,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.playerTwo.coor.dy = -1;
 			else
 				room.playerTwo.coor.dy = 0;
+		
 		}
 	}
 }
