@@ -16,6 +16,7 @@ interface ChanInfoState {
 	friends: any;
 	redirect: string;
 	isAdmin: boolean;
+	user?: UserDto;
 }
 
 interface ChanInfoProps {
@@ -32,9 +33,8 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 			friends: [],
 			redirect: '',
 			isAdmin: false,
+			user: undefined,
 		}
-		this.deleteFriend = this.deleteFriend.bind(this);
-		this.addFriend = this.addFriend.bind(this);
 		this.leave = this.leave.bind(this);
 	}
 
@@ -50,37 +50,19 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 			channel,
 			friends,
 			isAdmin,
+			user,
 		})
-	}
-
-	async addFriend(user: UserDto) {
-		await UserAPI.addFriend(user.id);
-		let newFriends: UserDto[] = this.state.friends;
-		newFriends.push(user);
-		this.setState({
-			friends: newFriends
-		}); 
-	}
-
-	deleteFriend(duser: UserDto) {
-		UserAPI.removeFriend(duser.id);
-		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id !== duser.id;
-		});
-
-		this.setState({
-			friends: newFriends
-		});
 	}
 
 	renderRowsUsers(list) {
 		const listItems = list?.map((user: UserDto) => {
 		const isFriend = this.state.friends.some((friend) => {return friend.id === user.id});
+		const isMe = this.state.user?.id === user.id;
 		let grade = this.state.channel?.admin.some((admin) => {return admin.id === user.id}) ? 'admin' : '';
 		if (this.state.channel?.owner && this.state.channel?.owner.id === user.id)
 			grade = 'owner';
 		return (
-			<ChanInfoUser index={this.index++} user={user} grade={grade} isFriend={isFriend}></ChanInfoUser>);
+			<ChanInfoUser isMe={isMe} key={this.index} index={this.index++} user={user} grade={grade} isFriend={isFriend}></ChanInfoUser>);
 		}
 	  );
 	  return listItems;

@@ -75,12 +75,6 @@ export class ChannelsController {
         const ret =  await this.channelsService.addMute(request.user.id, channelID, mute.id, date);
     }
 
-  @Put('update/addAdmin')
-  @UseGuards(FullyAuthentificatedGuard)
-  public async addBlockedUser(@Req() request: CustomRequest, @Body() admin: {id: number}, channelID: number) {
-      const ret =  await this.channelsService.addAdmin(request.user.id, admin.id, channelID);
-  }
-
   @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
   public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number, password?: string}) {
@@ -101,10 +95,28 @@ export class ChannelsController {
       const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
   }
 
-  @Put('/update/removeAdmin')
+  @Put('promote')
   @UseGuards(FullyAuthentificatedGuard)
-  public async removeBlockedUser(@Req() request: CustomRequest,@Body() admin: {id: number}, channelID: number) {
-      const ret =  await this.channelsService.removeAdmin(request.user.id, admin.id, channelID);
+  public async promoteAdmin(@Req() request: CustomRequest, @Body() promoteDto: {adminId: number, channelId: number}): Promise<boolean> {
+    try {
+      await this.channelsService.promote(request.user.id, promoteDto.adminId, promoteDto.channelId);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+
+  @Put('demote')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async demoteAdmin(@Req() request: CustomRequest,@Body() demoteDto: {adminId: number, channelId: number}) {
+    try {
+      await this.channelsService.demote(request.user.id, demoteDto.adminId, demoteDto.channelId);
+      return true;
+    }
+    catch(e) {
+      return false;
+    }
   }
 
   @Delete(':id')
