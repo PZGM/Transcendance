@@ -32,6 +32,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			let playerTwo: UserDto
 			let roomId: string
 			let room: Room
+
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
@@ -95,7 +96,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = await this.usersService.getOne(userId.id);
-		this.logger.log(`${user.login} i'm back`);0
+		this.logger.log(`${user.login} i'm back`)
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
 				return ;
@@ -210,6 +211,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('updateRoom')
 	async handleRequestUpdate(@ConnectedSocket() socket: Socket,  @MessageBody() data : { roomId: string }) {
 		
+		// console.log('UPDATE ROOM')
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const now = Date.now();
@@ -247,10 +249,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
 		const room: Room = this.rooms.get(data.roomId);
-		room.duration = 5;
-		console.log(room.duration);
-		console.log(this.rooms.get(data.roomId).duration);
-		this.rooms.set(room.roomId, room);
 		if (room && room.playerOne.user.id === data.userId)
 		{
 			if (data.key === 'Up')

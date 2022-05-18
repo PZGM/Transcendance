@@ -9,21 +9,21 @@ export enum Difficulty {
 
 export class Setting {
   constructor(difficulty : Difficulty) {
-    if(difficulty = Difficulty.Hard) {
-      this.width = 20;
+    if(difficulty === Difficulty.Hard) {
+      this.width = 80;
 	    this.speed = 700;
 	    this.acceleration = 55;
       this.color = 'purple';
     }
-    else if(difficulty = Difficulty.Medium){
-      this.width = 30;
+    else if(difficulty === Difficulty.Medium){
+      this.width = 120;
 	    this.speed = 550;
 	    this.acceleration = 45;
       this.color = 'orange';
     }
     else {
-      this.width = 40;
-	    this.speed = 450;
+      this.width = 160;
+	    this.speed = 40;
 	    this.acceleration = 35;
       this.color = 'green';
     }

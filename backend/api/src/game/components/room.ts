@@ -75,7 +75,7 @@ export default class Room implements RoomDto {
 				
 				pOneX : this.playerOne.coor.x,
 				pOneY : this.playerOne.coor.y,
-				playerSize : this.playerOne.width,
+				pOneSize : this.playerOne.width,
 				pOneColor: this.playerOne.user.color,
 				pOneId : this.playerOne.user.id,
 				pOneScore : this.playerOne.goal,

@@ -11,7 +11,7 @@ export class PInit {
 		this.user = user;
 		this.difficulty = difficulty;
 		this.color = user.color;
-		this.x = ( n == 1) ? 10 : screenSizeX - 10;
+		this.x = ( n == 1) ? 30 : screenSizeX - 30;
 
 	}
 }

@@ -63,17 +63,17 @@ export class PlayButton extends Component<PlayButtonProps, PlayButtonState>
 					<Stack direction='row'
 						spacing={2}>
 						<div className="difficulty_button but_green"
-						onClick={() => {this.queueHandler(1)}}
+						onClick={() => {this.queueHandler(0)}}
 						>
 							Easy
 						</div>
 						<div className="difficulty_button but_yellow"
-							onClick={() => {this.queueHandler(2)}}
+							onClick={() => {this.queueHandler(1)}}
 						>
 							Medium
 						</div>
 						<div className="difficulty_button but_red"
-							onClick={() => {this.queueHandler(3)}}
+							onClick={() => {this.queueHandler(2)}}
 						>
 							Hard
 						</div>

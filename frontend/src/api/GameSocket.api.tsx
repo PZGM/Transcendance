@@ -50,7 +50,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
     // Gateway functions callers
 
-    userConnection(userId: number) {
+	userConnection(userId: number) {
         this.socket.emit('handleUserConnect', {id: userId});
     }
 

@@ -12,7 +12,7 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 	// console.log('resize')
     const { width, height } = canvas.getBoundingClientRect()
     
-    if (canvas.width !== width || canvas.height !== height){
+    if (canvas.width !== width || canvas.height !== height) {
 		const { devicePixelRatio : ratio = 1 } = window
 		const context = canvas.getContext('2d')
 		canvas.width = width * ratio
@@ -25,28 +25,28 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
     return false
 }
 
-function reactiveCoords(room: Room, canvas: HTMLCanvasElement): Room {
-	const ratio = canvas.width / Sam;
+// function reactiveCoords(room: Room, canvas: HTMLCanvasElement): Room {
+// 	const ratio = canvas.width / Sam;
 
-	// console.log(`reactiveCoords = ${ratio}`)
+// 	// console.log(`reactiveCoords = ${ratio}`)
 
-	// ball
-	room.ballX *= ratio
-	room.ballY *= ratio
-	room.ballR *= ratio
+// 	// ball
+// 	room.ballX *= ratio
+// 	room.ballY *= ratio
+// 	room.ballR *= ratio
 	
-	// playerOne
-	room.pOneX *= ratio
-	room.pOneY *= ratio
-	room.pOneSize *= ratio
+// 	// playerOne
+// 	room.pOneX *= ratio
+// 	room.pOneY *= ratio
+// 	room.pOneSize *= ratio
 
-	// playerTwo
-	room.pTwoX *= ratio
-	room.pTwoY *= ratio
-	room.pTwoSize *= ratio
+// 	// playerTwo
+// 	room.pTwoX *= ratio
+// 	room.pTwoY *= ratio
+// 	room.pTwoSize *= ratio
 
-	return room
-}
+// 	return room
+// }
 
 interface CanvasProps {
 	room: Room,
@@ -66,7 +66,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	context: any = undefined
 	keystate = {}
 	loop: any =  null
-	// ratio: number = 0
+	ratio: number = 0
 
 	constructor(props: CanvasProps) {
 		super(props);
@@ -92,7 +92,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.canvas = document.getElementById("canvas")
 		this.canvas.height = this.canvas.width * 3/4
 		resizeCanvas(this.canvas)
-		// this.ratio = this.canvas.width / Sam;
+		this.ratio = this.canvas.width / Sam;
 		if (this.canvas) {
 			this.context = this.canvas.getContext("2d")
 		}
@@ -126,65 +126,80 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	updateCanvas()
 	{
-		// console.log('UPDATE CANVAS')
 		resizeCanvas(this.canvas)
-
-		const reactiveRoom = reactiveCoords(this.props.room, this.canvas)
-
-		this.state = {
-			room: reactiveRoom
-		}
+		this.ratio = this.canvas.width / Sam;
 	}
 
 	looping() {
 		this.updatePosition()
-		// this.ratio = this.canvas.width / Sam;
-		this.updateCanvas();
+		this.updateCanvas()
 		this.draw();
 
 	}
 
+	drawBall(ctx: CanvasRenderingContext2D, room: Room)
+	{
+		// ctx.save()
+		ctx.beginPath()
+		ctx.fillStyle = room.ballColor
+		ctx.arc(room.ballX * this.ratio,
+				room.ballY  * this.ratio,
+				room.ballR  * this.ratio,
+				0,
+				2 * Math.PI,
+				true);
+		ctx.fill()
+		// ctx.restore()
+	}
+
+	drawPlayerOne(ctx: CanvasRenderingContext2D, room: Room)
+	{
+		// ctx.save()
+		ctx.beginPath()
+		ctx.fillStyle = 'white'
+		ctx.fillRect(room.pOneX * this.ratio,
+					room.pOneY * this.ratio,
+					15 * this.ratio,
+					room.pOneSize * this.ratio);
+		// ctx.restore()
+	}
+
+	drawPlayerTwo(ctx: CanvasRenderingContext2D, room: Room)
+	{
+		// ctx.save()
+		ctx.beginPath()
+		ctx.fillStyle = room.pTwoColor
+		ctx.fillRect(room.pTwoX * this.ratio,
+			room.pTwoY * this.ratio,
+			15 * this.ratio,
+			room.pTwoSize * this.ratio);
+		// ctx.restore()
+	}
+
 	draw()
 	{
-		// console.log('DRAW')
-		// console.log(this.ratio)
-		// console.log("context 4 :");
-		// console.log(this.context);
 		const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
-		// draw background
-		// console.log(ctx);
 		const room = this.state.room;
 		
-		// console.log(state.ball)
-		// console.log(state.playerOne)
-		// console.log(state.playerTwo)
-		
-		// draw ball
+		// console.log(`ballX: ${room.ballX}`)
+		// console.log(`ballXratio: ${room.ballX * this.ratio}`)
+		// console.log(`pOneX: ${room.pOneX}`)
+		// console.log(`pOneXratio: ${room.pOneX * this.ratio}`)
+		// console.log(`pTwoX: ${room.pTwoX}`)
+		// console.log(`pTwoXratio: ${room.pTwoX * this.ratio}`)
+		// console.log(`ballY: ${room.ballY}`)
+		// console.log(`ballYratio: ${room.ballY * this.ratio}`)
+		// console.log(`pOneY: ${room.pOneY}`)
+		// console.log(`pOneYratio: ${room.pOneY * this.ratio}`)
+		// console.log(`pTwoY: ${room.pTwoY}`)
+		// console.log(`pTwoYratio: ${room.pTwoY * this.ratio}`)
+	
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-		ctx.beginPath();
-		ctx.arc(room.ballX, room.ballY, room.ballR, 0, 2 * Math.PI, true);
-		// ctx.arc(100 * this.ratio, 100* this.ratio, 10* this.ratio, 0, 2 * Math.PI, true);
-		ctx.fillStyle = 'white';
-		ctx.fill();
-		ctx.lineWidth = 0;
-		ctx.strokeStyle = '#fff';
-		ctx.stroke();
-		
-		//draw paddles
-		ctx.beginPath();
-		ctx.fillStyle = room.pOneColor;
-		ctx.fillRect(room.pOneX, room.pOneY, 15, room.pOneSize);
-		// ctx.fillStyle = 'white';
-		// ctx.fillRect(20 * this.ratio, this.state.yOne * this.ratio, 15 * this.ratio, 50 * this.ratio);
-		// ctx.fill();
 
-		ctx.beginPath();
-		// console.log(`width: ${ctx.canvas.clientWidth}`)
-		ctx.fillStyle = room.pTwoColor;
-		ctx.fillRect(room.pTwoX, room.pTwoY, 15, room.pTwoSize);
-		// ctx.fillStyle = 'white';
-		// ctx.fillRect(700 * this.ratio, this.state.yTwo * this.ratio, 15 * this.ratio, 50 * this.ratio);
-		// ctx.fill();const 
+		this.drawBall(ctx, room)
+		this.drawPlayerOne(ctx, room)
+		this.drawPlayerTwo(ctx, room)
+
 	}
 
 	updatePosition()
@@ -205,6 +220,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	render()
 	{
+		console.log('RENDER CANVAS')
 		return (
 			<canvas id="canvas"/>
 		)

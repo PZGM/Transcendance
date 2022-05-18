@@ -23,7 +23,7 @@ export class Ball implements BallDto { //extends?
 		this.coor.color = this.coor.setting.color;
 		this.coor.dx = this.coor.setting.speed * (Math.random() < 0.5 ? 1 : -1);
 		this.coor.speed = this.coor.setting.speed;
-		this.r = this.coor.setting.width / (3 * (this.coor.difficulty + 2));
+		this.r = this.coor.setting.width / (3 * (this.coor.difficulty + 1));
 		this.goal = 0;
 
 	}

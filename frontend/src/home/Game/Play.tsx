@@ -18,7 +18,7 @@ interface PlayState {
 export class Play extends Component<PlayProps, PlayState>
 {
 	render () {
-		console.log('render')
+		console.log('RENDER PLAY')
 		
 		if (!this.props.room)
 			return (
