@@ -93,11 +93,11 @@ export default class Room implements RoomDto {
 	}
 
 	update(): number {
-		const now = Date.now();
+		const now = (Date.now() - this.updateTime) / 1000;
 		this.playerOne.update(now);
 		this.playerTwo.update(now);
 		this.ball.update(now, this.playerOne, this.playerTwo);
-		this.updateTime = now;
+		this.updateTime = Date.now();
 		this.duration = (this.updateTime - this.startingTime) / 1000;
 		if (this.ball.goal === -1 || this.playerOne.goal === this.maxGoal)
 		{
@@ -108,7 +108,7 @@ export default class Room implements RoomDto {
 				this.loser = this.playerTwo.user;
 				this.status = roomEnum.end;
 			}
-			else
+			else 
 				this.status = roomEnum.goal;
 		}
 		else if (this.ball.goal === 1 || this.playerTwo.goal === this.maxGoal)

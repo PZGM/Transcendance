@@ -30,8 +30,8 @@ export class Ball implements BallDto { //extends?
 
 	reset(): void {
         this.goal = 0;
-		this.coor.x = 501//screenSizeX / 2;
-		this.coor.y = 376//screenSizeY / 2;
+		this.coor.x = screenSizeX / 2;
+		this.coor.y = screenSizeY / 2;
 		this.coor.speed = this.coor.setting.speed;
 		this.coor.dy = 0;
         this.coor.dx = this.coor.setting.speed * ((this.coor.dx < 0) ? -1 : 1);
