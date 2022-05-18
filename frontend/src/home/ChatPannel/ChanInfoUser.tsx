@@ -1,5 +1,5 @@
 import { Box, Stack, Avatar } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
@@ -16,8 +16,22 @@ interface ChanInfoUserProps {
     isFriend: boolean,
 }
 
+interface StatusData {
+    status: number;
+}
+
 function ChanInfoUser(props: ChanInfoUserProps) {
+    let eventSource;
+
+    useEffect(() => {
+            return () => {
+            if (eventSource)
+                eventSource.close();
+        }
+      }, [])
+
     const [isFriend, setFriendship] = useState(props.isFriend);
+    const [status, setStatus] = useState(props.user.status);
 
     const toggleFriendship = async () => {
         if (isFriend)
@@ -25,6 +39,18 @@ function ChanInfoUser(props: ChanInfoUserProps) {
         else
             await UserAPI.addFriend(props.user.id);
         setFriendship(!isFriend);
+    }
+
+    eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + props.user.id, {withCredentials: true});
+    eventSource.onmessage = (e: { data: string; }) => {
+        let jsonObj: any = JSON.parse(e.data);
+        let status: StatusData = jsonObj as StatusData;
+        if (status.status < 0 || status.status > 4)
+            status.status = 0;
+        setStatus(status.status);
+    };
+    eventSource.onerror = (e: any) => {
+        setStatus(0);
     }
 
     return (
@@ -39,7 +65,7 @@ function ChanInfoUser(props: ChanInfoUserProps) {
                 </Stack>
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
                     <div className="renderrow_button but_blue">
-                        <div className='bit5x5' > WATCH MATCH </div>
+                        <div className='bit5x5' > {status} </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.user.login}}>
                         <div className='bit5x5'> SEND MESSAGE </div>

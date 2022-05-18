@@ -123,7 +123,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   public async addAdmin(userID: number, adminID : number, chanID: number) {
     const chan: Channel | null = await this.getOne(chanID);
     if (chan.owner.id !== userID) {
-      throw new NotFoundException(`Just the owner can demote admin`);
+      throw new NotFoundException(`Only the owner can promote admin`);
     }
     /*if (!chan.admin.some((admin) => {return admin.id == userID})) {
       throw new NotFoundException(`User not found in the admin data`);
@@ -140,7 +140,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   public async removeAdmin(userID: number, adminID : number, chanID: number) {
     const chan: Channel | null = await this.getOne(chanID);
     if (chan.owner.id !== userID) {
-      throw new NotFoundException(`Just the owner can demote admin`);
+      throw new NotFoundException(`Only the owner can demote admin`);
     }
     /*if (!chan.admin.some((admin) => {return admin.id == userID})) {
       throw new NotFoundException(`User not found in the admin data`);
@@ -157,7 +157,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   
   public async join(userId: number, chanId: number, password?: string) {
     const chan: Channel | null = await this.getOne(chanId);
-    if (!chan) {
+    if (!chan || chan.visibility === 'private') {
       return false;
     }
     if (chan.visibility === "protected") {
@@ -167,9 +167,10 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
          return false;
       }
     }
-    if (!(chan.users.some((user: User) => {return user.id == userId}))) {
-    chan.users.push(await this.usersService.getOne(userId));
+    if ((chan.users.some((user: User) => {return user.id == userId}))) {
+      return false;
     }
+    chan.users.push(await this.usersService.getOne(userId));
     this.channelsRepository.save(chan);
     this.chatGateway.handleJoinChannel(chanId, userId);
     return true;

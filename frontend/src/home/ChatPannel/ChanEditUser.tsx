@@ -1,12 +1,12 @@
 import { Box, Stack, Avatar } from "@mui/material";
 // import './../style/dac.css'
-import '../../../style/buttons.css'
-import '../../../style/colors.css'
-import '../../../style/colors.css'
+import '../../style/buttons.css'
+import '../../style/colors.css'
+import '../../style/colors.css'
 
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
-function RenderRowsEdit(props) {
+function ChanEditUser(props) {
 
     return (
         <Box width="18.4vw" className={"chan_element bor_" + props.user.color} ml="5px" mr="2px" mb="10px">
@@ -41,4 +41,4 @@ function RenderRowsEdit(props) {
     );
 }
 
-export default RenderRowsEdit;
+export default ChanEditUser;

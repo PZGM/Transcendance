@@ -1,93 +1,71 @@
-import { List, Stack } from "@mui/material";
+import { Stack, List } from "@mui/material";
 import { Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
+import ChanEditUser from "./ChanEditUser";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import RenderRowsEdit from "./tools/RenderRowsEdit";
-import "../../style/buttons.css"
+import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
-import '../../style/display.css';
+import { ChannelDto } from "../../api/dto/channel.dto";
+import { ChatAPI } from "../../api/Chat.api";
+import { ThirtyFpsSharp } from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
 
 interface ChanEditState {
-    chan?: any
-	friends: UserDto[];
+	channel?: ChannelDto;
+	friends: any;
+	redirect: string;
+	isAdmin: boolean
 }
 
 interface ChanEditProps {
-    params: any,
+	params: any,
 };
-
-let height_Box_Admin = "20vh"
-let height_Box_Users = "65vh"
 
 export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 	index:number = 0;
+
 	constructor(props: ChanEditProps) {
 		super(props);
-        this.state = {
-            chan: undefined,
+		this.state = {
+			channel: undefined,
 			friends: [],
-        }
+			redirect: '',
+			isAdmin: false,
+		}
+		this.deleteFriend = this.deleteFriend.bind(this);
+		this.addFriend = this.addFriend.bind(this);
+		this.leave = this.leave.bind(this);
 	}
 
-	componentDidMount()  {
-        const id = this.props.params.name;
-        // if (this.props.isPrivateMessage)
-        //     chanId = getPrivateMessageChannel(id);
-        // else
-        this.setState({
-            chan: id,
-        })
+	async componentDidMount()  {
+		const name = this.props.params.name;
+		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		const friends = await UserAPI.getFriends();
+		const user = await UserAPI.getUser();
+		if (!user || !channel)
+			return;
+		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
+		this.setState({
+			channel,
+			friends,
+			isAdmin,
+		})
 	}
 
-	update() {
-		const id = this.props.params.name;
-        this.setState({
-            chan: id,
-        })
+	async addFriend(user: UserDto) {
+		await UserAPI.addFriend(user.id);
+		let newFriends: UserDto[] = this.state.friends;
+		newFriends.push(user);
+		this.setState({
+			friends: newFriends
+		}); 
 	}
 
-	renderRowsAdmins(list) {
-		list = [1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: any) =>
-			<>
-				<RenderRowsEdit index={this.index++} getColor={this.getColor} user={user} first_button="Dismiss admin" second_button="remove"></RenderRowsEdit>
-			</>
-	  );
-	  return listItems;
-	}
-
-	renderRowsUsers(list) {
-		list = [1,1,1,1,1,1,1,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list.map((user: any) =>
-			<>
-				<RenderRowsEdit index={this.index++} getColor={this.getColor} user={user} first_button="make admin" second_button="remove"></RenderRowsEdit>
-			</>
-	  );
-	  return listItems;
-	}
-
-	getColor(status: number): string | undefined
-	{
-		let colors = new Map<number, string>([
-			[0, 'white'],
-			[1, 'red'],
-			[2, 'yellow'],
-			[3, 'green'],
-			[4, 'blue']]);
-
-		return colors.get(status)
-	}
-
-
-	removeFriend(id :number) {
-		UserAPI.removeFriend(id);
-		this.deleteFriend(id);
-	}
-
-	deleteFriend(id:number) {
+	deleteFriend(duser: UserDto) {
+		UserAPI.removeFriend(duser.id);
 		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id !== id;
+			return user.id !== duser.id;
 		});
 
 		this.setState({
@@ -95,58 +73,62 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		});
 	}
 
-	async fetchFriends() {
-		try {
-			const resp = await UserAPI.getFriends();
-			this.setState({
-				friends: resp
-			})
+	renderRowsUsers(list) {
+		const listItems = list?.map((user: UserDto) => {
+		const isFriend = this.state.friends.some((friend) => {return friend.id === user.id});
+		let grade = this.state.channel?.admin.some((admin) => {return admin.id === user.id}) ? 'admin' : '';
+		if (this.state.channel?.owner && this.state.channel?.owner.id === user.id)
+			grade = 'owner';
+		return (
+			<ChanEditUser index={this.index++} user={user} grade={grade} isFriend={isFriend}></ChanEditUser>);
 		}
-		catch (e) {
-			console.log(e);
-		}
-
+	  );
+	  return listItems;
 	}
 
+	async leave() {
+		if (this.state.channel)
+			ChatAPI.leaveChannel(this.state.channel.id)
+		this.setState({
+			redirect: '/home'
+		})
+	}
 
 	render () {
-
+		if (!this.state.channel)
+			return <div style={{color: 'white'}}>Loading...</div>
 		return (
-            <>
-                <Stack direction="row" justifyContent="space-between">
-                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/info"}}>
+			<>
+			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
+				<Stack direction="row" justifyContent="space-between">
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
 							<ArrowBackIcon/>
 						</Link>
-                    </Stack>
-                </Stack>
-                <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-					<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}> {this.state.chan} </div>
-                </Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
-						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
-							<List  style={{overflow: 'auto'}}>
-								{this.renderRowsAdmins([])}
-{/* TODO envoyer le state admin du channel */}
-								{/* {this.renderRows(this.statte.friends)} */}
-							</List>
-						</Stack>
+					</Stack>
+					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+									<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
+										<EditIcon/>
+									</Link>
+								</Stack>}
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginLeft: "1px", marginRight: "1px"}}>
+				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
+				</Stack>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={height_Box_Users} spacing={2}>
-							<Link  className={"add_user_button but_" + this.getColor(this.index++ % 5)} onClick={() => this.update()} style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/add"}}>
-                                <div className='bit5x5'> Add user </div>
-							</Link>
-                        <List style={{overflow: 'auto'}} sx={{height: "61vh"}}>
-{/* TODO envoyer le state user du channel */}
-							{this.renderRowsUsers([])}
-							{/* {this.renderRows(this.state.friends)} */}
-						</List>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+						<li>
+							{this.renderRowsUsers(this.state.channel.users)}
+						</li>
 					</Stack>
 				</Stack>
-            </>
+				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
+					<div onClick={this.leave} className="add_user_button but_red" >
+						<div className='bit5x5'>Leave</div>
+					</div>
+				</Stack>
+			</>
 
 		)
 	}

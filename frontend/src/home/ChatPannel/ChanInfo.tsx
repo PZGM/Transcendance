@@ -15,7 +15,7 @@ interface ChanInfoState {
 	channel?: ChannelDto;
 	friends: any;
 	redirect: string;
-	isAdmin: boolean
+	isAdmin: boolean;
 }
 
 interface ChanInfoProps {
@@ -36,19 +36,6 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		this.deleteFriend = this.deleteFriend.bind(this);
 		this.addFriend = this.addFriend.bind(this);
 		this.leave = this.leave.bind(this);
-	}
-
-// TODO il faut recup les info du chan grace a un getchannelbyid et une fois fais peut etre revoir renderrows pour voir ce que ca donne
-	getColor(status: number): string | undefined
-	{
-		let colors = new Map<number, string>([
-			[0, 'white'],
-			[1, 'red'],
-			[2, 'yellow'],
-			[3, 'green'],
-			[4, 'blue']]);
-
-		return colors.get(status)
 	}
 
 	async componentDidMount()  {
@@ -126,10 +113,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 								</Stack>}
 				</Stack>
 				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-						{/* <div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div> */}
-						{/* <Typography variant="h1" color='white'> */}
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
-						{/* </Typography> */}
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
@@ -139,11 +123,12 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</li>
 					</Stack>
 				</Stack>
+				{this.state.channel.id !== 1 &&
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
 					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
 					</div>
-				</Stack>
+				</Stack>}
 			</>
 
 		)
