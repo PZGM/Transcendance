@@ -26,7 +26,7 @@ export class Game extends Component<GameProps, GameState>
 		super(props);
 
 		this.gameSocket = new GameSocketAPI({receiveGameRoom: this.recieveGameRoom.bind(this),
-											updateRoom: this.updateRoom.bind(this)})
+						updateRoom: this.updateRoom.bind(this)})
 		this.updateDisplay = this.updateDisplay.bind(this)
 		
 		this.state = {

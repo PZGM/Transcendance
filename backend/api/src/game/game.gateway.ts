@@ -7,7 +7,7 @@ import { UserDto } from 'src/dto/user.dto';
 import {  User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
-import { roomEnum } from 'src/dto/game.dto';
+import { RoomDto, roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
@@ -51,20 +51,22 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					playerOne = this.queue.getOneUser(Difficulty.Hard);
 					playerTwo = this.queue.getOneUser(Difficulty.Hard);
 					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${date}`;
-					room = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
+					const room : RoomDto = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				this.server.to(playerOne.socketId).emit("gameRoom", room);
-				this.server.to(playerTwo.socketId).emit("gameRoom",  room);
+				console.log("avant"); console.log(room);
+				this.server.to(playerOne.socketId).emit("gameRoom", room.toFront());
+				this.server.to(playerTwo.socketId).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
+				console.log("apres"); console.log(room);
 			}
 		}, 3000);
 		this.logger.log(`Init Pong Gateway`);
     }
 
     handleConnection(socket: Socket) {
-        console.log(`socket connected: ${socket.id}`);
+        this.logger.log(`socket connected: ${socket.id}`);
     }
 
     async handleDisconnect(socket: Socket) {
@@ -88,7 +90,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.queue.rmToQueue(user);
             this.pool.rmToPool(user);
 			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
-        	console.log(`socket disconnected: ${socket.id}`);
 			this.usersService.setUserStatus(user.id, statusEnum.disconected);
       }
 	}
@@ -96,6 +97,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = await this.usersService.getOne(userId.id);
+		this.logger.log(`${user.login} i'm back`);0
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
 				return ;
@@ -117,7 +119,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
-				this.server.to(room.roomId).emit("updateRoom", room);
+				console.log(room)
+				this.server.to(room.roomId).emit("updateRoom", room.toFront());
+				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
 	}
@@ -132,7 +136,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const room = new Room(roomId, Difficulty.Easy, user, guest);
 			this.rooms.set(roomId, room);
 			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
-			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room);
+			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room.toFront());
 			this.logger.log(`You succesfully invited ${guest.login} !`);
 		}
 		else
@@ -142,12 +146,11 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
-		if (user && !this.queue.find(user))
+		if (user && !this.queue.find(user) && user.status !== statusEnum.playing)
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
-			console.log(`socket ${user.login}: ${socket.id} was added to queue !`)
 			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
 			this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
 		}
@@ -171,7 +174,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		if (room) {
 			const user = this.pool.find(await this.usersService.getOne(data.userId));
 			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("gameRoom", room);
+				this.server.to(socket.id).emit("gameRoom", room.toFront());
                 this.pool.changeStatus(statusEnum.watching, user);
             }
             this.usersService.setUserStatus(data.userId, statusEnum.watching);
@@ -212,14 +215,14 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
 			const now = Date.now();
-			if (room.status === roomEnum.waiting) {
+			if (room.status === roomEnum.waiting  && (now  - room.updateTime) >= 1000) {
 				room.startingTime = now;
 				room.updateTime = now;
 				room.status = roomEnum.playing;
 			}
 			else if (room.status === roomEnum.playing)
 			{
-				if (room.update() === roomEnum.end) {
+				if (room.update() === roomEnum.end  && (now - room.updateTime) >= 1000) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -234,12 +237,12 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					});
 				}
 			}
-			else if (room.status === roomEnum.goal) {
+			else if (room.status === roomEnum.goal  && (now - room.updateTime) >= 1000) {
 				room.reset();
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
-			this.server.to(room.roomId).emit("updateRoom", room);
+			this.server.to(room.roomId).emit("updateRoom", room.toFront());
 		}
 	}
 

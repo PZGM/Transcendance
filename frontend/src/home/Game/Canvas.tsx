@@ -28,7 +28,7 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 function reactiveCoords(room: Room, canvas: HTMLCanvasElement): Room {
 	const ratio = canvas.width / Sam;
 
-	console.log(`reactiveCoords = ${ratio}`)
+	// console.log(`reactiveCoords = ${ratio}`)
 
 	// ball
 	room.ballX *= ratio

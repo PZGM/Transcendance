@@ -28,6 +28,7 @@ export class PlayButton extends Component<PlayButtonProps, PlayButtonState>
 	}
 
 	queueHandler(difficulty: number) {
+		console.log("Im not here");
 		this.props.socket.joinQueue(this.props.userId, difficulty)
 		this.props.updateDisplay(1)
 	}

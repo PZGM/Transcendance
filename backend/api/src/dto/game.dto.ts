@@ -44,6 +44,7 @@ export class GameDto {
 export class BallDto {
 	
     coor: CoorI;
+    r : number;
 
 }
 
@@ -57,9 +58,9 @@ export class PlayerDTO {
 export interface RoomDto {
 	roomId: string;
 	status: number;
-	playerOne: Player | PlayerDTO | null;
-	playerTwo: Player | PlayerDTO | null;
-	ball: Ball | BallDto;
+	playerOne: PlayerDTO;
+	playerTwo: PlayerDTO;
+	ball: BallDto;
 	startingTime: number;
 	updateTime: number;
     duration: number;

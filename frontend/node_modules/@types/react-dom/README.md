@@ -8,7 +8,7 @@ This package contains type definitions for React (react-dom) (https://reactjs.or
 Files were exported from https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-dom/v17.
 
 ### Additional Details
- * Last updated: Mon, 25 Apr 2022 17:31:39 GMT
+ * Last updated: Thu, 12 May 2022 19:01:46 GMT
  * Dependencies: [@types/react](https://npmjs.com/package/@types/react)
  * Global values: `ReactDOM`, `ReactDOMServer`
 

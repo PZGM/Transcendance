@@ -66,12 +66,39 @@ export default class Room implements RoomDto {
 		this.ball.reset();
 	}
 
+	toFront(){
+		return {
+				ballX: this.ball.coor.x,
+				ballY: this.ball.coor.y,
+				ballR : this.ball.r,
+				ballColor : this.ball.coor.setting.color,
+				
+				pOneX : this.playerOne.coor.x,
+				pOneY : this.playerOne.coor.y,
+				playerSize : this.playerOne.width,
+				pOneColor: this.playerOne.user.color,
+				pOneId : this.playerOne.user.id,
+				pOneScore : this.playerOne.goal,
+
+				pTwoX : this.playerTwo.coor.x,
+				pTwoY : this.playerTwo.coor.y,
+				pTwoSize : this.playerTwo.width,
+				pTwoColor : this.playerOne.user.color,
+				pTwoId : this.playerTwo.user.id,	
+				pTwoScore : this.playerTwo.goal,
+				
+				roomId : this.roomId,
+				status : this.status
+		}
+	}
+
 	update(): number {
-		this.updateTime = Date.now();
+		const now = Date.now();
+		this.playerOne.update(now);
+		this.playerTwo.update(now);
+		this.ball.update(now, this.playerOne, this.playerTwo);
+		this.updateTime = now;
 		this.duration = (this.updateTime - this.startingTime) / 1000;
-		this.playerOne.update(this.duration);
-		this.playerTwo.update(this.duration);
-		this.ball.update(this.duration, this.playerOne, this.playerTwo);
 		if (this.ball.goal === -1 || this.playerOne.goal === this.maxGoal)
 		{
 			this.playerOne.goal++;
