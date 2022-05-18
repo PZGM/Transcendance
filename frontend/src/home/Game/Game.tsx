@@ -3,7 +3,7 @@ import '../../style/display.css';
 import { PlayButton } from './PlayButton';
 import { Loading } from './Loading';
 import { Play } from './Play';
-import { RoomDto } from '../../api/dto/game.dto';
+import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
@@ -13,7 +13,7 @@ interface GameProps {
 }
 
 interface GameState {
-	room?: RoomDto,
+	room?: Room,
 	display: number,
 	userId: number
 }
@@ -31,7 +31,7 @@ export class Game extends Component<GameProps, GameState>
 		
 		this.state = {
 			room: undefined,
-			display: 2,
+			display: this.props.userStatus,
 			userId: 0
 		}
 		this.fetchUser()
@@ -46,7 +46,7 @@ export class Game extends Component<GameProps, GameState>
 		}
 	}
 
-	recieveGameRoom(room: RoomDto) {
+	recieveGameRoom(room: Room) {
 		console.log(room);
 		this.setState({
 			display: 2,
@@ -54,7 +54,7 @@ export class Game extends Component<GameProps, GameState>
 		})
 	}
 
-	updateRoom (room: RoomDto) {
+	updateRoom (room: Room) {
 		this.setState({room})
 	}
 

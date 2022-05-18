@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 import React from "react";
-import { Difficulty, RoomDto } from './dto/game.dto';
+import { Difficulty, Room } from './dto/game.dto';
 
 interface GameSocketAPIProps{
     receiveGameRoom: any;
@@ -20,7 +20,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
                 console.log(reason);
             });
         });
-        this.socket.on("gameRoom", (room: RoomDto) => {
+        this.socket.on("gameRoom", (room: Room) => {
             this.props.receiveGameRoom(room);
             console.log(room);
             this.socket.emit('joinRoom', room.roomId);

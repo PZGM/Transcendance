@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { Socket } from 'socket.io-client'
 import { threadId } from 'worker_threads'
-import { BallDto, PlayerDTO, RoomDto, roomEnum } from '../../api/dto/game.dto'
+import { Room, roomEnum } from '../../api/dto/game.dto'
 import { GameSocketAPI } from '../../api/GameSocket.api'
 
 const Sam: number = 1000; 
@@ -25,39 +25,37 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
     return false
 }
 
-function reactiveCoords(room: RoomDto, canvas: HTMLCanvasElement): RoomDto {
+function reactiveCoords(room: Room, canvas: HTMLCanvasElement): Room {
 	const ratio = canvas.width / Sam;
 
 	console.log(`reactiveCoords = ${ratio}`)
 
 	// ball
-	room.ball.coor.x *= ratio
-	room.ball.coor.y *= ratio
-	room.ball.coor.setting.width *= ratio
+	room.ballX *= ratio
+	room.ballY *= ratio
+	room.ballR *= ratio
 	
 	// playerOne
-	room.playerOne.coor.x *= ratio
-	room.playerOne.coor.y *= ratio
-	room.playerOne.coor.setting.width *= ratio
+	room.pOneX *= ratio
+	room.pOneY *= ratio
+	room.pOneSize *= ratio
 
 	// playerTwo
-	room.playerTwo.coor.x *= ratio
-	room.playerTwo.coor.y *= ratio
-	room.playerTwo.coor.setting.width *= ratio
+	room.pTwoX *= ratio
+	room.pTwoY *= ratio
+	room.pTwoSize *= ratio
 
 	return room
 }
 
 interface CanvasProps {
-	room: RoomDto,
+	room: Room,
 	socket: GameSocketAPI,
 	userId: number
 }
 
 interface CanvasState {
-	ball: BallDto,
-	playerOne: PlayerDTO,
-	playerTwo: PlayerDTO,
+	room: Room
 	// yOne: number,
 	// yTwo: number
 }
@@ -84,9 +82,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// }
 
 			this.state = {
-				ball: this.props.room.ball,
-				playerOne: this.props.room.playerOne,
-				playerTwo: this.props.room.playerTwo
+				room: this.props.room
 			}
 	}
 
@@ -136,9 +132,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		const reactiveRoom = reactiveCoords(this.props.room, this.canvas)
 
 		this.state = {
-			ball: reactiveRoom.ball,
-			playerOne: reactiveRoom.playerOne,
-			playerTwo: reactiveRoom.playerTwo
+			room: reactiveRoom
 		}
 	}
 
@@ -156,10 +150,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// console.log(this.ratio)
 		// console.log("context 4 :");
 		// console.log(this.context);
-		const ctx: CanvasRenderingContext2D = this.context;
+		const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
 		// draw background
 		// console.log(ctx);
-		const state = this.state;
+		const room = this.state.room;
 		
 		// console.log(state.ball)
 		// console.log(state.playerOne)
@@ -168,12 +162,9 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// draw ball
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 		ctx.beginPath();
-		this.context.arc(state.ball.coor.x,
-						state.ball.coor.y,
-						state.ball.coor.setting.width,
-						0, 2 * Math.PI, true);
+		ctx.arc(room.ballX, room.ballY, room.ballR, 0, 2 * Math.PI, true);
 		// ctx.arc(100 * this.ratio, 100* this.ratio, 10* this.ratio, 0, 2 * Math.PI, true);
-		ctx.fillStyle = 'green';
+		ctx.fillStyle = 'white';
 		ctx.fill();
 		ctx.lineWidth = 0;
 		ctx.strokeStyle = '#fff';
@@ -181,16 +172,16 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		
 		//draw paddles
 		ctx.beginPath();
-		ctx.fillStyle = this.state.playerOne.user.color;
-		ctx.fillRect(state.playerOne.coor.x, state.playerOne.coor.y, 15, state.playerOne.coor.setting.width);
+		ctx.fillStyle = room.pOneColor;
+		ctx.fillRect(room.pOneX, room.pOneY, 15, room.pOneSize);
 		// ctx.fillStyle = 'white';
 		// ctx.fillRect(20 * this.ratio, this.state.yOne * this.ratio, 15 * this.ratio, 50 * this.ratio);
 		// ctx.fill();
 
 		ctx.beginPath();
 		// console.log(`width: ${ctx.canvas.clientWidth}`)
-		ctx.fillStyle =  this.state.playerTwo.user.color;;
-		ctx.fillRect(state.playerTwo.coor.x, state.playerTwo.coor.y, 15, state.playerTwo.coor.setting.width);
+		ctx.fillStyle = room.pTwoColor;
+		ctx.fillRect(room.pTwoX, room.pTwoY, 15, room.pTwoSize);
 		// ctx.fillStyle = 'white';
 		// ctx.fillRect(700 * this.ratio, this.state.yTwo * this.ratio, 15 * this.ratio, 50 * this.ratio);
 		// ctx.fill();const 
@@ -199,35 +190,17 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	updatePosition()
 	{
 		// console.log('UPDATE POSITION')
-		if (this.props.userId === this.props.room.playerOne.user.id ||
-			this.props.userId === this.props.room.playerTwo.user.id)
+		if (this.props.userId === this.state.room.pOneId ||
+			this.props.userId === this.state.room.pTwoId)
 		{
 			// console.log(`yOne: ${this.state.yOne}`)
 			// console.log(`yTwo: ${this.state.yTwo}`)
-			if (this.keystate['ArrowUp'])
-			{
-				// this.setState({yOne: this.state.yOne + 10})
-				this.props.socket.key(this.props.userId, this.props.room.roomId, "Up")
-				this.setupCanvas()
-			}
-			if (this.keystate['ArrowDown'])
-			{
-				// this.setState({yOne: this.state.yOne - 10})
-				this.props.socket.key(this.props.userId, this.props.room.roomId, "Down")
-				this.setupCanvas()
-			}
-			// if (this.keystate['KeyW'])
-			// {
-			// 	this.setState({yTwo: this.state.yTwo + 10})
-			// 	this.setupCanvas()
-			// }
-			// if (this.keystate['KeyS'])
-			// {
-			// 	this.setState({yTwo: this.state.yTwo - 10})
-			// 	this.setupCanvas()
-			// }
+			if (this.keystate['ArrowUp'] || this.keystate['KeyW'])
+				this.props.socket.key(this.props.userId, this.state.room.roomId, "Up")
+			if (this.keystate['ArrowDown'] || this.keystate['KeyS'])
+				this.props.socket.key(this.props.userId, this.state.room.roomId, "Down")
 		}
-		this.props.socket.updateRoom(this.props.room.roomId);
+		this.props.socket.updateRoom(this.state.room.roomId);
 	}
 
 	render()

@@ -1,12 +1,12 @@
 import { Component } from "react";
 import '../../style/display.css';
-import { RoomDto } from '../../api/dto/game.dto';
+import { Room } from '../../api/dto/game.dto';
 import Canvas from './Canvas';
 import { GameSocketAPI } from '../../api/GameSocket.api';
 
 
 interface PlayProps {
-	room?: RoomDto,
+	room?: Room,
 	socket: GameSocketAPI,
 	userId: number
 };
