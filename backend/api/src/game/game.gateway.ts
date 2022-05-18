@@ -55,11 +55,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				console.log("avant"); console.log(room);
 				this.server.to(playerOne.socketId).emit("gameRoom", room.toFront());
 				this.server.to(playerTwo.socketId).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
-				console.log("apres"); console.log(room);
 			}
 		}, 3000);
 		this.logger.log(`Init Pong Gateway`);
@@ -249,9 +247,10 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
 		const room: Room = this.rooms.get(data.roomId);
-
-		console.log(data.key)
-
+		room.duration = 5;
+		console.log(room.duration);
+		console.log(this.rooms.get(data.roomId).duration);
+		this.rooms.set(room.roomId, room);
 		if (room && room.playerOne.user.id === data.userId)
 		{
 			if (data.key === 'Up')
