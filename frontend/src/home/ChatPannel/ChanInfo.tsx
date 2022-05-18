@@ -105,12 +105,18 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</li>
 					</Stack>
 				</Stack>
-				{this.state.channel.id !== 1 &&
+
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
+					{(this.state.channel.name !== "general")?
 					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
 					</div>
-				</Stack>}
+					:
+					<div className="add_user_button but_grey" >
+						<div className='bit5x5'>Leave</div>
+					</div>
+					}
+				</Stack>
 			</>
 
 		)

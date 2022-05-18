@@ -138,7 +138,7 @@ function CreateChannel(props) {
                 </DialogContent>
             </Dialog>
             <Dialog open={openJoin} onClose={handleCancelJoin}>
-                <JoinChannel setOpen={setOpenJoin} />
+                <JoinChannel setOpen={setOpenJoin} close={props.close}/>
             </Dialog>
 
         </>
