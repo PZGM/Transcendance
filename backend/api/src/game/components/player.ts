@@ -42,11 +42,11 @@ export class Player implements PlayerDTO {
     reset(): void {
 		this.coor.y = (screenSizeY / 2) - (this.width / 2);
 	}
-    update(now) : void {
+    update(now : number) : void {
         if(this.coor.dy > 0) {
 			if(this.coor.y > 0)
 				this.coor.y -= this.coor.setting.speed * now;
-			if(this.coor.y < 0)
+			else
 				this.coor.y = 0;
 		}
 		if(this.coor.dy < 0) {
