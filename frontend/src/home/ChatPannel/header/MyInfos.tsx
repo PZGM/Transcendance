@@ -29,7 +29,7 @@ export class MyInfos extends Component<MyInfosProps> {
 	render () {
 		return (
             <ButtonBase component={Link} to={process.env.REACT_APP_PROFILE as string} >
-                <Avatar variant='circular' alt="Semy Sharp" src={this.props.avatar} sx={{paddingY: 2}}/>
+                <Avatar variant='circular' alt="Semy Sharp" src={this.props.avatar} sx={{margin: 1}}/>
 				<div className='backto1982' style={{color: "white"}}> {this.props.login} </div>
             </ButtonBase>
 		)
