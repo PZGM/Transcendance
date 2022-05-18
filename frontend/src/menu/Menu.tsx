@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import '../style/display.css'
 import React from "react";
 import { PrivateGuard } from "../components/PrivateGuard";
+import { useNavigate } from 'react-router-dom';
 
 function MenuElement(props) {
 	return (
@@ -14,12 +15,13 @@ function MenuElement(props) {
 }
 
 export default function Menu() {
+    let navigate = useNavigate();
 
 	return (
 
 		<React.Fragment>
 			<PrivateGuard/>
-			<div	onClick={() => window.open(process.env.REACT_APP_HOME, "_self")}
+			<div	onClick={() => navigate(`${process.env.REACT_APP_HOME}`)}
 					className="exit_button"
 					style={{backgroundColor: 'red',
 							float: 'right',

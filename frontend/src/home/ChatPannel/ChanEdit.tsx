@@ -90,7 +90,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
 		this.setState({
-			redirect: '/home'
+			redirect: "/home/chat/general"
 		})
 	}
 
@@ -106,11 +106,6 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
-					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-									<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
-										<EditIcon/>
-									</Link>
-								</Stack>}
 				</Stack>
 				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>

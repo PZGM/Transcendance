@@ -24,7 +24,7 @@ export class NotFound extends Component<NotFoundProps> {
                                     <div className='title'>Fait attention a l'URL</div>
                                     <div className='title'>Tu risques de te faire pincer tres fort</div>
                             </Typography>
-                            <ButtonBase component={Link} to="/home" centerRipple style={{minWidth: '140px', minHeight: '50px', borderRadius: 0, backgroundColor:'red'}} >
+                            <ButtonBase component={Link} to={{pathname: process.env.REACT_APP_HOME}} centerRipple style={{minWidth: '140px', minHeight: '50px', borderRadius: 0, backgroundColor:'red'}} >
                                     <Typography color='white'>
                                         <div className='bit5x5'>Go Home</div>
                                     </Typography>
