@@ -51,7 +51,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					playerOne = this.queue.getOneUser(Difficulty.Hard);
 					playerTwo = this.queue.getOneUser(Difficulty.Hard);
 					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${date}`;
-					const room : RoomDto = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
+					room  = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);

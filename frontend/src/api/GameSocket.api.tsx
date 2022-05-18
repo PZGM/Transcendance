@@ -50,39 +50,31 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
     // Gateway functions callers
 
-	userConnection(userId: number) {
-		this.socket.emit('handleUserConnect', userId);
-	}
+    userConnection(userId: number) {
+        this.socket.emit('handleUserConnect', {id: userId});
+    }
 
-	joinQueue(userId: number, difficulty: Difficulty) {
-		this.socket.emit('joinQueue', userId, difficulty);
-	}
+    joinQueue(userId: number, difficulty: Difficulty) {
+        this.socket.emit('joinQueue', {userId: userId, difficulty :difficulty});
+    }
 
     leaveQueue(userId: number) {
-		this.socket.emit('leaveQueue', userId);
-	}
+        this.socket.emit('leaveQueue', userId);
+    }
 
     spectateRoom(userId: number, roomId: string) {
-		this.socket.emit('spectateRoom', userId, roomId);
-	}
+        this.socket.emit('spectateRoom', {userId: userId, roomId :roomId});
+    }
 
     leaveRoom(userId: number, roomId: string) {
-		this.socket.emit('leaveRoom', userId, roomId);
-	}
+        this.socket.emit('leaveRoom', {userId: userId, roomId : roomId});
+    }
 
     updateRoom(roomId: string) {
-		this.socket.emit('updateRoom', roomId);
-	}
+        this.socket.emit('updateRoom', { roomId : roomId});
+    }
 
     key(userId: number, roomId: string, key: string) {
-		this.socket.emit('joinQueue', userId, roomId, key);
-	}
-
-    // Gateway functions receivers
-
-    receiveGameRoom() {
-        this.socket.on('gameRoom', (room: Room) => {
-            this.props.receiveGameRoom(room);
-        });
+        this.socket.emit('key', {userId: userId, roomId : roomId, key : key});
     }
 }
