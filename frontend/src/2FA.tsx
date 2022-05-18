@@ -49,7 +49,7 @@ export class Twofa extends Component<TwofaProps, TwofaState> {
 
             <div className="background">
                 {/* Redirect to home */}
-                { this.state.redirect ? (<Navigate to="/home"/>) : null }
+                { this.state.redirect ? (<Navigate to={{pathname: process.env.REACT_APP_HOME}}/>) : null }
 				
                 <div className="frame_div">
                     <Grid container

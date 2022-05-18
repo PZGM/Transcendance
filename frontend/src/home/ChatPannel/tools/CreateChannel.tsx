@@ -130,9 +130,9 @@ function CreateChannel(props) {
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <Button onClick={handleCreate} className="home_button but_red">
+                            <div onClick={handleCreate} className="home_button but_red">
                                 <div className='bit5x5'> Save </div>
-                            </Button>
+                            </div>
                         </Stack>
                     </Stack>
                 </DialogContent>

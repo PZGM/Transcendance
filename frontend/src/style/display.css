@@ -117,6 +117,10 @@ ol {
 	font-size: 0.6vw;
 	margin-bottom: 0.35vw;
 	padding: 0.35vw;
+	width: 18.4vw;
+	margin-left: 0.26vw;
+	margin-right: 0.1vw;
+	margin-bottom: 1vh;
 	/* width: calc(100% - 0.1vw); */
 }
 

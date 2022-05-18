@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
-import '../../style/colors.css'
+import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
 
@@ -70,11 +70,11 @@ function ChanInfoUser(props: ChanInfoUserProps) {
             await UserAPI.addFriend(props.user.id);
         setFriendship(!isFriend);
     }
-
     return (
-        <Box width="18.4vw" className={"chan_element bor_"+ props.user.color} ml="0.26vw" mr="0.1vw" mb="1vh">
-            <Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
-                <Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+        <div className={"chan_element bor_"+ props.user.color}>
+        {/* // <Box width="18.4vw" className={"chan_element bor_"+ props.user.color} ml="0.26vw" mr="0.1vw" mb="1vh"> */}
+            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+                <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1}>
                     <Avatar variant='circular' alt={props.user.login} src={props.user.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.user.login}</div>
@@ -94,7 +94,7 @@ function ChanInfoUser(props: ChanInfoUserProps) {
                     </div>
                 </Stack>}
             </Stack>
-        </Box>
+        </div>
     );
 }
 

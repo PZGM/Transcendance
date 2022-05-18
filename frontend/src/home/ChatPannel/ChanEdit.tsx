@@ -69,7 +69,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
 		this.setState({
-			redirect: '/home'
+			redirect: "/home/chat/general"
 		})
 	}
 
