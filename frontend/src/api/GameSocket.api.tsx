@@ -81,50 +81,8 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     // Gateway functions receivers
 
     receiveGameRoom() {
-        this.socket.on('gameRoom', (room: RoomDto) => {
+        this.socket.on('gameRoom', (room: Room) => {
             this.props.receiveGameRoom(room);
-        });
-    }
-
-    // receiveNewRoomId() {
-    //     this.socket.on('newRoom', room => {
-    //         this.props.receiveRoom(room);
-    //     });
-    // }
-    
-    // receiveSpectateRoom() {
-    //     this.socket.on('spectRoom', (room) => {
-    //         this.props.receiveSpectRoom(room)
-    //     })
-    // }
-
-    recieveUpdateRoom() {
-        this.socket.on('updateRoom', (room) => {
-            this.props.updateRoom(room);
-        })
-    }
-
-    receiveLeftRoomConf() {
-        this.socket.on('leftRoom', () => {
-            console.log('Left Room')
-        });
-    }
-
-    receiveJoinPoolConf() {
-        this.socket.on('joinedPool', () => {
-            console.log('Joined Pool')
-        });
-    }
-
-    receiveJoinQueueConf() {
-        this.socket.on('joinedQueue', () => {
-            console.log('Joined Queue')
-        });
-    }
-
-    receiveLeftQueueConf() {
-        this.socket.on('leftQueue', () => {
-            console.log('Left Queue')
         });
     }
 }
