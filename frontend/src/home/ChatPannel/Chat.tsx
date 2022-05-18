@@ -11,6 +11,7 @@ import { MessageDto } from '../../api/dto/chat.dto';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { ChannelDto } from "../../api/dto/channel.dto";
+import "../../style/input.css"
 
 interface ChatState {
 	socket: any;
@@ -164,19 +165,17 @@ export class Chat extends Component<ChatProps, ChatState> {
 		console.log('merde')
 		return (
             <>
-                <Box height="89%">
+                <Box height="87.5%">
 					<ol>
 						{this.renderMsg(this.state.messages)}
 					</ol>
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
-						<InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "50px" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						{/* <InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "3.7vh", border: "2px solid white", padding:"3px", boxShadow: "0.25vw 0.25vw 0px -0.05 rgba(19,213,144,0.5)" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/> */}
 						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
-							<img	src={require('../../asset/images/xwhite.png')}
-							style={{width: '75%'}}
-							alt='cross'
-							/>
+							<img src={require('../../asset/images/xwhite.png')} style={{width: '75%'}} alt='cross'/>
 						</div>
 					</Stack>
 				</Box>
