@@ -27,6 +27,7 @@ export enum Difficulty {
 export interface Room {
 	roomId: string;
 	status: number;
+    pOne: UserDto;
     ballX: number;
     ballY: number;
     ballR: number;
@@ -34,13 +35,10 @@ export interface Room {
 	pOneX: number;
     pOneY: number;
     pOneSize: number;
-    pOneColor: string;
-    pOneId: number;
     pOneScore: number;
+    pTwo: UserDto;
     pTwoX: number;
     pTwoY: number;
     pTwoSize: number;
-    pTwoColor: string;
-    pTwoId: number;
     pTwoScore: number;
 }

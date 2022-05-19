@@ -32,7 +32,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			let playerTwo: UserDto
 			let roomId: string
 			let room: Room
-
+			// console.log(`queue: ${this.queue.sizeEasy()}`)
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
@@ -119,7 +119,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
-				console.log(room)
+				// console.log(room)
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
@@ -242,7 +242,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
-			console.log(room.toFront());
+			// console.log(room.toFront());
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
 		}
 	}

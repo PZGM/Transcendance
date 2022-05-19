@@ -143,8 +143,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		ctx.beginPath()
 		ctx.fillStyle = room.ballColor
 		ctx.arc(room.ballX * this.ratio,
-				room.ballY  * this.ratio,
-				room.ballR  * this.ratio,
+				room.ballY * this.ratio,
+				room.ballR * this.ratio,
 				0,
 				2 * Math.PI,
 				true);
@@ -156,7 +156,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	{
 		// ctx.save()
 		ctx.beginPath()
-		ctx.fillStyle = 'white'
+		ctx.fillStyle = room.pOne.color
 		ctx.fillRect(room.pOneX * this.ratio,
 					room.pOneY * this.ratio,
 					15 * this.ratio,
@@ -168,7 +168,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	{
 		// ctx.save()
 		ctx.beginPath()
-		ctx.fillStyle = room.pTwoColor
+		ctx.fillStyle = room.pTwo.color
 		ctx.fillRect(room.pTwoX * this.ratio,
 			room.pTwoY * this.ratio,
 			15 * this.ratio,
@@ -179,9 +179,12 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	draw()
 	{
 		const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
+		this.setState({
+			room: this.props.room
+		})
 		const room = this.state.room;
 		
-		// console.log(`ballX: ${room.ballX}`)
+		// console.log(`drawBallX: ${room.ballX}`)
 		// console.log(`ballXratio: ${room.ballX * this.ratio}`)
 		// console.log(`pOneX: ${room.pOneX}`)
 		// console.log(`pOneXratio: ${room.pOneX * this.ratio}`)
@@ -205,8 +208,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	updatePosition()
 	{
 		// console.log('UPDATE POSITION')
-		if (this.props.userId === this.state.room.pOneId ||
-			this.props.userId === this.state.room.pTwoId)
+		if (this.props.userId === this.state.room.pOne.id ||
+			this.props.userId === this.state.room.pTwo.id)
 		{
 			// console.log(`yOne: ${this.state.yOne}`)
 			// console.log(`yTwo: ${this.state.yTwo}`)
@@ -220,7 +223,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	render()
 	{
-		console.log('RENDER CANVAS')
+		// console.log('RENDER CANVAS')
 		return (
 			<canvas id="canvas"/>
 		)

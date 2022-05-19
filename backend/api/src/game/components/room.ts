@@ -4,7 +4,8 @@ import { Ball } from "./ball";
 import { Difficulty } from "./coor";
 import { PInit, Player } from "./player";
 
-export default class Room implements RoomDto {
+export default class Room implements RoomDto
+{
     roomId: string;
 	status: number;
 	playerOne: Player;
@@ -17,7 +18,8 @@ export default class Room implements RoomDto {
 	loser?: UserDto;
 	maxGoal: number;
 	duration: number;
-    constructor(roomId: string ,difficulty: Difficulty, p1: UserDto, p2: UserDto) {
+   
+	constructor(roomId: string ,difficulty: Difficulty, p1: UserDto, p2: UserDto) {
 		this.roomId = roomId;
 		this.status = roomEnum.waiting;
 		this.duration = 0;
@@ -73,18 +75,16 @@ export default class Room implements RoomDto {
 				ballR : this.ball.r,
 				ballColor : this.ball.coor.setting.color,
 				
+				pOne: this.playerOne.user,
 				pOneX : this.playerOne.coor.x,
 				pOneY : this.playerOne.coor.y,
 				pOneSize : this.playerOne.width,
-				pOneColor: this.playerOne.user.color,
-				pOneId : this.playerOne.user.id,
 				pOneScore : this.playerOne.goal,
 
+				pTwo: this.playerTwo.user,
 				pTwoX : this.playerTwo.coor.x,
 				pTwoY : this.playerTwo.coor.y,
 				pTwoSize : this.playerTwo.width,
-				pTwoColor : this.playerTwo.user.color,
-				pTwoId : this.playerTwo.user.id,	
 				pTwoScore : this.playerTwo.goal,
 				
 				roomId : this.roomId,
@@ -92,16 +92,20 @@ export default class Room implements RoomDto {
 		}
 	}
 
-	update(): number {
+	update(): number
+	{
 		const now = (Date.now() - this.updateTime) / 1000;
+		
 		this.playerOne.update(now);
 		this.playerTwo.update(now);
 		this.ball.update(now, this.playerOne, this.playerTwo);
+		
 		this.updateTime = Date.now();
 		this.duration = (this.updateTime - this.startingTime) / 1000;
-		if (this.ball.goal === -1 || this.playerOne.goal === this.maxGoal)
+		
+		if (this.ball.goal === 1 || this.playerOne.goal === this.maxGoal)
 		{
-			this.playerOne.goal++;
+			// this.playerOne.goal++;
 			if (this.playerOne.goal >= this.maxGoal)
 			{
 				this.winner = this.playerOne.user;
@@ -111,9 +115,9 @@ export default class Room implements RoomDto {
 			else 
 				this.status = roomEnum.goal;
 		}
-		else if (this.ball.goal === 1 || this.playerTwo.goal === this.maxGoal)
+		else if (this.ball.goal === -1 || this.playerTwo.goal === this.maxGoal)
 		{
-			this.playerTwo.goal++;
+			// this.playerTwo.goal++;
 			if (this.playerTwo.goal >= this.maxGoal)
 			{
 				this.winner = this.playerTwo.user;

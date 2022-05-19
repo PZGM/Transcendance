@@ -84,6 +84,10 @@ export class PlayButton extends Component<PlayButtonProps, PlayButtonState>
 	}
 
 	render () {
-		return this.display()
+		return (
+			<div className="game_frame">
+				{this.display()}
+			</div>
+		)
 	}
 }

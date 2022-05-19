@@ -13,7 +13,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
 	constructor(props: GameSocketAPIProps) {
         super(props)
-        this.socket = io(`https://serv.pizzagami.fr:6333/game`, {secure: true});
+        this.socket = io(`https://serv.pizzagami.fr:5333/game`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
             this.socket.on('disconnect', (reason) => {
@@ -26,7 +26,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
             this.socket.emit('joinRoom', {roomId: room.roomId});
         });
 
-        this.socket.on('updateRoom', (room) => {
+        this.socket.on('updateRoom', (room: Room) => {
             this.props.updateRoom(room);
         });
 

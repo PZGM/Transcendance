@@ -55,6 +55,16 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateRoom (room: Room) {
+		console.log(`updateRoom`)
+		console.log(room)
+		if (room.pOneY != this.state.room?.pOneY) {
+			console.log(`newpOneY: ${room.pOneY}`)
+			console.log(`oldpOneY: ${this.state.room?.pOneY}`)
+		}
+		if (room.pTwoY != this.state.room?.pTwoY) {
+			console.log(`newpTwoY: ${room.pTwoY}`)
+			console.log(`oldpTwoY: ${this.state.room?.pTwoY}`)
+		}
 		this.setState({room})
 	}
 
@@ -84,13 +94,11 @@ export class Game extends Component<GameProps, GameState>
     /* render the jsx */
     render()
 	{
-		console.log('RENDER GAME')
+		// console.log('RENDER GAME')
 		return (
 			<div className="background">
 				<div className="frame_div">
-					<div className="game_frame">
-						{this.display()}
-					</div>
+					{this.display()}
 				</div>
             </div>
 		)

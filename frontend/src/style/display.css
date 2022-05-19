@@ -82,6 +82,14 @@ canvas {
 	/* height: 100%; */
 }
 
+.score {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	font-size: 4vw;
+}
+
 /* Grids Items Styling */
 
 .grid_item_style {
