@@ -5,7 +5,7 @@ import '../style/style.css'
 import '../style/home.css'
 import {UserAPI} from "../api/Users.api";
 import { Outlet } from "react-router-dom";
-import { MyInfos } from "./ChatPannel//header/MyInfos";
+import MyInfos from "./ChatPannel//header/MyInfos";
 import { ChatAPI } from "../api/Chat.api";
 import { Selecter } from './ChatPannel/header/Selecter'
 import { PrivateGuard } from "../components/PrivateGuard";
@@ -27,6 +27,7 @@ interface HomeState {
 	loserScore: number,
 	duration: number,
 	channel: any;
+	color?: string,
 }
 
 
@@ -50,7 +51,9 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      channel: undefined,}
+    		channel: undefined,
+			color: undefined,
+			}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
 		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
@@ -77,7 +80,8 @@ export class Home extends Component<HomeProps, HomeState> {
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,
-				login: resp.login
+				login: resp.login,
+				color: resp.color,
 			})
 	}
 
@@ -155,7 +159,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				<PrivateGuard/>
 					<img src={require('../asset/images/pong.png')} className="game" alt=""/>
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
-					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
+					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
 					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
 					<Outlet/>
 				</Stack>
