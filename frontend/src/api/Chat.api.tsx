@@ -5,6 +5,26 @@ function handleErrors(response) {
     return response;
 }
 
+export class RelationsPicker {
+    withOwner?: boolean;
+    withChat?: boolean;
+    withMuted?: boolean;
+    withAdmin?: boolean;
+}
+
+function optionsToQuery(options: RelationsPicker) {
+    let tab: string[] = [];
+    if (options.withAdmin)
+        tab.push('withAdmin=true');
+    if (options.withOwner)
+        tab.push('withOwner=true');
+    if (options.withChat)
+        tab.push('withChat=true');
+    if (options.withMuted)
+        tab.push('withMuted=true');
+    return tab.join('&');
+}
+
 export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
@@ -22,20 +42,21 @@ export class ChatAPI {
          return resp
     }
 
-        // ${process.env.REACT_APP_GET_CHANNELS_NAMES}
-        public static async getChannelsNames(): Promise<string[]|null> {
-            const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_NAMES}`, {
-                method: "GET",
-                credentials: "include"})
-                .then(response => {return response.json()})
-                .then(json => {return json})
-                .catch(err => {
-                    console.log('No channels')
-                    return null;
-                })
-                console.log(resp)
-             return resp
-        }
+    // ${process.env.REACT_APP_GET_CHANNELS_NAMES}
+    public static async getChannelsNames(): Promise<string[]|null> {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_NAMES}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json})
+            .catch(err => {
+                console.log('No channels')
+                return null;
+            })
+            console.log(resp)
+         return resp
+    }
+
 
     // ${process.env.REACT_APP_GET_CHANNELS_ID}
     public static async getChannelById(id: number) {
@@ -49,17 +70,18 @@ export class ChatAPI {
             })
         return resp
     }
-    public static async getChannelByName(name: string) {
-        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}`, {
+    public static async getChannelByName(name: string, options?: RelationsPicker) {
+        const query = (options) ? `?${optionsToQuery(options)}` : '';
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
             .catch(err => {
-                console.log("Channel name not found")
                 return null;
             })
         return resp
     }
+
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
@@ -94,7 +116,6 @@ export class ChatAPI {
     }
 
     public static async getByChannelId(channelId: number) {
-        console.log(`get messages from channel: ${channelId}`);
         const resp = await fetch(`${process.env.REACT_APP_MESSAGES_BY_CHANNEL}/${channelId}`, {
             method: "GET",
             credentials: "include"})
@@ -130,8 +151,29 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
+    }
+
+    public static async promoteAdmin(channelId: number, adminId: number): Promise<boolean> {
+        const resp = await fetch(`${process.env.REACT_APP_PROMOTE_ADMIN}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId, adminId}),
+            credentials: "include"})
+            .then(response => {console.log(response); return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async demoteAdmin(channelId: number, adminId: number): Promise<string> {
+        const resp = await fetch(`${process.env.REACT_APP_DEMOTE_ADMIN}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId, adminId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
     }
 
 }

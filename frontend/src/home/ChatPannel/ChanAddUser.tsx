@@ -47,7 +47,9 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 	//   );
 	//   return listItems;
 	}
-	async onSearch(search:string) {
+	async onSearch(e: React.ChangeEvent<HTMLInputElement>) {
+		e.target.value = e.target.value.replace(/\W/g, "");
+		const search = e.target.value;
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
@@ -65,7 +67,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center">
-					<input className="friends_search_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e.target.value)}}/>
+					<input className="friends_search_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e)}}/>
 					<List style={{overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>

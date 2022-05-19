@@ -13,6 +13,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
 	}
     socket:any;
     activeChan?: number;
+    
 
     constructor(props: ChatSocketAPIProps) {
         super(props)

@@ -65,7 +65,6 @@ function JoinChannel(props: JoinChannelProps) {
             else {
                 join = await ChatAPI.joinChannel(channel.id, password);
             }
-            console.log(`JOIN ${join}`)
             if (join) {
                 setName("");
                 setVisibility("")
@@ -102,7 +101,6 @@ function JoinChannel(props: JoinChannelProps) {
     )
     return (
         <>
-            { redirect ? (<Navigate to={redirect} />) : null }
             <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                 <Stack spacing={2} direction="column" >
                 <div className='bit5x5' style={{color: 'white', fontSize: '2vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{name}</div>

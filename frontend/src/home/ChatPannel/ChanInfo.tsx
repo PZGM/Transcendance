@@ -1,24 +1,27 @@
 import { Stack, List } from "@mui/material";
 import { Component} from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
-import RenderRows from "./tools/RenderRows";
+import ChanInfoMember from "./ChanInfoMember";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
+import { ChannelDto } from "../../api/dto/channel.dto";
+import { ChatAPI } from "../../api/Chat.api";
+import { ThirtyFpsSharp } from "@mui/icons-material";
+import EditIcon from '@mui/icons-material/Edit';
 
 interface ChanInfoState {
-	chan?: any;
+	channel?: ChannelDto;
 	friends: any;
+	redirect: string;
+	isAdmin: boolean;
+	user?: UserDto;
 }
 
 interface ChanInfoProps {
 	params: any,
 };
-
-let height_Box_Admin = "20vh"
-// let height_Box_Users = "50vh"
-let height_Box_Users = "60vh"
 
 export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	index:number = 0;
@@ -26,124 +29,99 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 	constructor(props: ChanInfoProps) {
 		super(props);
 		this.state = {
-			chan: undefined,
+			channel: undefined,
 			friends: [],
+			redirect: '',
+			isAdmin: false,
+			user: undefined,
 		}
-		this.deleteFriend = this.deleteFriend.bind(this);
-		this.addFriend = this.addFriend.bind(this);
+		this.leave = this.leave.bind(this);
 	}
 
-// TODO il faut recup les info du chan grace a un getchannelbyid et une fois fais peut etre revoir renderrows pour voir ce que ca donne
-	getColor(status: number): string | undefined
-	{
-		let colors = new Map<number, string>([
-			[0, 'white'],
-			[1, 'red'],
-			[2, 'yellow'],
-			[3, 'green'],
-			[4, 'blue']]);
-
-		return colors.get(status)
-	}
-
-	componentDidMount()  {
-		const id = this.props.params.name;
-		// if (this.props.isPrivateMessage)
-		//     chanId = getPrivateMessageChannel(id);
-		// else
+	async componentDidMount()  {
+		const name = this.props.params.name;
+		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		const friends = await UserAPI.getFriends();
+		const user = await UserAPI.getUser();
+		if (!user || !channel)
+			return;
+		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
 		this.setState({
-			chan: id,
+			channel,
+			friends,
+			isAdmin,
+			user,
 		})
 	}
 
-	async addFriend(user: UserDto) {
-		await UserAPI.addFriend(user.id);
-		let newFriends: UserDto[] = this.state.friends;
-		newFriends.push(user);
-		this.setState({
-			friends: newFriends
-		}); 
-	}
-
-	deleteFriend(duser: UserDto) {
-		UserAPI.removeFriend(duser.id);
-		const newFriends: UserDto[] = this.state.friends.filter((user) => {
-			return user.id !== duser.id;
-		});
-
-		this.setState({
-			friends: newFriends
-		});
-	}
-
-	renderRowsAdmins(list) {
-		list=[1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1,1,1,1,1,11,1]
-		const listItems = list?.map((admin: UserDto) =>
-		<li key={admin.id}>
-			<RenderRows index={this.index++} getColor={this.getColor} user={admin}  third_button="REMOVE FRIEND" ></RenderRows>
-		</li>
-	  );
-	  return listItems;
-	}
-
 	renderRowsUsers(list) {
-		list=[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
-		const listItems = list?.map((user: UserDto) =>
-		<li key={user.id}>
-			<RenderRows index={this.index++} getColor={this.getColor} user={user} first_button="WATCH MATCH" second_button="SEND MESSAGE" third_button="REMOVE FRIEND"></RenderRows>
-		</li>
+		list = list.sort((a: UserDto, b: UserDto) => {
+			if (this.state.channel?.owner.id === a.id)
+				return -1;
+			if (this.state.channel?.owner.id === b.id)
+				return 1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
+				return -1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
+				return 1;
+			return 0;
+		})
+		const listItems = list?.map((member: UserDto) => {
+		const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
+		const isMe = this.state.user?.id === member.id;
+		let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
+		if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
+			grade = 'owner';
+		return (
+			<ChanInfoMember isMe={isMe} key={this.index} index={this.index++} member={member} grade={grade} isFriend={isFriend}></ChanInfoMember>);
+		}
 	  );
 	  return listItems;
+	}
+
+	async leave() {
+		if (this.state.channel)
+			ChatAPI.leaveChannel(this.state.channel.id)
+		this.setState({
+			redirect: '/home'
+		})
 	}
 
 	render () {
-
+		if (!this.state.channel)
+			return <div style={{color: 'white'}}>Loading...</div>
 		return (
 			<>
+			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan }}>
+						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
-{/* TODO faire une ternaire pour savoir s'il est admin afin d'afficher l'icone */}
-					{ (false) ? <></> :<Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit" }}>
-							<AddIcon/>
-						</Link>
-					</Stack>}
+					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
+									<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
+										<EditIcon/>
+									</Link>
+								</Stack>}
 				</Stack>
 				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-						{/* <div className='bit5x5'> {(this.props.channel) ? this.props.channel.name : '...'} </div> */}
-						{/* <Typography variant="h1" color='white'> */}
-							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.chan}</div>
-						{/* </Typography> */}
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white"}}>ADMINS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Admin}>
-						<List style={{overflow: 'auto'}}>
-							{this.renderRowsAdmins([])}
-{/* TODO envoyer le state admin du channel */}
-							{/* {this.renderRows(this.state.friends)} */}
-						</List>
-					</Stack>
+							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={height_Box_Users}>
-						<List style={{ overflow: 'auto'}}>
-							{this.renderRowsUsers([])}
-{/* TODO envoyer le state user du channel */}
-							{/* {this.renderRows(this.state.friends)} */}
-						</List>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+						<li>
+							{this.renderRowsUsers(this.state.channel.users)}
+						</li>
 					</Stack>
 				</Stack>
+				{this.state.channel.id !== 1 &&
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
-					<div className="add_user_button but_red" >
+					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
 					</div>
-				</Stack>
+				</Stack>}
 			</>
 
 		)

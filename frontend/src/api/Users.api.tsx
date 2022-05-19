@@ -155,6 +155,11 @@ export class UserAPI {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ status: status }),
 				credentials: "include"})
+				.catch(err => {
+					console.log('error catched in status:');
+					console.log(err);
+					return null;
+				})
 		}
 		
 		//status
@@ -171,7 +176,7 @@ export class UserAPI {
 				})
 			}
 			catch {
-				console.log('loool')
+				console.log('error')
 			}
 			return ret;
 		}
@@ -194,11 +199,12 @@ export class UserAPI {
 		}
 
 		public static async removeFriend(id: number) {
-			await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
+			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 				method: "DELETE",
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ id: id }),
 				credentials: "include"})
+				return resp;
 			}
 
 		public static async searchFriend(search: string) {

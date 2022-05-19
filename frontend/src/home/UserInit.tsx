@@ -68,18 +68,24 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
             if (isValid) {
                 this.setState({ login: this.state.input });
                 toast.success(`Login set to ${this.state.input}`, {
-                    position: toast.POSITION.BOTTOM_CENTER})
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    pauseOnHover: false,
+                    closeOnClick: true,})
                 return true
             }
             else
                 toast.error("Invalid new login", {
-                    position: toast.POSITION.BOTTOM_CENTER
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    pauseOnHover: false,
+                    closeOnClick: true,
                 })
         }
         else
         {
             toast.error("Empty login is invalid", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
         }
 
@@ -105,7 +111,9 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
         if (await this.updateLogin())
         {
             toast.success(`Color set to ${this.state.color}`, {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                closeOnClick: true,
             })
             this.setState({redirect: true})
         }
@@ -118,7 +126,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 
             <div className="background">
                 {/* Redirect to home */}
-                { this.state.redirect ? (<Navigate to="/home"/>) : null }
+                { this.state.redirect ? (<Navigate to={{pathname: process.env.REACT_APP_HOME}}/>) : null }
 				
                 <div className="frame_div">
                     <Grid container

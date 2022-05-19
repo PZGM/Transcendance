@@ -7,6 +7,8 @@ import '../../../style/buttons.css'
 import { UserAPI } from "../../../api/Users.api";
 import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 interface SelecterProps {
 	channelName: string;
@@ -53,12 +55,26 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 		this.getFriends();
 	}
 
+	// componentWillUnmount()  {
+	// }
+	
+	componentDidUpdate() {
+		if (this.state.name != window.location.pathname.split('/')[3])
+	 		this.setState({name: window.location.pathname.split('/')[3]})
+	}
+
 	updateName(name: string) {
 		this.setState({
 			name
 		})
 	}
- 
+
+	changeName() {
+		this.setState({
+			name: window.location.pathname.split('/')[3]
+		})
+	}
+
 	handleClick(event: React.MouseEvent<HTMLElement>) {
 		this.getChannels();
 		this.getFriends();
@@ -98,7 +114,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	render () {
 		return (
 			<>
-				<Box width="100%" height={Hbar} sx={{backgroundColor: "#03C7D8",display: "flex", justifyContent: "center", alignItems: "center"}}>
+				<Box width="19.5vw" height={Hbar} sx={{backgroundColor: "#03C7D8", display: "flex", justifyContent: "center", alignItems: "center"}}>
 					<Stack direction="row" justifyContent="center" alignItems="center"  >
 						<Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
 							<Link style={{height: Hchan, width: Hi, textDecoration: 'none',fontSize: "large"}} to={{pathname: (window.location.pathname.search("/home/chat")) ? process.env.REACT_APP_USER + "" + this.state.name + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + this.state.name + "/info"}}>
@@ -106,16 +122,17 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 							</Link>
 							<ButtonBase onClick={this.handleClick} style={{height: Hchan,fontSize: "large"}} >
 								<div className='bit9x9'>{this.state.name}</div>
+								<div>{(this.state.open == false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
 							</ButtonBase>
 							<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={this.handleClickAway}>
 								<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black"}} open={this.state.open} anchorEl={this.state.anchorEl}>
 									<List sx={{maxHeight: "30.5vh", mb: -1, mt: -1}} disablePadding>
 										<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
 											<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon style={{color: "white"}} />}>
-												<div className='bit9x9' style={{color: "white"}}> CHannels </div>
+												<div className='bit9x9' style={{color: "white"}}> Channels </div>
 											</AccordionSummary>
 											<AccordionDetails>
-												<CreateChannel/>
+												<CreateChannel close={this.handleClickAway}/>
 												<List sx={{display: "flex", justifyContent: "center"}}>
 													<Stack direction="column">
 														{this.renderRowsChan(this.state.channels)}
