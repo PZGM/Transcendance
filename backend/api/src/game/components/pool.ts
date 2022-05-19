@@ -20,6 +20,11 @@ export default class Pool {
         return this.pool.length;
     }
 
+    findById(userId: number) : UserDto {
+        return this.pool.find(resu => resu.id === userId) ?
+            this.pool.find(resu => resu.id=== userId) : null;
+    }
+
     find(user: UserDto): UserDto {
         return this.pool.find(resu => resu.login === user.login) ?
             this.pool.find(resu => resu.login === user.login) : null;

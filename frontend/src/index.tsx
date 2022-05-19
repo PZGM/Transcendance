@@ -65,12 +65,23 @@ ReactDOM.render(
         
         <Route path="/" element={<App />} />
           
-          <Route element={<Frame/>}>
-            <Route path="profile" element={<Profile/>} />
-            <Route path="friends" element={<Friends/>} />
-            <Route path="settings" element={<Settings/>} />
-            <Route path="history" element={<History/>} />
-            <Route path="achievement" element={<Achievement/>} />
+          <Route path="/" element={<App />} />
+            
+            <Route element={<Frame/>}>
+              <Route path="profile" element={<Profile/>} />
+              <Route path="friends" element={<Friends/>} />
+              <Route path="settings" element={<Settings/>} />
+              <Route path="history" element={<History/>} />
+              <Route path="achievement" element={<Achievement/>} />
+            </Route>
+
+            <Route path="home" element={<Home/>} >
+              <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
+              <Route path="user/:name/info" element={<WrapperUserInfo/>} />
+              <Route path="chat/name/edit" element={<WrapperChanEdit/>} />
+              <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
+              <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
+              <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
           </Route>
 
           <Route path="home" element={<Home/>} >

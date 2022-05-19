@@ -22,7 +22,7 @@ export class UserDto {
     }
     id: number;
     roomId? : number;
-    socketId? :  string;
+    socketId? : string;
     login: string;
     avatar: string;
     status?: number; 
