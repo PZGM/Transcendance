@@ -2,11 +2,12 @@ import { io } from "socket.io-client";
 import React from "react";
 
 interface ChatSocketAPIProps{
-    transmitMessage: any;
+    receiveMessage: any;
     transmitService: any;
 }
 
-export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
+export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
+{
 	join(chanName: string) {
 		throw new Error("Method not implemented.");
 	}
@@ -17,7 +18,6 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
     constructor(props: ChatSocketAPIProps) {
         super(props)
         this.activeChan = undefined;
-        console.log(`=====DOMAIN : ${process.env.REACT_APP_DOMAIN}`)
         this.socket = io(`${process.env.REACT_APP_CHAT_SOCKET}`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
@@ -27,7 +27,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps> {
         });
 
         this.socket.on('message', message => {
-            this.props.transmitMessage(message);
+            this.props.receiveMessage(message);
         });
 
         this.socket.on('service', message => {

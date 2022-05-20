@@ -10,6 +10,18 @@
 	background-repeat: no-repeat;
 }
 
+.game_frame {
+	width: 60vw;
+	height: calc(60vw * 3/4);
+	/* padding: 5px; */
+	border: 0.5vw solid rgba(142, 0, 172, 1);
+	outline: 0.5vw solid rgba(142, 0, 172, 0.5);
+	background-color: black;
+	justify-content: center;
+	display: flex;
+	flex-direction: row;
+}
+
 .frame_div {
 	height: 100vh;
 	display: flex;
@@ -61,6 +73,21 @@
 	min-width: 26vw;
 	max-width: 36vw;
 	aspect-ratio: 7/9;
+}
+
+/* Home */
+
+canvas {
+	width: 60vw;
+	/* height: 100%; */
+}
+
+.score {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	font-size: 4vw;
 }
 
 /* Grids Items Styling */

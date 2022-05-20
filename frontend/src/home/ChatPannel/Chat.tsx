@@ -10,6 +10,9 @@ import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { ChannelDto } from "../../api/dto/channel.dto";
 import "../../style/input.css"
 
@@ -33,7 +36,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	constructor(props: ChatProps) {
 		super(props);
-		this.chatSocket = new ChatSocketAPI({transmitMessage: this.onMessage.bind(this), transmitService: this.onService.bind(this)});
+		this.chatSocket = new ChatSocketAPI({receiveMessage: this.onMessage.bind(this),
+											transmitService: this.onService.bind(this)});
         this.state = {
 			messages: [],
 			socket: null,
@@ -74,6 +78,27 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} left the channel`}</div>
 				</Stack>)
+			
+			if (msg.service && msg.content === 'PROMOTE')
+			return (
+			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<KeyboardArrowUpIcon sx={{width: "68px", color: 'cyan'}}/>
+				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is now admin`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'DEMOTE')
+			return (
+			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<KeyboardArrowDownIcon sx={{width: "68px", color: 'orange'}}/>
+				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is no longer admin`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'OWNERED')
+			return (
+			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<StarOutlineIcon sx={{width: "68px", color: 'yellow'}}/>
+				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
+			</Stack>)
 
 			if (isFirst)
             return <Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>

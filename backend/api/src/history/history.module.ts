@@ -14,6 +14,7 @@ import { HistoryService } from './history.service';
       UsersModule,
       StatsModule
     ],
+    exports: [HistoryService]
 
   })
   export class HistoryModule {}  

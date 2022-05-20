@@ -11,9 +11,10 @@ import { HistoryModule } from './history/history.module';
 import { StatsModule } from './stats/stats.module';
 import { ChatModule } from './chat/chat.module';
 import { ChatGateway } from './chat/chat.gateway';
+import { GameModule } from './game/game.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule],
+  imports: [AuthModule,UsersModule, GameModule ,ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule],
   controllers: [],
   providers: []
 })

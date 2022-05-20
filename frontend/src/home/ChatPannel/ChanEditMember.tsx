@@ -11,24 +11,6 @@ import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { channel } from "diagnostics_channel";
 
-// TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
-
-enum color {
-    'white',
-    'red',
-    'yellow',
-    'green',
-    'blue'
-}
-
-enum description {
-    'unknow',
-    'offline',
-    'invite idle',
-    'invite',
-    'watch match'
-}
-
 interface ChanEditMemberProps {
     user: UserDto,
     index: number,
@@ -42,6 +24,7 @@ interface StatusData {
 
 function ChanEditMember(props: ChanEditMemberProps) {
     let eventSource;
+    const [status, setStatus] = useState(props.member.status);
 
     const userIsMember: boolean = props.user.id === props.member.id;
     const userIsOwner: boolean = props.channel.owner.id === props.user.id;
@@ -69,7 +52,6 @@ function ChanEditMember(props: ChanEditMemberProps) {
         }
       }, [])
 
-    const [status, setStatus] = useState(props.member.status);
 
     const toggleAdmin = async () => {
         console.log(`toggle admin in chan ${props.channel.id}`);
@@ -88,9 +70,9 @@ function ChanEditMember(props: ChanEditMemberProps) {
     }
 
     return (
-        <Box width="18.4vw" className={"chan_element bor_"+ props.member.color} ml="0.26vw" mr="0.1vw" mb="1vh">
-            <Stack  direction="row" justifyContent="center" alignItems="center" spacing={2}>
-                <Stack direction='row' justifyContent="space-between"  alignItems="center" spacing={1}>
+        <div className={"chan_element bor_"+ props.member.color}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+            <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1}>
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
@@ -111,7 +93,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     </div>
                 </Stack>}
             </Stack>
-        </Box>
+        </div>
     );
 }
 

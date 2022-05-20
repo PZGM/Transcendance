@@ -2,6 +2,7 @@
 
 /* Common attributes to all buttons */
 
+.play_button, .spectate_button, .difficulty_button,
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
 .renderrow_button, .add_friend_button, .logout_button, .add_user_button,.send_msg_button
@@ -14,7 +15,73 @@
 	color: white;
 }
 
-/* Home */
+/* HOME */
+
+/* Game Buttons */
+
+.play_button {
+	width: 100%;
+	font-family: bit5x5;
+	font-size: 8vw;
+	background-color: black;
+	color: black;
+	-webkit-animation: bounce_1 0.75s ease-in-out infinite alternate;
+	-moz-animation: bounce_1 0.75s ease-in-out infinite alternate;
+	animation: bounce_1 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes bounce_1 {
+	from {
+		-webkit-text-stroke-width: 0.15vw;
+		-webkit-text-stroke-color: white;
+	}
+	to {
+		-webkit-text-stroke-width: 0.15vw;
+		-webkit-text-stroke-color: black;
+	}
+  }
+
+.play_button:hover {
+	color: var(--violet);
+	-webkit-text-stroke-width: 0px !important;
+	cursor: pointer;
+}
+
+.spectate_button {
+	width: 100%;
+	font-family: bit5x5;
+	font-size: 3vw;
+	background-color: black;
+	color: black;
+	-webkit-animation: bounce_2 0.75s ease-in-out infinite alternate;
+	-moz-animation: bounce_2 0.75s ease-in-out infinite alternate;
+	animation: bounce_2 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes bounce_2 {
+	from {
+		color: white
+	}
+	to {
+		color: black
+	}
+  }
+
+.spectate_button:hover {
+	color: black !important;
+	-webkit-text-stroke-width: 0.09vw;
+	-webkit-text-stroke-color: var(--violet);
+	cursor: pointer;
+}
+
+.difficulty_button {
+	width: 15vw;
+	aspect-ratio: 20/7;
+	font-size: 2vw;
+	font-family: bit5x5;
+}
+
+/* Chat */
 
 .home_button {
 	width: 3.9vw;
