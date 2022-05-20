@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { Logger } from '@nestjs/common';
+import { Logger, SerializeOptions } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import Queue from './components/queue';
 import Room from './components/room';
@@ -11,6 +11,7 @@ import { RoomDto, roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
+import { waitForDebugger } from 'inspector';
 
 @WebSocketGateway({namespace: '/game', cors: true})
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -32,7 +33,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			let playerTwo: UserDto
 			let roomId: string
 			let room: Room
-			// console.log(`queue: ${this.queue.sizeEasy()}`)
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
@@ -76,11 +76,11 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				{
                     if (room.status < roomEnum.end) {
                         if(room.isPlayerOne(user) && room.playerTwo) {
-                            room.playerTwo.goal == 10;
+                            room.playerTwo.goal = 10;
                             room.update();
                         }
                         if(room.isPlayerTwo(user) && room.playerOne) {
-                            room.playerOne.goal == 10;
+                            room.playerOne.goal = 10;
 							room.update();
 						}
 					}
@@ -214,15 +214,16 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
-			const now = Date.now();
-			if (room.status === roomEnum.waiting  && (now  - room.updateTime) >= 1000) {
+			let now = Date.now();
+			const updtime = room.updateTime;
+			if (room.status === roomEnum.waiting  && (now  - updtime) >= 1000) {
 				room.startingTime = now;
 				room.updateTime = now;
 				room.status = roomEnum.playing;
 			}
 			else if (room.status === roomEnum.playing)
 			{
-				if (room.update() === roomEnum.end  && (now - room.updateTime) >= 1000) {
+				if (room.update() === roomEnum.end  && (now - updtime) >= 1000) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -237,12 +238,11 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					});
 				}
 			}
-			else if (room.status === roomEnum.goal  && (now - room.updateTime) >= 1000) {
+			else if (room.status === roomEnum.goal  && (now - updtime) >= 1000) {
 				room.reset();
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
-			// console.log(room.toFront());
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
 		}
 	}

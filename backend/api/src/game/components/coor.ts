@@ -14,15 +14,15 @@ export class Setting
 		if (difficulty === Difficulty.Hard)
 		{
 			this.width = 80;
-			this.speed = 700;
-			this.acceleration = 55;
+			this.speed = 1200;
+			this.acceleration = 75;
 			this.color = 'purple';
 		}
 		else if (difficulty === Difficulty.Medium)
 		{
 			this.width = 120;
-			this.speed = 550;
-			this.acceleration = 45;
+			this.speed = 1000;
+			this.acceleration = 55;
 			this.color = 'orange';
 		}
 		else if (difficulty === Difficulty.Easy)

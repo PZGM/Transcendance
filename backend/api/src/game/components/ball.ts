@@ -93,7 +93,8 @@ export class Ball implements BallDto { //extends?
     coorAfterCollision(p1: Player, p2: Player) : boolean
 	{
 		// Speed up
-        this.coor.speed += this.coor.setting.acceleration;
+		if(this.coor.speed < (this.coor.setting.speed * 3))
+        	this.coor.speed += this.coor.setting.acceleration;
         
 		const player: Player = (this.coor.x < screenSizeX / 2) ? p1 : p2;
         const cc = (this.coor.y - (player.coor.y + player.width / 2)) / (player.width / 2);

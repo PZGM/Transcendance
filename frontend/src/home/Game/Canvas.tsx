@@ -88,7 +88,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	setupCanvas()
 	{
-		console.log('SETUP CANVAS')
+		//console.log('SETUP CANVAS')
 		this.canvas = document.getElementById("canvas")
 		this.canvas.height = this.canvas.width * 3/4
 		resizeCanvas(this.canvas)
@@ -112,16 +112,16 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 			return;
 		const kstate = this.keystate
 		document.addEventListener('keydown', function(event) {
-			console.log(`keydown: ${event.code}`)
+			//console.log(`keydown: ${event.code}`)
 			kstate[event.code] = true;
-			console.log(`kstate: ${kstate[event.code]}`)
+			//console.log(`kstate: ${kstate[event.code]}`)
 		});
 		document.addEventListener('keyup', function(event) {
 			delete kstate[event.code];
 		});
 		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
 		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
-		this.loop = setInterval(this.looping.bind(this), 1);
+		this.loop = setInterval(this.looping.bind(this), 18);
 	}
 
 	updateCanvas()
@@ -142,12 +142,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.ballColor
-		ctx.arc(room.ballX * this.ratio,
-				room.ballY * this.ratio,
-				room.ballR * this.ratio,
-				0,
-				2 * Math.PI,
-				true);
+		ctx.arc(room.ballX * this.ratio, room.ballY * this.ratio,
+				room.ballR * this.ratio, 0, 2 * Math.PI, true);
 		ctx.fill()
 		// ctx.restore()
 	}
@@ -157,10 +153,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.pOne.color
-		ctx.fillRect(room.pOneX * this.ratio,
-					room.pOneY * this.ratio,
-					15 * this.ratio,
-					room.pOneSize * this.ratio);
+		ctx.fillRect(room.pOneX * this.ratio, room.pOneY * this.ratio,
+				15 * this.ratio, room.pOneSize * this.ratio);
 		// ctx.restore()
 	}
 
@@ -169,10 +163,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.pTwo.color
-		ctx.fillRect(room.pTwoX * this.ratio,
-			room.pTwoY * this.ratio,
-			15 * this.ratio,
-			room.pTwoSize * this.ratio);
+		ctx.fillRect(room.pTwoX * this.ratio, room.pTwoY * this.ratio,
+				15 * this.ratio, room.pTwoSize * this.ratio);
 		// ctx.restore()
 	}
 
