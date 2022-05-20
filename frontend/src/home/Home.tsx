@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
+import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-import { MyInfos } from "./ChatPannel//header/MyInfos";
+
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
@@ -27,8 +28,9 @@ interface HomeState {
 	loserId: number,
 	loserScore: number,
 	duration: number,
+	color?: string,
 	channel: any,
-	userStatus: number
+	userStatus: number,
 }
 
 
@@ -52,7 +54,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			loserId: 0,
 			loserScore: 0,
 			duration: 0,
-      		channel: undefined,
+			color: undefined,
+      channel: undefined,
 			userStatus: 0
 		}
 		this.updateHomeState = this.updateHomeState.bind(this);
@@ -82,6 +85,7 @@ export class Home extends Component<HomeProps, HomeState> {
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
+				color: resp.color,
 				userStatus: resp.status
 			})
 	}
@@ -161,7 +165,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				<Game userStatus={this.state.userStatus}/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
-					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
+					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
 					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
 					<Outlet/>
 				</Stack>

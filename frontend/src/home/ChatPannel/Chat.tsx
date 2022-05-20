@@ -189,7 +189,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					</ol>
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
-					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
+					<Stack direction="row" spacing={2} justifyContent="spece_evenly" sx={{backgroundColor: "black"}}>
 						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						{/* <InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "3.7vh", border: "2px solid white", padding:"3px", boxShadow: "0.25vw 0.25vw 0px -0.05 rgba(19,213,144,0.5)" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/> */}
 						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>

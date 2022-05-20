@@ -18,7 +18,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
     constructor(props: ChatSocketAPIProps) {
         super(props)
         this.activeChan = undefined;
-        this.socket = io(`https://serv.pizzagami.fr:6333/chat`, {secure: true});
+        this.socket = io(`${process.env.REACT_APP_CHAT_SOCKET}`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
             this.socket.on('disconnect', (reason) => {

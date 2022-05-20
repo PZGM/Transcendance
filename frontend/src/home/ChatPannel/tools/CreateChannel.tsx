@@ -109,18 +109,22 @@ function CreateChannel(props) {
             <Dialog open={openCreate} onClose={handleCancelCreate}>
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column">
-                        <Stack justifyContent="center" alignItems="center" spacing={2}>
+                        <Stack direction="column" justifyContent="center" alignItems="center" spacing={2}>
                             <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {searchName(e)}}/>
+                            <div className='bit5x5' style={{color: "white"}}> Visibility :</div>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
-                                <div className='bit5x5'> Public </div>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "blue": "cyan")} style={{backgroundColor: (visibility === "public")? "blue": "cyan"}} onClick={() => {setVisibility("public")}}>
+                                { (visibility === "public") ? <div className='bit5x5'style={{color: "white"}}> Public </div>:
+                                <div className='bit5x5'> Public </div>}
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "private")? "yellow": "red")} style={{backgroundColor: (visibility === "private")? "yellow": "red"}} onClick={() => {setVisibility("private")}}>
-                                <div className='bit5x5'> Private </div>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "private")? "blue": "cyan")} style={{backgroundColor: (visibility === "private")? "blue": "cyan"}} onClick={() => {setVisibility("private")}}>
+                            { (visibility === "private") ? <div className='bit5x5'style={{color: "white"}}> private </div>:
+                                <div className='bit5x5'> private </div>}
                             </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "protected")? "yellow": "red")} style={{backgroundColor: (visibility === "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
-                                <div className='bit5x5'> Protected </div>
+                            <ButtonBase centerRipple className={"home_button but_" + ((visibility === "protected")? "blue": "cyan")} style={{backgroundColor: (visibility === "protected")? "blue": "cyan"}} onClick={() => {setVisibility("protected")}}>
+                            { (visibility === "protected") ? <div className='bit5x5'style={{color: "white"}}> protected </div>:
+                                <div className='bit5x5'> protected </div>}
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
@@ -138,7 +142,7 @@ function CreateChannel(props) {
                 </DialogContent>
             </Dialog>
             <Dialog open={openJoin} onClose={handleCancelJoin}>
-                <JoinChannel setOpen={setOpenJoin} />
+                <JoinChannel setOpen={setOpenJoin} close={props.close}/>
             </Dialog>
 
         </>

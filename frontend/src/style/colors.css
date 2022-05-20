@@ -239,6 +239,23 @@ background
 	cursor: pointer;
 }
 
+.but_grey {
+	background-color: grey;
+	box-shadow: 0.25vw 0.25vw 0px -0.05vw rgba(128, 128, 128, 0.5);
+}
+
+.but_grey:hover {
+	transform: translateX(0.1vw) translateY(0.1vw);;
+	box-shadow: 0.1vw 0.1vw 0px -0.05vw rgba(128, 128, 128, 0.5);
+	cursor: pointer;
+}
+
+.but_grey:active {
+	transform: translateX(5pbackgroundx) translateY(0.25vw);;
+	box-shadow: 0px 0px 0px -0.05vw rgba(128, 128, 128, 0.5);
+	cursor: pointer;
+}
+
 /* BORDER COLORS */
 
 .bor_green {
