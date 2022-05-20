@@ -10,6 +10,7 @@ import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { channel } from "diagnostics_channel";
+import MuteBan from "./tools/MuteBan"
 
 interface ChanEditMemberProps {
     user: UserDto,
@@ -85,12 +86,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
-                    <Link className="renderrow_button red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
-                        <div className='bit5x5'> MUTE </div>
-                    </Link>
-                    <div className={"renderrow_button but_red"}>
-                    <div className='bit5x5'> BAN </div>
-                    </div>
+                    <MuteBan/>
                 </Stack>}
             </Stack>
         </div>
