@@ -1,6 +1,7 @@
 import { io } from "socket.io-client";
 import React from "react";
 import { Difficulty, Room } from './dto/game.dto';
+import { NumberLiteralType } from "typescript";
 
 interface GameSocketAPIProps{
     receiveGameRoom: any;
@@ -51,30 +52,38 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     // Gateway functions callers
 
 	userConnection(userId: number) {
-        this.socket.emit('handleUserConnect', {id: userId});
+        this.socket.emit('handleUserConnect', {userId});
+    }
+
+    joinRoom(roomId: number) {
+        this.socket.emit('roomInvite', {roomId})
+    }
+
+    spectateRoom(userId: number, roomId: string) {
+        this.socket.emit('spectateRoom', {userId, roomId});
+    }
+
+    invitePlayer(inviteId: number, difficulty: Difficulty) {
+        this.socket.emit('roomInvite', {inviteId, difficulty});
     }
 
     joinQueue(userId: number, difficulty: Difficulty) {
-        this.socket.emit('joinQueue', {userId: userId, difficulty :difficulty});
+        this.socket.emit('joinQueue', {userId, difficulty});
     }
 
     leaveQueue(userId: number) {
         this.socket.emit('leaveQueue', userId);
     }
 
-    spectateRoom(userId: number, roomId: string) {
-        this.socket.emit('spectateRoom', {userId: userId, roomId :roomId});
-    }
-
     leaveRoom(userId: number, roomId: string) {
-        this.socket.emit('leaveRoom', {userId: userId, roomId : roomId});
+        this.socket.emit('leaveRoom', {userId, roomId});
     }
 
     updateRoom(roomId: string) {
-        this.socket.emit('updateRoom', { roomId : roomId});
+        this.socket.emit('updateRoom', {roomId});
     }
 
     key(userId: number, roomId: string, key: string) {
-        this.socket.emit('key', {userId: userId, roomId : roomId, key : key});
+        this.socket.emit('key', {userId, roomId, key});
     }
 }

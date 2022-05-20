@@ -66,17 +66,26 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 				return 1;
 			return 0;
 		})
+		
 		const listItems = list?.map((member: UserDto) => {
-		const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
-		const isMe = this.state.user?.id === member.id;
-		let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
-		if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
-			grade = 'owner';
-		return (
-			<ChanInfoMember isMe={isMe} key={this.index} index={this.index++} member={member} grade={grade} isFriend={isFriend}></ChanInfoMember>);
-		}
-	  );
-	  return listItems;
+			const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
+			const isMe = this.state.user?.id === member.id;
+			let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
+			if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
+				grade = 'owner';
+			return (
+				<ChanInfoMember isMe={isMe}
+								key={this.index}
+								index={this.index++}
+								member={member}
+								grade={grade}
+								isFriend={isFriend}
+								gameSocket={this.props.params.socket}
+				/>
+			)
+		});
+		
+		return listItems;
 	}
 
 	async leave() {

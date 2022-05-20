@@ -94,8 +94,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
     @SubscribeMessage('handleUserConnect')
-	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
-		const user : UserDto = await this.usersService.getOne(userId.id);
+	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() data : {userId : number}) {
+		const user : UserDto = await this.usersService.getOne(data.userId);
 		this.logger.log(`${user.login} i'm back`)
         this.rooms.forEach((room: Room) => {
 			if (room.isPlayer(user) && room.status !== 3)
@@ -105,8 +105,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
         this.server.to(socket.id).emit('joinedPool');
-        this.usersService.setUserSocket(userId.id, socket.id);
-		this.usersService.setUserStatus(userId.id, statusEnum.connected);
+        this.usersService.setUserSocket(data.userId, socket.id);
+		this.usersService.setUserStatus(data.userId, statusEnum.connected);
 	}
 
 	@SubscribeMessage('joinRoom')
@@ -139,7 +139,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         }
 	}
 
-	@SubscribeMessage('RoomInvite')
+	@SubscribeMessage('roomInvite')
 	async handleRoomInvite(@ConnectedSocket() socket: Socket, @MessageBody() data : { inviteId : number, difficulty: Difficulty } ) {
 		const user : User = await this.usersService.getOneBySocket(socket.id);
 		const guest : User = await this.usersService.getOne(data.inviteId);

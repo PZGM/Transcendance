@@ -10,6 +10,8 @@ import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
 import { Selecter } from "./ChatPannel/header/Selecter";
+import { GameSocketAPI } from "../api/GameSocket.api";
+import { Room } from "../api/dto/game.dto";
 
 
 interface HomeProps {
@@ -19,16 +21,17 @@ interface HomeProps {
 interface HomeState {
 	avatar?: string,
 	login?: string,
-	display?: number;
-	displayId?: number;
-	numberBack?: number;
-	winnerId: number,
-	winnerScore: number,
-	loserId: number,
-	loserScore: number,
-	duration: number,
+	// display?: number;
+	// displayId?: number;
+	// numberBack?: number;
+	// winnerId: number,
+	// winnerScore: number,
+	// loserId: number,
+	// loserScore: number,
+	// duration: number,
 	channel: any,
-	userStatus: number
+	userStatus: number,
+	room?: Room
 }
 
 
@@ -40,41 +43,62 @@ export const get_env = () : string => {
   };
 
 export class Home extends Component<HomeProps, HomeState> {
+
+	gameSocket: GameSocketAPI;
+
 	constructor(props: HomeProps) {
 		super(props);
+		
+		this.gameSocket = new GameSocketAPI({receiveGameRoom: this.receiveGameRoom.bind(this),
+											updateRoom: this.updateRoom.bind(this)})
+
 		this.state = {
 			avatar: undefined,
 			login: undefined,
-			display: 0,
-			displayId: undefined,
-			winnerId: 0,
-			winnerScore: 0,
-			loserId: 0,
-			loserScore: 0,
-			duration: 0,
+			// display: 0,
+			// displayId: undefined,
+			// winnerId: 0,
+			// winnerScore: 0,
+			// loserId: 0,
+			// loserScore: 0,
+			// duration: 0,
       		channel: undefined,
-			userStatus: 0
+			userStatus: 0,
+			room: undefined
 		}
-		this.updateHomeState = this.updateHomeState.bind(this);
-		this.updateDisplay = this.updateDisplay.bind(this);
-		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
-		this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
-        this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
-        this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
-        this.handleChangeDuration = this.handleChangeDuration.bind(this);
+
+		// this.updateHomeState = this.updateHomeState.bind(this);
+		// this.updateDisplay = this.updateDisplay.bind(this);
+		// this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
+		// this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
+        // this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
+        // this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
+        // this.handleChangeDuration = this.handleChangeDuration.bind(this);
 		//this.createNewGame = this.createNewGame.bind(this);
 	}
 
-	async updateHomeState({login, avatar} : HomeState) {
-		if (login)
-			this.setState({
-				login: login,
-			})
-		if (avatar)
+	receiveGameRoom(room: Room) {
+		console.log(room);
 		this.setState({
-			avatar: avatar,
+			// display: 2,
+			room
 		})
 	}
+
+	updateRoom (room: Room) {
+		this.setState({room})
+	}
+
+	// async updateHomeState({login, avatar} : HomeState) {
+	// 	if (login)
+	// 		this.setState({
+	// 			login: login,
+	// 		})
+	// 	if (avatar)
+	// 	this.setState({
+	// 		avatar: avatar,
+	// 	})
+	// }
 
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
@@ -97,13 +121,13 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 
-	updateDisplay(type: number, id: any, numberBack: number) {
-		this.setState({
-			display: type,
-			displayId: id,
-			numberBack: numberBack,
-		})
-	}
+	// updateDisplay(type: number, id: any, numberBack: number) {
+	// 	this.setState({
+	// 		display: type,
+	// 		displayId: id,
+	// 		numberBack: numberBack,
+	// 	})
+	// }
 
 	/*async createNewGame() {
         UserAPI.createNewGame({
@@ -118,47 +142,49 @@ export class Home extends Component<HomeProps, HomeState> {
 		})
     }*/
 
-    handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-        this.setState({
-            winnerId: +log
-        })
-    }
+    // handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const log = e.target.value;
+    //     this.setState({
+    //         winnerId: +log
+    //     })
+    // }
 
-	handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-        this.setState({
-            winnerScore: +log
-        })
-    }
+	// handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const log = e.target.value;
+    //     this.setState({
+    //         winnerScore: +log
+    //     })
+    // }
 
-	handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-        this.setState({
-            loserId: +log
-        })
-    }
+	// handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const log = e.target.value;
+    //     this.setState({
+    //         loserId: +log
+    //     })
+    // }
 
-	handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-        this.setState({
-            loserScore: +log
-        })
-    }
+	// handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const log = e.target.value;
+    //     this.setState({
+    //         loserScore: +log
+    //     })
+    // }
 
-	handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const log = e.target.value;
-        this.setState({
-            duration: +log
-        })
-    }
+	// handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const log = e.target.value;
+    //     this.setState({
+    //         duration: +log
+    //     })
+    // }
 
 	render () {
 		return (
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game userStatus={this.state.userStatus}/>
+				<Game	userStatus={this.state.userStatus}
+						room={this.state.room}
+						gameSocket={this.gameSocket}/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login}/>

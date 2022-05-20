@@ -6,6 +6,7 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
+import { GameSocketAPI } from "../../api/GameSocket.api";
 
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
@@ -31,6 +32,7 @@ interface ChanInfoUserProps {
     grade: string,
     isFriend: boolean,
     isMe: boolean,
+    gameSocket: GameSocketAPI;
 }
 
 interface StatusData {
@@ -63,6 +65,11 @@ function ChanInfoMember(props: ChanInfoUserProps) {
     const [isFriend, setFriendship] = useState(props.isFriend);
     const [status, setStatus] = useState(props.member.status);
 
+    const inviteHandler = () => {
+        if (status === 1 || status === 2)
+            props.gameSocket.roomInvite(props.member.id, 2);
+    }
+
     const toggleFriendship = async () => {
         if (isFriend)
             await UserAPI.removeFriend(props.member.id)
@@ -70,6 +77,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
             await UserAPI.addFriend(props.member.id);
         setFriendship(!isFriend);
     }
+
     return (
         <div className={"chan_element bor_"+ props.member.color}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
@@ -82,7 +90,8 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 </Stack>
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                    <div className={`renderrow_button but_${color[status]}`}>
+                    {/* Invite button */}
+                    <div className={`renderrow_button but_${color[status]}`} onClick={inviteHandler}>
                         <div className='bit5x5' > {description[status]} </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
