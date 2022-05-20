@@ -1,16 +1,16 @@
-import { Difficulty } from './dto/game.dto';
+export class GameAPI {
 
-// export class GameAPI {
-
-// 	public static async invitePlayer(inviteId: number, difficulty: Difficulty) {
-// 		const resp = await fetch(`${process.env.REACT_APP_INVITE_PLAYER}`, {
-// 			method: "GET", . 
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({inviteId, difficulty}),
-//             credentials: "include"
-// 		})
-// 		.then(response => {return response.json()})
-// 		.then(json => {return json});
-// 		return resp;
-// 	}
-// }
+	public static async getSocketId(id: number) {
+		const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}/socket`, {
+			method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json})
+            .catch(err => {
+            console.log('No channels')
+            return null;
+        })
+        console.log(resp)
+     return resp
+    }
+}
