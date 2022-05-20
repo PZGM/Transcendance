@@ -105,7 +105,6 @@ export default class Room implements RoomDto
 		
 		if (this.ball.goal === 1 || this.playerOne.goal === this.maxGoal)
 		{
-			// this.playerOne.goal++;
 			if (this.playerOne.goal >= this.maxGoal)
 			{
 				this.winner = this.playerOne.user;
@@ -117,7 +116,6 @@ export default class Room implements RoomDto
 		}
 		else if (this.ball.goal === -1 || this.playerTwo.goal === this.maxGoal)
 		{
-			// this.playerTwo.goal++;
 			if (this.playerTwo.goal >= this.maxGoal)
 			{
 				this.winner = this.playerTwo.user;
