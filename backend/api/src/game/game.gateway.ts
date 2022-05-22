@@ -97,10 +97,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = await this.usersService.getOne(userId.id);
 		this.logger.log(`${user.login} i'm back`)
-        this.rooms.forEach((room: Room) => {
-			if (room.isPlayer(user) && room.status !== 3)
-				return ;
-		});
 		user.socketId = socket.id;
 		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
@@ -202,8 +198,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
                     }
                 }
             }
-			this.pool.changeStatus(statusEnum.idle, user);
-            this.usersService.setUserStatus(data.userId, statusEnum.idle);
+			this.pool.changeStatus(statusEnum.connected, user);
+            this.usersService.setUserStatus(data.userId, statusEnum.connected);
 		}
 		this.server.to(socket.id).emit("leftRoom");
 	}
@@ -222,7 +218,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			}
 			else if (room.status === roomEnum.playing)
 			{
-				if (room.update() === roomEnum.end  && (now - updtime) >= 1000) {
+				if (room.update() === roomEnum.end) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -235,6 +231,10 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
 						roomId : room.roomId
 					});
+					this.usersService.setUserStatus(winner.id, statusEnum.connected);
+					this.usersService.setUserStatus(loser.id, statusEnum.connected);
+					this.pool.changeStatus(statusEnum.connected, winner);
+					this.pool.changeStatus(statusEnum.connected, loser);
 				}
 			}
 			else if (room.status === roomEnum.goal  && (now - updtime) >= 1000) {
@@ -243,6 +243,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.updateTime = now;
 			}
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
+			if (room.status == roomEnum.end)
+				this.rooms.delete(room.roomId);
 		}
 	}
 

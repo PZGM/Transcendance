@@ -101,7 +101,7 @@ export default class Room implements RoomDto
 		this.ball.update(now, this.playerOne, this.playerTwo);
 		
 		this.updateTime = Date.now();
-		this.duration = (this.updateTime - this.startingTime) / 1000;
+		this.duration = (this.updateTime - this.startingTime);
 		
 		if (this.ball.goal === 1 || this.playerOne.goal === this.maxGoal)
 		{

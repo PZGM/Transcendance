@@ -50,18 +50,17 @@ export class Player implements PlayerDTO {
 	{
         if (this.coor.dy > 0) {
 			if (this.coor.y > 0)
-				this.coor.y -= this.coor.setting.speed * now;
+				this.coor.y -= this.coor.speed * now;
 			else
 				this.coor.y = 0;
-			this.coor.dy = 0 // reset direction after move
+			//this.coor.dy = 0
 		}
-
 		if (this.coor.dy < 0) {
 			if (this.coor.y + this.width < screenSizeY)
-				this.coor.y += this.coor.setting.speed * now;
+				this.coor.y += this.coor.speed * now;
 			else
 				this.coor.y = screenSizeY - this.width;
-			this.coor.dy = 0 // reset direction after move
+		//	this.coor.dy = 0
 		}
 	}
 }

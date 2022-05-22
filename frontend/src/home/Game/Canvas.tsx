@@ -84,7 +84,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		});
 		document.addEventListener('ontouchstart', function(e) {e.preventDefault()}, false);
 		document.addEventListener('ontouchmove', function(e) {e.preventDefault()}, false);
-		this.loop = setInterval(this.looping.bind(this), 24);
+		this.loop = setInterval(this.looping.bind(this), 20);
 	}
 
 	updateCanvas()
@@ -158,8 +158,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		{
 			if (this.keystate['ArrowUp'] || this.keystate['KeyW'])
 				this.props.socket.key(this.props.userId, this.state.room.roomId, "Up")
-			if (this.keystate['ArrowDown'] || this.keystate['KeyS'])
+			else if (this.keystate['ArrowDown'] || this.keystate['KeyS'])
 				this.props.socket.key(this.props.userId, this.state.room.roomId, "Down")
+			else
+				this.props.socket.key(this.props.userId, this.state.room.roomId, "None")
 		}
 		this.props.socket.updateRoom(this.state.room.roomId);
 	}
