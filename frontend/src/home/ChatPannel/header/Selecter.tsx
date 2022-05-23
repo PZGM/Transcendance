@@ -59,7 +59,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	// }
 	
 	componentDidUpdate() {
-		if (this.state.name != window.location.pathname.split('/')[3])
+		if (this.state.name !== window.location.pathname.split('/')[3])
 	 		this.setState({name: window.location.pathname.split('/')[3]})
 	}
 
@@ -122,7 +122,7 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 							</Link>
 							<ButtonBase onClick={this.handleClick} style={{height: Hchan,fontSize: "large"}} >
 								<div className='bit9x9'>{this.state.name}</div>
-								<div>{(this.state.open == false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
+								<div>{(this.state.open === false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
 							</ButtonBase>
 							<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={this.handleClickAway}>
 								<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black"}} open={this.state.open} anchorEl={this.state.anchorEl}>

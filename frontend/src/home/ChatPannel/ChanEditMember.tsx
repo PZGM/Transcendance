@@ -1,15 +1,13 @@
-import { Box, Stack, Avatar } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Stack, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
 import '../../style/colors.css'
 import { UserDto } from "../../api/dto/user.dto";
-import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
-import { channel } from "diagnostics_channel";
 
 interface ChanEditMemberProps {
     user: UserDto,

@@ -3,7 +3,7 @@ import '../../style/display.css';
 import { Room } from '../../api/dto/game.dto';
 import Canvas from './Canvas';
 import { GameSocketAPI } from '../../api/GameSocket.api';
-import { Stack, Avatar } from "@mui/material";
+import { Stack } from "@mui/material";
 
 
 interface PlayProps {

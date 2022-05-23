@@ -1,5 +1,5 @@
-import { Box, Stack, Avatar } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Stack, Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
@@ -77,7 +77,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
-                        {props.grade && <div style={{color: (props.grade == 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
+                        {props.grade && <div style={{color: (props.grade === 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
                     </Stack>
                 </Stack>
                 {!props.isMe &&

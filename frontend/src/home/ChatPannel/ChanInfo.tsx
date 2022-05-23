@@ -1,14 +1,12 @@
-import { Stack, List } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ChanInfoMember from "./ChanInfoMember";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
-import { ThirtyFpsSharp } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 
 interface ChanInfoState {
