@@ -63,10 +63,6 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         this.socket.emit('spectateRoom', {userId, roomId});
     }
 
-    invitePlayer(inviteId: number, difficulty: Difficulty) {
-        this.socket.emit('roomInvite', {inviteId, difficulty});
-    }
-
     joinQueue(userId: number, difficulty: Difficulty) {
         this.socket.emit('joinQueue', {userId, difficulty});
     }

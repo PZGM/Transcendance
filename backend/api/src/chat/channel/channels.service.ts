@@ -188,10 +188,10 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (chanID === 1)
       return;
 
-    const isAdmin = channel.admin.some((adm) => { return adm.id === userID});
-    const isOwner = channel.owner.id === userID;
+    const isAdmin = channel.admin.some((adm) => { return adm.id == userID});
+    const isOwner = channel.owner.id == userID;
     const selfLeave = userID === rmID;
-    const removeAdmin = channel.admin.some((adm) => { return adm.id === rmID});
+    const removeAdmin = channel.admin.some((adm) => { return adm.id == rmID});
 
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {

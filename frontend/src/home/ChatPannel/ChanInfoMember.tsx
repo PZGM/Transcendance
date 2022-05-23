@@ -7,7 +7,6 @@ import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
 import { GameSocketAPI } from "../../api/GameSocket.api";
-import InviteGame from "./tools/InviteGame"
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
@@ -21,8 +20,8 @@ enum color {
 enum description {
     'unknow',
     'offline',
-    'invite idle',
-    'invite',
+    'playing',
+    'connected',
     'watch match'
 }
 
@@ -66,19 +65,6 @@ function ChanInfoMember(props: ChanInfoUserProps) {
 
     const [isFriend, setFriendship] = useState(props.isFriend);
     const [status, setStatus] = useState(props.member.status);
-    const [openInvite, setOpenInvite] = React.useState(false);
-
-    const handleCancelInvite = () =>
-    {
-        setOpenInvite(false);
-    }
-
-    const inviteHandler = () => {
-        if (status === 2 || status === 3) {
-            props.gameSocket.invitePlayer(props.member.id, 2);
-            setOpenInvite(true)
-        }
-    }
 
     const toggleFriendship = async () => {
         if (isFriend)
@@ -100,7 +86,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 </Stack>
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                    <div className={`renderrow_button but_${color[status]}`} onClick={inviteHandler}>
+                    <div className={`renderrow_button but_${color[status]}`}>
                         <div className='bit5x5' > {description[status]} </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
@@ -111,9 +97,6 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     </div>
                 </Stack>}
             </Stack>
-            <Dialog open={openInvite} onClose={handleCancelInvite}>
-                <InviteGame close={handleCancelInvite} p1={props.member.login}/>
-            </Dialog>
 
         </div>
     );

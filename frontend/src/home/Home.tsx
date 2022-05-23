@@ -6,13 +6,12 @@ import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
-import { Selecter } from "./ChatPannel/header/Selecter";
 import { GameSocketAPI } from "../api/GameSocket.api";
 import { Room } from "../api/dto/game.dto";
+import Selecter from "./ChatPannel/header/Selecter";
 
 
 interface HomeProps {
@@ -36,7 +35,6 @@ interface HomeState {
 	room?: Room
 }
 
-
 export const get_env = () : string => {
 	let str = process.env.REACT_APP_SETTINGS;
 	if (str)
@@ -51,8 +49,9 @@ export class Home extends Component<HomeProps, HomeState> {
 	constructor(props: HomeProps) {
 		super(props);
 		
-		this.gameSocket = new GameSocketAPI({receiveGameRoom: this.receiveGameRoom.bind(this),
-											updateRoom: this.updateRoom.bind(this)})
+		this.gameSocket = new GameSocketAPI({
+								receiveGameRoom: this.receiveGameRoom.bind(this),
+								updateRoom: this.updateRoom.bind(this))
 
 		this.state = {
 			avatar: undefined,
@@ -92,6 +91,10 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.setState({room})
 	}
 
+	receiveInvitation(roomId: Room) {
+		
+	}
+
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
 		if (resp)
@@ -124,7 +127,7 @@ export class Home extends Component<HomeProps, HomeState> {
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
-					<Selecter ></Selecter>
+					<Selecter/>
 					<Outlet/>
 				</Stack>
 			</div>

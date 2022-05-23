@@ -21,8 +21,8 @@ export default class Pool {
     }
 
     findById(userId: number) : UserDto {
-        return this.pool.find(resu => resu.id === userId) ?
-            this.pool.find(resu => resu.id=== userId) : null;
+        return this.pool.find(resu => resu.id == userId) ?
+            this.pool.find(resu => resu.id == userId) : null;
     }
 
     find(user: UserDto): UserDto {

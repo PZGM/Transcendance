@@ -35,7 +35,7 @@ function BlockUser(props) {
 			<div className={"home_button but_red"} onClick={()=> {setOpenBlock(true)}}>
 				<div className='bit5x5'> Block </div>
 			</div>
-			<Dialog open={openBlock} onClose={handleCancelBlock}>
+			<Dialog open={openBlock} onClose={handleCancelBlock} >
 				<DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
 					<Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
 						<div className='bit5x5' style={{color: "white"}}> For how long ? </div>

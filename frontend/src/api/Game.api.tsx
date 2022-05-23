@@ -1,16 +1,29 @@
 import { Difficulty } from './dto/game.dto';
 
-// export class GameAPI {
+export const URL_ME = () => {
+	return process.env.REACT_APP_URL_ME; // will return API URL in .env file.
+  };
 
-// 	public static async invitePlayer(inviteId: number, difficulty: Difficulty) {
-// 		const resp = await fetch(`${process.env.REACT_APP_INVITE_PLAYER}`, {
-// 			method: "GET", . 
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({inviteId, difficulty}),
-//             credentials: "include"
-// 		})
-// 		.then(response => {return response.json()})
-// 		.then(json => {return json});
-// 		return resp;
-// 	}
-// }
+
+  function handleErrors(response) {
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+	if (response.ok)
+    	return response;
+}
+
+export class GameAPI {
+
+	public static async acceptInvitation(senderId: number, receiverId: number, difficulty: Difficulty) {
+		let ret = true;
+		await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
+			method: "PUT",
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ senderId, receiverId, difficulty }),
+			credentials: "include"})
+			.then(handleErrors)
+		return ret;
+	}
+
+}

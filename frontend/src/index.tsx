@@ -16,7 +16,7 @@ import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
 import { UserInfo } from './home/ChatPannel/UserInfo'
-import { ChanInfo } from './home/ChatPannel/ChanInfo'
+import ChanInfo from './home/ChatPannel/ChanInfo'
 import { ChanEdit } from './home/ChatPannel/ChanEdit'
 import { ChanAddUser } from './home/ChatPannel/ChanAddUser'
 
@@ -64,7 +64,7 @@ ReactDOM.render(
       <Routes>
         
         <Route path="/" element={<App />} />
-          
+
           <Route path="/" element={<App />} />
             
             <Route element={<Frame/>}>
@@ -84,14 +84,6 @@ ReactDOM.render(
               <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
           </Route>
 
-          <Route path="home" element={<Home/>} >
-            <Route path="chat/:name/info" element={<WrapperChanInfo/>} />
-            <Route path="user/:name/info" element={<WrapperUserInfo/>} />
-            <Route path="chat/:name/edit" element={<WrapperChanEdit/>} />
-            <Route path="chat/:name/add" element={<WrapperChanAddUser/>} />
-            <Route path="chat/:name" element={<WrapperChat isPrivateMessage={false}/>} />
-            <Route path="message/:name" element={<WrapperChat isPrivateMessage={true}/>} />
-        </Route>
         <Route path="init" element={<UserInit/>} />
         <Route path="2fa" element={<Twofa/>} />
         <Route path="*" element={<NotFound/>} />

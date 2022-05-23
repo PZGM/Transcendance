@@ -1,7 +1,7 @@
 import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
-import { Component, useState} from "react";
-import { Link, Navigate, useOutletContext } from "react-router-dom";
+import { Component} from "react";
+import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import InfoIcon from '@mui/icons-material/Info';
@@ -15,65 +15,51 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { ChannelDto } from "../../api/dto/channel.dto";
 import "../../style/input.css"
-import { GameSocketAPI } from "../../api/GameSocket.api";
+import Invite from "./tools/InviteUser"
 
-// interface ChatState {
-// 	socket: any;
-// 	messages: MessageDto[];
-// 	input: string;
-// 	chan: any;
-// 	users: UserDto[];
-// 	user: any,
-// }
+interface ChatState {
+	socket: any;
+	messages: MessageDto[];
+	input: string;
+	chan: any;
+	users: UserDto[];
+	user: any,
+}
 
 interface ChatProps {
     isPrivateMessage: boolean,
-	params: any,
-	context: GameSocketAPI
+	params: any
 };
 
-function Chat (props: ChatProps)
-{
-	const chanName: string = '';
+export class Chat extends Component<ChatProps, ChatState> {
+	chatSocket: ChatSocketAPI;
+	chanName: string = '';
 
-	const onMessage = (message: any) => {
-		messages.push(message);
-		setMsg(messages);
-	}
-
-	const onService = async (message: any) => {
-		message.service = true;
-		if (message.content === 'JOIN') {
-			const user = await UserAPI.getUserById(message.authorId);
-			if (user == null) {
-				throw(Error('unknow new user'));
-			}
-			users.push(user);
+	constructor(props: ChatProps) {
+		super(props);
+		this.chatSocket = new ChatSocketAPI({receiveMessage: this.onMessage.bind(this),
+											transmitService: this.onService.bind(this)});
+        this.state = {
+			messages: [],
+			socket: null,
+			input: '',
+			users: [],
+			user: undefined,
+			chan: undefined
 		}
-
-		messages.push(message);
-		setMsg(messages);
 	}
 
-	const chatSocket = new ChatSocketAPI({receiveMessage: onMessage,
-											transmitService: onService});
-	const [messages, setMsg] = useState<MessageDto[]>([]);
-	const gameSocket: GameSocketAPI = useOutletContext();
-	console.log(gameSocket)
-	const [input, setInput] = useState('');
-	const [users, setUsers] = useState<UserDto[]>([]);
-	const [user, setUser] = useState<any>(undefined);
-	const [chan, setChan] = useState<any>(undefined);
-
-	const onInputChange = (input) => {
-		setInput(input);
+	onInputChange(input){
+		this.setState({
+			input
+		})
 	}
 
-	const renderMsg = (list) =>
+	renderMsg(list)
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: MessageDto) => {
-			const sender:UserDto|undefined = users.find((user) => {return user.id === msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
@@ -115,6 +101,13 @@ function Chat (props: ChatProps)
 				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
 			</Stack>)
 
+			if (msg.service && msg.content === 'INVITED')
+			return (
+			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<StarOutlineIcon sx={{width: "68px", color: 'yellow'}}/>
+				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
+			</Stack>)
+
 			if (isFirst)
             return <Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
                         <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
@@ -131,76 +124,89 @@ function Chat (props: ChatProps)
         return listItems;
     }
 
-	const onKeyDown = (e) => {
-		if (e.keyCode === 13)
-			sendMessage(chanName);
+	onMessage(message: any) {
+		this.state.messages.push(message);
+		this.setState({
+			messages: this.state.messages
+		})
 	}
 
-	const onFocus = (e) => {
+	async onService(message: any) {
+		message.service = true;
+		if (message.content === 'JOIN') {
+			const user = await UserAPI.getUserById(message.authorId);
+			if (user == null) {
+				throw(Error('unknow new user'));
+			}
+			this.state.users.push(user);
+		}
+
+		this.state.messages.push(message);
+		this.setState({
+			messages: this.state.messages
+		})
+	}
+
+	onKeyDown(e) {
+		if (e.keyCode === 13)
+			this.sendMessage(this.chanName);
+	}
+
+	onFocus(e) {
 		if (e.relatedTarget){}
 	}
 
-    const sendMessage = (chanName: string) => {
-		if (chanName && input !== '') {
-			chatSocket.sendMessage(chan.id, input, user.id);
-			setInput('')
+    sendMessage(chanName: string) {
+		if (chanName && this.state.input !== '') {
+			this.chatSocket.sendMessage(this.state.chan.id, this.state.input, this.state.user.id);
+			this.setState({
+				input: ''
+			});
 		}
     }
 
-	const switchChannel = async (newChannelName: string) => {
-		const chanName = newChannelName;
+	async switchChannel(newChannelName: string){
+		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
-		const channel: ChannelDto = await ChatAPI.getChannelByName(chanName, {withAdmin: true, withOwner: true});
+		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
 		if (!channel) {
 			return;
 		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
-		chatSocket.joinRoom(channel.id);
-		
-		setUsers(channel.users)
-		setUser(user)
-		setChan(channel)
-		setMsg(messages)
+		this.chatSocket.joinRoom(channel.id);
+		this.setState({
+			users: channel.users,
+			user,
+			chan: channel,
+			messages
+		});
 	}
 
-	if (chanName !== props.params.name) {
-		if (!switchChannel(props.params.name))
-		{
-			return <Navigate to='404' />
+	render () {
+		if (this.chanName !== this.props.params.name) {
+			if (!this.switchChannel(this.props.params.name))
+			{
+				return <Navigate to='404' />
+			}
 		}
+		return (
+            <>
+                <Box height="87.5%">
+					<ol>
+						{this.renderMsg(this.state.messages)}
+					</ol>
+				</Box>
+				<Box height="50px" sx={{backgroundColor: "black"}}>
+					<Stack direction="row" spacing={2} sx={{backgroundColor: "black"}}>
+						<Invite/>
+						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
+						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
+							<img src={require('../../asset/images/xwhite.png')} style={{width: '75%'}} alt='cross'/>
+						</div>
+					</Stack>
+				</Box>
+            </>
+
+		)
 	}
-	return (
-		<>
-			<Box height="87.5%">
-				<ol>
-					{renderMsg(messages)}
-				</ol>
-			</Box>
-			<Box height="50px" sx={{backgroundColor: "black"}}>
-				<Stack direction="row"
-					spacing={2}
-					sx={{backgroundColor: "black"}}
-				>
-					<input	className="chat_bar"
-							placeholder="Write message"
-							value={input}
-							onKeyDown={(e) => {onKeyDown(e)}}
-							onChange={(e) => {onInputChange(e.target.value)}}
-					/>
-					
-					<div className="send_msg_button but_green"
-						onClick={ () => {sendMessage(chanName)}}
-					>
-						<img src={require('../../asset/images/xwhite.png')}
-							style={{width: '75%'}}
-							alt='cross'/>
-					</div>
-				
-				</Stack>
-			</Box>
-		</>
-
-	)
 }
-
-export default Chat;

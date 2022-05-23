@@ -134,21 +134,23 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         }
 	}
 
-	@SubscribeMessage('roomInvite')
-	async handleRoomInvite(@ConnectedSocket() socket: Socket, @MessageBody() data : { inviteId : number, difficulty: Difficulty } ) {
-		const user : User = await this.usersService.getOneBySocket(socket.id);
-		const guest : User = await this.usersService.getOne(data.inviteId);
-		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing)
+	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {
+		const user : User = await this.usersService.getOne(senderId);
+		const guest : User = await this.usersService.getOne(receiverId);
+		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing &&
+			this.pool.find(user) && this.pool.find(guest))
 		{
-			const roomId = `${data.difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
+
+			const roomId = `${difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
 			const room = new Room(roomId, Difficulty.Easy, user, guest);
 			this.rooms.set(roomId, room);
-			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
-			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room.toFront());
-			this.logger.log(`You succesfully invited ${guest.login} !`);
+			this.server.to(user.socketId).emit("inviteGame", room.toFront());
+			this.server.to(guest.socketId).emit("inviteGame", room.toFront());
+
+			return true;
 		}
-		else
-			this.server.to(socket.id).emit("Error invite");
+
+		return false;
 	}
 
     @SubscribeMessage('joinQueue')
@@ -251,7 +253,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
 		const room: Room = this.rooms.get(data.roomId);
-		if (room && room.playerOne.user.id === data.userId)
+		if (room && room.playerOne.user.id == data.userId)
 		{
 			if (data.key === 'Up')
 				room.playerOne.coor.dy = 1;
@@ -261,7 +263,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.playerOne.coor.dy = 0;
 
 		}
-		else if (room && room.playerTwo.user.id === data.userId)
+		else if (room && room.playerTwo.user.id == data.userId)
 		{
 			if (data.key === 'Up')
 				room.playerTwo.coor.dy = 1;
