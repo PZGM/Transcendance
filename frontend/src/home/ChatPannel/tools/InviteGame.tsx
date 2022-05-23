@@ -18,6 +18,7 @@ enum Difficulty {
 	Hard
 }
 
+
 function InviteGame(props) {
     // le temps est en min pour l'instant
     const [dif, setDif] = React.useState(Difficulty[0])

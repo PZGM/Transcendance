@@ -49,7 +49,7 @@ function MuteBan(props) {
             <div className={"renderrow_button but_red"} onClick={()=> {setOpenBan(true)}}>
                 <div className='bit5x5'> BAN </div>
             </div>
-            <Dialog open={openMute} onClose={handleCancelMute}>
+            <Dialog open={openMute} onClose={handleCancelMute} >
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
                         <div className='bit5x5' style={{color: "white"}}> For how long ? </div>
