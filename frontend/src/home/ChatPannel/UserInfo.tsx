@@ -31,7 +31,7 @@ function StatElement(props) {
 		<Stack direction="row"
 			justifyContent="space-evenly"
             alignItems="center"
-        	sx={{width: '90%', fontSize: '2rem'}}
+        	sx={{width: '90%', fontSize: '1.5vw'}}
 			className={"bit9x9 " + props.color} >
 			<div>{props.logo}</div>
 			<div>{props.name}</div>
@@ -166,18 +166,12 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                     <Stack direction="column" justifyContent="center" alignItems="center" spacing={5}>
                         <Avatar sx={{	width: '10.4vw',
 										height: '10.4vw'}} variant='circular' alt="" src={this.state.user.avatar}/>
-                        <Typography variant="h3" color="white">
-                            <div className='backto1982'>{this.state.login}</div>
-                        </Typography>
+                        <div className='backto1982' style={{color: this.state.user.color, fontSize: "2vw"}}>{this.state.login}</div>
                         <Stack direction="row" justifyContent="center" alignItems="center">
-                            <Typography variant="h4" color="white">
-                                <div className='arcade'> {"Status > "} </div>
-                            </Typography>
-                            <Typography variant="h4" color={colors.get(this.state.status)}>
-                                <div className='arcade'> {description.get(this.state.status)} </div>
-                            </Typography>
+                            <div className='arcade' style={{color: "white", fontSize: "1.5vw"}}> {"Status > "} </div>
+                            <div className='arcade' style={{color: colors.get(this.state.status), fontSize: "1.5vw"}}> {description.get(this.state.status)} </div>
                         </Stack>
-                        <Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1}>
+                        <Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1} sx={{fontSize: "0.6vw"}}>
                             <div className={"home_button but_" + colors.get(this.state.status)} >
                                 <div className='bit5x5'> {action.get(this.state.status)} </div>
                             </div >
@@ -190,7 +184,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                             <BlockUser/>
                         </Stack>
                         <Box sx={{ p: 1, border: '3px solid grey' }} width="15vw">
-                            <Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2}>
+                            <Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2} >
                                 <StatElement color="red" logo={<GamepadIcon style={IconStyle}/>} name="games" data={this.state.user.stats.games} />
                                 <StatElement color="green" logo={<EmojiEventsIcon style={IconStyle}/>} name="wins" data={this.state.user.stats.gameWins} />
                                 <StatElement color="blue" logo={<FaceIcon style={IconStyle}/>} name="avg_time" data={this.state.user.stats.durationAverage} />

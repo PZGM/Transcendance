@@ -16,7 +16,7 @@
 .chat_bar {
 	color: white;
 	/* 0.1vw for avoid the box-shadow to overlap */
-	width: 85%;
+	width: 70%;
 	font-size: 1rem;
 	/* Consider border as part of the content */
 	box-sizing: border-box;
