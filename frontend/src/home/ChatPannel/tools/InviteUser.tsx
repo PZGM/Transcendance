@@ -48,15 +48,17 @@ function Invite(props) {
 
 	const handleInvite= () =>
 	{
+		
 		setOpenInvite(false);
 	}
 
 	return (
 		<>
-			<div className={"home_button but_" + color[props.status]} onClick={()=> {if (props.status === 2 || props.status === 3) {setOpenInvite(true);}}}>
-				<div className='bit5x5'> {description[props.status]} </div>
+			<div className="send_msg_button but_green" onClick={ () => {setOpenInvite(true)}}>
+				<img src={require('../../../asset/images/logo512.png')} style={{width: '100%'}} alt='cross'/>
 			</div>
-			<Dialog open={openInvite} onClose={handleCancelInvite} sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
+
+			<Dialog open={openInvite} onClose={handleCancelInvite}>
 				<DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
 					<Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
 						<div className='bit5x5' style={{color: "white"}}> {"Play against " + props.p1} </div>

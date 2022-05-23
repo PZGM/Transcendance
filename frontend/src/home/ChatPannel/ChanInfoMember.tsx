@@ -20,8 +20,8 @@ enum color {
 enum description {
     'unknow',
     'offline',
-    'invite idle',
-    'invite',
+    'playing',
+    'connected',
     'watch match'
 }
 
@@ -90,7 +90,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 </Stack>
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                    <div className={`renderrow_button but_${color[status]}`} onClick={() => {if (status === 2 || status === 3) {setOpenInvite(true);}}}>
+                    <div className={`renderrow_button but_${color[status]}`}>
                         <div className='bit5x5' > {description[status]} </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
