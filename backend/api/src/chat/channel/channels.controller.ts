@@ -7,6 +7,7 @@ import { ChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 import passport from 'passport';
 import { QueryResult } from 'typeorm';
+import { userInfo } from 'os';
 
 @ApiTags('Channel')
 @Controller('channels')
@@ -44,6 +45,13 @@ export class ChannelsController {
       withOwner: query.withOwner === 'true',
     }
     const channel = await this.channelsService.getOneByName(name, options);
+    if (channel && !channel.users.some((user) => {return user.id == request.user.id })) {
+      channel.chats = [];
+      channel.admin = [];
+      channel.users = [];
+      channel.chats = [];
+      channel.owner = null;
+    }
     if (channel)
       return new ChannelDto(channel);
     return null;
