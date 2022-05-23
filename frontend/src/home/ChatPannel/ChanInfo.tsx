@@ -56,9 +56,9 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 	renderRowsUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
-			if (this.state.channel?.owner.id === a.id)
+			if (this.state.channel?.owner?.id === a.id)
 				return -1;
-			if (this.state.channel?.owner.id === b.id)
+			if (this.state.channel?.owner?.id === b.id)
 				return 1;
 			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
 				return -1;
@@ -92,7 +92,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
 		this.setState({
-			redirect: '/home'
+			redirect: '/home/chat/general'
 		})
 	}
 
@@ -125,12 +125,18 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</li>
 					</Stack>
 				</Stack>
-				{this.state.channel.id !== 1 &&
+
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
+					{(this.state.channel.name !== "general")?
 					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
 					</div>
-				</Stack>}
+					:
+					<div className="add_user_button but_grey" >
+						<div className='bit5x5'>Leave</div>
+					</div>
+					}
+				</Stack>
 			</>
 
 		)

@@ -46,7 +46,6 @@ export class Game extends Component<GameProps, GameState>
 		this.setState({
 			display: type
 		})
-		// console.log('updateDisplay')
 	}
 
 	display()

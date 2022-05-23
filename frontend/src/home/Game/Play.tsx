@@ -19,7 +19,7 @@ interface PlayState {
 export class Play extends Component<PlayProps, PlayState>
 {
 	render () {
-		console.log('RENDER PLAY')
+		//console.log('RENDER PLAY')
 		
 		if (!this.props.room)
 			return (
@@ -28,8 +28,6 @@ export class Play extends Component<PlayProps, PlayState>
 		else
 			return (
 				<Stack direction="column"
-					justifyContent="space-evenly"
-					spacing={4}
 				>
 					
 					<Stack direction='row'

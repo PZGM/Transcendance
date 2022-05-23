@@ -13,7 +13,7 @@ export class PInit
 		this.user = user;
 		this.difficulty = difficulty;
 		this.color = user.color;
-		this.x = ( n == 1) ? 30 : screenSizeX - 30;
+		this.x = ( n == 1) ? 15 : screenSizeX - 30;
 	}
 }
 
@@ -36,7 +36,6 @@ export class Player implements PlayerDTO {
 		}
 
 		this.width = this.coor.setting.width;
-		// correction Y -> X
 		this.coor.y = ((screenSizeY / 2) - (this.width / 2))
 		this.coor.speed = this.coor.setting.speed;
 		this.user = pInit.user;
@@ -51,18 +50,17 @@ export class Player implements PlayerDTO {
 	{
         if (this.coor.dy > 0) {
 			if (this.coor.y > 0)
-				this.coor.y -= this.coor.setting.speed * now;
+				this.coor.y -= this.coor.speed * now;
 			else
 				this.coor.y = 0;
-			this.coor.dy = 0 // reset direction after move
+			//this.coor.dy = 0
 		}
-
 		if (this.coor.dy < 0) {
 			if (this.coor.y + this.width < screenSizeY)
-				this.coor.y += this.coor.setting.speed * now;
+				this.coor.y += this.coor.speed * now;
 			else
 				this.coor.y = screenSizeY - this.width;
-			this.coor.dy = 0 // reset direction after move
+		//	this.coor.dy = 0
 		}
 	}
 }

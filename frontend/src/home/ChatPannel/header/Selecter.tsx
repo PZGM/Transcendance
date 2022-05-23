@@ -9,9 +9,9 @@ import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useLocation } from 'react-router-dom';
 
 interface SelecterProps {
-	channelName: string;
 };
 
 interface SelecterState {
@@ -25,7 +25,6 @@ interface SelecterState {
 let Hbar = "3.8vh";
 let Hi = 15;
 let Hchan = 25;
-
 
 export class Selecter extends Component<SelecterProps, SelecterState> {
 	backdropopen: boolean = false;
@@ -59,19 +58,13 @@ export class Selecter extends Component<SelecterProps, SelecterState> {
 	// }
 	
 	componentDidUpdate() {
-		if (this.state.name != window.location.pathname.split('/')[3])
-	 		this.setState({name: window.location.pathname.split('/')[3]})
+		// if (this.state.name != <ChangeName/>)
+	 	// 	this.setState({name: <ChangeName/>})
 	}
 
 	updateName(name: string) {
 		this.setState({
 			name
-		})
-	}
-
-	changeName() {
-		this.setState({
-			name: window.location.pathname.split('/')[3]
 		})
 	}
 

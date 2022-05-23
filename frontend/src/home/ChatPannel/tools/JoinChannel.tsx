@@ -7,21 +7,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { WhatsappOutlined } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { UserAPI } from '../../../api/Users.api';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface JoinChannelProps{
     setOpen: any,
+    close: any,
 }
 
 function JoinChannel(props: JoinChannelProps) {
     const [name, setName] = React.useState("");
     const [visibility, setVisibility] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [redirect, setRedirect] = React.useState('');
 
     const cancel = () => {
         props.setOpen(false);
     }
+
+    let navigate = useNavigate();
 
     const find = async () => {
         const me = await UserAPI.getUser();
@@ -70,7 +72,8 @@ function JoinChannel(props: JoinChannelProps) {
                 setVisibility("")
                 setPassword("")    
                 props.setOpen(false);
-                setRedirect(`/home/chat/${name}`);
+                navigate(`/home/chat/${name}`);
+                props.close();
             }
             else {
                 toast.error("Can't join the channel", {
@@ -111,8 +114,8 @@ function JoinChannel(props: JoinChannelProps) {
                             <div className='bit5x5' > Return </div>
                         </div>
                         { (visibility !== 'private') &&
-                        <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
-                            <div onClick={join} className='bit5x5'> join </div>
+                        <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}  onClick={join}>
+                            <div className='bit5x5'> join </div>
                         </div>
                         }
                     </Stack>

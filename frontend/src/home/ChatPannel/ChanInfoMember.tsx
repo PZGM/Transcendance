@@ -1,4 +1,4 @@
-import { Box, Stack, Avatar } from "@mui/material";
+import { Box, Stack, Avatar, Dialog } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
@@ -7,7 +7,7 @@ import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
 import { GameSocketAPI } from "../../api/GameSocket.api";
-
+import InviteGame from "./tools/InviteGame"
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
@@ -42,6 +42,8 @@ interface StatusData {
 function ChanInfoMember(props: ChanInfoUserProps) {
     let eventSource;
 
+
+
     useEffect(() => {
         //component will mount
         eventSource = new EventSource((process.env.REACT_APP_UPDATE_STATUS as string) + props.member.id, {withCredentials: true});
@@ -64,10 +66,18 @@ function ChanInfoMember(props: ChanInfoUserProps) {
 
     const [isFriend, setFriendship] = useState(props.isFriend);
     const [status, setStatus] = useState(props.member.status);
+    const [openInvite, setOpenInvite] = React.useState(false);
+
+    const handleCancelInvite = () =>
+    {
+        setOpenInvite(false);
+    }
 
     const inviteHandler = () => {
-        if (status === 1 || status === 2)
-            props.gameSocket.roomInvite(props.member.id, 2);
+        if (status === 2 || status === 3) {
+            props.gameSocket.invitePlayer(props.member.id, 2);
+            setOpenInvite(true)
+        }
     }
 
     const toggleFriendship = async () => {
@@ -90,18 +100,21 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 </Stack>
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
-                    {/* Invite button */}
                     <div className={`renderrow_button but_${color[status]}`} onClick={inviteHandler}>
                         <div className='bit5x5' > {description[status]} </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
                         <div className='bit5x5'> SEND MESSAGE </div>
                     </Link>
-                    <div className={"renderrow_button but_" + ((isFriend) ? "red" : "green")}>
-                        <div className='bit5x5' onClick={toggleFriendship}> {(isFriend) ? "remove friend" : "add friend"} </div>
+                    <div className={"renderrow_button but_" + ((isFriend) ? "red" : "green")} onClick={toggleFriendship}>
+                        <div className='bit5x5' > {(isFriend) ? "remove friend" : "add friend"} </div>
                     </div>
                 </Stack>}
             </Stack>
+            <Dialog open={openInvite} onClose={handleCancelInvite}>
+                <InviteGame close={handleCancelInvite} p1={props.member.login}/>
+            </Dialog>
+
         </div>
     );
 }

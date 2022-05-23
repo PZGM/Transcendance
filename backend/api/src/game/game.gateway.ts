@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { Logger } from '@nestjs/common';
+import { Logger, SerializeOptions } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import Queue from './components/queue';
 import Room from './components/room';
@@ -11,6 +11,7 @@ import { RoomDto, roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
+import { waitForDebugger } from 'inspector';
 
 @WebSocketGateway({namespace: '/game', cors: true})
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -32,7 +33,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			let playerTwo: UserDto
 			let roomId: string
 			let room: Room
-			// console.log(`queue: ${this.queue.sizeEasy()}`)
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
@@ -76,11 +76,11 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				{
                     if (room.status < roomEnum.end) {
                         if(room.isPlayerOne(user) && room.playerTwo) {
-                            room.playerTwo.goal == 10;
+                            room.playerTwo.goal = 10;
                             room.update();
                         }
                         if(room.isPlayerTwo(user) && room.playerOne) {
-                            room.playerOne.goal == 10;
+                            room.playerOne.goal = 10;
 							room.update();
 						}
 					}
@@ -97,10 +97,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() data : {userId : number}) {
 		const user : UserDto = await this.usersService.getOne(data.userId);
 		this.logger.log(`${user.login} i'm back`)
-        this.rooms.forEach((room: Room) => {
-			if (room.isPlayer(user) && room.status !== 3)
-				return ;
-		});
 		user.socketId = socket.id;
 		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
@@ -119,7 +115,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if (room.isPlayer(user)) {
 				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
 				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
-				// console.log(room)
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
@@ -203,8 +198,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
                     }
                 }
             }
-			this.pool.changeStatus(statusEnum.idle, user);
-            this.usersService.setUserStatus(data.userId, statusEnum.idle);
+			this.pool.changeStatus(statusEnum.connected, user);
+            this.usersService.setUserStatus(data.userId, statusEnum.connected);
 		}
 		this.server.to(socket.id).emit("leftRoom");
 	}
@@ -214,15 +209,16 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
-			const now = Date.now();
-			if (room.status === roomEnum.waiting  && (now  - room.updateTime) >= 1000) {
+			let now = Date.now();
+			const updtime = room.updateTime;
+			if (room.status === roomEnum.waiting  && (now  - updtime) >= 1000) {
 				room.startingTime = now;
 				room.updateTime = now;
 				room.status = roomEnum.playing;
 			}
 			else if (room.status === roomEnum.playing)
 			{
-				if (room.update() === roomEnum.end  && (now - room.updateTime) >= 1000) {
+				if (room.update() === roomEnum.end) {
 					const winner = await this.usersService.getOne(room.winner.id);
 					const loser = await this.usersService.getOne(room.loser.id);
 					await this.historyService.createGameHistory({
@@ -235,15 +231,20 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
 						roomId : room.roomId
 					});
+					this.usersService.setUserStatus(winner.id, statusEnum.connected);
+					this.usersService.setUserStatus(loser.id, statusEnum.connected);
+					this.pool.changeStatus(statusEnum.connected, winner);
+					this.pool.changeStatus(statusEnum.connected, loser);
 				}
 			}
-			else if (room.status === roomEnum.goal  && (now - room.updateTime) >= 1000) {
+			else if (room.status === roomEnum.goal  && (now - updtime) >= 1000) {
 				room.reset();
 				room.status = roomEnum.playing;
 				room.updateTime = now;
 			}
-			// console.log(room.toFront());
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
+			if (room.status == roomEnum.end)
+				this.rooms.delete(room.roomId);
 		}
 	}
 

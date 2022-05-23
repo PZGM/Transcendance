@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import '../App.css';
 import '../style/style.css'
 import '../style/home.css'
+import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-import { MyInfos } from "./ChatPannel//header/MyInfos";
+
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
@@ -21,6 +22,7 @@ interface HomeProps {
 interface HomeState {
 	avatar?: string,
 	login?: string,
+	color?: string,
 	// display?: number;
 	// displayId?: number;
 	// numberBack?: number;
@@ -55,6 +57,7 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.state = {
 			avatar: undefined,
 			login: undefined,
+			color: undefined,
 			// display: 0,
 			// displayId: undefined,
 			// winnerId: 0,
@@ -89,23 +92,13 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.setState({room})
 	}
 
-	// async updateHomeState({login, avatar} : HomeState) {
-	// 	if (login)
-	// 		this.setState({
-	// 			login: login,
-	// 		})
-	// 	if (avatar)
-	// 	this.setState({
-	// 		avatar: avatar,
-	// 	})
-	// }
-
 	async fetchUser() {
 		const resp = await UserAPI.getUser();
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
+				color: resp.color,
 				userStatus: resp.status
 			})
 	}
@@ -120,63 +113,6 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.getChannel();
 	}
 
-
-	// updateDisplay(type: number, id: any, numberBack: number) {
-	// 	this.setState({
-	// 		display: type,
-	// 		displayId: id,
-	// 		numberBack: numberBack,
-	// 	})
-	// }
-
-	/*async createNewGame() {
-        UserAPI.createNewGame({
-			winnerId: this.state.winnerId,
-			loserId: this.state.loserId,
-			winnerScore: this.state.winnerScore,
-			loserScore: this.state.loserScore,
-			duration: this.state.duration,
-			roomId: "test",
-			createdDate: new Date(Date.now()),
-			players : [],
-		})
-    }*/
-
-    // handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const log = e.target.value;
-    //     this.setState({
-    //         winnerId: +log
-    //     })
-    // }
-
-	// handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const log = e.target.value;
-    //     this.setState({
-    //         winnerScore: +log
-    //     })
-    // }
-
-	// handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const log = e.target.value;
-    //     this.setState({
-    //         loserId: +log
-    //     })
-    // }
-
-	// handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const log = e.target.value;
-    //     this.setState({
-    //         loserScore: +log
-    //     })
-    // }
-
-	// handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     const log = e.target.value;
-    //     this.setState({
-    //         duration: +log
-    //     })
-    // }
-
 	render () {
 		return (
 			<div className="box">
@@ -187,8 +123,8 @@ export class Home extends Component<HomeProps, HomeState> {
 						gameSocket={this.gameSocket}/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
-					<MyInfos avatar={this.state.avatar} login={this.state.login}/>
-					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
+					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
+					<Selecter ></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>
