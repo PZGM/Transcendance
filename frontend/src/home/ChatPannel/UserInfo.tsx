@@ -10,6 +10,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
+import BlockUser from "./tools/Block"
 
 interface UserInfoState {
     user: UserDto | null;
@@ -186,6 +187,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
                             <div className={"home_button but_" + ((this.state.friend) ? "red" : "yellow")}  onClick={() => {this.changefriend()}}>
                                 {(this.state.friend) ? <div className='bit5x5'> Remove Friend </div> : <div className='bit5x5'> add Friend </div>}
                             </div>
+                            <BlockUser/>
                         </Stack>
                         <Box sx={{ p: 1, border: '3px solid grey' }} width="15vw">
                             <Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2}>
