@@ -59,7 +59,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: MessageDto) => {
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
@@ -162,11 +162,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
 		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
-		if (!channel) {
+		if (!channel || !user) {
 			return;
 		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
-		this.chatSocket.joinRoom(channel.id);
+		this.chatSocket.joinRoom(channel.id, user.id);
 		this.setState({
 			users: channel.users,
 			user,

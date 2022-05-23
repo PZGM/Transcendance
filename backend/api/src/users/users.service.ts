@@ -291,4 +291,16 @@ export class UsersService {
             return null;
         }
     }
+
+    public async userIsInChannel(userId: number, channelId: number): Promise<boolean> {
+        const channels: Channel [] = await (await this.getOne(userId, {withChannels: true})).joinedChannels;
+        console.log('channels :');
+        console.log(channels);
+        console.log(`user Id : ${userId} channel id : ${channelId}`)
+        if (!channels)
+            return false;
+        const ret = channels.some((channel) => {return channel.id == channelId});
+        console.log(`->ret ${ret}`)
+        return ret;
+    }
 }

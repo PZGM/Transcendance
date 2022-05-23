@@ -160,7 +160,7 @@ export class ChatAPI {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({channelId, adminId}),
             credentials: "include"})
-            .then(response => {console.log(response); return response.json()})
+            .then(response => {return response.json()})
             .then(json => {return json});
             return resp;
     }

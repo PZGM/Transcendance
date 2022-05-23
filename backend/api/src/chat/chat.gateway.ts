@@ -2,6 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { MessagesService } from './message/messages.service';
+import { UsersService } from 'src/users/users.service';
 
 interface MessageBody{
   chanId: number;
@@ -13,7 +14,7 @@ interface MessageBody{
 @WebSocketGateway({cors: {origin : 6200}, namespace: '/chat'})
 export class ChatGateway {
 
-  constructor(private readonly messageService: MessagesService){
+  constructor(private readonly messageService: MessagesService, private readonly userService: UsersService){
 
   }
 
@@ -62,12 +63,18 @@ export class ChatGateway {
     @ConnectedSocket() socket: Socket,
     @MessageBody() data: MessageBody
   ) {
+    if (!await this.userService.userIsInChannel(data.authorId, data.chanId))
+      return;
     let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
     this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service});
   }
 
   @SubscribeMessage('joinRoom')
-  handleJoinRoom(socket: Socket, data: any) {
+  async handleJoinRoom(socket: Socket, data: any) {
+    const ret = await this.userService.userIsInChannel(data.userId, data.id);
+    if (!ret){
+      return;
+    }
     socket.join('' + data.id);
     console.log(`Client [${socket.id}] joined Room ${data.id}`);
     socket.emit('joinedRoom', data.id);

@@ -27,10 +27,10 @@ function ChanEditMember(props: ChanEditMemberProps) {
     let eventSource;
     const [status, setStatus] = useState(props.member.status);
 
-    const userIsMember: boolean = props.user.id === props.member.id;
-    const userIsOwner: boolean = props.channel.owner.id === props.user.id;
-    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id === props.member.id}));
-    const memberIsOwner: boolean = props.channel.owner.id === props.member.id;
+    const userIsMember: boolean = props.user.id == props.member.id;
+    const userIsOwner: boolean = props.channel.owner.id == props.user.id;
+    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id == props.member.id}));
+    const memberIsOwner: boolean = props.channel.owner.id == props.member.id;
 
     useEffect(() => {
         //component will mount

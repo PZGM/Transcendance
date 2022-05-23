@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
-import { MessagesService } from './messages.service';
+import { MessagesService } from '../message/messages.service';
 import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Channel } from 'diagnostics_channel';
@@ -23,8 +23,11 @@ export class MessagesController {
 
   @Get('/channel/:id')
   async getMessagesByChannel(@Param('id') id: number, @Req() request: CustomRequest) {
+    console.log('====>')
+    console.log(request.user.id);
+    console.log(id);
     if (! await this.userService.userIsInChannel(request.user.id, id))
-      return [];
+      return;
     let messages = await this.messagesService.getByChan(id, 50);
     return messages.map((message) => {
       let ret = new MessageDto(message);
