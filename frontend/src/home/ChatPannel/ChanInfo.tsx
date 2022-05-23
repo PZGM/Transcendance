@@ -83,7 +83,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
 		this.setState({
-			redirect: '/home'
+			redirect: '/home/chat/general'
 		})
 	}
 
