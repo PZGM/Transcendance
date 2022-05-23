@@ -40,14 +40,14 @@ export class Game extends Component<GameProps, GameState>
 	async fetchUser() {
 		const user = await UserAPI.getUser()
 		if (user) {
-			console.log(user);
+			//console.log(user);
 			this.gameSocket.userConnection(user.id);
 			this.setState({ userId: user.id });
 		}
 	}
 
 	recieveGameRoom(room: Room) {
-		console.log(room);
+		//console.log(room);
 		this.setState({
 			display: 2,
 			room
@@ -55,15 +55,15 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateRoom (room: Room) {
-		console.log(`updateRoom`)
-		console.log(room)
+		//console.log(`updateRoom`)
+		//console.log(room)
 		if (room.pOneY != this.state.room?.pOneY) {
-			console.log(`newpOneY: ${room.pOneY}`)
-			console.log(`oldpOneY: ${this.state.room?.pOneY}`)
+		//	console.log(`newpOneY: ${room.pOneY}`)
+		//	console.log(`oldpOneY: ${this.state.room?.pOneY}`)
 		}
 		if (room.pTwoY != this.state.room?.pTwoY) {
-			console.log(`newpTwoY: ${room.pTwoY}`)
-			console.log(`oldpTwoY: ${this.state.room?.pTwoY}`)
+		//	console.log(`newpTwoY: ${room.pTwoY}`)
+		//	console.log(`oldpTwoY: ${this.state.room?.pTwoY}`)
 		}
 		this.setState({room})
 	}
@@ -72,7 +72,7 @@ export class Game extends Component<GameProps, GameState>
 		this.setState({
 			display: type
 		})
-		console.log('updateDisplay')
+		//console.log('updateDisplay')
 	}
 
 	display()

@@ -13,7 +13,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
 	constructor(props: GameSocketAPIProps) {
         super(props)
-        this.socket = io(`https://serv.pizzagami.fr:5333/game`, {secure: true});
+        this.socket = io(`${process.env.REACT_APP_GAME_SOCKET}`, {secure: true});
         this.socket.on('connection', () => {
             console.log("socket connected");
             this.socket.on('disconnect', (reason) => {

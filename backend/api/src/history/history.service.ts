@@ -45,6 +45,7 @@ export class HistoryService {
                 opponentEloScore: winner.stats.eloScore
             }
         )
+        this.gameRepository.save(game);
     }
 
     async getHistory(userId: number): Promise<Game[]> {
