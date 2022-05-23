@@ -3,12 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Channel, Mute } from 'src/typeorm';
 import { User } from 'src/typeorm';
-import { ChannelDto, CreateChannelDto, MutedUserDto, RelationsPicker } from 'src/dto/chat.dto';
+import { ChannelDto, CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto';
 import { UsersService } from 'src/users/users.service';
-import { createDecipheriv, createCipheriv } from 'crypto';
-import { UserDto } from 'src/dto/user.dto';
+import { createCipheriv } from 'crypto';
 import { ChatGateway } from '../chat.gateway';
-import { channel } from 'diagnostics_channel';
 
 @Injectable()
 export class ChannelsService {

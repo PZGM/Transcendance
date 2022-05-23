@@ -1,9 +1,7 @@
 import { Game } from '../typeorm/entities/game'
 import { UserDto } from './user.dto'
 import { CoorI } from 'src/game/components/coor';
-import { User } from 'src/typeorm';
 import { Player } from 'src/game/components/player';
-import { Ball } from 'src/game/components/ball';
 
 
 export enum roomEnum {

@@ -3,9 +3,7 @@ import { TwofaService } from 'src/auth/services/twofa/twofa.service';
 import { CustomRequest } from 'src/utils/types';
 import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { Response } from 'express';
-import { IntraAuthGuard } from '../auth/guards';
 import { TwofaCodeDto } from 'src/dto/twofaCode.dto';
-import { Request } from 'express';
 import { UsersService } from './../../../users/users.service'
 import { ApiTags } from '@nestjs/swagger';
 

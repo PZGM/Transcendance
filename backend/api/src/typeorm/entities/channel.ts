@@ -1,10 +1,8 @@
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { EncryptionTransformer } from "typeorm-encrypted";
 import { IsOptional } from "class-validator";
 import { Chat } from "./chat";
 import { User } from './user'
 import { Mute } from "./mutedUser";
-import { Optional } from "@nestjs/common";
   
   @Entity({ name: 'channel' })
   export class Channel {

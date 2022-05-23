@@ -5,8 +5,6 @@ import { CustomRequest } from 'src/utils/types';
 import { CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto';
 import { ChannelDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
-import passport from 'passport';
-import { QueryResult } from 'typeorm';
 
 @ApiTags('Channel')
 @Controller('channels')

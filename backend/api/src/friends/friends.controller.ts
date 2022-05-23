@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { CustomRequest } from 'src/utils/types';
-import { FriendsService } from './friends.service';
 import { UsersService } from './../users/users.service';
 import { UserDto } from 'src/dto/user.dto';
 import { FriendRequestDto } from 'src/dto/friend.dto';

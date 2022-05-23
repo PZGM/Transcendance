@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { GameDto } from 'src/dto/game.dto';
 import { UsersService } from 'src/users/users.service';
-import { CustomRequest, GameDetails } from 'src/utils/types';
+import { CustomRequest } from 'src/utils/types';
 import { HistoryService } from './history.service';
 
 @ApiTags('History')

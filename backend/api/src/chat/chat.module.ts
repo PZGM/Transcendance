@@ -1,5 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { ChannelsModule } from './channel/channels.module';
+import { Module } from '@nestjs/common';
 import { ChatGateway } from './chat.gateway';
 import { MessagesModule } from './message/messages.module';
 

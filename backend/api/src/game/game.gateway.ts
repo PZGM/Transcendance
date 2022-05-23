@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import { Logger, SerializeOptions } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import Queue from './components/queue';
 import Room from './components/room';
@@ -7,11 +7,10 @@ import { UserDto } from 'src/dto/user.dto';
 import {  User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
-import { RoomDto, roomEnum } from 'src/dto/game.dto';
+import { roomEnum } from 'src/dto/game.dto';
 import { statusEnum } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
-import { waitForDebugger } from 'inspector';
 
 @WebSocketGateway({namespace: '/game', cors: true})
 export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect

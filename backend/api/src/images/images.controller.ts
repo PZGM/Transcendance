@@ -3,11 +3,9 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import * as multer from 'multer';
 import path = require('path');
-import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { ImagesService } from './images.service';
 import { v4 as uuidv4 } from 'uuid';
-import { PrimaryColumnCannotBeNullableError } from 'typeorm';
-import { stdin } from 'process';
 
 
 export const storage = {

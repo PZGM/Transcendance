@@ -1,4 +1,4 @@
-import { Strategy, Profile } from 'passport-42';
+import { Strategy } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
 import { AuthentificationProvider } from '../services/auth/auth';

@@ -6,7 +6,6 @@ import { UserDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 import { AuthentificationProvider } from './auth';
 import { ChannelsService } from 'src/chat/channel/channels.service';
-import { ChannelDto, CreateChannelDto } from 'src/dto/chat.dto';
 import { Channel } from 'src/typeorm';
 
 @Injectable()

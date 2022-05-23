@@ -1,13 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { randomInt } from 'crypto';
-import { truncate } from 'fs/promises';
-import { networkInterfaces } from 'os';
 import { GameDto } from 'src/dto/game.dto';
 import { StatsService } from 'src/stats/stats.service';
 import { Game, User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
-import { GameDetails } from 'src/utils/types';
 import { Repository } from 'typeorm';
 
 @Injectable()

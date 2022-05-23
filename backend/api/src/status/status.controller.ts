@@ -1,8 +1,7 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Put, Req, Sse, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, Sse, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Observable, interval, map } from 'rxjs';
-import { AuthentificatedGuard, FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
-import { CustomRequest } from 'src/utils/types';
+import { Observable } from 'rxjs';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { StatusService } from './status.service';
 
 export interface MessageEvent {

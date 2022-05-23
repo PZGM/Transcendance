@@ -4,9 +4,6 @@ import { Repository } from 'typeorm';
 import { Chat } from 'src/typeorm/entities/chat';
 import { CreateMessageDto, MessageDto } from 'src/dto/chat.dto';
 import { Channel, User } from 'src/typeorm';
-import { ChannelsService } from '../channel/channels.service';
-import { UsersService } from 'src/users/users.service';
-import { authorize } from 'passport';
 
 @Injectable()
 export class MessagesService {

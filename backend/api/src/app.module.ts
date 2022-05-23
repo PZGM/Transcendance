@@ -10,7 +10,6 @@ import { FriendsModule } from './friends/friends.module';
 import { HistoryModule } from './history/history.module';
 import { StatsModule } from './stats/stats.module';
 import { ChatModule } from './chat/chat.module';
-import { ChatGateway } from './chat/chat.gateway';
 import { GameModule } from './game/game.module';
 
 @Module({

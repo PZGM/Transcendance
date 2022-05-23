@@ -2,7 +2,6 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { MessagesService } from './messages.service';
 import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { Channel } from 'diagnostics_channel';
 
 @ApiTags('Messages')
 @Controller('messages')
