@@ -160,7 +160,8 @@ export class UsersService {
         .getMany()
 
         const friends: User[] = user.friends || [];
-        results = results.filter( ( el ) => !friends.some((friend) => {return friend.id == el.id || friend.id == userId}));
+        results = results.filter( ( el ) => {
+            return !friends.some((friend) => {return friend.id == el.id}) && el.id != userId});
 
         if (!results)
             return null;
@@ -309,6 +310,7 @@ export class UsersService {
         .where('login ILIKE :searchQuery', {searchQuery: `%${search}%`})
         .getMany()
 
+        results = results.filter((user) => {return user.id != userId})
         if (!results)
             return null;
 

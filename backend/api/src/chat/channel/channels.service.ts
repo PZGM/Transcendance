@@ -219,14 +219,14 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
 
 
   public async addUser(userId: number, chanId: number, addId: number) {
-    const channel: Channel | null = await this.getOne(chanId);
-    if (!channel.admin.some((admin) => {return admin.id == userId}))
+    const channel: Channel | null = await this.getOne(chanId, {withAdmin: true});
+    if (!channel ||!channel.admin.some((admin) => {return admin.id == userId}))
       return false;
     if (channel.users.some((user) => {return user.id == addId}))
       return false;
-    channel.users.push(await this.usersService.getOne(userId));
+    channel.users.push(await this.usersService.getOne(addId));
     this.channelsRepository.save(channel);
-    this.chatGateway.broadcastJoinChannel(chanId, userId);
+    this.chatGateway.broadcastJoinChannel(chanId, addId);
     return true;
 }
 

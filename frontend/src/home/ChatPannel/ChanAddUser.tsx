@@ -6,9 +6,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import "../../style/input.css"
 import { AddUserDisplay } from "./AddUserDisplay";
 import { UserDto } from "../../api/dto/user.dto";
+import { ChatAPI } from "../../api/Chat.api";
+import { ChannelDto } from "../../api/dto/channel.dto";
 
 interface ChanAddUserState {
-    chan?: any;
+    chan?: ChannelDto;
     searchResults: UserDto[];
 	searchField?: string;
 }
@@ -28,18 +30,25 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 	}
 
 
-	componentDidMount()  {
-        const id = this.props.params.name;
+	async componentDidMount()  {
+        const name = this.props.params.name;
+		const chan = await ChatAPI.getChannelByName(name);
+		if (!chan)
+			return;
         this.setState({
-            chan: id,
+            chan,
         })
 	}
 
 	renderSearchRows(list) {
-		const listItems = list.map((user: UserDto) =>
+		const listItems = list.map((user: UserDto) => {
+			if (!this.state.chan)
+				return <div></div>;
+			return (
 			<div key={user.id}>
-				<AddUserDisplay user={user} channelId={this.state.chan?.id} />
-			</div>
+				<AddUserDisplay user={user} channelId={this.state.chan.id} />
+			</div>);
+		}
 	  );
 	  return listItems;
 	}
@@ -58,12 +67,12 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		return (
             <>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit"}}>
+					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
 						<ArrowBackIcon/>
 					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: 2}}>
-					<input className="add_user_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e)}}/>
+					<input className="add_user_bar" placeholder="Invite User" onChange={ async (e) => {this.onSearch(e)}}/>
 					<List style={{overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>
