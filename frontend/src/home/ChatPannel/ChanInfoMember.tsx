@@ -6,7 +6,6 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
-import InviteGame from "./tools/InviteGame"
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
@@ -101,9 +100,6 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     </div>
                 </Stack>}
             </Stack>
-            <Dialog open={openInvite} onClose={handleCancelInvite}>
-                <InviteGame close={handleCancelInvite} p1={props.member.login}/>
-            </Dialog>
 
         </div>
     );

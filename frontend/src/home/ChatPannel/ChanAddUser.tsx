@@ -62,8 +62,8 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 						<ArrowBackIcon/>
 					</Link>
 				</Stack>
-				<Stack justifyContent="center" alignItems="center">
-					<input className="friends_search_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e)}}/>
+				<Stack justifyContent="center" alignItems="center" sx={{marginTop: 2}}>
+					<input className="add_user_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e)}}/>
 					<List style={{overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>

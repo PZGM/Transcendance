@@ -104,7 +104,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'74vh'}>
 						<li>
 							{this.renderRowsUsers(this.state.channel.users)}
 						</li>
