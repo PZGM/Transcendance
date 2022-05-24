@@ -250,7 +250,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('key')
 	async handleKeyUp(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string, key: string }) {
 		const room: Room = this.rooms.get(data.roomId);
-		if (room && room.playerOne.user.id === data.userId)
+		if (room && room.playerOne.user.id == data.userId)
 		{
 			if (data.key === 'Up')
 				room.playerOne.coor.dy = 1;
@@ -260,7 +260,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.playerOne.coor.dy = 0;
 
 		}
-		else if (room && room.playerTwo.user.id === data.userId)
+		else if (room && room.playerTwo.user.id == data.userId)
 		{
 			if (data.key === 'Up')
 				room.playerTwo.coor.dy = 1;

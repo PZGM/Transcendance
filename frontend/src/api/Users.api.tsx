@@ -36,6 +36,14 @@ export class UserAPI {
 				return ret;
 		}
 
+		//find
+		public static async searchUsers(search: string) {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_SEARCH_USERS_API}${search}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+			 return resp
+		}
 
 		//getters
 		public static async getUser(): Promise<UserDto|null>

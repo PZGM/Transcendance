@@ -43,7 +43,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		const user = await UserAPI.getUser();
 		if (!user || !channel)
 			return;
-		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
+		const isAdmin = channel.admin.some((admin) => {return admin.id == user.id})
 		this.setState({
 			channel,
 			friends,
@@ -54,21 +54,21 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 
 	renderRowsUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
-			if (this.state.channel?.owner.id === a.id)
+			if (this.state.channel?.owner?.id == a.id)
 				return -1;
-			if (this.state.channel?.owner.id === b.id)
+			if (this.state.channel?.owner?.id == b.id)
 				return 1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id == a.id}))
 				return -1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id == b.id}))
 				return 1;
 			return 0;
 		})
 		const listItems = list?.map((member: UserDto) => {
-		const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
-		const isMe = this.state.user?.id === member.id;
-		let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
-		if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
+		const isFriend = this.state.friends.some((friend) => {return friend.id == member.id});
+		const isMe = this.state.user?.id == member.id;
+		let grade = this.state.channel?.admin.some((admin) => {return admin.id == member.id}) ? 'admin' : '';
+		if (this.state.channel?.owner && this.state.channel?.owner.id == member.id)
 			grade = 'owner';
 		return (
 			<ChanInfoMember isMe={isMe} key={this.index} index={this.index++} member={member} grade={grade} isFriend={isFriend}></ChanInfoMember>);
@@ -81,7 +81,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
 		this.setState({
-			redirect: '/home'
+			redirect: '/home/chat/general'
 		})
 	}
 

@@ -86,6 +86,7 @@
 .home_button {
 	width: 3.9vw;
 	height: 3.7vh;
+	font-size: 1em;
 	font-family: backto1982;
 }
 
@@ -94,7 +95,12 @@
 	height: 3.7vh;
 	font-family: backto1982;
 }
-
+.creachan_button:hover {
+	cursor: pointer;
+}
+.creachan_button:active {
+	cursor: pointer;
+}
 .dropdown_button {
 	width: 7.8vw;
 	height: 75vh;
@@ -182,6 +188,16 @@
 	height: 30px; */
 	width: 1.5vw;
 	aspect-ratio: 1;
+}
+
+.creajoin_button{
+	color: white;
+}
+.creajoin_button:hover {
+	cursor: pointer;
+}
+.creajoin_button:active {
+	cursor: pointer;
 }
 
 /* Connection button */

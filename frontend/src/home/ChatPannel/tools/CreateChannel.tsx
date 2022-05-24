@@ -102,7 +102,7 @@ function CreateChannel(props) {
                 <ButtonBase className="creachan_button" onClick={handleClickOpenCreate}>
                     Create
                 </ButtonBase>
-                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin} style={{color: "white"}}>
+                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin}>
                     Join
                 </ButtonBase>
             </Stack>

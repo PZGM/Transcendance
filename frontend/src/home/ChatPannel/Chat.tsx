@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
 import { ChannelDto } from "../../api/dto/channel.dto";
 import "../../style/input.css"
+import Invite from "./tools/InviteUser"
 
 interface ChatState {
 	socket: any;
@@ -56,7 +57,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: MessageDto) => {
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';
@@ -159,11 +160,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
 		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
-		if (!channel) {
+		if (!channel || !user) {
 			return;
 		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
-		this.chatSocket.joinRoom(channel.id);
+		this.chatSocket.joinRoom(channel.id, user.id);
 		this.setState({
 			users: channel.users,
 			user,
@@ -187,7 +188,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 					</ol>
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
-					<Stack direction="row" spacing={2} justifyContent="spece_evenly" sx={{backgroundColor: "black"}}>
+					<Stack direction="row" spacing={1} justifyContent="space_evenly" sx={{backgroundColor: "black"}}>
+						<Invite/>
 						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						{/* <InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "3.7vh", border: "2px solid white", padding:"3px", boxShadow: "0.25vw 0.25vw 0px -0.05 rgba(19,213,144,0.5)" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/> */}
 						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>

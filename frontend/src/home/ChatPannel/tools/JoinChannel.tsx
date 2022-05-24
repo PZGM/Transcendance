@@ -36,7 +36,7 @@ function JoinChannel(props: JoinChannelProps) {
             return;
         }
         if (channel.users.some((user) => {
-            return user.id === me.id;
+            return user.id == me.id;
         })) {
             toast.error("You're already in this channel", {
                 position: toast.POSITION.BOTTOM_CENTER
@@ -113,8 +113,8 @@ function JoinChannel(props: JoinChannelProps) {
                             <div className='bit5x5' > Return </div>
                         </div>
                         { (visibility !== 'private') &&
-                        <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
-                            <div onClick={join} className='bit5x5'> join </div>
+                        <div className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}  onClick={join}>
+                            <div className='bit5x5'> join </div>
                         </div>
                         }
                     </Stack>

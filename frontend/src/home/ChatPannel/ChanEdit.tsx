@@ -42,7 +42,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const user = await UserAPI.getUser();
 		if (!user || !channel)
 			return;
-		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
+		const isAdmin = channel.admin.some((admin) => {return admin.id == user.id})
 		this.setState({
 			channel,
 			admins,
@@ -53,21 +53,22 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	renderRowsUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
-			if (this.state.channel?.owner.id === a.id)
+			if (this.state.channel?.owner.id == a.id)
 				return -1;
-			if (this.state.channel?.owner.id === b.id)
+			if (this.state.channel?.owner.id == b.id)
 				return 1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id == a.id}))
 				return -1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id == b.id}))
 				return 1;
 			return 0;
 		})
 		const listItems = list?.map((member: UserDto) => {
 			if (!this.state.channel || !this.state.user)
 				return <div>An error occured</div>
-			return (
-				<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>);
+			return ( <div key={this.index}>
+						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>
+					</div>);
 		}
 	  );
 	  return listItems;
@@ -89,7 +90,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
+						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
@@ -99,7 +100,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'74vh'}>
 						<li>
 							{this.renderRowsUsers(this.state.channel.users)}
 						</li>

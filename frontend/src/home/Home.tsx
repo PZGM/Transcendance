@@ -8,7 +8,7 @@ import { Outlet } from "react-router-dom";
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
-import { Selecter } from "./ChatPannel/header/Selecter";
+import Selecter from "./ChatPannel/header/Selecter";
 
 
 interface HomeProps {
@@ -54,7 +54,7 @@ export class Home extends Component<HomeProps, HomeState> {
 			duration: 0,
 			color: undefined,
       channel: undefined,
-			userStatus: 0
+			userStatus: 0,
 		}
 		this.updateHomeState = this.updateHomeState.bind(this);
 		this.updateDisplay = this.updateDisplay.bind(this);
@@ -97,7 +97,6 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.fetchUser();
 		this.getChannel();
 	}
-
 
 	updateDisplay(type: number, id: any, numberBack: number) {
 		this.setState({
@@ -164,7 +163,7 @@ export class Home extends Component<HomeProps, HomeState> {
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
-					<Selecter channelName={(this.state.channel) ? this.state.channel.name : '...'} ></Selecter>
+					<Selecter ></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>

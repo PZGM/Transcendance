@@ -186,10 +186,10 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (chanID === 1)
       return;
 
-    const isAdmin = channel.admin.some((adm) => { return adm.id === userID});
-    const isOwner = channel.owner.id === userID;
+    const isAdmin = channel.admin.some((adm) => { return adm.id == userID});
+    const isOwner = channel.owner.id == userID;
     const selfLeave = userID === rmID;
-    const removeAdmin = channel.admin.some((adm) => { return adm.id === rmID});
+    const removeAdmin = channel.admin.some((adm) => { return adm.id == rmID});
 
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {
@@ -213,6 +213,19 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       this.channelsRepository.save(channel);
     }
   }
+
+
+  public async addUser(userId: number, chanId: number, addId: number) {
+    const channel: Channel | null = await this.getOne(chanId);
+    if (!channel.admin.some((admin) => {return admin.id == userId}))
+      return false;
+    if (channel.users.some((user) => {return user.id == addId}))
+      return false;
+    channel.users.push(await this.usersService.getOne(userId));
+    this.channelsRepository.save(channel);
+    this.chatGateway.broadcastJoinChannel(chanId, userId);
+    return true;
+}
 
   public async update(id: number, ChannelDto: ChannelDto) { 
     const channel = await this.channelsRepository.preload({

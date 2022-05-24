@@ -1,6 +1,5 @@
 import { Stack, Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
 import '../../style/colors.css'
@@ -8,6 +7,7 @@ import { UserDto } from "../../api/dto/user.dto";
 import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
+import MuteBan from "./tools/MuteBan"
 
 interface ChanEditMemberProps {
     user: UserDto,
@@ -24,10 +24,10 @@ function ChanEditMember(props: ChanEditMemberProps) {
     let eventSource;
     const [status, setStatus] = useState(props.member.status);
 
-    const userIsMember: boolean = props.user.id === props.member.id;
-    const userIsOwner: boolean = props.channel.owner.id === props.user.id;
-    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id === props.member.id}));
-    const memberIsOwner: boolean = props.channel.owner.id === props.member.id;
+    const userIsMember: boolean = props.user.id == props.member.id;
+    const userIsOwner: boolean = props.channel.owner.id == props.user.id;
+    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id == props.member.id}));
+    const memberIsOwner: boolean = props.channel.owner.id == props.member.id;
 
     useEffect(() => {
         //component will mount
@@ -83,12 +83,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
-                    <Link className="renderrow_button red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
-                        <div className='bit5x5'> MUTE </div>
-                    </Link>
-                    <div className={"renderrow_button but_red"}>
-                    <div className='bit5x5'> BAN </div>
-                    </div>
+                    <MuteBan/>
                 </Stack>}
             </Stack>
         </div>

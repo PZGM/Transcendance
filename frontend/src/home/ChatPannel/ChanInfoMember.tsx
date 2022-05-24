@@ -1,12 +1,11 @@
 import { Stack, Avatar } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
-
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
@@ -20,8 +19,8 @@ enum color {
 enum description {
     'unknow',
     'offline',
-    'invite idle',
-    'invite',
+    'playing',
+    'connected',
     'watch match'
 }
 
@@ -39,6 +38,8 @@ interface StatusData {
 
 function ChanInfoMember(props: ChanInfoUserProps) {
     let eventSource;
+
+
 
     useEffect(() => {
         //component will mount
@@ -62,6 +63,12 @@ function ChanInfoMember(props: ChanInfoUserProps) {
 
     const [isFriend, setFriendship] = useState(props.isFriend);
     const [status, setStatus] = useState(props.member.status);
+    const [openInvite, setOpenInvite] = React.useState(false);
+
+    const handleCancelInvite= () =>
+    {
+        setOpenInvite(false);
+    }
 
     const toggleFriendship = async () => {
         if (isFriend)
@@ -88,11 +95,12 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
                         <div className='bit5x5'> SEND MESSAGE </div>
                     </Link>
-                    <div className={"renderrow_button but_" + ((isFriend) ? "red" : "green")}>
-                        <div className='bit5x5' onClick={toggleFriendship}> {(isFriend) ? "remove friend" : "add friend"} </div>
+                    <div className={"renderrow_button but_" + ((isFriend) ? "red" : "green")} onClick={toggleFriendship}>
+                        <div className='bit5x5' > {(isFriend) ? "remove friend" : "add friend"} </div>
                     </div>
                 </Stack>}
             </Stack>
+
         </div>
     );
 }
