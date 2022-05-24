@@ -36,7 +36,7 @@ function JoinChannel(props: JoinChannelProps) {
             return;
         }
         if (channel.users.some((user) => {
-            return user.id == me.id;
+            return user.id === me.id;
         })) {
             toast.error("You're already in this channel", {
                 position: toast.POSITION.BOTTOM_CENTER

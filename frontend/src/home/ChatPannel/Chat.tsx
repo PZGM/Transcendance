@@ -57,7 +57,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: MessageDto) => {
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';

@@ -42,7 +42,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const user = await UserAPI.getUser();
 		if (!user || !channel)
 			return;
-		const isAdmin = channel.admin.some((admin) => {return admin.id == user.id})
+		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
 		this.setState({
 			channel,
 			admins,
@@ -53,13 +53,13 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	renderRowsUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
-			if (this.state.channel?.owner.id == a.id)
+			if (this.state.channel?.owner.id === a.id)
 				return -1;
-			if (this.state.channel?.owner.id == b.id)
+			if (this.state.channel?.owner.id === b.id)
 				return 1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id == a.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
 				return -1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id == b.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
 				return 1;
 			return 0;
 		})

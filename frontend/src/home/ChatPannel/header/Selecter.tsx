@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, ButtonBase, ClickAwayListener, List, Popper, Stack } from "@mui/material";
-import { Component, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 import { Link } from "react-router-dom";
 import { ChatAPI } from "../../../api/Chat.api";
@@ -105,7 +105,7 @@ function Selecter (){
 						</Link>
 						<ButtonBase onClick={handleClick} style={{height: Hchan,fontSize: "large"}} >
 							<div className='bit9x9'>{name}</div>
-							<div>{(open == false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
+							<div>{(open === false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
 						</ButtonBase>
 						<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
 							<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black",border: 5, borderColor: "#8e00ae", paddingBottom: 1}} open={open} anchorEl={anchorEl}>
