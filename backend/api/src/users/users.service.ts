@@ -1,5 +1,6 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { request } from 'http';
 import { UserDto } from 'src/dto/user.dto';
 import { ImagesService } from 'src/images/images.service';
 import { Channel, Game, User } from 'src/typeorm';
@@ -159,7 +160,7 @@ export class UsersService {
         .getMany()
 
         const friends: User[] = user.friends || [];
-        results = results.filter( ( el ) => !friends.some((friend) => {return friend.id == el.id}));
+        results = results.filter( ( el ) => !friends.some((friend) => {return friend.id == el.id || friend.id == userId}));
 
         if (!results)
             return null;
@@ -178,7 +179,7 @@ export class UsersService {
             if (user.friends.some((user) => user.id == friendToAddId))
                 return ConflictException;
             const friendToAdd: User = await this.getOne(friendToAddId);
-            if (!friendToAdd)
+            if (!friendToAdd || friendToAdd.id == userId)
                 return NotFoundException;
             user.friends.push(friendToAdd);
         })
@@ -294,13 +295,26 @@ export class UsersService {
 
     public async userIsInChannel(userId: number, channelId: number): Promise<boolean> {
         const channels: Channel [] = await (await this.getOne(userId, {withChannels: true})).joinedChannels;
-        console.log('channels :');
-        console.log(channels);
-        console.log(`user Id : ${userId} channel id : ${channelId}`)
+
         if (!channels)
             return false;
         const ret = channels.some((channel) => {return channel.id == channelId});
-        console.log(`->ret ${ret}`)
         return ret;
+    }
+
+    public async findUsers(search: string, userId: number): Promise<UserDto[]|null> {
+        const user: User|null = await this.getOne(userId, {withFriends:true });
+        let results = await this.userRepository
+        .createQueryBuilder().select()
+        .where('login ILIKE :searchQuery', {searchQuery: `%${search}%`})
+        .getMany()
+
+        if (!results)
+            return null;
+
+        const ret: UserDto[] = results.map((friend) => {
+            return new UserDto(friend);
+        })
+        return ret; 
     }
 }

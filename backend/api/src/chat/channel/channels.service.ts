@@ -9,6 +9,7 @@ import { createDecipheriv, createCipheriv } from 'crypto';
 import { UserDto } from 'src/dto/user.dto';
 import { ChatGateway } from '../chat.gateway';
 import { channel } from 'diagnostics_channel';
+import { AuthModuleOptions } from '@nestjs/passport';
 
 @Injectable()
 export class ChannelsService {
@@ -215,6 +216,19 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       this.channelsRepository.save(channel);
     }
   }
+
+
+  public async addUser(userId: number, chanId: number, addId: number) {
+    const channel: Channel | null = await this.getOne(chanId);
+    if (!channel.admin.some((admin) => {return admin.id == userId}))
+      return false;
+    if (channel.users.some((user) => {return user.id == addId}))
+      return false;
+    channel.users.push(await this.usersService.getOne(userId));
+    this.channelsRepository.save(channel);
+    this.chatGateway.broadcastJoinChannel(chanId, userId);
+    return true;
+}
 
   public async update(id: number, ChannelDto: ChannelDto) { 
     const channel = await this.channelsRepository.preload({

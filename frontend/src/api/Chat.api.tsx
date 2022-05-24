@@ -176,4 +176,15 @@ export class ChatAPI {
             return resp;
     }
 
+    public static async inviteUser(channelId: number, invitedId: number) : Promise<boolean>{
+        const resp = await fetch(`${process.env.REACT_APP_INVITE_IN_CHANNEL}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({channelId, invitedId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
 }

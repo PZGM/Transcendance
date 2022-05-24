@@ -7,11 +7,13 @@ import './../../asset/fonts/fonts.css'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import DoneIcon from '@mui/icons-material/Done';
 import { UserDto } from "../../api/dto/user.dto";
+import { ChatAPI } from "../../api/Chat.api";
+import { toast } from "react-toastify";
 
 
 type AddUserDisplayProps = {
 	user: UserDto;
-	addFriend: any;
+	channelId: number;
 }
 
 interface AddUserDisplayState {
@@ -24,16 +26,21 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 
 	constructor(props: AddUserDisplayProps) {
 		super(props);
-		this.addFriend = this.addFriend.bind(this);
+		this.addUser = this.addUser.bind(this);
 		this.state = {done: false}
 	}
 
-	async addFriend() {
+	async addUser() {
 		if (this.state.done)
 			return;
-		this.setState({done: true});
-		await UserAPI.addFriend(this.props.user.id);
-		this.props.addFriend(this.props.user);
+		if (await ChatAPI.inviteUser(this.props.channelId, this.props.user.id))
+			this.setState({done: true});
+		else
+		toast.error("Can't invite this user", {
+			position: toast.POSITION.BOTTOM_CENTER,
+			pauseOnHover: false,
+			closeOnClick: true,
+		})
 	}
 
 	render ()
@@ -68,7 +75,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 
 					<Stack>
 						<div className="add_friend_button but_green"
-							onClick={this.addFriend}
+							onClick={this.addUser}
 						>
 							<Stack direction='row'
 								alignItems="center"
@@ -81,7 +88,7 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 								}
 								
 								<div style={{width: '50%'}}>
-									{(this.state.done) ? 'Added' : 'Add Friend'}
+									{(this.state.done) ? 'Added' : 'Add User'}
 								</div>
 							
 							</Stack>

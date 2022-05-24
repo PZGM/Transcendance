@@ -127,6 +127,12 @@ export class ChannelsController {
     }
   }
 
+  @Put('invite')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async invite(@Req() request: CustomRequest, @Body() inviteDto: {invitedId: number, channelId: number}): Promise<boolean> {
+    return await this.channelsService.addUser(request.user.id, inviteDto.channelId, inviteDto.invitedId);
+  }
+
   @Delete(':id')
   @UseGuards(FullyAuthentificatedGuard)
   delete(@Req() request: CustomRequest, @Param('id') id: number) {

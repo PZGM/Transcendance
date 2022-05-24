@@ -70,8 +70,9 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const listItems = list?.map((member: UserDto) => {
 			if (!this.state.channel || !this.state.user)
 				return <div>An error occured</div>
-			return (
-				<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>);
+			return ( <div key={this.index}>
+						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>
+					</div>);
 		}
 	  );
 	  return listItems;

@@ -107,4 +107,15 @@ export class UsersController {
     public async removeBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
         const ret =  await this.userService.removeBlockedUser(request.user.id, updateUserRequest.id);
     }
+
+    @Get('/search/:search')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async searchNewFriends(@Req() request: CustomRequest, @Param('search') search: string) {
+        const userId: number = request.user.id;
+        search = search.replace(/\W/g, '');
+        let searchResults: UserDto[] = await this.userService.findUsers(search, userId);
+        if (searchResults)
+            return searchResults;
+        throw new NotFoundException();
+    }
 }
