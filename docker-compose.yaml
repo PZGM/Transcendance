@@ -31,7 +31,6 @@ services:
         restart: unless-stopped
         ports:
             - ${https}:3333
-            - ${http}:3001
 
   # frontend
     frontend:
