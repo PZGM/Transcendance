@@ -17,12 +17,12 @@ export class UserDto {
             this.stats = user.stats;
             this.firstLog = user.firstLog;
             this.roomId = user.roomId;
-            this.socketId = user.socketId;
+            this.socketIdTab = user.socketIdTab;
         }
     }
     id: number;
     roomId? : number;
-    socketId? : string;
+    socketIdTab? : string[];
     login: string;
     avatar: string;
     status?: number; 

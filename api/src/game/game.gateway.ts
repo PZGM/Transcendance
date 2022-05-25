@@ -55,8 +55,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				}
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				this.server.to(playerOne.socketId).emit("gameRoom", room.toFront());
-				this.server.to(playerTwo.socketId).emit("gameRoom", room.toFront());
+				this.server.to(playerOne.socketIdTab[playerOne.socketIdTab.length - 1]).emit("gameRoom", room.toFront());
+				this.server.to(playerTwo.socketIdTab[playerTwo.socketIdTab.length - 1]).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
 			}
 		}, 3000);
@@ -96,7 +96,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = await this.usersService.getOne(userId.id);
 		this.logger.log(`${user.login} i'm back`)
-		user.socketId = socket.id;
+		if(!user.socketIdTab)
+			user.socketIdTab = [];
+		user.socketIdTab.push(socket.id);
 		user.status = statusEnum.connected;
 		this.pool.addToPool(user);
         this.server.to(socket.id).emit('joinedPool');
@@ -143,7 +145,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const room = new Room(roomId, Difficulty.Easy, user, guest);
 			this.rooms.set(roomId, room);
 			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
-			this.server.to(room.playerTwo.user.socketId).emit("Invitation", room.toFront());
+			this.server.to(room.playerTwo.user.socketIdTab[room.playerTwo.user.socketIdTab.length - 1]).emit("Invitation", room.toFront());
 			this.logger.log(`You succesfully invited ${guest.login} !`);
 		}
 		else

@@ -72,6 +72,6 @@ export class User {
     rStatus: number;
     @Column({ nullable: true })
     roomId: number;
-    @Column({ nullable: true })
-    socketId: string;
+    @Column('simple-array',{ nullable: true })
+    socketIdTab: string[];
 }
