@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import React from "react";
+import { Difficulty } from "./dto/game.dto";
 
 interface ChatSocketAPIProps{
     receiveMessage: any;
@@ -46,7 +47,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
         this.socket.emit('message', {authorId, content, chanId, service: false});
     }
 
-    sendInvitation(chanId: number, userId: number) {
-        this.socket.emit('invitation', {chanId, userId})
+    sendInvitation(chanId: number, userId: number, difficulty: Difficulty) {
+        this.socket.emit('invitation', {chanId, userId, difficulty})
     }
 }

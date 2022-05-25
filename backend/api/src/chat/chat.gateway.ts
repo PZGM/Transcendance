@@ -3,6 +3,7 @@ import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { MessagesService } from './message/messages.service';
 import { UsersService } from 'src/users/users.service';
+import { Difficulty } from 'src/game/components/coor';
 
 interface MessageBody{
   chanId: number;
@@ -51,9 +52,21 @@ export class ChatGateway {
   }
 
   @SubscribeMessage('invitation')
-  async invitationHandler(chanId: number, userId: number) {
-    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'INVITE', service: true});
-    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'INVITE', channelId: chanId, date: message.createdDate});
+  async invitationHandler(@ConnectedSocket() socket: Socket, @MessageBody() data : { chanId: number, userId: number, difficulty: Difficulty }) {
+    console.log('invitation')
+    console.log(`difficulty: ${data.difficulty}`)
+    if (data.difficulty === 0) {
+      const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-EASY', service: true});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-EASY', channelId: data.chanId, date: message.createdDate});
+    }
+    else if (data.difficulty === 1) {
+      const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-MEDIUM', service: true});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-MEDIUM', channelId: data.chanId, date: message.createdDate});
+    }
+    else if (data.difficulty === 2) {
+      const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-HARD', service: true});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-HARD', channelId: data.chanId, date: message.createdDate});
+    }
   }
 
   async handleConnection(socket: Socket) {

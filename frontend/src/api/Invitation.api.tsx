@@ -13,11 +13,11 @@ export const URL_ME = () => {
     	return response;
 }
 
-export class GameAPI {
+export class InvitationAPI {
 
 	public static async acceptInvitation(senderId: number, receiverId: number, difficulty: Difficulty) {
 		let ret = true;
-		await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
+		await fetch(`${process.env.REACT_APP_INVITATION as string}`, {
 			method: "PUT",
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify({ senderId, receiverId, difficulty }),

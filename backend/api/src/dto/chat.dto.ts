@@ -45,7 +45,7 @@ export class MessageDto {
 
 export class CreateMessageDto {
   service: boolean;
-  channelId: number ;
+  channelId: number;
   content: string;
   authorId: number;
 }

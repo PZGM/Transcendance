@@ -51,7 +51,7 @@ export class Home extends Component<HomeProps, HomeState> {
 		
 		this.gameSocket = new GameSocketAPI({
 								receiveGameRoom: this.receiveGameRoom.bind(this),
-								updateRoom: this.updateRoom.bind(this))
+								updateRoom: this.updateRoom.bind(this)})
 
 		this.state = {
 			avatar: undefined,

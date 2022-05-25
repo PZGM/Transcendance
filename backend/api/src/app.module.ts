@@ -15,8 +15,20 @@ import { GameModule } from './game/game.module';
 import { InvitationModule } from './invitation/invitation.module';
 
 @Module({
-  imports: [AuthModule,UsersModule, GameModule ,ChatModule, TypeOrmModule.forRoot(ormconfig),PassportModule.register({ session: true }), ImagesModule, StatusModule, FriendsModule, HistoryModule, StatsModule, InvitationModule],
+  imports: [AuthModule, 
+            UsersModule,
+            GameModule,
+            ChatModule,
+            TypeOrmModule.forRoot(ormconfig),
+            PassportModule.register({ session: true }),
+            ImagesModule,
+            StatusModule,
+            FriendsModule,
+            HistoryModule,
+            StatsModule,
+            InvitationModule],
   controllers: [],
   providers: []
 })
+
 export class AppModule { }

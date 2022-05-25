@@ -135,6 +135,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {
+		console.log('handleRoomInvite')
 		const user : User = await this.usersService.getOne(senderId);
 		const guest : User = await this.usersService.getOne(receiverId);
 		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing &&

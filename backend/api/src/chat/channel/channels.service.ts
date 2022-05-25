@@ -97,7 +97,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
         name: createChannelDto.name
       }
     }) != 0 || createChannelDto.name.length < 3 || createChannelDto.name.length > 10)
-      throw new NotFoundException(`Channel name invalide or already taken`);
+      throw new NotFoundException(`Channel name invalid or already taken`);
     
     
     let channel: Channel = new Channel();

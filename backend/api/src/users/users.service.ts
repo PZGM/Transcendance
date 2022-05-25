@@ -294,8 +294,8 @@ export class UsersService {
 
     public async userIsInChannel(userId: number, channelId: number): Promise<boolean> {
         const channels: Channel [] = await (await this.getOne(userId, {withChannels: true})).joinedChannels;
-        console.log('channels :');
-        console.log(channels);
+        // console.log('channels :');
+        // console.log(channels);
         console.log(`user Id : ${userId} channel id : ${channelId}`)
         if (!channels)
             return false;
