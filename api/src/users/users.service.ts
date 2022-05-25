@@ -61,14 +61,17 @@ export class UsersService {
         }
     }
 
-    public async getOneBySocket(socketId: string, relationsPicker?:RelationsPicker): Promise<User|null> {
+    public async getOneBySocket(socketId: string): Promise<User|null> {
         try {
-            const user: User = await this.userRepository.findOneOrFail({
-                where: {
-                    socketId: socketId
-                }
+            let billy : User;
+            let users: User[] = await this.userRepository.find({
             });
-            return user;
+            users.forEach(user => {
+                
+                if(user.socketIdTab[user.socketIdTab.indexOf(socketId)] === socketId)
+                    billy = user;
+            });
+          return billy;
         }
         catch (e) {
             console.log(e)
@@ -126,9 +129,10 @@ export class UsersService {
 
     public async setUserSocket(userId: number, socket: string): Promise<boolean> {
         const user: User|null = await this.getOne(userId);
-        if (!user)
-            return false;
-        user.socketId = socket;
+        if (!user.socketIdTab)
+            user.socketIdTab = [];
+        if (user.socketIdTab.includes(socket) === false)
+            user.socketIdTab.push(socket);
         await this.userRepository.save(user);
         return true;
     }
