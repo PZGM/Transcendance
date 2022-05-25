@@ -5,7 +5,6 @@ import { Loading } from './Loading';
 import { Play } from './Play';
 import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
-import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
 
 interface GameProps {
@@ -55,16 +54,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateRoom (room: Room) {
-		//console.log(`updateRoom`)
-		//console.log(room)
-		if (room.pOneY != this.state.room?.pOneY) {
-		//	console.log(`newpOneY: ${room.pOneY}`)
-		//	console.log(`oldpOneY: ${this.state.room?.pOneY}`)
-		}
-		if (room.pTwoY != this.state.room?.pTwoY) {
-		//	console.log(`newpTwoY: ${room.pTwoY}`)
-		//	console.log(`oldpTwoY: ${this.state.room?.pTwoY}`)
-		}
 		this.setState({room})
 	}
 
@@ -77,14 +66,14 @@ export class Game extends Component<GameProps, GameState>
 
 	display()
 	{
-		if (this.state.display == 0)
+		if (this.state.display === 0)
 			return <PlayButton socket={this.gameSocket}
 								userId={this.state.userId}
 								updateDisplay={this.updateDisplay}
 					/>
-		else if (this.state.display == 1)
+		else if (this.state.display === 1)
 			return <Loading/>
-		else if (this.state.display == 2)
+		else if (this.state.display === 2)
 			return <Play room={this.state.room}
 						socket={this.gameSocket}
 						userId={this.state.userId}

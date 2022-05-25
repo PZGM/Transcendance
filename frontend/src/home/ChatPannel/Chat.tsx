@@ -1,10 +1,8 @@
-import { Avatar, Box, IconButton, InputBase, Stack } from "@mui/material";
+import { Avatar, Box, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
-import SendIcon from '@mui/icons-material/Send';
-import InfoIcon from '@mui/icons-material/Info';
 import { ChatAPI } from "../../api/Chat.api";
 import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
@@ -59,7 +57,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     {
 		let lastAuthorId: number = -1;
         const listItems = list.map((msg: MessageDto) => {
-			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id == msg.authorId});
+			const sender:UserDto|undefined = this.state.users.find((user) => {return user.id === msg.authorId});
 			const color = (sender) ? sender.color : 'white';
 			const login = (sender) ? sender.login : 'unknow';
 			const avatar = (sender) ? sender.avatar : '';

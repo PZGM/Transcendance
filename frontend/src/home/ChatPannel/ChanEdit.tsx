@@ -1,16 +1,12 @@
-import { Stack, List } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ChanEditMember from './ChanEditMember';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
-import { ThirtyFpsSharp } from "@mui/icons-material";
-import EditIcon from '@mui/icons-material/Edit';
-import { channel } from "diagnostics_channel";
 
 interface ChanEditState {
 	channel?: ChannelDto;
@@ -46,7 +42,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const user = await UserAPI.getUser();
 		if (!user || !channel)
 			return;
-		const isAdmin = channel.admin.some((admin) => {return admin.id == user.id})
+		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
 		this.setState({
 			channel,
 			admins,
@@ -57,21 +53,22 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	renderRowsUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
-			if (this.state.channel?.owner.id == a.id)
+			if (this.state.channel?.owner.id === a.id)
 				return -1;
-			if (this.state.channel?.owner.id == b.id)
+			if (this.state.channel?.owner.id === b.id)
 				return 1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id == a.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
 				return -1;
-			if (this.state.channel?.admin.some((admin) => {return admin.id == b.id}))
+			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
 				return 1;
 			return 0;
 		})
 		const listItems = list?.map((member: UserDto) => {
 			if (!this.state.channel || !this.state.user)
 				return <div>An error occured</div>
-			return (
-				<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>);
+			return ( <div key={this.index}>
+						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>
+					</div>);
 		}
 	  );
 	  return listItems;

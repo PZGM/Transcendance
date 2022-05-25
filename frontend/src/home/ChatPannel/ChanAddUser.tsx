@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import "../../style/input.css"
+import { AddUserDisplay } from "./AddUserDisplay";
+import { UserDto } from "../../api/dto/user.dto";
+import { ChatAPI } from "../../api/Chat.api";
+import { ChannelDto } from "../../api/dto/channel.dto";
 
 interface ChanAddUserState {
-    chan?: any;
-    searchResults: number[];
+    chan?: ChannelDto;
+    searchResults: UserDto[];
 	searchField?: string;
 }
 
@@ -25,27 +29,28 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.renderSearchRows = this.renderSearchRows.bind(this);
 	}
 
-// TODO il faut faire la meme chose que dans le ADD FRIEND du menu mais au lieu d'ajouter en amis il faut l'ajouter dans le channel
-    // a voir comment on fait car est ce que l'on ajoute que dans la liste d'amis de l'admin ou dans la liste de tout les users 
 
-	componentDidMount()  {
-        const id = this.props.params.name;
-        // if (this.props.isPrivateMessage)
-        //     chanId = getPrivateMessageChannel(id);
-        // else
+	async componentDidMount()  {
+        const name = this.props.params.name;
+		const chan = await ChatAPI.getChannelByName(name);
+		if (!chan)
+			return;
         this.setState({
-            chan: id,
+            chan,
         })
 	}
 
 	renderSearchRows(list) {
-		return <></>; //new implementation of AddUser
-	// 	const listItems = list.map((id: number) =>
-	// 		<div key={id}>
-	// 			<AddUserDisplay id={id} index={0} addFriend={[]}/>
-	// 		</div>
-	//   );
-	//   return listItems;
+		const listItems = list.map((user: UserDto) => {
+			if (!this.state.chan)
+				return <div></div>;
+			return (
+			<div key={user.id}>
+				<AddUserDisplay user={user} channelId={this.state.chan.id} />
+			</div>);
+		}
+	  );
+	  return listItems;
 	}
 	async onSearch(e: React.ChangeEvent<HTMLInputElement>) {
 		e.target.value = e.target.value.replace(/\W/g, "");
@@ -53,8 +58,8 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
-		await UserAPI.searchFriend(search);
-		// this.setState({searchResults: ret}); //new implementation of search
+		const ret = await UserAPI.searchFriend(search);
+		this.setState({searchResults: ret}); 
 	}
 
 	render () {
@@ -62,12 +67,12 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		return (
             <>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan + "/edit"}}>
+					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
 						<ArrowBackIcon/>
 					</Link>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: 2}}>
-					<input className="add_user_bar" placeholder="Search Friend" onChange={ async (e) => {this.onSearch(e)}}/>
+					<input className="add_user_bar" placeholder="Invite User" onChange={ async (e) => {this.onSearch(e)}}/>
 					<List style={{overflow: 'auto'}}>
 						{this.renderSearchRows(this.state.searchResults)}
 					</List>

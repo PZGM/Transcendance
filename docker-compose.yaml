@@ -23,7 +23,7 @@ services:
           - client_id=${client_id}
           - client_secret=${client_secret}
         env_file:
-          - ./backend/api/.env
+          - ./api/.env
         links:
           - db
         depends_on:
@@ -31,7 +31,6 @@ services:
         restart: unless-stopped
         ports:
             - ${https}:3333
-            - ${http}:3001
 
   # frontend
     frontend:
