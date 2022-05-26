@@ -108,7 +108,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" spacing={2} sx={{marginTop: "0.5vh" }}>
 					<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" >
-						<div className='bit5x5'>Join</div>
+						<div className='bit5x5'>Invite</div>
 					</Link>
 					<div onClick={this.leave} className="add_user_button but_red" >
 						<div className='bit5x5'>Leave</div>
