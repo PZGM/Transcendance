@@ -1,6 +1,5 @@
 import { Avatar, Stack } from "@mui/material";
 import { Component } from "react";
-import { UserAPI } from "../../api/Users.api";
 import './../../style/buttons.css';
 import './../../style/display.css';
 import './../../asset/fonts/fonts.css'

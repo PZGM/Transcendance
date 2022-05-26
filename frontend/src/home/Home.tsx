@@ -4,9 +4,7 @@ import '../style/style.css'
 import '../style/home.css'
 import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
-import SendIcon from '@mui/icons-material/Send';
-import { Link, Outlet, useParams } from "react-router-dom";
-
+import { Outlet } from "react-router-dom";
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";

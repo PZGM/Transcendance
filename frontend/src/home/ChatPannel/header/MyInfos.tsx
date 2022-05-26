@@ -1,7 +1,5 @@
 import { Avatar, ButtonBase } from "@mui/material";
-import { Component} from "react";
 import { Link } from "react-router-dom";
-import { UserAPI } from "../../../api/Users.api";
 
 
 function MyInfos(props) {
