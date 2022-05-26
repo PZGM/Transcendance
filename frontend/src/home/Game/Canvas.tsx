@@ -24,7 +24,7 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 interface CanvasProps {
 	room: Room,
 	socket: GameSocketAPI,
-	userId: number
+	userId: number,
 }
 
 interface CanvasState {

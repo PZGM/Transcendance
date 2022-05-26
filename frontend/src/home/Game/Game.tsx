@@ -2,6 +2,7 @@ import { Component } from "react";
 import '../../style/display.css';
 import { PlayButton } from './PlayButton';
 import { Loading } from './Loading';
+import Restart from './Restart';
 import { Play } from './Play';
 import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
@@ -73,11 +74,16 @@ export class Game extends Component<GameProps, GameState>
 					/>
 		else if (this.state.display === 1)
 			return <Loading/>
-		else if (this.state.display === 2)
+			else if (this.state.display === 2)
 			return <Play room={this.state.room}
-						socket={this.gameSocket}
-						userId={this.state.userId}
-					/> 
+			socket={this.gameSocket}
+			userId={this.state.userId}
+			updateDisplay={this.updateDisplay}
+			/> 
+		else if (this.state.display === 3)
+			return <Restart room={this.state.room}
+			updateDisplay={this.updateDisplay}
+			/>
 	}
 
     /* render the jsx */
