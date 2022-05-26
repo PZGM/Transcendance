@@ -36,8 +36,9 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
     }
 
     joinRoom(chanId: number, userId: number) {
-        if (this.activeChan)
-            this.socket.emit('leaveRoom', {id: chanId});
+        if (this.activeChan) {
+            this.socket.emit('leaveRoom', {id: this.activeChan});
+        }
         this.socket.emit('joinRoom', {id: chanId, userId});
         this.activeChan = chanId;
     }

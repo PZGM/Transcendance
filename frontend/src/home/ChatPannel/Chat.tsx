@@ -161,6 +161,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     }
 
 	async switchChannel(newChannelName: string){
+		console.log('switch room');
 		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
 		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
