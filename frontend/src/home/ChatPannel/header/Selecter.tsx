@@ -66,16 +66,21 @@ function Selecter (){
 		setOpen(false);
 	}
 
-	const handleSelection = (name: string) => {
+	const handleSelectionChan = (name: string) => {
 		setName(name);
 		setOpen(false);
 		navigate(process.env.REACT_APP_HOME_CHAN + "/" + name);
+	}
+	const handleSelectionUser = (name: string) => {
+		setName(name);
+		setOpen(false);
+		navigate(process.env.REACT_APP_MP + name);
 	}
 
 	const renderRowsChan=(list) =>{
 		const listItems = list.map((channel: string) =>
 		<li key={channel}>
-			<div className={"creajoin_button"} onClick={()=> {handleSelection(channel)}}	style={{ textDecoration: 'none', color: 'white'}}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionChan(channel)}}	style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'> {channel} </div>
 			</div>
 		</li>
@@ -86,7 +91,7 @@ function Selecter (){
 	const renderRowsFriend = (list) => {
 		const listItems = list?.map((friend: UserDto) =>
 		<li key={friend.login}>
-			<div className={"creajoin_button"} onClick={()=> {handleSelection(friend.login)}} style={{ textDecoration: 'none', color: 'white'}}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionUser(friend.login)}} style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'>{friend.login}</div>
 			</div>
 		</li>
