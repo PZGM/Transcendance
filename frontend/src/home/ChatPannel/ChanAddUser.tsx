@@ -27,6 +27,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
             searchResults: [], searchField: undefined
         }
 		this.renderSearchRows = this.renderSearchRows.bind(this);
+		this.addUser = this.addUser.bind(this);
 	}
 
 
@@ -40,13 +41,23 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
         })
 	}
 
+	addUser(add: UserDto) {
+		const newUsers = this.state.chan?.users.filter((user) => {return user.id != add.id});
+		let chan = this.state.chan;
+		if (newUsers && chan)
+			chan.users = newUsers;
+		this.setState({
+			chan
+		});
+	}
+
 	renderSearchRows(list) {
 		const listItems = list.map((user: UserDto) => {
 			if (!this.state.chan)
 				return <div></div>;
 			return (
 			<div key={user.id}>
-				<AddUserDisplay user={user} channelId={this.state.chan.id} />
+				<AddUserDisplay user={user} channelId={this.state.chan.id} addUser={this.addUser} />
 			</div>);
 		}
 	  );
@@ -58,7 +69,10 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
-		const ret = await UserAPI.searchFriend(search);
+		let ret = await UserAPI.searchFriend(search);
+		console.log('users in chan:');
+		console.log(this.state.chan?.users);
+		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id == user.id)});
 		this.setState({searchResults: ret}); 
 	}
 

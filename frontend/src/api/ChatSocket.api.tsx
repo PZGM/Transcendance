@@ -45,4 +45,8 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
     sendMessage(chanId: number, content: string, authorId) {
         this.socket.emit('message', {authorId, content, chanId, service: false});
     }
+
+    cancel() {
+        this.socket.disconnect();
+    }
 }

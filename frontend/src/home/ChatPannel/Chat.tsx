@@ -55,6 +55,10 @@ export class Chat extends Component<ChatProps, ChatState> {
 		})
 	}
 
+	componentWillUnmount() {
+		this.chatSocket.cancel();
+	}
+
 	renderMsg(list)
     {
 		let lastAuthorId: number = -1;

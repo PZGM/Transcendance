@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 type AddUserDisplayProps = {
 	user: UserDto;
 	channelId: number;
+	addUser: any;
 }
 
 interface AddUserDisplayState {
@@ -34,7 +35,10 @@ export class AddUserDisplay extends Component<AddUserDisplayProps, AddUserDispla
 		if (this.state.done)
 			return;
 		if (await ChatAPI.inviteUser(this.props.channelId, this.props.user.id))
+		{
 			this.setState({done: true});
+			this.props.addUser(this.props.user);
+		}
 		else
 		toast.error("Can't invite this user", {
 			position: toast.POSITION.BOTTOM_CENTER,
