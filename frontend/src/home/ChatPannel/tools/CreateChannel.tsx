@@ -138,7 +138,7 @@ function CreateChannel(props) {
                         <Stack justifyContent="center" alignItems="center">
                             {(visibility !== "protected")? <></>:<input type="password" className="friends_search_bar" placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
                         </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>

@@ -90,7 +90,7 @@ function JoinChannel(props: JoinChannelProps) {
                     <Stack justifyContent="center" alignItems="center" spacing={2}>
                         <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
                     </Stack>
-                    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                         <div className="home_button but_red" onClick={cancel}>
                             <div className='bit5x5' > Cancel </div>
                         </div>
@@ -108,7 +108,7 @@ function JoinChannel(props: JoinChannelProps) {
                 <div className='bit5x5' style={{color: 'white', fontSize: '2vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{name}</div>
                 <div className='bit5x5' style={{color: 'grey', fontSize: '1vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{visibility}</div>
                 {(visibility === "protected") && <input className="friends_search_bar" type="password" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
-                    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                         <div onClick={returnButton} className="home_button but_red" >
                             <div className='bit5x5' > Return </div>
                         </div>
