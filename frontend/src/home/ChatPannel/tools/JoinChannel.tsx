@@ -107,7 +107,7 @@ function JoinChannel(props: JoinChannelProps) {
                 <Stack spacing={2} direction="column" >
                 <div className='bit5x5' style={{color: 'white', fontSize: '2vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{name}</div>
                 <div className='bit5x5' style={{color: 'grey', fontSize: '1vw', display: 'flex', alignItems:'center', justifyContent:'center'}}>{visibility}</div>
-                {(visibility === "protected") && <input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
+                {(visibility === "protected") && <input className="friends_search_bar" type="password" placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
                     <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                         <div onClick={returnButton} className="home_button but_red" >
                             <div className='bit5x5' > Return </div>

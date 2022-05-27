@@ -68,7 +68,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			if (friends.find(user => user.login === me.login) === undefined)
 				this.setState({friend: false})
 			else
-			this.setState({friend: true})
+				this.setState({friend: true})
 		}
 	}
 
@@ -101,7 +101,8 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	}
 
 	componentWillUnmount() {
-		this.eventSource.close();
+		if (this.eventSource)
+			this.eventSource.close();
 	}
 
 	async changefriend()
@@ -118,7 +119,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 		{
 			if (this.state.user){
-				UserAPI.removeFriend(this.state.user.id);
+				await UserAPI.removeFriend(this.state.user.id);
 				this.setState({
 					friend: false,
 				})

@@ -27,7 +27,15 @@ function CreateChannel(props) {
       setOpenJoin(true);
     };
   
+	const getAllChan = async () => {
+		// const lst = await ChatAPI.getChannelsNames();
+        // console.log("la liste de tout les chan")
+        // console.log(lst)
+	}
+
+
     const handleCreate = async () => {
+        console.log("le retour? ")
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER,
