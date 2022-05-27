@@ -92,23 +92,23 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
-						<Link className="but_red" style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
-							<ArrowBackIcon/>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" sx={{marginTop: "0.07vh", marginLeft: "0.04vw"}}>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
+							<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
 						</Link>
 					</Stack>
-					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0} sx={{marginTop: 1, marginRight: 1}}>
+					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" sx={{marginTop: "0.07vh", marginRight: "0.04vw"}}>
 									<Link className="but_green"	style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
 										<EditIcon/>
 									</Link>
 								</Stack>}
 				</Stack>
-				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+				<Stack direction="row" justifyContent="center" alignItems="center">
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start">
+					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>USERS :</div>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={'80vh'}>
 						<li>
 							{this.renderRowsUsers(this.state.channel.users)}
 						</li>

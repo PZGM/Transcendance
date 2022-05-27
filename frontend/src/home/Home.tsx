@@ -161,7 +161,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				
 				<Game userStatus={this.state.userStatus}/>
 
-				<Stack sx={{backgroundColor: 'black'}} className='right'>
+				<Stack direction="column" sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
 					<Selecter ></Selecter>
 					<Outlet/>

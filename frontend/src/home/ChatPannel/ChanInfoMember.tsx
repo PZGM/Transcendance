@@ -82,9 +82,9 @@ function ChanInfoMember(props: ChanInfoUserProps) {
     }
     return (
         <div className={"chan_element bor_"+ props.member.color}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
                 <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} onClick={() => (navigate(process.env.REACT_APP_USER +props.member.login + "/info"))}>
-                    <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
+                    <Avatar variant='circular' alt={props.member.login} src={props.member.avatar} sx={{height: '1.6vw', width: '1.6vw'}}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
                         {props.grade && <div style={{color: (props.grade === 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
@@ -99,7 +99,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                         <div className='bit5x5'> SEND MESSAGE </div>
                     </Link>
                     <div className={"renderrow_button but_" + ((isFriend) ? "red" : "green")} onClick={toggleFriendship}>
-                        <div className='bit5x5' > {(isFriend) ? "remove friend" : "add friend"} </div>
+                        <div className='bit5x5'> {(isFriend) ? "remove friend" : <><div>Add</div><div>friend</div></>} </div>
                     </div>
                 </Stack>}
             </Stack>

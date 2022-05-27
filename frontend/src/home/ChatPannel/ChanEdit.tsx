@@ -89,9 +89,9 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: 1, marginLeft: 1}}>
-						<Link className="but_red"	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-							<ArrowBackIcon/>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: "0.07vh", marginLeft: "0.04vw"}}>
+						<Link className="but_red"	style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+							<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
 						</Link>
 					</Stack>
 				</Stack>
@@ -99,7 +99,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
+					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>USERS :</div>
 					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'74vh'}>
 						<li>
 							{this.renderRowsUsers(this.state.channel.users)}
