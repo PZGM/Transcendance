@@ -19,9 +19,9 @@ enum color {
 enum description {
     'unknow',
     'offline',
-    'playing',
+    'idle',
     'connected',
-    'watch match'
+    'playing'
 }
 
 interface ChanInfoUserProps {

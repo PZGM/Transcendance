@@ -53,10 +53,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 		})
 	}
 
-	componentWillUnmount() {
-		this.chatSocket.cancel();
-	}
-
 	renderMsg(list)
     {
 		let lastAuthorId: number = -1;
@@ -67,7 +63,14 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
-
+			console.log('blocked:');
+			console.log(this.state.user?.blockedUsers);
+			if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id == sender?.id}))
+				return (
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<KeyboardDoubleArrowRightIcon sx={{width: "68px", color: 'green'}}/>
+					<div style={{color: 'grey', width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is blocked`}</div>
+				</Stack> );
 			if (msg.service && msg.content === 'JOIN')
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
@@ -149,6 +152,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 		})
 	}
 
+	componentWillUnmount() {
+		if (this.chatSocket)
+        	this.chatSocket.cancel();
+    }
+
 	onKeyDown(e) {
 		if (e.keyCode === 13)
 			this.sendMessage(this.chanName);
@@ -168,7 +176,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     }
 
 	async switchChannel(newChannelName: string){
-		const user = await UserAPI.getMe();
+		const user = await UserAPI.getMe({withBlocked: true});
 		let channel;
 		this.chanName = newChannelName;
 		if (this.props.isPrivateMessage) {

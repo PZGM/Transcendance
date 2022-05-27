@@ -9,4 +9,7 @@ export interface UserDto {
     color: string;
     stats?: StatsDto;
     firstLog: boolean;
+    blockedUsers?: UserDto[];
+
+
 }

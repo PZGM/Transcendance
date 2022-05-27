@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { UserAPI } from "../api/Users.api";
-import createActivityDetector from 'react-activity-detector';
+import ActivityDetector from 'react-activity-detector';
 
 
 interface StatusDetectorProps {
@@ -28,9 +28,6 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
-		this.activityDetector = createActivityDetector({timeToIdle: 1000, ignoredEventsWhenIdle: [], initialState: 'idle'})
-		this.activityDetector.on('idle', this.onIdle)
-		this.activityDetector.on('active', this.onActive)
 	}
 
 	sendActivity = () => {
@@ -43,15 +40,18 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	}
 
     componentWillUnmount() {
-        this.activityDetector.stop();
+		if (this.activityDetector)
+        	this.activityDetector.stop();
     }
 
 	onIdle = () => {
+		console.log('idle');
 		UserAPI.updateStatus(this.id, 2)
 		this.idle = true;
 	}
 
 	onActive = () => {
+		console.log('active');
 		UserAPI.updateStatus(this.id, 3)
 		this.idle = false;
 	}
@@ -61,8 +61,15 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		this.idle = false;
 	}
 
+	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus']
+
 	render () {
-		return (this.props.children)
+		return (
+		<>
+			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={5*1000} onIdle={this.onIdle} onActive={this.onActive}/>
+			{this.props.children}
+		</>
+		);
 	}
 }
 
