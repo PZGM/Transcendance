@@ -66,10 +66,15 @@ function Selecter (){
 		setOpen(false);
 	}
 
-	const handleSelection = (name: string) => {
+	const handleSelectionChan = (name: string) => {
 		setName(name);
 		setOpen(false);
 		navigate(process.env.REACT_APP_HOME_CHAN + "/" + name);
+	}
+	const handleSelectionUser = (name: string) => {
+		setName(name);
+		setOpen(false);
+		navigate(process.env.REACT_APP_MP + name);
 	}
 
 	const handleSelectionFriend = (name: string) => {
@@ -81,7 +86,7 @@ function Selecter (){
 	const renderRowsChan=(list) =>{
 		const listItems = list.map((channel: string) =>
 		<li key={channel}>
-			<div className={"creajoin_button"} onClick={()=> {handleSelection(channel)}}	style={{ textDecoration: 'none', color: 'white'}}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionChan(channel)}}	style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'> {channel} </div>
 			</div>
 		</li>
