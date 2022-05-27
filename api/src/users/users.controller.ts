@@ -68,8 +68,9 @@ export class UsersController {
             throw new NotFoundException();        
         const chans = await (await this.userService.getChannels(userId));
         const chanNames = chans.map((chan) => {return chan.name});
-        if (chanNames)
-            return chanNames;
+        const channelsNames = chanNames.filter((name) => {return !(name.startsWith('*'))});
+        if (channelsNames)
+            return channelsNames;
         throw new NotFoundException();
     }
 

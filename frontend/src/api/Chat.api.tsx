@@ -59,8 +59,9 @@ export class ChatAPI {
 
 
     // ${process.env.REACT_APP_GET_CHANNELS_ID}
-    public static async getChannelById(id: number) {
-        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_ID}${id}`, {
+    public static async getChannelById(id: number, options?: RelationsPicker) {
+        const query = (options) ? `?${optionsToQuery(options)}` : '';
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_ID}${id}${query}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
@@ -101,7 +102,6 @@ export class ChatAPI {
     
     public static async addMessage(message: string, authorId: number,channelId: number) {
         let ret = true;
-        console.log('post message from front')
         await fetch(`${process.env.REACT_APP_MESSAGES}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -181,6 +181,15 @@ export class ChatAPI {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({channelId, invitedId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async createOrJoinPrivateMessage(friendId: number) : Promise<number>{
+        const resp = await fetch(`${process.env.REACT_APP_MP_CHANNEL}${friendId}`, {
+            method: "PUT",
             credentials: "include"})
             .then(response => {return response.json()})
             .then(json => {return json});

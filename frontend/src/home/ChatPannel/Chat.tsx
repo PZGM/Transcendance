@@ -72,35 +72,42 @@ export class Chat extends Component<ChatProps, ChatState> {
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
 					<KeyboardDoubleArrowRightIcon sx={{width: "68px", color: 'green'}}/>
-					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} joined the channel`}</div>
+					<div style={{color: 'grey', width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} joined the channel`}</div>
 				</Stack> )
 				
 			if (msg.service && msg.content === 'LEAVE')
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
 					<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
-					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} left the channel`}</div>
+					<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} left the channel`}</div>
 				</Stack>)
+
+			if (msg.service && msg.content === 'PROFILED')
+			return (
+			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
+				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} uptaded his profile`}</div>
+			</Stack>)
 			
 			if (msg.service && msg.content === 'PROMOTE')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
 				<KeyboardArrowUpIcon sx={{width: "68px", color: 'cyan'}}/>
-				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is now admin`}</div>
+				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is now admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'DEMOTE')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
 				<KeyboardArrowDownIcon sx={{width: "68px", color: 'orange'}}/>
-				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is no longer admin`}</div>
+				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is no longer admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'OWNERED')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
 				<StarOutlineIcon sx={{width: "68px", color: 'yellow'}}/>
-				<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
+				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
 			</Stack>)
 
 			if (isFirst)
@@ -161,12 +168,24 @@ export class Chat extends Component<ChatProps, ChatState> {
     }
 
 	async switchChannel(newChannelName: string){
-		console.log('switch room');
-		this.chanName = newChannelName;
 		const user = await UserAPI.getUser();
-		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
-		if (!channel || !user) {
-			return;
+		let channel;
+		this.chanName = newChannelName;
+		if (this.props.isPrivateMessage) {
+			const friend: UserDto|null = await UserAPI.getUserByLogin(newChannelName);
+			if (!friend)
+				return;
+			const chanId: number = await ChatAPI.createOrJoinPrivateMessage(friend.id)
+			channel= await ChatAPI.getChannelById(chanId, {withAdmin: true, withOwner: true})
+			if (!channel || !user) {
+				return;
+			}
+		}
+		else {
+			channel = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
+			if (!channel || !user) {
+				return;
+			}
 		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id, user.id);
@@ -180,6 +199,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	render () {
 		if (this.chanName !== this.props.params.name) {
+			console.log(`switch to new channel ${this.props.isPrivateMessage}`)
 			if (!this.switchChannel(this.props.params.name))
 			{
 				return <Navigate to='404' />
