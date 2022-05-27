@@ -80,8 +80,8 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 
 		return (
             <>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<Link style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+					<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
 						<ArrowBackIcon/>
 					</Link>
 				</Stack>
