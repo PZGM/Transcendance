@@ -78,7 +78,7 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	async fetchUser() {
-		const resp = await UserAPI.getUser();
+		const resp = await UserAPI.getMe();
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,

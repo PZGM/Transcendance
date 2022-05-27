@@ -22,7 +22,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		const logged = await UserAPI.checkLoggedIn();
 		if (logged === false)
 			return;
-		const resp = await UserAPI.getUser();
+		const resp = await UserAPI.getMe();
 		if (!resp)
 			return;
 		this.id = resp.id;

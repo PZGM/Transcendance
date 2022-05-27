@@ -38,7 +38,7 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	async fetchUser() {
-		const user = await UserAPI.getUser()
+		const user = await UserAPI.getMe()
 		if (user) {
 			//console.log(user);
 			this.gameSocket.userConnection(user.id);

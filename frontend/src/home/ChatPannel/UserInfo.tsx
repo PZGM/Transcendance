@@ -63,7 +63,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
     async isFriend(){
         const friends = await UserAPI.getFriends();
-        const me = await UserAPI.getUser();
+        const me = await UserAPI.getMe();
         if (me){
             if (friends.find(user => user.login === me.login) === undefined)
                 this.setState({friend: false})

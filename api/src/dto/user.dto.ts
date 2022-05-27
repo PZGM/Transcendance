@@ -2,6 +2,14 @@ import { Length } from "class-validator";
 import { User } from "src/typeorm/entities/user";
 import { Stats } from "src/typeorm/entities/stats";
 import { Channel } from "src/typeorm";
+import { ChannelDto } from "./chat.dto";
+
+export class UserRelationsPicker {
+    withChannels?: boolean;
+    withBlocked?: boolean;
+    withStats?: boolean;
+    withGames?: boolean;
+}
 
 export class UserDto {
 
@@ -11,8 +19,10 @@ export class UserDto {
             this.login = user.login;
             this.avatar = user.avatar;
             this.status = user.status;
-            this.blockedUsers = user.blockedUsers;
-            this.adminChannels = user.adminChannels;
+            if (user.blockedUsers)
+                this.blockedUsers = user.blockedUsers.map((user) => {return new UserDto(user)});
+            if (user.adminChannels)
+                this.adminChannels = user.adminChannels.map((channel) => {return new ChannelDto(channel)});
             this.color = user.color;
             this.stats = user.stats;
             this.firstLog = user.firstLog;
@@ -26,8 +36,8 @@ export class UserDto {
     login: string;
     avatar: string;
     status?: number; 
-    blockedUsers?: User[];
-    adminChannels?: Channel[];
+    blockedUsers?: UserDto[];
+    adminChannels?: ChannelDto[];
     color: string;
     stats: Stats;
     firstLog: boolean;

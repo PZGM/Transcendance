@@ -21,6 +21,19 @@ export class UserRelationsPicker {
     withGames?: boolean;
 }
 
+function optionsToQuery(options: UserRelationsPicker) {
+    let tab: string[] = [];
+    if (options.withChannels)
+        tab.push('withChannels=true');
+    if (options.withBlocked)
+        tab.push('withBlocked=true');
+    if (options.withStats)
+        tab.push('withStats=true');
+    if (options.withGames)
+        tab.push('withGames=true');
+    return tab.join('&');
+}
+
 export class UserAPI {
 
 		//check login
@@ -77,7 +90,7 @@ export class UserAPI {
 		public static async getUserById(id: number, options?: UserRelationsPicker): Promise<UserDto|null>
 		{
 			const query = (options) ? `?${optionsToQuery(options)}` : '';
-			const ret = await fetch(`${process.env.REACT_APP_URL_USER}${query}`, {
+			const ret = await fetch(`${process.env.REACT_APP_URL_USER}${id}${query}`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {

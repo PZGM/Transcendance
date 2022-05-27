@@ -39,7 +39,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const name = this.props.params.name;
 		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
 		const admins = channel.admin;
-		const user = await UserAPI.getUser();
+		const user = await UserAPI.getMe();
 		if (!user || !channel)
 			return;
 		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})

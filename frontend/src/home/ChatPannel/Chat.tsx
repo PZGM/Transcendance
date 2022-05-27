@@ -168,7 +168,7 @@ export class Chat extends Component<ChatProps, ChatState> {
     }
 
 	async switchChannel(newChannelName: string){
-		const user = await UserAPI.getUser();
+		const user = await UserAPI.getMe();
 		let channel;
 		this.chanName = newChannelName;
 		if (this.props.isPrivateMessage) {
