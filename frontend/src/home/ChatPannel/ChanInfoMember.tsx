@@ -6,7 +6,6 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
-// TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
     'white',

@@ -11,6 +11,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	idle: boolean = false;
 	id!: number;
     activityDetector: any = null;
+	last: string = '';
 
 	constructor(props: StatusDetectorProps) {
 		super(props);
@@ -31,8 +32,8 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	}
 
 	sendActivity = () => {
-		if (this.idle === false && this.activityDetector)
-			UserAPI.reportActivity(this.id);
+		// if (this.idle === false && this.activityDetector)
+		// 	UserAPI.reportActivity(this.id);
 	}
 
 	componentDidMount() {
@@ -45,23 +46,21 @@ export class StatusDetector extends Component<StatusDetectorProps>{
     }
 
 	onIdle = () => {
-		console.log('idle');
-		UserAPI.updateStatus(this.id, 2)
-		this.idle = true;
+			// UserAPI.updateStatus(this.id, 2)
+			this.idle = true;
 	}
 
 	onActive = () => {
-		console.log('active');
-		UserAPI.updateStatus(this.id, 3)
-		this.idle = false;
+			// UserAPI.updateStatus(this.id, 3)
+			this.idle = false;
 	}
 
 	onPlaying = () => {
-		UserAPI.updateStatus(this.id, 4)
+		// UserAPI.updateStatus(this.id, 4)
 		this.idle = false;
 	}
 
-	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus']
+	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus',]
 
 	render () {
 		return (
