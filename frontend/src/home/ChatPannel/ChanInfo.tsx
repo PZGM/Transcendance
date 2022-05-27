@@ -92,13 +92,13 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
-					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0}>
-									<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
+					{ (this.state.isAdmin) && <Stack direction="column" justifyContent="center" alignItems="flex-end" spacing={0} sx={{marginTop: 1, marginRight: 1}}>
+									<Link className="but_green"	style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
 										<EditIcon/>
 									</Link>
 								</Stack>}
