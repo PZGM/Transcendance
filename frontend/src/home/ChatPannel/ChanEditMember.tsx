@@ -1,12 +1,15 @@
-import { Stack, Avatar } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Stack, Avatar } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
 import '../../style/colors.css'
 import { UserDto } from "../../api/dto/user.dto";
+import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
+import { channel } from "diagnostics_channel";
 import MuteBan from "./tools/MuteBan"
 
 interface ChanEditMemberProps {
@@ -24,10 +27,10 @@ function ChanEditMember(props: ChanEditMemberProps) {
     let eventSource;
     const [status, setStatus] = useState(props.member.status);
 
-    const userIsMember: boolean = props.user.id === props.member.id;
-    const userIsOwner: boolean = props.channel.owner.id === props.user.id;
-    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id === props.member.id}));
-    const memberIsOwner: boolean = props.channel.owner.id === props.member.id;
+    const userIsMember: boolean = props.user.id == props.member.id;
+    const userIsOwner: boolean = props.channel.owner.id == props.user.id;
+    const [memberIsAdmin, setMemberIsAdmin] = useState(props.channel.admin.some((admin) => {return admin.id == props.member.id}));
+    const memberIsOwner: boolean = props.channel.owner.id == props.member.id;
 
     useEffect(() => {
         //component will mount

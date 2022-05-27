@@ -38,7 +38,7 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
 	}
 
 	async fetchUser() {
-		const resp = await UserAPI.getMe();
+		const resp = await UserAPI.getUser();
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,

@@ -2,10 +2,10 @@ import { Component } from "react";
 import '../../style/display.css';
 import { PlayButton } from './PlayButton';
 import { Loading } from './Loading';
-import Restart from './Restart';
 import { Play } from './Play';
 import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
+import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
 
 interface GameProps {
@@ -42,7 +42,7 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	async fetchUser() {
-		const user = await UserAPI.getMe()
+		const user = await UserAPI.getUser()
 		if (user) {
 			this.props.gameSocket.userConnection(user.id);
 			this.setState({
@@ -51,21 +51,6 @@ export class Game extends Component<GameProps, GameState>
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	recieveGameRoom(room: Room) {
-		//console.log(room);
-		this.setState({
-			display: 2,
-			room
-		})
-	}
-
-	updateRoom (room: Room) {
-		this.setState({room})
-	}
-
->>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 	updateDisplay(type: number) {
 		this.setState({
 			display: type
@@ -74,37 +59,19 @@ export class Game extends Component<GameProps, GameState>
 
 	display()
 	{
-<<<<<<< HEAD
 		console.log(`display: ${this.state.display}`)
 		if (this.state.display === 0)
 			return <PlayButton	socket={this.props.gameSocket}
-=======
-		if (this.state.display === 0)
-			return <PlayButton socket={this.gameSocket}
->>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 								userId={this.state.userId}
 								updateDisplay={this.updateDisplay}
 					/>
 		else if (this.state.display === 1)
 			return <Loading/>
-<<<<<<< HEAD
 		else if (this.state.display === 2)
 			return <Play room={this.props.room}
 						socket={this.props.gameSocket}
 						userId={this.state.userId}
 					/>
-=======
-			else if (this.state.display === 2)
-			return <Play room={this.state.room}
-			socket={this.gameSocket}
-			userId={this.state.userId}
-			updateDisplay={this.updateDisplay}
-			/> 
-		else if (this.state.display === 3)
-			return <Restart room={this.state.room}
-			updateDisplay={this.updateDisplay}
-			/>
->>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 	}
 
     /* render the jsx */

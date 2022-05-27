@@ -1,6 +1,6 @@
 @import "colors.css";
 
-.friends_search_bar, .settings_nick_input, .settings_2fa_input,.add_user_bar,
+.friends_search_bar, .settings_nick_input, .settings_2fa_input,
 .userinit_nick_input {
 	outline: none;
 	/* position: relative; */
@@ -42,20 +42,6 @@
 }
 
 .friends_search_bar:focus::-webkit-input-placeholder { color:transparent; }
-
-.add_user_bar {
-	color: white;
-	/* 0.1vw for avoid the box-shadow to overlap */
-	width: 95%;
-	font-family: Bit5x5;
-	font-size: 2vw;
-	/* Consider border as part of the content */
-	box-sizing: border-box;
-	border: 0.2vw solid var(--yellow);
-	box-shadow: 0.25vw 0.25vw 0px -0.05vw rgba(218, 203, 23, 0.5);
-}
-
-.add_user_bar:focus::-webkit-input-placeholder { color:transparent; }
 
 .settings_nick_input, .userinit_nick_input {
 	font-family: bit5x5;

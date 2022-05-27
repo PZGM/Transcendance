@@ -1,13 +1,16 @@
 # compiled output
 /dist
-/frontend/node_modules/
-/api/node_modules/
+/node_modules
+/frontend/node_modules
+/backend/node_modules
 /postgres_data
 # Logs
 logs
 *.log
 npm-debug.log*
 pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 lerna-debug.log*
 
 # OS

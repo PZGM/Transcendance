@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Room } from '../../api/dto/game.dto'
+import { Room, roomEnum } from '../../api/dto/game.dto'
 import { GameSocketAPI } from '../../api/GameSocket.api'
 
 const Sam: number = 1000; 
@@ -24,7 +24,7 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 interface CanvasProps {
 	room: Room,
 	socket: GameSocketAPI,
-	userId: number,
+	userId: number
 }
 
 interface CanvasState {
@@ -104,27 +104,33 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	drawBall(ctx: any, room: Room)
 	{
+		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.ballColor
 		ctx.arc((room.ballX * this.ratio), room.ballY * this.ratio,
 				room.ballR * this.ratio, 0, 2 * Math.PI, true);
 		ctx.fill()
+		// ctx.restore()
 	}
 
 	drawPlayerOne(ctx: any, room: Room)
 	{
+		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.pOne.color
 		ctx.fillRect(room.pOneX * this.ratio, room.pOneY * this.ratio,
 				15 * this.ratio, room.pOneSize * this.ratio);
+		// ctx.restore()
 	}
 
 	drawPlayerTwo(ctx: any, room: Room)
 	{
+		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.pTwo.color
 		ctx.fillRect(room.pTwoX * this.ratio, room.pTwoY * this.ratio,
 				15 * this.ratio, room.pTwoSize * this.ratio);
+		// ctx.restore()
 	}
 
 	draw()
@@ -164,6 +170,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	render()
 	{
+		// console.log('RENDER CANVAS')
 		return (
 			<canvas id="canvas"/>
 		)

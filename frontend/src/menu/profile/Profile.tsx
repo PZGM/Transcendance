@@ -44,7 +44,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 	}
 
 	async fetchProfile() {
-		const user = await UserAPI.getMe({withStats: true});
+		const user = await UserAPI.getUserWithStats();
 		if (user)
 			this.setState({
 				user

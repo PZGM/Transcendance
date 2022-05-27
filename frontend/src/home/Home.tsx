@@ -4,12 +4,8 @@ import '../style/style.css'
 import '../style/home.css'
 import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
-<<<<<<< HEAD
 import SendIcon from '@mui/icons-material/Send';
 import { Link, Outlet, useParams } from "react-router-dom";
-=======
-import { Outlet } from "react-router-dom";
->>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
@@ -72,7 +68,7 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	async fetchUser() {
-		const resp = await UserAPI.getMe();
+		const resp = await UserAPI.getUser();
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,

@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { Navigate } from 'react-router-dom';
 import { UserAPI } from "../api/Users.api";
 

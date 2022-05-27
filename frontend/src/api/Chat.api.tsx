@@ -59,9 +59,8 @@ export class ChatAPI {
 
 
     // ${process.env.REACT_APP_GET_CHANNELS_ID}
-    public static async getChannelById(id: number, options?: RelationsPicker) {
-        const query = (options) ? `?${optionsToQuery(options)}` : '';
-        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_ID}${id}${query}`, {
+    public static async getChannelById(id: number) {
+        const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_ID}${id}`, {
             method: "GET",
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
@@ -102,6 +101,7 @@ export class ChatAPI {
     
     public static async addMessage(message: string, authorId: number,channelId: number) {
         let ret = true;
+        console.log('post message from front')
         await fetch(`${process.env.REACT_APP_MESSAGES}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -170,26 +170,6 @@ export class ChatAPI {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({channelId, adminId}),
-            credentials: "include"})
-            .then(response => {return response.json()})
-            .then(json => {return json});
-            return resp;
-    }
-
-    public static async inviteUser(channelId: number, invitedId: number) : Promise<boolean>{
-        const resp = await fetch(`${process.env.REACT_APP_INVITE_IN_CHANNEL}`, {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({channelId, invitedId}),
-            credentials: "include"})
-            .then(response => {return response.json()})
-            .then(json => {return json});
-            return resp;
-    }
-
-    public static async createOrJoinPrivateMessage(friendId: number) : Promise<number>{
-        const resp = await fetch(`${process.env.REACT_APP_MP_CHANNEL}${friendId}`, {
-            method: "PUT",
             credentials: "include"})
             .then(response => {return response.json()})
             .then(json => {return json});

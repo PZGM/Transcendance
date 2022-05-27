@@ -3,14 +3,13 @@ import '../../style/display.css';
 import { Room } from '../../api/dto/game.dto';
 import Canvas from './Canvas';
 import { GameSocketAPI } from '../../api/GameSocket.api';
-import { Stack } from "@mui/material";
+import { Stack, Avatar } from "@mui/material";
 
 
 interface PlayProps {
 	room?: Room,
 	socket: GameSocketAPI,
-	userId: number,
-	updateDisplay: any
+	userId: number
 };
 
 interface PlayState {
@@ -19,12 +18,6 @@ interface PlayState {
 
 export class Play extends Component<PlayProps, PlayState>
 {
-	componentDidUpdate(){
-		if(this.props.room)
-			if (this.props.room.status === 3)
-				this.props.updateDisplay(3)
-	}
-
 	render () {
 		//console.log('RENDER PLAY')
 		

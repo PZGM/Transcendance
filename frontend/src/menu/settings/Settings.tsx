@@ -30,7 +30,7 @@ export class Settings extends Component<SettingsProps, SettingsState> {
 	}
 
 	async fetchUser() {
-		const resp = await UserAPI.getMe();
+		const resp = await UserAPI.getUser();
 		if (resp)
 			this.setState({
 				avatar: resp.avatar,

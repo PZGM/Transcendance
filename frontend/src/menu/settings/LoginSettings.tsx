@@ -2,10 +2,10 @@ import { Grid } from "@mui/material";
 import { Component } from "react";
 import { UserAPI } from "../../api/Users.api";
 import { toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 import "../../style/buttons.css";
 
-toast.configure();
+toast.configure()
 
 type LoginSettingsProps = {
     login?: string
