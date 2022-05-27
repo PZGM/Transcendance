@@ -14,6 +14,26 @@ export const URL_ME = () => {
     	return response;
 }
 
+export class UserRelationsPicker {
+    withChannels?: boolean;
+    withBlocked?: boolean;
+    withStats?: boolean;
+    withGames?: boolean;
+}
+
+function optionsToQuery(options: UserRelationsPicker) {
+    let tab: string[] = [];
+    if (options.withChannels)
+        tab.push('withChannels=true');
+    if (options.withBlocked)
+        tab.push('withBlocked=true');
+    if (options.withStats)
+        tab.push('withStats=true');
+    if (options.withGames)
+        tab.push('withGames=true');
+    return tab.join('&');
+}
+
 export class UserAPI {
 
 		//check login
@@ -36,11 +56,20 @@ export class UserAPI {
 				return ret;
 		}
 
+		//find
+		public static async searchUsers(search: string) {
+			const resp: UserDto[] = await fetch(`${process.env.REACT_APP_SEARCH_USERS_API}${search}`, {
+				method: "GET",
+				credentials: "include"}).then(response => {return response.json()})
+				.then(json => {return json})
+			 return resp
+		}
 
 		//getters
-		public static async getUser(): Promise<UserDto|null>
+		public static async getMe(options?: UserRelationsPicker): Promise<UserDto|null>
 		{
-			const ret = await fetch(`${process.env.REACT_APP_URL_ME}`, {
+			const query = (options) ? `?${optionsToQuery(options)}` : '';
+			const ret = await fetch(`${process.env.REACT_APP_URL_ME}${query}`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {
@@ -58,9 +87,10 @@ export class UserAPI {
 				return ret;
 		}
 
-		public static async getUserWithStats(): Promise<UserDto|null>
+		public static async getUserById(id: number, options?: UserRelationsPicker): Promise<UserDto|null>
 		{
-			const ret = await fetch(`${process.env.REACT_APP_USER_STATS}`, {
+			const query = (options) ? `?${optionsToQuery(options)}` : '';
+			const ret = await fetch(`${process.env.REACT_APP_URL_USER}${id}${query}`, {
 				method: "GET",
 				credentials: "include"})
 				.then(response => {
@@ -72,23 +102,10 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched 3 ')
+					console.log('error catched 2')
 					return null;
 				})
 				return ret;
-		}
-
-		public static async getUserById(id: number): Promise<UserDto|null>
-		{
-			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${id}`, {
-				method: "GET",
-				credentials: "include"})
-				.then(response => {return response.json()}).then(json => {return json})
-				.catch(err => {
-					console.log('error catched 4')
-					return null;
-				})
-			return resp
 		}
 
 		public static async getUserByLogin(login: string): Promise<UserDto|null>

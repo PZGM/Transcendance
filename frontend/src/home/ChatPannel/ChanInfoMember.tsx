@@ -1,4 +1,4 @@
-import { Box, Stack, Avatar, Dialog } from "@mui/material";
+import { Stack, Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
@@ -6,7 +6,10 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
+<<<<<<< HEAD
 import { GameSocketAPI } from "../../api/GameSocket.api";
+=======
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 // TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
@@ -81,7 +84,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
-                        {props.grade && <div style={{color: (props.grade == 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
+                        {props.grade && <div style={{color: (props.grade === 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
                     </Stack>
                 </Stack>
                 {!props.isMe &&

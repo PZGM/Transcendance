@@ -1,5 +1,5 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, ButtonBase, ClickAwayListener, List, Popper, Stack } from "@mui/material";
-import { Component, useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import ArrowDropDownTwoToneIcon from '@mui/icons-material/ArrowDropDownTwoTone';
 import { Link } from "react-router-dom";
 import { ChatAPI } from "../../../api/Chat.api";
@@ -9,7 +9,7 @@ import CreateChannel from "../tools/CreateChannel"
 import InfoIcon from '@mui/icons-material/Info';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { UserDto } from "../../../api/dto/user.dto";
 
 interface SelecterProps {
@@ -28,6 +28,7 @@ let Hi = 15;
 let Hchan = 25;
 
 function Selecter (){
+	let navigate = useNavigate();
 	let location = useLocation();
 	const [channels, setChannels] = useState<string[]>([]);
 	const [friends, setFriends] = useState<UserDto[]>([]);
@@ -65,33 +66,45 @@ function Selecter (){
 		setOpen(false);
 	}
 
-	const handleSelection = (name: string) => {
+	const handleSelectionChan = (name: string) => {
 		setName(name);
 		setOpen(false);
+		navigate(process.env.REACT_APP_HOME_CHAN + "/" + name);
+	}
+	const handleSelectionUser = (name: string) => {
+		setName(name);
+		setOpen(false);
+		navigate(process.env.REACT_APP_MP + name);
+	}
+
+	const handleSelectionFriend = (name: string) => {
+		setName(name);
+		setOpen(false);
+		navigate(process.env.REACT_APP_HOME_PRIVATE_MESSAGE + "/" + name);
 	}
 
 	const renderRowsChan=(list) =>{
 		const listItems = list.map((channel: string) =>
 		<li key={channel}>
-			<Link onClick={()=> {handleSelection(channel)}}	style={{ textDecoration: 'none', color: 'white'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + channel}}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionChan(channel)}}	style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'> {channel} </div>
-			</Link>
+			</div>
 		</li>
 	  );
 	  return listItems;
 	}
 	
 	const renderRowsFriend = (list) => {
-		const listItems = list?.map((friend: any) =>
-		<>
-			<Link onClick={()=> {handleSelection(friend.login)}} style={{ textDecoration: 'none', color: 'white', marginBottom: 1}} to={{pathname: process.env.REACT_APP_MP + friend.login}}>
+		const listItems = list?.map((friend: UserDto) =>
+		<li key={friend.login}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionFriend(friend.login)}} style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'>{friend.login}</div>
-			</Link>
-		</>
+			</div>
+		</li>
 	  );
 	  return listItems;
 	}
-// TODO mettre un filtre pour pas que notre compte apparaissent dans la liste car on peut pas s'envoyer de msg
+
 	return (
 		<>
 			<Box width="19.5vw" height={Hbar} sx={{backgroundColor: "#03C7D8", display: "flex", justifyContent: "center", alignItems: "center"}}>
@@ -102,10 +115,10 @@ function Selecter (){
 						</Link>
 						<ButtonBase onClick={handleClick} style={{height: Hchan,fontSize: "large"}} >
 							<div className='bit9x9'>{name}</div>
-							<div>{(open == false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
+							<div>{(open === false)? <ArrowDropDownIcon/> : <ArrowDropUpIcon/>}</div>
 						</ButtonBase>
 						<ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
-							<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black"}} open={open} anchorEl={anchorEl}>
+							<Popper sx={{paddingTop: "0.76vh",backgroundColor: "black",border: 5, borderColor: "#8e00ae", paddingBottom: 1}} open={open} anchorEl={anchorEl}>
 								<List sx={{maxHeight: "30.5vh", mb: -1, mt: -1}} disablePadding>
 									<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
 										<AccordionSummary expandIcon={<ArrowDropDownTwoToneIcon style={{color: "white"}} />}>
@@ -113,11 +126,9 @@ function Selecter (){
 										</AccordionSummary>
 										<AccordionDetails>
 											<CreateChannel close={handleClickAway}/>
-											<List sx={{display: "flex", justifyContent: "center"}}>
-												<Stack direction="column">
-													{renderRowsChan(channels)}
-												</Stack>
-											</List>
+											<Stack direction="column"  justifyContent="center" alignItems="center" spacing={1}>
+												{renderRowsChan(channels)}
+											</Stack>
 										</AccordionDetails>
 									</Accordion>
 									<Accordion onClick={(e) => {e.stopPropagation();}} disableGutters sx={{backgroundColor: "black"}}>
@@ -125,11 +136,9 @@ function Selecter (){
 											<div className='bit9x9' style={{color: "white"}}> Chats </div>
 										</AccordionSummary>
 										<AccordionDetails>
-											<List sx={{display: "flex", justifyContent: "center"}}>
-												<Stack direction="column">
-													{renderRowsFriend(friends)}
-												</Stack>
-											</List>
+											<Stack direction="column" justifyContent="center" alignItems="center" spacing={1}>
+												{renderRowsFriend(friends)}
+											</Stack>
 										</AccordionDetails>
 									</Accordion>
 								</List>

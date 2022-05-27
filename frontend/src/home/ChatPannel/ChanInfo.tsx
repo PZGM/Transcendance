@@ -1,14 +1,18 @@
+<<<<<<< HEAD
 import { Stack, List, BackdropProps } from "@mui/material";
 import { Component, useEffect, useState} from "react";
 import { Link, Navigate, useOutletContext } from "react-router-dom";
+=======
+import { Stack } from "@mui/material";
+import { Component} from "react";
+import { Link, Navigate } from "react-router-dom";
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 import { UserAPI } from "../../api/Users.api";
 import ChanInfoMember from "./ChanInfoMember";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
-import { ThirtyFpsSharp } from "@mui/icons-material";
 import EditIcon from '@mui/icons-material/Edit';
 import { GameSocketAPI } from "../../api/GameSocket.api";
 
@@ -46,12 +50,31 @@ function ChanInfo(props: ChanInfoProps) {
 			setIsAdmin(tmp_channel.admin.some((admin) => {return admin.id == tmp_user.id}))
 		}
 
+<<<<<<< HEAD
 		stateInit()
 		.catch(console.error)
 	}, [])
+=======
+	async componentDidMount()  {
+		const name = this.props.params.name;
+		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		const friends = await UserAPI.getFriends();
+		const user = await UserAPI.getMe();
+		if (!user || !channel)
+			return;
+		const isAdmin = channel.admin.some((admin) => {return admin.id === user.id})
+		this.setState({
+			channel,
+			friends,
+			isAdmin,
+			user,
+		})
+	}
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 
 	const renderRowsUsers = (list) => {
 		list = list.sort((a: UserDto, b: UserDto) => {
+<<<<<<< HEAD
 			if (channel?.owner?.id == a.id)
 				return -1;
 			if (channel?.owner?.id == b.id)
@@ -59,11 +82,21 @@ function ChanInfo(props: ChanInfoProps) {
 			if (channel?.admin.some((admin) => {return admin.id == a.id}))
 				return -1;
 			if (channel?.admin.some((admin) => {return admin.id == b.id}))
+=======
+			if (this.state.channel?.owner?.id === a.id)
+				return -1;
+			if (this.state.channel?.owner?.id === b.id)
+				return 1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === a.id}))
+				return -1;
+			if (this.state.channel?.admin.some((admin) => {return admin.id === b.id}))
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 				return 1;
 			return 0;
 		})
 		
 		const listItems = list?.map((member: UserDto) => {
+<<<<<<< HEAD
 			const isFriend = friends.some((friend) => {return friend.id == member.id});
 			const isMe = user?.id == member.id;
 			let grade = channel?.admin.some((admin) => {return admin.id == member.id}) ? 'admin' : '';
@@ -82,6 +115,18 @@ function ChanInfo(props: ChanInfoProps) {
 		});
 		
 		return listItems;
+=======
+		const isFriend = this.state.friends.some((friend) => {return friend.id === member.id});
+		const isMe = this.state.user?.id === member.id;
+		let grade = this.state.channel?.admin.some((admin) => {return admin.id === member.id}) ? 'admin' : '';
+		if (this.state.channel?.owner && this.state.channel?.owner.id === member.id)
+			grade = 'owner';
+		return (
+			<ChanInfoMember isMe={isMe} key={this.index} index={this.index++} member={member} grade={grade} isFriend={isFriend}></ChanInfoMember>);
+		}
+	  );
+	  return listItems;
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1
 	}
 
 	const leave = async () => {

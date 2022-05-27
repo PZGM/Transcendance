@@ -4,7 +4,6 @@ import '../../../style/buttons.css'
 import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
 import 'react-toastify/dist/ReactToastify.css';
-import { WhatsappOutlined } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { UserAPI } from '../../../api/Users.api';
 import { useNavigate } from 'react-router-dom';
@@ -26,7 +25,7 @@ function JoinChannel(props: JoinChannelProps) {
     let navigate = useNavigate();
 
     const find = async () => {
-        const me = await UserAPI.getUser();
+        const me = await UserAPI.getMe();
         const channel = await ChatAPI.getChannelByName(name);
         if (me === null)
             return;
@@ -37,7 +36,7 @@ function JoinChannel(props: JoinChannelProps) {
             return;
         }
         if (channel.users.some((user) => {
-            return user.id == me.id;
+            return user.id === me.id;
         })) {
             toast.error("You're already in this channel", {
                 position: toast.POSITION.BOTTOM_CENTER
@@ -61,7 +60,7 @@ function JoinChannel(props: JoinChannelProps) {
         else{
             const channel = await ChatAPI.getChannelByName(name);
             let join;
-            if (visibility == 'public') {
+            if (visibility === 'public') {
                 join = await ChatAPI.joinChannel(channel.id);
             }
             else {
@@ -128,31 +127,3 @@ function JoinChannel(props: JoinChannelProps) {
 
 
 export default JoinChannel;
-
-
-{/* <DialogContent sx={{backgroundColor: "black"}}>
-<Stack spacing={2} direction="column" >
-    <Stack justifyContent="center" alignItems="center" spacing={2}>
-        <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {if (e.target.value.length < 11){setName(e.target.value)}}}/>
-    </Stack>
-    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-        <div className={"home_button but_" + ((visibility === "public")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "public")? "yellow": "red"}} onClick={() => {setVisibility("public")}}>
-            <div className='bit5x5'> Public </div>
-        </div>
-        <div className={"home_button but_" + ((visibility === "protected")? "yellow": "red")} style={{width: "90px", height: '50px', borderRadius: 0, backgroundColor: (visibility === "protected")? "yellow": "red"}} onClick={() => {setVisibility("protected")}}>
-            <div className='bit5x5'> Protected </div>
-        </div>
-    </Stack>
-    <Stack justifyContent="center" alignItems="center">
-        {(visibility === "public")? <></>:<input className="friends_search_bar"  placeholder="password" onChange={ async (e) => {setPassword(e.target.value)}}/>}
-    </Stack>
-    <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-        <div className="home_button but_red" onClick={handleCancelJoin}>
-            <div className='bit5x5' > Cancel </div>
-        </div>
-        <div onClick={handleJoin} className="home_button but_red" style={{textDecoration: 'none',color: 'white' }}>
-            <div className='bit5x5'> join </div>
-        </div>
-    </Stack>
-</Stack>
-</DialogContent> */}

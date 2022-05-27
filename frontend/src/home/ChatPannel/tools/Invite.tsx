@@ -1,17 +1,18 @@
 import * as React from 'react';
-import { Button, ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
+import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
 import '../../../style/colors.css'
-import { UserAPI } from '../../../api/Users.api';
-import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+<<<<<<< HEAD:frontend/src/home/ChatPannel/tools/Invite.tsx
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import JoinChannel from './JoinChannel'
 import { ChatSocketAPI } from '../../../api/ChatSocket.api';
 import { ChannelDto } from '../../../api/dto/channel.dto';
 import { UserDto } from '../../../api/dto/user.dto';
+=======
+
+>>>>>>> 52efbb5ca0f319dad0730297f16832b8093565f1:frontend/src/home/ChatPannel/tools/InviteUser.tsx
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 
