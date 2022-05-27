@@ -113,7 +113,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			socket.join(data.roomId);
 			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
-				this.usersService.setUserStatus(user.id, statusEnum.playing);
+				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
+				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
@@ -134,15 +135,13 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {
-		console.log('handleRoomInvite')
 		const user : User = await this.usersService.getOne(senderId);
 		const guest : User = await this.usersService.getOne(receiverId);
 		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing &&
 			this.pool.find(user) && this.pool.find(guest))
 		{
-
-			const roomId = `${difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
-			const room = new Room(roomId, Difficulty.Easy, user, guest);
+			const roomId = `${difficulty.toString()}${user.id}${guest.id}${Date.now().toString().substring(8, 13)}`;
+			const room = new Room(roomId, difficulty, user, guest);
 			this.rooms.set(roomId, room);
 			this.server.to(user.socketId).emit("inviteGame", room.toFront());
 			this.server.to(guest.socketId).emit("inviteGame", room.toFront());

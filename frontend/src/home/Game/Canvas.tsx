@@ -7,7 +7,7 @@ const Sam: number = 1000;
 
 function resizeCanvas(canvas: HTMLCanvasElement) {
     const { width, height } = canvas.getBoundingClientRect()
-    
+
     if (canvas.width !== width || canvas.height !== height) {
 		const { devicePixelRatio : ratio = 1 } = window
 		const context = canvas.getContext('2d')
@@ -57,7 +57,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.canvas = document.getElementById("canvas")
 		this.canvas.height = this.canvas.width * 3/4
 		resizeCanvas(this.canvas)
-		this.ratio = this.canvas.width / Sam;
+		const { devicePixelRatio = 1 } = window
+		this.ratio = (this.canvas.width / Sam) / devicePixelRatio;
 		if (this.canvas) {
 			this.context = this.canvas.getContext("2d")
 		}
@@ -90,14 +91,15 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	updateCanvas()
 	{
 		resizeCanvas(this.canvas)
-		this.ratio = this.canvas.width / Sam;
+		const { devicePixelRatio = 1 } = window
+		this.ratio = (this.canvas.width / Sam) / devicePixelRatio;
+		// console.log(`${this.canvas.width} / ${Sam} = ${this.ratio}`)
 	}
 
 	looping() {
 		this.updatePosition()
 		this.updateCanvas()
 		this.draw();
-
 	}
 
 	drawBall(ctx: any, room: Room)
@@ -133,10 +135,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	draw()
 	{
-		var m_canvas = document.createElement("canvas");
-		m_canvas.width = this.canvas.width;
-		m_canvas.height = this.canvas.height;
-		var m_ctx = m_canvas.getContext("2d");
+		// var m_canvas = document.createElement("canvas");
+		// m_canvas.width = this.canvas.width;
+		// m_canvas.height = this.canvas.height;
+		// var m_ctx = m_canvas.getContext("2d");
 		const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
 		this.setState({
 			room: this.props.room
@@ -144,10 +146,10 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		const room = this.state.room;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 
-		this.drawBall(m_ctx, room)
-		this.drawPlayerOne(m_ctx, room);
-		this.drawPlayerTwo(m_ctx, room);
-		ctx.drawImage(m_canvas, 0,0);
+		this.drawBall(ctx, room)
+		this.drawPlayerOne(ctx, room);
+		this.drawPlayerTwo(ctx, room);
+		// ctx.drawImage(this.canvas, 0,0);
 
 	}
 

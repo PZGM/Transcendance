@@ -22,16 +22,8 @@ interface HomeState {
 	avatar?: string,
 	login?: string,
 	color?: string,
-	// display?: number;
-	// displayId?: number;
-	// numberBack?: number;
-	// winnerId: number,
-	// winnerScore: number,
-	// loserId: number,
-	// loserScore: number,
-	// duration: number,
 	channel: any,
-	userStatus: number,
+	display: number,
 	room?: Room
 }
 
@@ -57,42 +49,22 @@ export class Home extends Component<HomeProps, HomeState> {
 			avatar: undefined,
 			login: undefined,
 			color: undefined,
-			// display: 0,
-			// displayId: undefined,
-			// winnerId: 0,
-			// winnerScore: 0,
-			// loserId: 0,
-			// loserScore: 0,
-			// duration: 0,
       		channel: undefined,
-			userStatus: 0,
+			display: 0,
 			room: undefined
 		}
-
-		// this.updateHomeState = this.updateHomeState.bind(this);
-		// this.updateDisplay = this.updateDisplay.bind(this);
-		// this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
-		// this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
-        // this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
-        // this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
-        // this.handleChangeDuration = this.handleChangeDuration.bind(this);
-		//this.createNewGame = this.createNewGame.bind(this);
 	}
 
 	receiveGameRoom(room: Room) {
 		console.log(room);
 		this.setState({
-			// display: 2,
-			room
+			room,
+			display: 2
 		})
 	}
 
 	updateRoom (room: Room) {
 		this.setState({room})
-	}
-
-	receiveInvitation(roomId: Room) {
-		
 	}
 
 	async fetchUser() {
@@ -101,8 +73,7 @@ export class Home extends Component<HomeProps, HomeState> {
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
-				color: resp.color,
-				userStatus: resp.status
+				color: resp.color
 			})
 	}
 
@@ -121,9 +92,10 @@ export class Home extends Component<HomeProps, HomeState> {
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game	userStatus={this.state.userStatus}
+				<Game	display={this.state.display}
 						room={this.state.room}
-						gameSocket={this.gameSocket}/>
+						gameSocket={this.gameSocket}
+				/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>

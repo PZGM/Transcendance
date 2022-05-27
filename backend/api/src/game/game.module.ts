@@ -11,6 +11,7 @@ import { HistoryModule } from 'src/history/history.module';
     controllers: [],
     imports: [UsersModule,
         HistoryModule,
-        TypeOrmModule.forFeature([Game])]
+        TypeOrmModule.forFeature([Game])],
+    exports: [GameGateway]
 })
 export class GameModule {}
