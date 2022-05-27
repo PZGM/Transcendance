@@ -23,7 +23,7 @@ export class Achievement extends Component<AchievementProps, AchievementState> {
 	}
 	
 	async fetchProfile() {
-		const user = await UserAPI.getUserWithStats();
+		const user = await UserAPI.getMe({withStats: true});
 		if (user && user.stats)
 			this.setState({
 				games: user.stats.games,

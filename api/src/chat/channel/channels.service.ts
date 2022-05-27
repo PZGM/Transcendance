@@ -272,4 +272,22 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       return this.channelsRepository.save(channel);
     }
   }
+
+  public async createOrJoinPrivateMessage(userId: number, friendId: number): Promise<number> {
+    const chanName = (friendId < userId) ? `*${friendId}*${userId}*` : `*${userId}*${friendId}*`;
+    let channel = await this.getOneByName(chanName);
+    if (channel == null)
+    {
+      channel = await this.create({name: chanName, visibility: 'private', ownerId: -1});
+      if (!channel) 
+        return -1;
+      let user = new User();
+      user.id = userId;
+      let friend = new User();
+      friend.id = friendId;
+      channel.users = [user, friend];
+      await this.channelsRepository.save(channel);
+    }
+    return channel.id;
+  }
 }

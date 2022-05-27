@@ -69,24 +69,25 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     async handleDisconnect(socket: Socket) {
 		const user : User = await this.usersService.getOneBySocket(socket.id);
+		const userDto = new UserDto(user);
         if (user) {
 			this.rooms.forEach((room: Room) => {
-				if (room.isPlayer(user))
+				if (room.isPlayer(userDto))
 				{
                     if (room.status < roomEnum.end) {
-                        if(room.isPlayerOne(user) && room.playerTwo) {
+                        if(room.isPlayerOne(userDto) && room.playerTwo) {
                             room.playerTwo.goal = 10;
                             room.update();
                         }
-                        if(room.isPlayerTwo(user) && room.playerOne) {
+                        if(room.isPlayerTwo(userDto) && room.playerOne) {
                             room.playerOne.goal = 10;
 							room.update();
 						}
 					}
                 }
 			});
-			this.queue.rmToQueue(user);
-            this.pool.rmToPool(user);
+			this.queue.rmToQueue(userDto);
+            this.pool.rmToPool(userDto);
 			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
 			this.usersService.setUserStatus(user.id, statusEnum.disconected);
       }
@@ -94,7 +95,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
-		const user : UserDto = await this.usersService.getOne(userId.id);
+		const user : UserDto = new UserDto(await this.usersService.getOne(userId.id));
 		this.logger.log(`${user.login} i'm back`)
 		if(!user.socketIdTab)
 			user.socketIdTab = [];
@@ -110,7 +111,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	async handleJoinRoom(@ConnectedSocket() socket: Socket, @MessageBody() data : {roomId: string }) {
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
-			const user : User = await this.usersService.getOneBySocket(socket.id);
+			const user : UserDto = new UserDto(await this.usersService.getOneBySocket(socket.id));
 			socket.join(data.roomId);
 			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
@@ -126,7 +127,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	async handleSpectateRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : {  userId: number, roomId: string } ) {
 		const room: Room = this.rooms.get(data.roomId);
 		if (room) {
-			const user = this.pool.find(await this.usersService.getOne(data.userId));
+			const user = this.pool.find(new UserDto( await this.usersService.getOne(data.userId)));
 			if (!room.isPlayer(user)) {
 				this.server.to(socket.id).emit("gameRoom", room.toFront());
                 this.pool.changeStatus(statusEnum.watching, user);
@@ -137,8 +138,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
 	@SubscribeMessage('RoomInvite')
 	async handleRoomInvite(@ConnectedSocket() socket: Socket, @MessageBody() data : { inviteId : number, difficulty: Difficulty } ) {
-		const user : User = await this.usersService.getOneBySocket(socket.id);
-		const guest : User = await this.usersService.getOne(data.inviteId);
+		const user : UserDto = new UserDto(await this.usersService.getOneBySocket(socket.id));
+		const guest : UserDto = new UserDto(await this.usersService.getOne(data.inviteId));
 		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing)
 		{
 			const roomId = `${data.difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
@@ -167,7 +168,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
 	@SubscribeMessage('leaveQueue')
 	async handleLeaveQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number } ) {
-    const user : User = await this.usersService.getOne(data.userId);
+    const user : UserDto = new UserDto(await this.usersService.getOne(data.userId));
 		if (user && this.queue.find(user))
 		{
 			this.queue.rmToQueue(user);
@@ -180,7 +181,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('leaveRoom')
 	async handleLeaveRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId: number, roomId: string}) {
 		const room: Room = this.rooms.get(data.roomId);
-		const user = this.pool.find(await this.usersService.getOne(data.userId));
+		const user = this.pool.find(new UserDto(await this.usersService.getOne(data.userId)));
 		if (user && room) {
 			room.removeUser(user);
 			if (room.length() === 0) {
@@ -220,8 +221,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			else if (room.status === roomEnum.playing)
 			{
 				if (room.update() === roomEnum.end) {
-					const winner = await this.usersService.getOne(room.winner.id);
-					const loser = await this.usersService.getOne(room.loser.id);
+					const winner = new UserDto(await this.usersService.getOne(room.winner.id));
+					const loser = new UserDto(await this.usersService.getOne(room.loser.id));
 					await this.historyService.createGameHistory({
 						players: [winner, loser],
 						winnerId: winner.id,

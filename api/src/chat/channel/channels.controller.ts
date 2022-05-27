@@ -28,18 +28,18 @@ export class ChannelsController {
   @Get('allNames')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelsName(@Req() request: CustomRequest): Promise<string[]> {
-    const channelsNames: string[] = await this.channelsService.getChannelsNames(request.user.id);
+    let channelsNames: string[] = await this.channelsService.getChannelsNames(request.user.id);
     return channelsNames;
   }
 
   @Get('/name/:name')
   @UseGuards(FullyAuthentificatedGuard)
-  public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string, @Query() query) {
+  public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string, @Query() query?) {
     const options: RelationsPicker = {
-      withAdmin: query.withAdmin === 'true',
-      withChat: query.withChat === 'true',
-      withMuted: query.withMuted === 'true',
-      withOwner: query.withOwner === 'true',
+      withAdmin: query?.withAdmin === 'true',
+      withChat: query?.withChat === 'true',
+      withMuted: query?.withMuted === 'true',
+      withOwner: query?.withOwner === 'true',
     }
     const channel = await this.channelsService.getOneByName(name, options);
     if (channel && !channel.users.some((user) => {return user.id == request.user.id })) {
@@ -56,9 +56,21 @@ export class ChannelsController {
 
   @Get(':id')
   @UseGuards(FullyAuthentificatedGuard)
-  async findOne(@Param('id') id: number) {
-    const channel = await this.channelsService.getOne(id);
-    return new ChannelDto(channel);
+  async findOne(@Req() request: CustomRequest, @Param('id') id: number, @Query() query?) {
+    const options: RelationsPicker = {
+      withAdmin: query?.withAdmin === 'true',
+      withChat: query?.withChat === 'true',
+      withMuted: query?.withMuted === 'true',
+      withOwner: query?.withOwner === 'true',
+    }
+    const channel = await this.channelsService.getOne(id, options);
+    if (channel && !channel.users.some((user) => {return user.id == request.user.id })) {
+      channel.chats = [];
+      channel.admin = [];
+      channel.users = [];
+      channel.chats = [];
+      channel.owner = null;
+    }    return new ChannelDto(channel);
   }
 
   @Post()
@@ -134,5 +146,13 @@ export class ChannelsController {
   @UseGuards(FullyAuthentificatedGuard)
   delete(@Req() request: CustomRequest, @Param('id') id: number) {
     return this.channelsService.delete(request.user.id, id);
+  }
+
+  @Put('/mp_channel/:id')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async createOrJoinPrivateMessage(@Req() request: CustomRequest, @Param('id') id: string): Promise<number>{
+    const friendId: number = parseInt(id, 10);
+    const userId: number = request.user.id;
+    return await this.channelsService.createOrJoinPrivateMessage(userId, friendId);
   }
 }
