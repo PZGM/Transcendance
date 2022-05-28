@@ -4,9 +4,12 @@ WORKDIR /app
 
 RUN npm install -g npm
 
-COPY . . 
+COPY ./package*.json ./
 
 RUN npm install
+
+#changer path secret dans package.json
+COPY . . 
 
 EXPOSE 3000
 

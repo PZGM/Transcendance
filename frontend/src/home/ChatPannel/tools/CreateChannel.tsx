@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
+import { Button, ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
 import '../../../style/colors.css'
 import { UserAPI } from '../../../api/Users.api';
@@ -7,7 +7,7 @@ import { ChatAPI } from '../../../api/Chat.api';
 import "../../../style/input.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import JoinChannel from './JoinChannel'
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
@@ -110,7 +110,7 @@ function CreateChannel(props) {
                 <ButtonBase className="creachan_button" onClick={handleClickOpenCreate}>
                     Create
                 </ButtonBase>
-                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin}>
+                <ButtonBase className="creachan_button" onClick={handleClickOpenJoin} style={{color: "white"}}>
                     Join
                 </ButtonBase>
             </Stack>
@@ -121,22 +121,22 @@ function CreateChannel(props) {
                             <input className="friends_search_bar" maxLength={10} placeholder="Channel Name" onChange={ async (e) => {searchName(e)}}/>
                             <div className='bit5x5' style={{color: "white"}}> Visibility :</div>
                         </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.5vw"}}>
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <ButtonBase centerRipple className={"home_button but_" + ((visibility === "public")? "blue": "cyan")} style={{backgroundColor: (visibility === "public")? "blue": "cyan"}} onClick={() => {setVisibility("public")}}>
-                                { (visibility === "public") ? <div className='bit5x5try'style={{color: "white"}}> Public </div>:
-                                <div className='bit5x5try' > Public </div>}
+                                { (visibility === "public") ? <div className='bit5x5'style={{color: "white"}}> Public </div>:
+                                <div className='bit5x5'> Public </div>}
                             </ButtonBase>
                             <ButtonBase centerRipple className={"home_button but_" + ((visibility === "private")? "blue": "cyan")} style={{backgroundColor: (visibility === "private")? "blue": "cyan"}} onClick={() => {setVisibility("private")}}>
-                            { (visibility === "private") ? <div className='bit5x5try'style={{color: "white"}}> private </div>:
-                                <div className='bit5x5try' > private </div>}
+                            { (visibility === "private") ? <div className='bit5x5'style={{color: "white"}}> private </div>:
+                                <div className='bit5x5'> private </div>}
                             </ButtonBase>
                             <ButtonBase centerRipple className={"home_button but_" + ((visibility === "protected")? "blue": "cyan")} style={{backgroundColor: (visibility === "protected")? "blue": "cyan"}} onClick={() => {setVisibility("protected")}}>
-                            { (visibility === "protected") ? <div className='bit5x5try' style={{color: "white"}}> protected </div>:
-                                <div className='bit5x5try' > protected </div>}
+                            { (visibility === "protected") ? <div className='bit5x5'style={{color: "white"}}> protected </div>:
+                                <div className='bit5x5'> protected </div>}
                             </ButtonBase>
                         </Stack>
                         <Stack justifyContent="center" alignItems="center">
-                            {(visibility !== "protected")? <></>:<input type="password" className="friends_search_bar" placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
+                            {(visibility !== "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                             <div className="home_button but_red" onClick={handleCancelCreate}>

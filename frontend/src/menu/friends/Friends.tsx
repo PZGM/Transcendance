@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { Component } from "react";
 import { UserDisplay } from "./UserDisplay";
-import { AddFriendDisplay } from "./AddFriendDisplay";
+import { AddUserDisplay } from "./AddUserDisplay";
 import './../../style/input.css'
 import { UserAPI } from "../../api/Users.api";
 import { UserDto } from "../../api/dto/user.dto";
@@ -36,7 +36,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 	renderSearchRows(list) {
 		const listItems = list.map((friend: UserDto) =>
 		<div key={friend.id}>
-			<AddFriendDisplay user={friend} addFriend={this.addFriend}/>
+			<AddUserDisplay user={friend} addFriend={this.addFriend}/>
 		</div>
 	  );
 	  return listItems;

@@ -1,5 +1,6 @@
 import { io } from "socket.io-client";
 import React from "react";
+import { Difficulty } from "./dto/game.dto";
 
 interface ChatSocketAPIProps{
     receiveMessage: any;
@@ -36,9 +37,8 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
     }
 
     joinRoom(chanId: number, userId: number) {
-        if (this.activeChan) {
-            this.socket.emit('leaveRoom', {id: this.activeChan});
-        }
+        if (this.activeChan)
+            this.socket.emit('leaveRoom', {id: chanId});
         this.socket.emit('joinRoom', {id: chanId, userId});
         this.activeChan = chanId;
     }
@@ -47,7 +47,7 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
         this.socket.emit('message', {authorId, content, chanId, service: false});
     }
 
-    cancel() {
-        this.socket.disconnect();
+    sendInvitation(chanId: number, userId: number, difficulty: Difficulty) {
+        this.socket.emit('invitation', {chanId, userId, difficulty})
     }
 }

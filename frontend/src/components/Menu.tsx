@@ -1,6 +1,13 @@
-import { Avatar, Box, Button, Card, Grid } from "@mui/material";
+import { Avatar, Box, Button, Card, Chip, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
+import GamepadIcon from '@mui/icons-material/Gamepad';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
+import FaceIcon from '@mui/icons-material/Face';
+import CancelIcon from '@mui/icons-material/Cancel';
+import StarIcon from '@mui/icons-material/Star';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FolderIcon from '@mui/icons-material/Folder';
 import { Profile } from '../menu/profile/Profile'
 import { Link } from "react-router-dom";
 
