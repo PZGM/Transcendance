@@ -30,8 +30,7 @@ interface ChanInfoUserProps {
     index: number,
     grade: string,
     isFriend: boolean,
-    isMe: boolean,
-    gameSocket: GameSocketAPI;
+    isMe: boolean
 }
 
 interface StatusData {

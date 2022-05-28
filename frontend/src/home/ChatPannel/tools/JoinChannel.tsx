@@ -26,7 +26,7 @@ function JoinChannel(props: JoinChannelProps) {
     let navigate = useNavigate();
 
     const find = async () => {
-        const me = await UserAPI.getUser();
+        const me = await UserAPI.getMe();
         const channel = await ChatAPI.getChannelByName(name);
         if (me === null)
             return;

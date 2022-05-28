@@ -5,8 +5,8 @@ import { Loading } from './Loading';
 import { Play } from './Play';
 import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
-import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
+import Restart from "./Restart";
 
 interface GameProps {
 	display: number,
@@ -34,15 +34,17 @@ export class Game extends Component<GameProps, GameState>
 		this.fetchUser()
 	}
 
+	// Invitations
 	componentDidUpdate() {
-		if (this.props.display === 2 && this.props.display !== this.state.display)
+		if (this.props.display === 2 && this.state.display < 2 &&
+			(this.props.room?.status == 0 || this.props.room?.status === 1))
 			this.setState({
 				display: this.props.display
 			})
 	}
 
 	async fetchUser() {
-		const user = await UserAPI.getUser()
+		const user = await UserAPI.getMe();
 		if (user) {
 			this.props.gameSocket.userConnection(user.id);
 			this.setState({
@@ -52,6 +54,7 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	updateDisplay(type: number) {
+		console.log(`UPDATE DISPLAY: ${type}`)
 		this.setState({
 			display: type
 		})
@@ -71,13 +74,20 @@ export class Game extends Component<GameProps, GameState>
 			return <Play room={this.props.room}
 						socket={this.props.gameSocket}
 						userId={this.state.userId}
+						updateDisplay={this.updateDisplay}
+					/>
+		else if (this.state.display === 3)
+			return <Restart room={this.props.room}
+							socket={this.props.gameSocket}
+							userId={this.state.userId}
+							updateDisplay={this.updateDisplay}
 					/>
 	}
 
     /* render the jsx */
     render()
 	{
-		console.log('RENDER GAME')
+		// console.log('RENDER GAME')
 		return (
 			<div className="background">
 				<div className="frame_div">

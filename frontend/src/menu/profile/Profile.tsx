@@ -44,7 +44,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 	}
 
 	async fetchProfile() {
-		const user = await UserAPI.getUserWithStats();
+		const user = await UserAPI.getMe({withStats: true});
 		if (user)
 			this.setState({
 				user
@@ -69,7 +69,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 
 		if (!this.state.user || !this.state.user.stats)
 			return (
-				<div style={{color: 'white'}}>LOADING...</div>
+				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>
 			)
 		else
 			return (

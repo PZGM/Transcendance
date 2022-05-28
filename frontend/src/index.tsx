@@ -16,7 +16,7 @@ import { Twofa } from './2FA';
 import { Frame } from './menu/Frame'
 import { Chat } from './home/ChatPannel/Chat'
 import { UserInfo } from './home/ChatPannel/UserInfo'
-import ChanInfo from './home/ChatPannel/ChanInfo'
+import { ChanInfo } from './home/ChatPannel/ChanInfo'
 import { ChanEdit } from './home/ChatPannel/ChanEdit'
 import { ChanAddUser } from './home/ChatPannel/ChanAddUser'
 

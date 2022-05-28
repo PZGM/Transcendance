@@ -24,7 +24,8 @@ function resizeCanvas(canvas: HTMLCanvasElement) {
 interface CanvasProps {
 	room: Room,
 	socket: GameSocketAPI,
-	userId: number
+	userId: number,
+	updateDisplay: any
 }
 
 interface CanvasState {
@@ -46,6 +47,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.startGame = this.startGame.bind(this)
 		this.updateCanvas = this.updateCanvas.bind(this)
 		this.draw = this.draw.bind(this)
+		this.stopInterval = this.stopInterval.bind(this)
 
 			this.state = {
 				room: this.props.room
@@ -133,6 +135,13 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		// ctx.restore()
 	}
 
+	stopInterval()
+	{
+		console.log('stop interval')
+		clearInterval(this.loop)
+		this.props.updateDisplay(3)
+	}
+
 	draw()
 	{
 		// var m_canvas = document.createElement("canvas");
@@ -149,8 +158,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.drawBall(ctx, room)
 		this.drawPlayerOne(ctx, room);
 		this.drawPlayerTwo(ctx, room);
-		// ctx.drawImage(this.canvas, 0,0);
-
+		if (room.status === 3)
+			this.stopInterval()
 	}
 
 	updatePosition()

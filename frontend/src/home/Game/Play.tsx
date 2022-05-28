@@ -3,13 +3,14 @@ import '../../style/display.css';
 import { Room } from '../../api/dto/game.dto';
 import Canvas from './Canvas';
 import { GameSocketAPI } from '../../api/GameSocket.api';
-import { Stack, Avatar } from "@mui/material";
+import { Stack } from "@mui/material";
 
 
 interface PlayProps {
 	room?: Room,
 	socket: GameSocketAPI,
-	userId: number
+	userId: number,
+	updateDisplay: any
 };
 
 interface PlayState {
@@ -23,7 +24,7 @@ export class Play extends Component<PlayProps, PlayState>
 		
 		if (!this.props.room)
 			return (
-				<div style={{color: 'white'}}>LOADING...</div>
+				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>
 			)
 		else
 			return (
@@ -66,6 +67,7 @@ export class Play extends Component<PlayProps, PlayState>
 						<Canvas	room={this.props.room}
 								socket={this.props.socket}
 								userId={this.props.userId}
+								updateDisplay={this.props.updateDisplay}
 						/>
 					</div>
 

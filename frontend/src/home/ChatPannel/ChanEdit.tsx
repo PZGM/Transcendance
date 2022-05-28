@@ -43,7 +43,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const name = this.props.params.name;
 		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
 		const admins = channel.admin;
-		const user = await UserAPI.getUser();
+		const user = await UserAPI.getMe();
 		if (!user || !channel)
 			return;
 		const isAdmin = channel.admin.some((admin) => {return admin.id == user.id})
@@ -87,38 +87,41 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	render () {
 		if (!this.state.channel)
-			return <div style={{color: 'white'}}>Loading...</div>
-		return (
-			<>
-			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
-				<Stack direction="row" justifyContent="space-between">
+			return (
+				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>
+			)
+		else
+			return (
+				<>
+					{ this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
+					<Stack direction="row" justifyContent="space-between">
+						<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
+							<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+								<ArrowBackIcon/>
+							</Link>
+						</Stack>
+					</Stack>
+					<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+								<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
+					</Stack>
 					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-							<ArrowBackIcon/>
+						<div className="bit5x5" style={{color: "white"}}>USERS :</div>
+						<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
+							<li>
+								{this.renderRowsUsers(this.state.channel.users)}
+							</li>
+						</Stack>
+					</Stack>
+					<Stack justifyContent="center" alignItems="center" spacing={2} sx={{marginTop: "0.5vh" }}>
+						<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" >
+							<div className='bit5x5'>Join</div>
 						</Link>
+						<div onClick={this.leave} className="add_user_button but_red" >
+							<div className='bit5x5'>Leave</div>
+						</div>
 					</Stack>
-				</Stack>
-				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'80vh'}>
-						<li>
-							{this.renderRowsUsers(this.state.channel.users)}
-						</li>
-					</Stack>
-				</Stack>
-				<Stack justifyContent="center" alignItems="center" spacing={2} sx={{marginTop: "0.5vh" }}>
-					<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" >
-						<div className='bit5x5'>Join</div>
-					</Link>
-					<div onClick={this.leave} className="add_user_button but_red" >
-						<div className='bit5x5'>Leave</div>
-					</div>
-				</Stack>
-			</>
+				</>
 
-		)
+			)
 	}
 }

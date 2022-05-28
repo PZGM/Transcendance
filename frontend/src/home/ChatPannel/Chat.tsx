@@ -224,7 +224,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	async switchChannel(newChannelName: string){
 		this.chanName = newChannelName;
-		const user = await UserAPI.getUser();
+		const user = await UserAPI.getMe();
 		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
 		if (!channel || !user)
 			return;
