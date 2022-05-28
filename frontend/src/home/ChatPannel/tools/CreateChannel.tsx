@@ -27,7 +27,15 @@ function CreateChannel(props) {
       setOpenJoin(true);
     };
   
+	const getAllChan = async () => {
+		// const lst = await ChatAPI.getChannelsNames();
+        // console.log("la liste de tout les chan")
+        // console.log(lst)
+	}
+
+
     const handleCreate = async () => {
+        console.log("le retour? ")
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {
                 position: toast.POSITION.BOTTOM_CENTER,
@@ -130,7 +138,7 @@ function CreateChannel(props) {
                         <Stack justifyContent="center" alignItems="center">
                             {(visibility !== "protected")? <></>:<input className="friends_search_bar" placeholder="password" onChange={ async (e) => {searchPassword(e)}}/>}
                         </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                             <div className="home_button but_red" onClick={handleCancelCreate}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>

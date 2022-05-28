@@ -101,29 +101,30 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	}
 
 	componentWillUnmount() {
-		this.eventSource.close();
+		if (this.eventSource)
+			this.eventSource.close();
 	}
 
-    async changefriend()
-    {
-        if (this.state.friend === false)
-        {
-            if (this.state.user){
-                await UserAPI.addFriend(this.state.user.id);
-                this.setState({
-                    friend: true,
-                })
-            }
-        }
-        else
-        {
-            if (this.state.user){
-                UserAPI.removeFriend(this.state.user.id);
-                this.setState({
-                    friend: false,
-                })
-            }
-        }
+	async changefriend()
+	{
+		if (this.state.friend === false)
+		{
+			if (this.state.user){
+				await UserAPI.addFriend(this.state.user.id);
+				this.setState({
+					friend: true,
+				})
+			}
+		}
+		else
+		{
+			if (this.state.user){
+				await UserAPI.removeFriend(this.state.user.id);
+				this.setState({
+					friend: false,
+				})
+			}
+		}
 
     }
 
@@ -156,15 +157,15 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 				<div style={{color: 'white'}}>LOADING...</div>
 			)
 		else
-            return (
-                <>
-                    <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-                        <Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
-                            <ArrowBackIcon/>
-                        </Link>
-                    </Stack>
-                    <Stack direction="column" justifyContent="center" alignItems="center" spacing={5}>
-                        <Avatar sx={{	width: '10.4vw',
+			return (
+				<>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
+							<ArrowBackIcon/>
+						</Link>
+					</Stack>
+					<Stack direction="column" justifyContent="center" alignItems="center" spacing={5}>
+						<Avatar sx={{	width: '10.4vw',
 										height: '10.4vw'}} variant='circular' alt="" src={this.state.user.avatar}/>
                         <div className='backto1982' style={{color: this.state.user.color, fontSize: "2vw"}}>{this.state.login}</div>
                         <Stack direction="row" justifyContent="center" alignItems="center">

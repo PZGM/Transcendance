@@ -83,6 +83,11 @@
 
 /* Chat */
 
+.return_button{
+	margin-top: 10;
+	margin-left: 10;
+}
+
 .home_button {
 	width: 3.9vw;
 	height: 3.7vh;
