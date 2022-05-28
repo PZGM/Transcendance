@@ -19,12 +19,18 @@ interface PlayState {
 
 export class Play extends Component<PlayProps, PlayState>
 {
+	componentDidUpdate(){
+		if(this.props.room)
+			if (this.props.room.status === 3)
+				this.props.updateDisplay(3)
+	}
+
 	render () {
 		//console.log('RENDER PLAY')
 		
 		if (!this.props.room)
 			return (
-				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>
+				<div style={{color: 'white'}}>LOADING...</div>
 			)
 		else
 			return (
@@ -67,7 +73,6 @@ export class Play extends Component<PlayProps, PlayState>
 						<Canvas	room={this.props.room}
 								socket={this.props.socket}
 								userId={this.props.userId}
-								updateDisplay={this.props.updateDisplay}
 						/>
 					</div>
 

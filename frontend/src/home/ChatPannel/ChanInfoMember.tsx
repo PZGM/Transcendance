@@ -1,4 +1,4 @@
-import { Box, Stack, Avatar, Dialog } from "@mui/material";
+import { Stack, Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../../style/buttons.css'
@@ -30,7 +30,7 @@ interface ChanInfoUserProps {
     index: number,
     grade: string,
     isFriend: boolean,
-    isMe: boolean
+    isMe: boolean,
 }
 
 interface StatusData {
@@ -64,6 +64,12 @@ function ChanInfoMember(props: ChanInfoUserProps) {
 
     const [isFriend, setFriendship] = useState(props.isFriend);
     const [status, setStatus] = useState(props.member.status);
+    const [openInvite, setOpenInvite] = React.useState(false);
+
+    const handleCancelInvite= () =>
+    {
+        setOpenInvite(false);
+    }
 
     const toggleFriendship = async () => {
         if (isFriend)
@@ -72,7 +78,6 @@ function ChanInfoMember(props: ChanInfoUserProps) {
             await UserAPI.addFriend(props.member.id);
         setFriendship(!isFriend);
     }
-
     return (
         <div className={"chan_element bor_"+ props.member.color}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
@@ -80,7 +85,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
-                        {props.grade && <div style={{color: (props.grade == 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
+                        {props.grade && <div style={{color: (props.grade === 'owner') ? 'orange' : 'yellow' }} className='bit9x9'>{props.grade}</div>}
                     </Stack>
                 </Stack>
                 {!props.isMe &&

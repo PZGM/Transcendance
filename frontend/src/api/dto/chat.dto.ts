@@ -1,9 +1,7 @@
-import { Difficulty } from "./game.dto";
-
 export interface MessageDto {
   date: Date;
   service: boolean;
-  channelId: number;
+  channelId: number ;
   content: string;
   authorId: number;
 }

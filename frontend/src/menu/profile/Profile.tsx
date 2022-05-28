@@ -69,7 +69,7 @@ export class Profile extends Component<ProfileProps, ProfileState> {
 
 		if (!this.state.user || !this.state.user.stats)
 			return (
-				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>
+				<div style={{color: 'white'}}>LOADING...</div>
 			)
 		else
 			return (

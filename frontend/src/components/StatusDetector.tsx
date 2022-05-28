@@ -1,9 +1,11 @@
 import { Component } from "react";
 import { UserAPI } from "../api/Users.api";
-import createActivityDetector from 'activity-detector';
+import createActivityDetector from 'react-activity-detector';
 
 
-interface StatusDetectorProps {};
+interface StatusDetectorProps {
+	children?: React.ReactNode;
+};
 
 export class StatusDetector extends Component<StatusDetectorProps>{
 	idle: boolean = false;
@@ -18,7 +20,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 
 	async fetchUser(){
 		const logged = await UserAPI.checkLoggedIn();
-		if (logged == false)
+		if (logged === false)
 			return;
 		const resp = await UserAPI.getMe();
 		if (!resp)

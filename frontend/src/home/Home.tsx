@@ -4,13 +4,10 @@ import '../style/style.css'
 import '../style/home.css'
 import MyInfos from "./ChatPannel//header/MyInfos";
 import { UserAPI } from "../api/Users.api";
-import SendIcon from '@mui/icons-material/Send';
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ChatAPI } from "../api/Chat.api";
 import { Game } from "./Game/Game";
 import { Stack } from "@mui/material";
-import { GameSocketAPI } from "../api/GameSocket.api";
-import { Room } from "../api/dto/game.dto";
 import Selecter from "./ChatPannel/header/Selecter";
 
 
@@ -21,11 +18,19 @@ interface HomeProps {
 interface HomeState {
 	avatar?: string,
 	login?: string,
+	display?: number;
+	displayId?: number;
+	numberBack?: number;
+	winnerId: number,
+	winnerScore: number,
+	loserId: number,
+	loserScore: number,
+	duration: number,
 	color?: string,
 	channel: any,
-	display: number,
-	room?: Room
+	userStatus: number,
 }
+
 
 export const get_env = () : string => {
 	let str = process.env.REACT_APP_SETTINGS;
@@ -35,36 +40,41 @@ export const get_env = () : string => {
   };
 
 export class Home extends Component<HomeProps, HomeState> {
-
-	gameSocket: GameSocketAPI;
-
 	constructor(props: HomeProps) {
 		super(props);
-		
-		this.gameSocket = new GameSocketAPI({
-								receiveGameRoom: this.receiveGameRoom.bind(this),
-								updateRoom: this.updateRoom.bind(this)})
-
 		this.state = {
 			avatar: undefined,
 			login: undefined,
-			color: undefined,
-      		channel: undefined,
 			display: 0,
-			room: undefined
+			displayId: undefined,
+			winnerId: 0,
+			winnerScore: 0,
+			loserId: 0,
+			loserScore: 0,
+			duration: 0,
+			color: undefined,
+      channel: undefined,
+			userStatus: 0,
 		}
+		this.updateHomeState = this.updateHomeState.bind(this);
+		this.updateDisplay = this.updateDisplay.bind(this);
+		this.handleChangeWinnerId = this.handleChangeWinnerId.bind(this);
+		this.handleChangeWinnerScore = this.handleChangeWinnerScore.bind(this);
+        this.handleChangeLoserId = this.handleChangeLoserId.bind(this);
+        this.handleChangeLoserScore = this.handleChangeLoserScore.bind(this);
+        this.handleChangeDuration = this.handleChangeDuration.bind(this);
+		//this.createNewGame = this.createNewGame.bind(this);
 	}
 
-	receiveGameRoom(room: Room) {
-		console.log(room);
+	async updateHomeState({login, avatar} : HomeState) {
+		if (login)
+			this.setState({
+				login: login,
+			})
+		if (avatar)
 		this.setState({
-			room,
-			display: 2
+			avatar: avatar,
 		})
-	}
-
-	updateRoom (room: Room) {
-		this.setState({room})
 	}
 
 	async fetchUser() {
@@ -73,7 +83,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
-				color: resp.color
+				color: resp.color,
+				userStatus: resp.status
 			})
 	}
 
@@ -87,19 +98,72 @@ export class Home extends Component<HomeProps, HomeState> {
 		this.getChannel();
 	}
 
+	updateDisplay(type: number, id: any, numberBack: number) {
+		this.setState({
+			display: type,
+			displayId: id,
+			numberBack: numberBack,
+		})
+	}
+
+	/*async createNewGame() {
+        UserAPI.createNewGame({
+			winnerId: this.state.winnerId,
+			loserId: this.state.loserId,
+			winnerScore: this.state.winnerScore,
+			loserScore: this.state.loserScore,
+			duration: this.state.duration,
+			roomId: "test",
+			createdDate: new Date(Date.now()),
+			players : [],
+		})
+    }*/
+
+    handleChangeWinnerId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerId: +log
+        })
+    }
+
+	handleChangeWinnerScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            winnerScore: +log
+        })
+    }
+
+	handleChangeLoserId = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserId: +log
+        })
+    }
+
+	handleChangeLoserScore = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            loserScore: +log
+        })
+    }
+
+	handleChangeDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const log = e.target.value;
+        this.setState({
+            duration: +log
+        })
+    }
+
 	render () {
 		return (
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game	display={this.state.display}
-						room={this.state.room}
-						gameSocket={this.gameSocket}
-				/>
+				<Game userStatus={this.state.userStatus}/>
 
 				<Stack sx={{backgroundColor: 'black'}} className='right'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
-					<Selecter/>
+					<Selecter ></Selecter>
 					<Outlet/>
 				</Stack>
 			</div>
