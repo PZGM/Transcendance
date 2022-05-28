@@ -51,7 +51,7 @@ function MuteBan(props) {
             </div>
             <Dialog open={openMute} onClose={handleCancelMute} >
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
-                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
+                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
                         <div className='bit5x5' style={{color: "white"}}> For how long ? </div>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <ButtonBase centerRipple className={"home_button but_" + ((time === 60)? "blue": "cyan")} style={{backgroundColor: (time === 60)? "blue": "cyan"}} onClick={() => {setTime(60)}}>
@@ -67,7 +67,7 @@ function MuteBan(props) {
                                 <div className='bit5x5'> for life </div>}
                             </ButtonBase>
                         </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center"sx={{fontSize: "0.7vw"}}>
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelMute}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
@@ -81,7 +81,7 @@ function MuteBan(props) {
 
             <Dialog open={openBan} onClose={handleCancelBan}>
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
-                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
+                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
                         <div className='bit5x5' style={{color: "white"}}> For how long ? </div>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <ButtonBase centerRipple className={"home_button but_" + ((time === 60)? "blue": "cyan")} style={{backgroundColor: (time === 60)? "blue": "cyan"}} onClick={() => {setTime(60)}}>
@@ -97,7 +97,7 @@ function MuteBan(props) {
                                 <div className='bit5x5'> for life </div>}
                             </ButtonBase>
                         </Stack>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
+                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
                             <div className="home_button but_red" onClick={handleCancelBan}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
