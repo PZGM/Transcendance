@@ -1,8 +1,6 @@
 import { io } from "socket.io-client";
 import React from "react";
 import { Difficulty, Room } from './dto/game.dto';
-import { NumberLiteralType } from "typescript";
-import { ThirtyFpsSelectRounded } from "@mui/icons-material";
 
 interface GameSocketAPIProps{
     receiveGameRoom: any;
@@ -27,12 +25,6 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
             console.log(room);
             this.socket.emit('joinRoom', {roomId: room.roomId});
         });
-
-        this.socket.on('inviteGame', (room: Room) => {
-            console.log('inviteGame')
-            this.props.receiveGameRoom(room);
-            this.socket.emit('joinRoom', {roomId: room.roomId})
-        })
 
         this.socket.on('updateRoom', (room: Room) => {
             this.props.updateRoom(room);
@@ -59,34 +51,30 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     // Gateway functions callers
 
 	userConnection(userId: number) {
-        this.socket.emit('handleUserConnect', {userId});
-    }
-
-    joinRoom(roomId: number) {
-        this.socket.emit('roomInvite', {roomId})
-    }
-
-    spectateRoom(userId: number, roomId: string) {
-        this.socket.emit('spectateRoom', {userId, roomId});
+        this.socket.emit('handleUserConnect', {id: userId});
     }
 
     joinQueue(userId: number, difficulty: Difficulty) {
-        this.socket.emit('joinQueue', {userId, difficulty});
+        this.socket.emit('joinQueue', {userId: userId, difficulty :difficulty});
     }
 
     leaveQueue(userId: number) {
         this.socket.emit('leaveQueue', userId);
     }
 
+    spectateRoom(userId: number, roomId: string) {
+        this.socket.emit('spectateRoom', {userId: userId, roomId :roomId});
+    }
+
     leaveRoom(userId: number, roomId: string) {
-        this.socket.emit('leaveRoom', {userId, roomId});
+        this.socket.emit('leaveRoom', {userId: userId, roomId : roomId});
     }
 
     updateRoom(roomId: string) {
-        this.socket.emit('updateRoom', {roomId});
+        this.socket.emit('updateRoom', { roomId : roomId});
     }
 
     key(userId: number, roomId: string, key: string) {
-        this.socket.emit('key', {userId, roomId, key});
+        this.socket.emit('key', {userId: userId, roomId : roomId, key : key});
     }
 }

@@ -2,7 +2,6 @@ import { Component } from "react";
 import '../../style/display.css';
 import '../../style/buttons.css';
 import { GameSocketAPI } from "../../api/GameSocket.api";
-import { Socket } from "dgram";
 import { Stack } from "@mui/material";
 
 interface PlayButtonProps {

@@ -1,14 +1,9 @@
 import * as React from 'react';
-import { Button, ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
+import { ButtonBase, Dialog, DialogContent, Stack } from "@mui/material";
 import '../../../style/buttons.css'
-import '../../../style/colors.css'
-import { UserAPI } from '../../../api/Users.api';
-import { ChatAPI } from '../../../api/Chat.api';
+import '../../../style/colors.css';
 import "../../../style/input.css"
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
-import JoinChannel from './JoinChannel'
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 function MuteBan(props) {
