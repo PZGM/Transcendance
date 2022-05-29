@@ -1,5 +1,6 @@
 import { MaxLength, MinLength, IsIn} from 'class-validator';
 import { Channel } from 'src/typeorm/entities/channel';
+import { User } from 'src/typeorm/entities/user';
 import { Chat } from 'src/typeorm/entities/chat';
 import { Mute } from 'src/typeorm/entities/mutedUser';
 import { UserDto } from './user.dto';
@@ -44,7 +45,7 @@ export class MessageDto {
 
 export class CreateMessageDto {
   service: boolean;
-  channelId: number ;
+  channelId: number;
   content: string;
   authorId: number;
 }
