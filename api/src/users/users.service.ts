@@ -319,6 +319,15 @@ export class UsersService {
         return ret;
     }
 
+    public async userCanSendMessage(userId: number, channelId: number): Promise<boolean> {
+        const channels: Channel [] = await (await this.getOne(userId, {withChannels: true})).joinedChannels;
+
+        if (!channels)
+            return false;
+        const ret = channels.some((channel) => {return channel.id == channelId});
+        return ret;
+    }
+
     public async findUsers(search: string, userId: number): Promise<UserDto[]|null> {
         const user: User|null = await this.getOne(userId, {withFriends:true });
         let results = await this.userRepository

@@ -86,7 +86,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
-                    <MuteBan/>
+                    <MuteBan member={props.member} channelId={props.channel.id}/>
                 </Stack>}
             </Stack>
         </div>
