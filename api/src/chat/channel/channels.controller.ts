@@ -86,11 +86,17 @@ export class ChannelsController {
   }
 
 
-  @Put('update/addMute')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async addMute(@Req() request: CustomRequest, @Body() mute: {id: number}, channelID: number, date: Date) {
-        const ret =  await this.channelsService.addMute(request.user.id, channelID, mute.id, date);
-    }
+  @Put('mute')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async mute(@Req() request: CustomRequest, @Body() mute: {id: number}, channelID: number, date: Date) {
+      const ret =  await this.channelsService.addMute(request.user.id, channelID, mute.id, date);
+  }
+
+  @Put('mute')
+  @UseGuards(FullyAuthentificatedGuard)
+  public async ban(@Req() request: CustomRequest, @Body() ban: {id: number}, channelID: number, date: Date) {
+      const ret =  await this.channelsService.addBan(request.user.id, channelID, ban.id, date);
+  }
 
   @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
