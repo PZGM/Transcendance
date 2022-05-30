@@ -64,5 +64,3 @@ function BlockUser(props) {
 }
 
 export default BlockUser;
-
-

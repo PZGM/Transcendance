@@ -136,24 +136,25 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
         }
 	}
 
-	@SubscribeMessage('RoomInvite')
-	async handleRoomInvite(@ConnectedSocket() socket: Socket, @MessageBody() data : { inviteId : number, difficulty: Difficulty } ) {
-		const user : UserDto = new UserDto(await this.usersService.getOneBySocket(socket.id));
-		const guest : UserDto = new UserDto(await this.usersService.getOne(data.inviteId));
-		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing)
+	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {
+		const user: UserDto = new UserDto(await this.usersService.getOne(senderId));
+		const guest: UserDto = new UserDto (await this.usersService.getOne(receiverId));
+		if (user && user.status != statusEnum.playing && guest && guest.status != statusEnum.playing &&
+			this.pool.find(user) && this.pool.find(guest))
 		{
-			const roomId = `${data.difficulty.toString}${user.id}${guest.id}${Date.now().toPrecision(5)}`;
-			const room = new Room(roomId, Difficulty.Easy, user, guest);
+			const roomId = `${difficulty.toString()}${user.id}${guest.id}${Date.now().toString().substring(8, 13)}`;
+			const room = new Room(roomId, difficulty, user, guest);
 			this.rooms.set(roomId, room);
-			this.usersService.setUserStatus(user.id, statusEnum.inQueue);
-			this.server.to(room.playerTwo.user.socketIdTab[room.playerTwo.user.socketIdTab.length - 1]).emit("Invitation", room.toFront());
-			this.logger.log(`You succesfully invited ${guest.login} !`);
+			this.server.to(user.socketIdTab[user.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
+			this.server.to(guest.socketIdTab[guest.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
+
+			return true;
 		}
-		else
-			this.server.to(socket.id).emit("Error invite");
+
+		return false;
 	}
 
-    @SubscribeMessage('joinQueue')
+	@SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
 		if (user && !this.queue.find(user) && user.status !== statusEnum.playing)
@@ -245,7 +246,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.updateTime = now;
 			}
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
-			if (room.status == roomEnum.end)
+			if (room.status === roomEnum.end)
 				this.rooms.delete(room.roomId);
 		}
 	}

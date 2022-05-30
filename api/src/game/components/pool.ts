@@ -8,7 +8,6 @@ export default class Pool {
     constructor() {}
 
     addToPool(user: UserDto): void {
-        user.status = statusEnum.connected;
         this.pool.push(user);
     }
 

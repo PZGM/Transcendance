@@ -11,9 +11,12 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import { ChannelDto } from "../../api/dto/channel.dto";
 import "../../style/input.css"
-import Invite from "./tools/InviteUser"
+import Invite from "./tools/Invite"
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import { InvitationAPI } from "../../api/Invitation.api";
+import { Difficulty } from "../../api/dto/game.dto";
+import { ChannelDto } from "../../api/dto/channel.dto";
 
 interface ChatState {
 	socket: any;
@@ -121,8 +124,62 @@ export class Chat extends Component<ChatProps, ChatState> {
 				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
 			</Stack>)
 
+			console.log('msg.content:')
+			console.log(msg.content)
+
+			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user)
+			return (
+			<Stack direction='column'>
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
+					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+				</Stack>
+				<Stack >
+					{this.state.user.id != msg.authorId ?
+					<div className="add_user_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 0)}}>
+						Accept
+					</div> :
+					<div className="add_user_button but_red">Unsend</div>}
+				</Stack>
+			</Stack>)
+
+			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user)
+			return (
+			<Stack direction='column'>
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
+					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+				</Stack>
+				<Stack >
+					{this.state.user.id != msg.authorId ?
+					<div className="add_user_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 1)}}>
+						Accept
+					</div> :
+					<div className="add_user_button but_red">Unsend</div>}
+				</Stack>
+			</Stack>)
+
+			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user)
+			return (
+			<Stack direction='column'>
+				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
+					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+				</Stack>
+				<Stack >
+					{this.state.user.id != msg.authorId ?
+					<div className="add_user_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 2)}}>
+						Accept
+					</div> :
+					<div className="add_user_button but_red">Unsend</div>}
+				</Stack>
+			</Stack>)
+
 			if (isFirst)
-            return <Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
+            return	<Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
                         <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
                         <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
@@ -136,6 +193,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 		});
         return listItems;
     }
+
+	handleInvitation(authorId: number, difficulty: Difficulty) {
+		if (this.state.user)
+			InvitationAPI.acceptInvitation(authorId, this.state.user.id, difficulty)
+	}
 
 	onMessage(message: any) {
 		this.state.messages.push(message);
@@ -192,7 +254,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (!friend)
 				return;
 			const chanId: number = await ChatAPI.createOrJoinPrivateMessage(friend.id)
-			channel= await ChatAPI.getChannelById(chanId, {withAdmin: true, withOwner: true})
+			channel = await ChatAPI.getChannelById(chanId, {withAdmin: true, withOwner: true})
 			if (!channel || !user) {
 				return;
 			}
@@ -213,6 +275,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 		});
 	}
 
+
 	render () {
 		if (this.chanName !== this.props.params.name) {
 			console.log(`switch to new channel ${this.props.isPrivateMessage}`)
@@ -230,7 +293,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Box>
 				<Box height="50px" sx={{backgroundColor: "black"}}>
 					<Stack direction="row" spacing={1} justifyContent="space_evenly" sx={{backgroundColor: "black"}}>
-						<Invite/>
+						<Invite chatSocket={this.chatSocket} chan={this.state.chan} user={this.state.user}/>
 						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
 						{/* <InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "3.7vh", border: "2px solid white", padding:"3px", boxShadow: "0.25vw 0.25vw 0px -0.05 rgba(19,213,144,0.5)" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/> */}
 						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
