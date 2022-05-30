@@ -37,6 +37,7 @@ interface StatusData {
 
 function ChanInfoMember(props: ChanInfoUserProps) {
     let eventSource;
+	let navigate = useNavigate();
 
 
 
@@ -79,7 +80,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
     return (
         <div className={"chan_element bor_"+ props.member.color}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-                <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1}>
+                <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} onClick={() => (navigate(process.env.REACT_APP_USER +props.member.login + "/info"))}>
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>

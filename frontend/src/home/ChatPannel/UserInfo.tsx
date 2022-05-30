@@ -138,7 +138,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 		{
 			if (this.state.user){
-				UserAPI.removeFriend(this.state.user.id);
+				await UserAPI.removeFriend(this.state.user.id);
 				this.setState({
 					friend: false,
 				})
@@ -178,8 +178,8 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 			return (
 				<>
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
