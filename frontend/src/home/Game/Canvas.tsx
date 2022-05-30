@@ -33,11 +33,11 @@ interface CanvasState {
 
 export class Canvas extends React.Component<CanvasProps, CanvasState>
 {
-	canvas: any = undefined
-	context: any = undefined
-	keystate = {}
-	loop: any =  null
-	ratio: number = 0
+	canvas: any = undefined;
+	context: any = undefined;
+	keystate = {};
+	loop: any =  null;
+	ratio: number = 0;
 
 	constructor(props: CanvasProps) {
 		super(props);
@@ -143,21 +143,21 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	draw()
 	{
-		// var m_canvas = document.createElement("canvas");
-		// m_canvas.width = this.canvas.width;
-		// m_canvas.height = this.canvas.height;
-		// var m_ctx = m_canvas.getContext("2d");
+		let m_canvas = document.createElement("canvas");
+		m_canvas.width = this.canvas.width;
+		m_canvas.height = this.canvas.height;
+		const m_ctx = m_canvas.getContext("2d");
 		const ctx: CanvasRenderingContext2D = this.canvas.getContext('2d');
 		this.setState({
 			room: this.props.room
 		})
 		const room = this.state.room;
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-
-		this.drawBall(ctx, room)
-		this.drawPlayerOne(ctx, room);
-		this.drawPlayerTwo(ctx, room);
-		if (room.status === 3)
+		this.drawBall(m_ctx, room)
+		this.drawPlayerOne(m_ctx, room);
+		this.drawPlayerTwo(m_ctx, room);
+		ctx.drawImage(m_canvas, 0,0);
+		if (room.status === roomEnum.end)
 			this.stopInterval()
 	}
 

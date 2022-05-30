@@ -4,10 +4,16 @@ import '../../../style/buttons.css'
 import '../../../style/colors.css';
 import "../../../style/input.css"
 import 'react-toastify/dist/ReactToastify.css';
+import { UserDto } from '../../../api/dto/user.dto';
+import { ChatAPI } from '../../../api/Chat.api';
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
-function MuteBan(props) {
-    // le temps est en min pour l'instant
+interface MuteBanProps {
+    member: UserDto;
+    channelId: number;
+}
+
+function MuteBan(props: MuteBanProps) {
     const [openMute, setOpenMute] = React.useState(false);
     const [openBan, setOpenBan] = React.useState(false);
     const [time, setTime] = React.useState(60);
@@ -24,12 +30,13 @@ function MuteBan(props) {
         setOpenBan(false);
     }
 
-
     const handleMute= () =>
     {
         setTime(60);
         setOpenMute(false);
+        ChatAPI.mute(props.member.id, props.channelId)
     }
+
     const handleBan= () =>
     {
         setTime(60);
