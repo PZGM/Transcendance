@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, JoinColumn, PrimaryGeneratedColumn } from "typeorm";
 import { User } from './user'
 import { Channel } from "..";
 
@@ -6,7 +6,11 @@ import { Channel } from "..";
   export class Mute {
 
     @PrimaryGeneratedColumn()
-    user: User;
+    id: number;
+
+    @OneToOne(() => User, {eager: true})
+    @JoinColumn()
+        user: User;
 
     @Column({ type: 'timestamptz', nullable: true })
     endOfMute: Date;
@@ -14,5 +18,8 @@ import { Channel } from "..";
     @ManyToOne(() => Channel , channel => channel.mute, {
       onDelete: "CASCADE"
     })
-    muter: User
-}
+
+    @OneToOne(() => User, {eager: true})
+    @JoinColumn()
+        muter: User;}
+

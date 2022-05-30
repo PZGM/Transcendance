@@ -210,4 +210,29 @@ export class ChatAPI {
             return resp;
     }
 
+    //mute
+    public static async mute(userId: number, channelId: number) : Promise<number>{
+        const date: number = Date.now() + 100000;
+        const resp = await fetch(`${process.env.REACT_APP_MUTE}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({userId, channelId, date}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+    //ban
+
+    public static async ban(userId: number, channelId: number) : Promise<number>{
+        const resp = await fetch(`${process.env.REACT_APP_BAN}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({userId, channelId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
 }

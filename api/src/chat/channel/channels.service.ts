@@ -250,10 +250,10 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return this.channelsRepository.remove(channel);
   }
 
-  public async addMute(userId: number ,id: number, muteId: number, date : Date) {
-    const channel: Channel | null = await this.getOne(id);
+  public async addMute(userId: number ,channelId: number, muteId: number, date : Date) {
+    const channel: Channel | null = await this.getOne(channelId, {withAdmin: true, withMuted: true});
    if (!channel) {
-      throw new NotFoundException(`Channel [${id}] not found`);
+      throw new NotFoundException(`Channel [${channelId}] not found`);
     }
     if (!channel.admin.some((admin) => {return admin.id == userId})) {
       throw new NotFoundException(`User not found in the admin data`);
@@ -261,7 +261,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (!channel.mute.some((mute: Mute) => {return  mute.user.id == muteId})) {
       try {
         let muted : Mute = new Mute();
-        muted.endOfMute = date;
+        muted.endOfMute = new Date(date);
         muted.muter = await this.usersService.getOne(userId);
         muted.user = await this.usersService.getOne(muteId);
         channel.mute.push(muted);
@@ -270,7 +270,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
         console.log(e)
         return null;
       }
-      return this.channelsRepository.save(channel);
+      await this.channelsRepository.save(channel);
+
     }
   }
 
@@ -282,6 +283,9 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if (!channel.admin.some((admin) => {return admin.id == userId})) {
       throw new NotFoundException(`User not found in the admin data`);
     }
+    if (channel.admin.some((admin) => {return admin.id == banId})) {
+      throw new NotFoundException(`Can't mute an admin`);
+    }   
     if (!channel.ban.some((ban: Ban) => {return  ban.user.id == banId})) {
       try {
         let banned : Ban = new Ban();
