@@ -26,6 +26,11 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
             this.socket.emit('joinRoom', {roomId: room.roomId});
         });
 
+        this.socket.on('inviteGame', (room: Room) => {
+            this.props.receiveGameRoom(room);
+            this.socket.emit('joinRoom', {roomId: room.roomId})
+        })
+
         this.socket.on('updateRoom', (room: Room) => {
             this.props.updateRoom(room);
         });

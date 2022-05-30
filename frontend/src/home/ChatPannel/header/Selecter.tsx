@@ -77,6 +77,12 @@ function Selecter (){
 		navigate(process.env.REACT_APP_MP + name);
 	}
 
+	const handleSelectionFriend = (name: string) => {
+		setName(name);
+		setOpen(false);
+		navigate(process.env.REACT_APP_HOME_PRIVATE_MESSAGE + "/" + name);
+	}
+
 	const renderRowsChan=(list) =>{
 		const listItems = list.map((channel: string) =>
 		<li key={channel}>
@@ -91,7 +97,7 @@ function Selecter (){
 	const renderRowsFriend = (list) => {
 		const listItems = list?.map((friend: UserDto) =>
 		<li key={friend.login}>
-			<div className={"creajoin_button"} onClick={()=> {handleSelectionUser(friend.login)}} style={{ textDecoration: 'none', color: 'white'}}>
+			<div className={"creajoin_button"} onClick={()=> {handleSelectionFriend(friend.login)}} style={{ textDecoration: 'none', color: 'white'}}>
 				<div className='bit9x9'>{friend.login}</div>
 			</div>
 		</li>
@@ -99,7 +105,6 @@ function Selecter (){
 	  return listItems;
 	}
 
-// TODO mettre un filtre pour pas que notre compte apparaissent dans la liste car on peut pas s'envoyer de msg sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}
 	return (
 		<>
 			<Box width="19.5vw" height={Hbar} sx={{backgroundColor: "#03C7D8", display: "flex", justifyContent: "center", alignItems: "center"}}>

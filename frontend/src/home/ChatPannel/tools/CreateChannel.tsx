@@ -84,7 +84,7 @@ function CreateChannel(props) {
     };
 
     const Sendchannel = async () => {
-        const resp = await UserAPI.getUser();
+        const resp = await UserAPI.getMe();
         if (resp)
             await ChatAPI.addChannel(name, resp.id , visibility, password);
     }
@@ -158,5 +158,3 @@ function CreateChannel(props) {
 }
 
 export default CreateChannel;
-
-

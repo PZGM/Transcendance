@@ -1,5 +1,7 @@
 import { MaxLength, MinLength, IsIn} from 'class-validator';
+import { Ban } from 'src/typeorm/entities/BannedUser';
 import { Channel } from 'src/typeorm/entities/channel';
+import { User } from 'src/typeorm/entities/user';
 import { Chat } from 'src/typeorm/entities/chat';
 import { Mute } from 'src/typeorm/entities/mutedUser';
 import { UserDto } from './user.dto';
@@ -24,6 +26,19 @@ export class MutedUserDto {
   muter: UserDto;
 }
 
+export class BannedUserDto {
+  constructor(ban?: Ban) {
+    if (ban) {
+      this.user = new UserDto(ban.user);
+      this.endOfBan = ban.endOfBan;
+      this.banner = new UserDto(ban.banner);
+    }
+  }
+  user: UserDto;
+  endOfBan: Date;
+  banner: UserDto;
+}
+
 export class MessageDto {
   constructor(message?: Chat){
     if (message) {
@@ -44,7 +59,7 @@ export class MessageDto {
 
 export class CreateMessageDto {
   service: boolean;
-  channelId: number ;
+  channelId: number;
   content: string;
   authorId: number;
 }

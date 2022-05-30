@@ -1,9 +1,9 @@
-import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException } from '@nestjs/common';
+import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException, Query, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { UsersService } from './users.service';
-import { UserDto } from 'src/dto/user.dto';
+import { UserDto, UserRelationsPicker } from 'src/dto/user.dto';
 import { isNumber } from 'class-validator';
 
 
@@ -16,12 +16,18 @@ export class UsersController {
 
     @Get('/:id')
     @UseGuards(FullyAuthentificatedGuard)
-    public async getOne(@Req() request: CustomRequest, @Param('id') id: string) {
+    public async getOne(@Req() request: CustomRequest, @Param('id') id: string, @Query() query?) {
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
-
         if (!isNumber(userId))
             throw new NotFoundException();
-        const user = await this.userService.getOne(userId);
+        const options: UserRelationsPicker = {
+                withChannels: query?.withChannels === 'true',
+                withBlocked: query?.withBlocked === 'true',
+                withStats: query?.withStats === 'true',
+                withGames: query?.withGames === 'true',
+                withFriends: query?.withFriends === 'true',
+            }
+        const user = await this.userService.getOne(userId, options);
         if (user)
             return new UserDto(user);  
         throw new NotFoundException();
@@ -68,8 +74,9 @@ export class UsersController {
             throw new NotFoundException();        
         const chans = await (await this.userService.getChannels(userId));
         const chanNames = chans.map((chan) => {return chan.name});
-        if (chanNames)
-            return chanNames;
+        const channelsNames = chanNames.filter((name) => {return !(name.startsWith('*'))});
+        if (channelsNames)
+            return channelsNames;
         throw new NotFoundException();
     }
 
@@ -96,16 +103,16 @@ export class UsersController {
     }
 
 
-    @Put('update/addBlockedUser')
+    @Put('block/:id')
     @UseGuards(FullyAuthentificatedGuard)
-    public async addBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
-        const ret =  await this.userService.addBlockedUser(request.user.id, updateUserRequest.id);
+    public async addBlockedUser(@Req() request: CustomRequest, @Param('id') id: number): Promise<boolean> {
+        return await this.userService.addBlockedUser(request.user.id, id);
     }
 
-    @Put('/update/removeBlockedUser')
+    @Delete('block/:id')
     @UseGuards(FullyAuthentificatedGuard)
-    public async removeBlockedUser(@Req() request: CustomRequest, @Body() updateUserRequest: {id: number}) {
-        const ret =  await this.userService.removeBlockedUser(request.user.id, updateUserRequest.id);
+    public async removeBlockedUser(@Req() request: CustomRequest, @Param('id') id: number): Promise<boolean> {
+        return await this.userService.removeBlockedUser(request.user.id, id);
     }
 
     @Get('/search/:search')
@@ -119,3 +126,4 @@ export class UsersController {
         throw new NotFoundException();
     }
 }
+

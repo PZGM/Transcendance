@@ -3,6 +3,7 @@ import { IsOptional } from "class-validator";
 import { Chat } from "./chat";
 import { User } from './user'
 import { Mute } from "./mutedUser";
+import { Ban } from "./BannedUser";
   
   @Entity({ name: 'channel' })
   export class Channel {
@@ -39,6 +40,11 @@ import { Mute } from "./mutedUser";
       cascade: true
     })
     mute: Mute[];
+
+    @OneToMany(() => Ban, ban => ban.banner, {
+      cascade: true
+    })
+    ban: Ban[];
   
     @OneToMany(() => Chat, chat => chat.channel, {
       cascade: true

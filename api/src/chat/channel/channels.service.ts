@@ -7,6 +7,7 @@ import { ChannelDto, CreateChannelDto, RelationsPicker } from 'src/dto/chat.dto'
 import { UsersService } from 'src/users/users.service';
 import { createCipheriv } from 'crypto';
 import { ChatGateway } from '../chat.gateway';
+import { Ban } from 'src/typeorm/entities/BannedUser';
 
 @Injectable()
 export class ChannelsService {
@@ -119,43 +120,43 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return ret;
   }
 
-  public async promote(userID: number, adminID : number, chanID: number) {
-    console.log(`promote admin ${userID} ${adminID} ${chanID}`)
-    const chan: Channel | null = await this.getOne(chanID, {withAdmin: true, withOwner: true});
+  public async promote(userId: number, adminId : number, chanId: number) {
+    console.log(`promote admin ${userId} ${adminId} ${chanId}`)
+    const chan: Channel | null = await this.getOne(chanId, {withAdmin: true, withOwner: true});
     if (!chan) {
-      throw new NotFoundException(`Channel [${chanID}] not found`);
+      throw new NotFoundException(`Channel [${chanId}] not found`);
     }
-    if (!chan.owner || chan.owner.id !== userID) {
+    if (!chan.owner || chan.owner.id !== userId) {
       if (chan.owner)
         console.log(chan.owner.id);
       else
         console.log()
       throw new NotFoundException(`Only the owner can promote admin`);
     }
-    if ((chan.admin.some((admin) => {return admin.id == adminID}))) {
+    if ((chan.admin.some((admin) => {return admin.id == adminId}))) {
       throw new NotFoundException(`This user is already admin in this chan`);
     }
-    chan.admin.push(await this.usersService.getOne(adminID));
+    chan.admin.push(await this.usersService.getOne(adminId));
     await this.channelsRepository.save(chan);
-    this.chatGateway.broadcastPromoteAdmin(chanID, adminID);
+    this.chatGateway.broadcastPromoteAdmin(chanId, adminId);
     return;
 }
 
-  public async demote(userID: number, adminID : number, chanID: number) {
-    const chan: Channel | null = await this.getOne(chanID, {withAdmin: true, withOwner: true});
+  public async demote(userId: number, adminId : number, chanId: number) {
+    const chan: Channel | null = await this.getOne(chanId, {withAdmin: true, withOwner: true});
     if (!chan) {
-      throw new NotFoundException(`Channel [${chanID}] not found`);
+      throw new NotFoundException(`Channel [${chanId}] not found`);
     }
-    if (!chan.owner || chan.owner.id !== userID) {
+    if (!chan.owner || chan.owner.id !== userId) {
       throw new NotFoundException(`Only the owner can demote admin`);
     }
-    if (!(chan.admin.some((admin) => {return admin.id == adminID}))) {
+    if (!(chan.admin.some((admin) => {return admin.id == adminId}))) {
       throw new NotFoundException(`This user isn't admin in this chan`);
     }
     chan.admin = chan.admin.filter((admin: User) => {
-      return admin.id != adminID;
+      return admin.id != adminId;
     })
-    this.chatGateway.broadcastDemoteAdmin(chanID, adminID);
+    this.chatGateway.broadcastDemoteAdmin(chanId, adminId);
     return this.channelsRepository.save(chan);
   }
   
@@ -180,34 +181,34 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return true;
 }
 
-  public async removeUser(userID: number, rmID : number, chanID: number) {
-    const channel: Channel | null = await this.getOne(chanID, {withOwner: true, withAdmin: true});
+  public async removeUser(userId: number, rmId : number, chanId: number) {
+    const channel: Channel | null = await this.getOne(chanId, {withOwner: true, withAdmin: true});
 
-    if (chanID === 1)
+    if (chanId === 1)
       return;
 
-    const isAdmin = channel.admin.some((adm) => { return adm.id == userID});
-    const isOwner = channel.owner.id == userID;
-    const selfLeave = userID === rmID;
-    const removeAdmin = channel.admin.some((adm) => { return adm.id == rmID});
+    const isAdmin = channel.admin.some((adm) => { return adm.id == userId});
+    const isOwner = channel.owner.id == userId;
+    const selfLeave = userId === rmId;
+    const removeAdmin = channel.admin.some((adm) => { return adm.id == rmId});
 
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {
-      channel.users = channel.users.filter((user) => { return user.id !== rmID});
-      this.chatGateway.broadcastLeaveChannel(chanID, rmID);
+      channel.users = channel.users.filter((user) => { return user.id !== rmId});
+      this.chatGateway.broadcastLeaveChannel(chanId, rmId);
       if (isAdmin) {
-        channel.admin = channel.admin.filter((user) => { return user.id !== rmID});
+        channel.admin = channel.admin.filter((user) => { return user.id !== rmId});
         if (isOwner) {
           if (channel.admin.length > 0){
             channel.owner = channel.admin[0];
-            this.chatGateway.broadcastNewOwner(chanID, channel.admin[0].id);
+            this.chatGateway.broadcastNewOwner(chanId, channel.admin[0].id);
           }
           else if (channel.users.length > 0) {
             channel.owner = channel.users[0];
-            this.chatGateway.broadcastNewOwner(chanID, channel.users[0].id);
+            this.chatGateway.broadcastNewOwner(chanId, channel.users[0].id);
           }
           else
-            this.delete(userID, chanID);
+            this.delete(userId, chanId);
         }
       }
       this.channelsRepository.save(channel);
@@ -238,31 +239,31 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     return this.channelsRepository.save(channel);
   }
 
-  public async delete(userID: number ,id: number) {
+  public async delete(userId: number ,id: number) {
     const channel = await this.getOne(id, {withOwner: true});
     if (!channel) {
       throw new NotFoundException(`Channel [${id}] not found`);
     }
-    if (userID !== channel.owner.id ) {
+    if (userId !== channel.owner.id ) {
       throw new NotFoundException(`Just the owner can delete the Channel`);
     }
     return this.channelsRepository.remove(channel);
   }
 
-  public async addMute(userID: number ,id: number, muteID: number, date : Date) {
+  public async addMute(userId: number ,id: number, muteId: number, date : Date) {
     const channel: Channel | null = await this.getOne(id);
    if (!channel) {
       throw new NotFoundException(`Channel [${id}] not found`);
     }
-    if (!channel.admin.some((admin) => {return admin.id == userID})) {
+    if (!channel.admin.some((admin) => {return admin.id == userId})) {
       throw new NotFoundException(`User not found in the admin data`);
     }
-    if (!channel.mute.some((mute: Mute) => {return  mute.user.id == muteID})) {
+    if (!channel.mute.some((mute: Mute) => {return  mute.user.id == muteId})) {
       try {
         let muted : Mute = new Mute();
         muted.endOfMute = date;
-        muted.muter = await this.usersService.getOne(userID);
-        muted.user = await this.usersService.getOne(muteID);
+        muted.muter = await this.usersService.getOne(userId);
+        muted.user = await this.usersService.getOne(muteId);
         channel.mute.push(muted);
       }
       catch (e) {
@@ -271,5 +272,47 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       }
       return this.channelsRepository.save(channel);
     }
+  }
+
+  public async addBan(userId: number ,id: number, banId: number, date : Date) {
+    const channel: Channel | null = await this.getOne(id);
+   if (!channel) {
+      throw new NotFoundException(`Channel [${id}] not found`);
+    }
+    if (!channel.admin.some((admin) => {return admin.id == userId})) {
+      throw new NotFoundException(`User not found in the admin data`);
+    }
+    if (!channel.ban.some((ban: Ban) => {return  ban.user.id == banId})) {
+      try {
+        let banned : Ban = new Ban();
+        banned.endOfBan = date;
+        banned.banner = await this.usersService.getOne(userId);
+        banned.user = await this.usersService.getOne(banId);
+        channel.ban.push(banned);
+      }
+      catch (e) {
+        console.log(e)
+        return null;
+      }
+      return this.channelsRepository.save(channel);
+    }
+  }
+
+  public async createOrJoinPrivateMessage(userId: number, friendId: number): Promise<number> {
+    const chanName = (friendId < userId) ? `*${friendId}*${userId}*` : `*${userId}*${friendId}*`;
+    let channel = await this.getOneByName(chanName);
+    if (channel == null)
+    {
+      channel = await this.create({name: chanName, visibility: 'private', ownerId: -1});
+      if (!channel) 
+        return -1;
+      let user = new User();
+      user.id = userId;
+      let friend = new User();
+      friend.id = friendId;
+      channel.users = [user, friend];
+      await this.channelsRepository.save(channel);
+    }
+    return channel.id;
   }
 }

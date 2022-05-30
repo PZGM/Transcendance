@@ -1,3 +1,4 @@
+
 import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { Component} from "react";
 import { Link } from "react-router-dom";
@@ -10,7 +11,6 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
-import BlockUser from "./tools/Block"
 
 interface UserInfoState {
 	user: UserDto | null;
@@ -18,6 +18,7 @@ interface UserInfoState {
 	avatar?: string;
 	friend: boolean;
 	status: number;
+	blocked: boolean
 }
 interface StatusData {
 	status: number;
@@ -49,6 +50,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			login: "",
 			friend: false,
 			status: 0,
+			blocked: false,
 		}
 	}
 
@@ -62,19 +64,37 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	}
 
 	async isFriend(){
-		const friends = await UserAPI.getFriends();
-		const me = await UserAPI.getUser();
+		if (!this.state.user)
+			return;
+		const user:UserDto = this.state.user;
+		const me = await UserAPI.getMe({withBlocked: true, withFriends: true});
 		if (me){
-			if (friends.find(user => user.login === me.login) === undefined)
-				this.setState({friend: false})
-			else
+			if (me.friends.some((user) => {return user.id == user.id}))
 				this.setState({friend: true})
+			else
+				this.setState({friend: false});
+			if (me.blockedUsers?.some((user) => {return user.id == user.id}))
+				this.setState({blocked: true})
+			else
+				this.setState({blocked: false})
 		}
 	}
 
-	componentDidMount()  {
-		this.getUser();
-		this.isFriend();
+	async toggleBlock() {
+		if (!this.state.user)
+			return
+        if (this.state.blocked)
+            await UserAPI.unblockUser(this.state.user.id)
+        else
+            await UserAPI.blockUser(this.state.user.id);
+        this.setState(prevState => ({
+			blocked: !prevState.blocked,
+		}));
+    }
+
+	async componentDidMount()  {
+		await this.getUser();
+		await this.isFriend();
 
 		const name = this.props.params.name;
 		this.setState({
@@ -107,23 +127,21 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
 	async changefriend()
 	{
+		if (!this.state.user)
+			return;
 		if (this.state.friend === false)
-		{
-			if (this.state.user){
-				await UserAPI.addFriend(this.state.user.id);
-				this.setState({
-					friend: true,
-				})
-			}
+		{				
+			let ret = await UserAPI.addFriend(this.state.user.id);
+			this.setState({
+				friend: true,
+			})
 		}
 		else
 		{
-			if (this.state.user){
-				await UserAPI.removeFriend(this.state.user.id);
-				this.setState({
-					friend: false,
-				})
-			}
+			let ret = await UserAPI.removeFriend(this.state.user.id);
+			this.setState({
+				friend: false,
+			})
 		}
 
 	}
@@ -188,7 +206,9 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 							<div className={"home_button but_" + ((this.state.friend) ? "red" : "yellow")}  onClick={() => {this.changefriend()}}>
 								{(this.state.friend) ? <div className='bit5x5'> Remove Friend </div> : <div className='bit5x5'> add Friend </div>}
 							</div>
-							<BlockUser/>
+							<div className={"home_button but_" + ((this.state.blocked) ? "red" : "yellow")}  onClick={() => {this.toggleBlock()}}>
+								{(this.state.blocked) ? <div className='bit5x5'> Unblock user </div> : <div className='bit5x5'> Block user </div>}
+							</div>
 						</Stack>
 						<Box sx={{ p: 1, border: '3px solid grey' }} width="15vw">
 							<Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2} >
