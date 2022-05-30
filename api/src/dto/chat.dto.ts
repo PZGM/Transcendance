@@ -29,7 +29,7 @@ export class BannedUserDto {
   constructor(ban?: Ban) {
     if (ban) {
       this.user = new UserDto(ban.user);
-      this.endOfBan = ban.endOfMute;
+      this.endOfBan = ban.endOfBan;
       this.banner = new UserDto(ban.banner);
     }
   }

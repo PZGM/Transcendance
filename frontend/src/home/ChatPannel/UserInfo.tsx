@@ -128,11 +128,9 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	{
 		if (!this.state.user)
 			return;
-		console.log(`USER ID ${this.state.user.id}`)
 		if (this.state.friend === false)
 		{				
 			let ret = await UserAPI.addFriend(this.state.user.id);
-			console.log(`RET1 ${ret}`);
 			this.setState({
 				friend: true,
 			})
@@ -140,7 +138,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 		{
 			let ret = await UserAPI.removeFriend(this.state.user.id);
-			console.log(`RET2 ${ret}`);
 			this.setState({
 				friend: false,
 			})
