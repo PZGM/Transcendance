@@ -6,9 +6,6 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
-import { useNavigate } from 'react-router-dom';
-
-// TODO il faudra faire la meme chose mais faire un delete dans le channel plus tot qu'en amis
 
 enum color {
     'white',
@@ -21,9 +18,9 @@ enum color {
 enum description {
     'unknow',
     'offline',
-    'playing',
+    'idle',
     'connected',
-    'watch match'
+    'playing'
 }
 
 interface ChanInfoUserProps {

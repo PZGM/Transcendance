@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { UserAPI } from "../api/Users.api";
-import createActivityDetector from 'react-activity-detector';
+import ActivityDetector from 'react-activity-detector';
 
 
 interface StatusDetectorProps {
@@ -11,6 +11,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	idle: boolean = false;
 	id!: number;
     activityDetector: any = null;
+	last: string = '';
 
 	constructor(props: StatusDetectorProps) {
 		super(props);
@@ -28,14 +29,11 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		this.id = resp.id;
 		if (resp.status < 3)
 			this.idle = true;
-		this.activityDetector = createActivityDetector({timeToIdle: 1000, ignoredEventsWhenIdle: [], initialState: 'idle'})
-		this.activityDetector.on('idle', this.onIdle)
-		this.activityDetector.on('active', this.onActive)
 	}
 
 	sendActivity = () => {
-		if (this.idle === false && this.activityDetector)
-			UserAPI.reportActivity(this.id);
+		// if (this.idle === false && this.activityDetector)
+		// 	UserAPI.reportActivity(this.id);
 	}
 
 	componentDidMount() {
@@ -43,26 +41,34 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	}
 
     componentWillUnmount() {
-        this.activityDetector.stop();
+		if (this.activityDetector)
+        	this.activityDetector.stop();
     }
 
 	onIdle = () => {
-		UserAPI.updateStatus(this.id, 2)
-		this.idle = true;
+			// UserAPI.updateStatus(this.id, 2)
+			this.idle = true;
 	}
 
 	onActive = () => {
-		UserAPI.updateStatus(this.id, 3)
-		this.idle = false;
+			// UserAPI.updateStatus(this.id, 3)
+			this.idle = false;
 	}
 
 	onPlaying = () => {
-		UserAPI.updateStatus(this.id, 4)
+		// UserAPI.updateStatus(this.id, 4)
 		this.idle = false;
 	}
 
+	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus',]
+
 	render () {
-		return (this.props.children)
+		return (
+		<>
+			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={5*1000} onIdle={this.onIdle} onActive={this.onActive}/>
+			{this.props.children}
+		</>
+		);
 	}
 }
 

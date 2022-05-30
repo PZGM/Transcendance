@@ -9,6 +9,7 @@ export class UserRelationsPicker {
     withBlocked?: boolean;
     withStats?: boolean;
     withGames?: boolean;
+    withFriends?: boolean;
 }
 
 export class UserDto {
@@ -23,6 +24,8 @@ export class UserDto {
                 this.blockedUsers = user.blockedUsers.map((user) => {return new UserDto(user)});
             if (user.adminChannels)
                 this.adminChannels = user.adminChannels.map((channel) => {return new ChannelDto(channel)});
+            if (user.friends)
+                this.friends = user.friends.map((friend) => {return new UserDto(friend)});
             this.color = user.color;
             this.stats = user.stats;
             this.firstLog = user.firstLog;
@@ -41,6 +44,7 @@ export class UserDto {
     color: string;
     stats: Stats;
     firstLog: boolean;
+    friends: UserDto[];
 }
 
 export class UpdateImageRequestDto{
