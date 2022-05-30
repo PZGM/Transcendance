@@ -179,7 +179,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			</Stack>)
 
 			if (isFirst)
-            return <Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
+            return	<Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
                         <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
                         <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
@@ -249,10 +249,22 @@ export class Chat extends Component<ChatProps, ChatState> {
 		const user = await UserAPI.getMe({withBlocked: true});
 		let channel;
 		this.chanName = newChannelName;
-		const user = await UserAPI.getMe();
-		const channel: ChannelDto = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
-		if (!channel || !user)
-			return;
+		if (this.props.isPrivateMessage) {
+			const friend: UserDto|null = await UserAPI.getUserByLogin(newChannelName);
+			if (!friend)
+				return;
+			const chanId: number = await ChatAPI.createOrJoinPrivateMessage(friend.id)
+			channel = await ChatAPI.getChannelById(chanId, {withAdmin: true, withOwner: true})
+			if (!channel || !user) {
+				return;
+			}
+		}
+		else {
+			channel = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
+			if (!channel || !user) {
+				return;
+			}
+		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id, user.id);
 		this.setState({
