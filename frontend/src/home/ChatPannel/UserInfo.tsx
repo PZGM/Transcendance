@@ -126,23 +126,24 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 
 	async changefriend()
 	{
+		if (!this.state.user)
+			return;
+		console.log(`USER ID ${this.state.user.id}`)
 		if (this.state.friend === false)
-		{
-			if (this.state.user){
-				await UserAPI.addFriend(this.state.user.id);
-				this.setState({
-					friend: true,
-				})
-			}
+		{				
+			let ret = await UserAPI.addFriend(this.state.user.id);
+			console.log(`RET1 ${ret}`);
+			this.setState({
+				friend: true,
+			})
 		}
 		else
 		{
-			if (this.state.user){
-				await UserAPI.removeFriend(this.state.user.id);
-				this.setState({
-					friend: false,
-				})
-			}
+			let ret = await UserAPI.removeFriend(this.state.user.id);
+			console.log(`RET2 ${ret}`);
+			this.setState({
+				friend: false,
+			})
 		}
 
 	}

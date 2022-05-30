@@ -185,24 +185,25 @@ export class UsersService {
             user.friends = [];
         friendsToAddIds.forEach(async (friendToAddId) => {
             if (user.friends.some((user) => user.id == friendToAddId))
-                return ConflictException;
+                return false
             const friendToAdd: User = await this.getOne(friendToAddId);
             if (!friendToAdd || friendToAdd.id == userId)
-                return NotFoundException;
+                return false
             user.friends.push(friendToAdd);
         })
         await this.userRepository.save(user);
+        return true;
     }
 
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
         const user: User|null = await this.getOne(userId, {withFriends: true});
         if (!user.friends)
-            user.friends = [];
+            user.friends = [];      
         user.friends = user.friends.filter((friend) => {
             return !friendsToRemoveIds.includes(friend.id)
         })
-
         await this.userRepository.save(user);
+        return true;
     }
 
     public async updateImage(userId: number, image: string) {

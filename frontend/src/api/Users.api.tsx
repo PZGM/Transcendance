@@ -219,12 +219,18 @@ export class UserAPI {
 		}
 
 		public static async removeFriend(id: number) {
+			let ret = true;
 			const resp = await fetch(`${process.env.REACT_APP_FRIENDS_API}`, {
 				method: 'DELETE',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ id: id }),
 				credentials: 'include'})
-				return resp;
+				.then(handleErrors)
+				.catch(err => {
+					console.log(err);
+					ret = false;
+				})
+				return ret;
 			}
 
 		public static async searchFriend(search: string) {

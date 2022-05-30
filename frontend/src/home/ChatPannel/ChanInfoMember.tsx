@@ -1,6 +1,6 @@
 import { Stack, Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../../style/buttons.css'
 import '../../style/colors.css'
 import '../../style/display.css'
@@ -38,8 +38,6 @@ interface StatusData {
 function ChanInfoMember(props: ChanInfoUserProps) {
     let eventSource;
 	let navigate = useNavigate();
-
-
 
     useEffect(() => {
         //component will mount
