@@ -159,11 +159,17 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 			return (
 				<>
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+					{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
 						<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
 							<ArrowBackIcon/>
 						</Link>
+					</Stack> */}
+					<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
+							<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
+						</Link>
 					</Stack>
+
 					<Stack direction="column" justifyContent="center" alignItems="center" spacing={5}>
 						<Avatar sx={{	width: '10.4vw',
 										height: '10.4vw'}} variant='circular' alt="" src={this.state.user.avatar}/>

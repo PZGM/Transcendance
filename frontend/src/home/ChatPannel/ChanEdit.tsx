@@ -88,13 +88,17 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		return (
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
-				<Stack direction="row" justifyContent="space-between">
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: "0.07vh", marginLeft: "0.04vw"}}>
-						<Link className="but_red"	style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-							<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
-						</Link>
-					</Stack>
+				{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: "0.07vh", marginLeft: "0.04vw"}}>
+					<Link className="but_red"	style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+						<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
+					</Link>
+				</Stack> */}
+				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
+					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+						<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
+					</Link>
 				</Stack>
+
 				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
 							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
 				</Stack>
