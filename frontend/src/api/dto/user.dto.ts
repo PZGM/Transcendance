@@ -5,8 +5,11 @@ export interface UserDto {
     login: string;
     avatar: string;
     status: number;
-    friends: number[];
+    friends: UserDto[];
     color: string;
     stats?: StatsDto;
     firstLog: boolean;
+    blockedUsers?: UserDto[];
+
+
 }

@@ -49,7 +49,8 @@ export class ChatSocketAPI extends React.Component<ChatSocketAPIProps>
     }
 
     cancel() {
-        this.socket.disconnect();
+        if (this.socket)
+            this.socket.close();
     }
     
     sendInvitation(chanId: number, userId: number, difficulty: Difficulty) {

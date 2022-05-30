@@ -25,7 +25,7 @@ export class FriendsController {
     @UseGuards(FullyAuthentificatedGuard)
     public async addFriend(@Req() request: CustomRequest, @Body() addFriendRequest: FriendRequestDto) {
         const userId: number = request.user.id;
-        await this.userService.addFriends(userId, [addFriendRequest.id]);
+        return await this.userService.addFriends(userId, [addFriendRequest.id]);
     }
 
     @Get('/search/:search')
@@ -43,6 +43,6 @@ export class FriendsController {
     @UseGuards(FullyAuthentificatedGuard)
     public async deleteFriend(@Req() request: CustomRequest, @Body() deleteFriendRequest: FriendRequestDto) {
         const userId: number = request.user.id;
-        await this.userService.removeFriends(userId, [deleteFriendRequest.id]);
+        return await this.userService.removeFriends(userId, [deleteFriendRequest.id]);
     }
 }

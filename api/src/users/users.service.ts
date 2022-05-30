@@ -6,25 +6,28 @@ import { ImagesService } from 'src/images/images.service';
 import { Channel, Game, User } from 'src/typeorm';
 import { Repository } from 'typeorm';
 
-interface RelationsPicker {
-    withGames?: boolean,
-    withFriends?: boolean,
-    withStats?: boolean,
-    withChannels?: boolean,
+export class UserRelationsPicker {
+    withChannels?: boolean;
+    withBlocked?: boolean;
+    withStats?: boolean;
+    withGames?: boolean;
+	withFriends?: boolean;
 }
+
 
 @Injectable()
 export class UsersService {
     constructor(@InjectRepository(User) private userRepository: Repository<User>, private imageService: ImagesService){}
 
-    public async getOne(userId: number, relationsPicker?:RelationsPicker): Promise<User|null> {
+    public async getOne(userId: number, relationsPicker?:UserRelationsPicker): Promise<User|null> {
         try {
             let relations: string[] = [];
             if (relationsPicker) {
                 relationsPicker.withGames && relations.push('games') && relations.push('games.players');
                 relationsPicker.withFriends && relations.push('friends');
                 relationsPicker.withStats && relations.push('stats');
-                relationsPicker.withChannels && relations.push('joinedChannels')
+                relationsPicker.withChannels && relations.push('joinedChannels');
+                relationsPicker.withBlocked && relations.push('blockedUsers');
             }
             const user: User = await this.userRepository.findOneOrFail({
                 relations,
@@ -39,7 +42,7 @@ export class UsersService {
             return null;
         }
     }
-    public async getUserByLogin(login: string, relationsPicker?:RelationsPicker): Promise<User|null> {
+    public async getUserByLogin(login: string, relationsPicker?:UserRelationsPicker): Promise<User|null> {
         try {
             let relations: string[] = [];
             if (relationsPicker) {
@@ -182,24 +185,25 @@ export class UsersService {
             user.friends = [];
         friendsToAddIds.forEach(async (friendToAddId) => {
             if (user.friends.some((user) => user.id == friendToAddId))
-                return ConflictException;
+                return false
             const friendToAdd: User = await this.getOne(friendToAddId);
             if (!friendToAdd || friendToAdd.id == userId)
-                return NotFoundException;
+                return false
             user.friends.push(friendToAdd);
         })
         await this.userRepository.save(user);
+        return true;
     }
 
     public async removeFriends(userId: number, friendsToRemoveIds: number[]) {
         const user: User|null = await this.getOne(userId, {withFriends: true});
         if (!user.friends)
-            user.friends = [];
+            user.friends = [];      
         user.friends = user.friends.filter((friend) => {
             return !friendsToRemoveIds.includes(friend.id)
         })
-
         await this.userRepository.save(user);
+        return true;
     }
 
     public async updateImage(userId: number, image: string) {
@@ -236,17 +240,25 @@ export class UsersService {
     }
 
     public async addBlockedUser(userId: number, blockedUser : number) {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne(userId, {withBlocked: true});
+        if (!user || !user.blockedUsers)
+            return false;
+        if (user.blockedUsers.some((user) => user.id == blockedUser) || userId == blockedUser)
+            return false
         user.blockedUsers.push(await this.getOne(blockedUser)); 
         await this.userRepository.save(user);
-        return 0;
+        return true;
     }
 
     public async removeBlockedUser(userId: number, blockedUser : number) {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne(userId, {withBlocked: true});
+        if (!user || !user.blockedUsers)
+        return false;
+        if (!user.blockedUsers.some((user) => user.id == blockedUser) || userId == blockedUser)
+            return false
         user.blockedUsers = user.blockedUsers.filter((user) => {return user.id != blockedUser}) 
         await this.userRepository.save(user);
-        return 0;
+        return true;
     }
 
     public async updateSecret(userId: number, secret: string) {
