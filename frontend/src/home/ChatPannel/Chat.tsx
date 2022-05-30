@@ -70,7 +70,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			console.log('blocked:');
 			console.log(this.state.user?.blockedUsers);
 			if (!msg.service) {
-				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id == sender?.id})) {
+				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id === sender?.id})) {
 					if (!blockedNotif && !msg.service) {
 						blockedNotif = true;
 						return (
@@ -135,7 +135,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
+					{this.state.user.id !== msg.authorId ?
 					<div className="add_user_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 0)}}>
 						Accept
@@ -152,7 +152,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
+					{this.state.user.id !== msg.authorId ?
 					<div className="add_user_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 1)}}>
 						Accept
@@ -169,7 +169,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
+					{this.state.user.id !== msg.authorId ?
 					<div className="add_user_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 2)}}>
 						Accept
@@ -210,7 +210,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 		message.service = true;
 		if (message.content === 'JOIN') {
 			const user = await UserAPI.getUserById(message.authorId);
-			if (user == null) {
+			if (user === null) {
 				throw(Error('unknow new user'));
 			}
 			this.state.users.push(user);

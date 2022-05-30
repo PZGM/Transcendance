@@ -42,7 +42,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 	}
 
 	addUser(add: UserDto) {
-		const newUsers = this.state.chan?.users.filter((user) => {return user.id != add.id});
+		const newUsers = this.state.chan?.users.filter((user) => {return user.id !== add.id});
 		let chan = this.state.chan;
 		if (newUsers && chan)
 			chan.users = newUsers;
@@ -72,7 +72,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		let ret = await UserAPI.searchFriend(search);
 		console.log('users in chan:');
 		console.log(this.state.chan?.users);
-		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id == user.id)});
+		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id === user.id)});
 		this.setState({searchResults: ret}); 
 	}
 

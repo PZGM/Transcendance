@@ -69,11 +69,11 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		const user:UserDto = this.state.user;
 		const me = await UserAPI.getMe({withBlocked: true, withFriends: true});
 		if (me){
-			if (me.friends.some((user) => {return user.id == user.id}))
+			if (me.friends.some((user) => {return user.id === user.id}))
 				this.setState({friend: true})
 			else
 				this.setState({friend: false});
-			if (me.blockedUsers?.some((user) => {return user.id == user.id}))
+			if (me.blockedUsers?.some((user) => {return user.id === user.id}))
 				this.setState({blocked: true})
 			else
 				this.setState({blocked: false})

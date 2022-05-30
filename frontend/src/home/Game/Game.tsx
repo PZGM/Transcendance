@@ -37,7 +37,7 @@ export class Game extends Component<GameProps, GameState>
 	// Invitations
 	componentDidUpdate() {
 		if (this.props.display === 2 && this.state.display < 2 &&
-			(this.props.room?.status == 0 || this.props.room?.status === 1))
+			(this.props.room?.status === 0 || this.props.room?.status === 1))
 			this.setState({
 				display: this.props.display
 			})
