@@ -89,8 +89,8 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
 				<Stack direction="row" justifyContent="space-between">
-					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-						<Link 	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+					<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: 1, marginLeft: 1}}>
+						<Link className="but_red"	style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
 							<ArrowBackIcon/>
 						</Link>
 					</Stack>
@@ -107,7 +107,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 					</Stack>
 				</Stack>
 				<Stack justifyContent="center" alignItems="center" spacing={2} sx={{marginTop: "0.5vh" }}>
-					<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" >
+					<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" style={{ textDecoration: 'none'}}>
 						<div className='bit5x5'>Invite</div>
 					</Link>
 					<div onClick={this.leave} className="add_user_button but_red" >

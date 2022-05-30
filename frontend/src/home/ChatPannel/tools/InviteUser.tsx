@@ -58,7 +58,7 @@ function Invite(props) {
 				<DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
 					<Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
 						<div className='bit5x5' style={{color: "white"}}> {"Play against " + props.p1} </div>
-						<Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+						<Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
 							<ButtonBase centerRipple className={"home_button but_" + ((dif === Difficulty[0])? "blue": "cyan")} style={{backgroundColor: (dif === Difficulty[0])? "blue": "cyan"}} onClick={() => {setDif(Difficulty[0])}}>
 								{ (dif === Difficulty[0]) ? <div className='bit5x5'style={{color: "white"}}> Easy </div>:
 								<div className='bit5x5'> Easy </div>}
@@ -72,7 +72,7 @@ function Invite(props) {
 								<div className='bit5x5'> Hard </div>}
 							</ButtonBase>
 						</Stack>
-						<Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
+						<Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
 							<div className="home_button but_red" onClick={handleCancelInvite}>
 								<div className='bit5x5' > Cancel </div>
 							</div>

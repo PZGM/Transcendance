@@ -8,6 +8,7 @@ import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import MuteBan from "./tools/MuteBan"
+import { useNavigate } from 'react-router-dom';
 
 interface ChanEditMemberProps {
     user: UserDto,
@@ -22,6 +23,8 @@ interface StatusData {
 
 function ChanEditMember(props: ChanEditMemberProps) {
     let eventSource;
+    let navigate = useNavigate();
+
     const [status, setStatus] = useState(props.member.status);
 
     const userIsMember: boolean = props.user.id === props.member.id;
@@ -70,7 +73,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
     return (
         <div className={"chan_element bor_"+ props.member.color}>
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-            <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1}>
+            <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} onClick={() => (navigate(process.env.REACT_APP_USER +props.member.login + "/info"))}>
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar}/>
                     <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
