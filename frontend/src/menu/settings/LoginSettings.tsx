@@ -44,20 +44,25 @@ export class LoginSettings extends Component<LoginSettingsProps, LoginSettingsSt
         else if (this.state.input !== '')
         {
             let isValid = await UserAPI.updateLogin(this.state.input);
+            console.log("valid est comme ca:")
+            console.log(isValid)
             if (isValid) {
+                console.log("im in")
                 this.props.updateParentState({ login: this.state.input });
                 toast.success(`Login updated to ${this.state.input}`, {
                     position: toast.POSITION.BOTTOM_CENTER,
                     pauseOnHover: false,
                     closeOnClick: true,})
-                this.setState({editing: false})
-            }
-            else
+                    this.setState({editing: false})
+                }
+                else{
+                console.log("im error")
                 toast.error("Invalid new login", {
                     position: toast.POSITION.BOTTOM_CENTER,
                     pauseOnHover: false,
                     closeOnClick: true,
                 })
+            }
         }
         else
         {

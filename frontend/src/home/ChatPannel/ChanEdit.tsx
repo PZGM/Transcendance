@@ -93,7 +93,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 						<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
 					</Link>
 				</Stack> */}
-				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
+				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginleft: "0.2vw", marginleft: "0.4vw"}}>
 					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
 						<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
 					</Link>
