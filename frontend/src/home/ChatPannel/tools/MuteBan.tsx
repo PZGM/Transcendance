@@ -16,33 +16,41 @@ interface MuteBanProps {
 function MuteBan(props: MuteBanProps) {
     const [openMute, setOpenMute] = React.useState(false);
     const [openBan, setOpenBan] = React.useState(false);
-    const [time, setTime] = React.useState(60);
+    const [time, setTime] = React.useState(0);
     
 
     const handleCancelMute= () =>
     {
-        setTime(60);
+        setTime(0);
         setOpenMute(false);
     }
     const handleCancelBan= () =>
     {
-        setTime(60);
+        setTime(0);
         setOpenBan(false);
     }
 
     const handleMute= () =>
     {
-        setTime(60);
         setOpenMute(false);
         ChatAPI.mute(props.member.id, props.channelId)
     }
 
     const handleBan= () =>
     {
-        setTime(60);
         setOpenBan(false);
     }
 
+    const PlusMinStyle = {
+        color: 'white',
+        alignItems: 'center',
+        display: "flex",
+        justifyContent: 'center',
+        fontFamily: 'backto1982',
+        fontSize: 'calc(30px + 1vw)',
+        width: '100%',
+        cursor: 'pointer'
+    };
     return (
         <>
             <div className={"renderrow_button but_red"} onClick={()=> {setOpenMute(true)}}>
@@ -56,18 +64,13 @@ function MuteBan(props: MuteBanProps) {
                     <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                         <div className='bit5x5' style={{color: "white"}}> For how long ? </div>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 60)? "blue": "cyan")} style={{backgroundColor: (time === 60)? "blue": "cyan"}} onClick={() => {setTime(60)}}>
-                                { (time === 60) ? <div className='bit5x5'style={{color: "white"}}> 1H </div>:
-                                <div className='bit5x5'> 1H </div>}
-                            </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 480)? "blue": "cyan")} style={{backgroundColor: (time === 480)? "blue": "cyan"}} onClick={() => {setTime(480)}}>
-                                { (time === 480) ? <div className='bit5x5'style={{color: "white"}}> 8H </div>:
-                                <div className='bit5x5'> 8H </div>}
-                            </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 42)? "blue": "cyan")} style={{backgroundColor: (time === 42)? "blue": "cyan"}} onClick={() => {setTime(42)}}>
-                                { (time === 42) ? <div className='bit5x5'style={{color: "white"}}> for life </div>:
-                                <div className='bit5x5'> for life </div>}
-                            </ButtonBase>
+							<div style={PlusMinStyle} onClick={() => {if (time - 1 >= 0) setTime(time-1)}}>
+                                -
+                            </div>
+                            <div className='bit5x5' style={{color:"white", fontSize: 'calc(30px + 1vw)'}}>{time}</div>
+							<div style={PlusMinStyle} onClick={() => {setTime(time+1)}}>
+                                +
+                            </div>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center"sx={{fontSize: "0.7vw"}}>
                             <div className="home_button but_red" onClick={handleCancelMute}>
@@ -86,18 +89,13 @@ function MuteBan(props: MuteBanProps) {
                     <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                         <div className='bit5x5' style={{color: "white"}}> For how long ? </div>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 60)? "blue": "cyan")} style={{backgroundColor: (time === 60)? "blue": "cyan"}} onClick={() => {setTime(60)}}>
-                                { (time === 60) ? <div className='bit5x5'style={{color: "white"}}> 1H </div>:
-                                <div className='bit5x5'> 1H </div>}
-                            </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 480)? "blue": "cyan")} style={{backgroundColor: (time === 480)? "blue": "cyan"}} onClick={() => {setTime(480)}}>
-                                { (time === 480) ? <div className='bit5x5'style={{color: "white"}}> 8H </div>:
-                                <div className='bit5x5'> 8H </div>}
-                            </ButtonBase>
-                            <ButtonBase centerRipple className={"home_button but_" + ((time === 42)? "blue": "cyan")} style={{backgroundColor: (time === 42)? "blue": "cyan"}} onClick={() => {setTime(42)}}>
-                                { (time === 42) ? <div className='bit5x5'style={{color: "white"}}> for life </div>:
-                                <div className='bit5x5'> for life </div>}
-                            </ButtonBase>
+							<div style={PlusMinStyle} onClick={() => {if (time - 1 >= 0) setTime(time-1)}}>
+                                -
+                            </div>
+                            <div className='bit5x5' style={{color:"white", fontSize: 'calc(30px + 1vw)'}}>{time}</div>
+							<div style={PlusMinStyle} onClick={() => {setTime(time+1)}}>
+                                +
+                            </div>
                         </Stack>
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
                             <div className="home_button but_red" onClick={handleCancelBan}>

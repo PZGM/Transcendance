@@ -68,7 +68,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
 			if (!msg.service) {
-				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id == sender?.id})) {
+				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id === sender?.id})) {
 					if (!blockedNotif && !msg.service) {
 						blockedNotif = true;
 						return (
@@ -234,7 +234,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 		message.service = true;
 		if (message.content === 'JOIN') {
 			const user = await UserAPI.getUserById(message.authorId);
-			if (user == null) {
+			if (user === null) {
 				throw(Error('unknow new user'));
 			}
 			this.state.users.push(user);

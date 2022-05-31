@@ -42,7 +42,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 	}
 
 	addUser(add: UserDto) {
-		const newUsers = this.state.chan?.users.filter((user) => {return user.id != add.id});
+		const newUsers = this.state.chan?.users.filter((user) => {return user.id !== add.id});
 		let chan = this.state.chan;
 		if (newUsers && chan)
 			chan.users = newUsers;
@@ -72,7 +72,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		let ret = await UserAPI.searchFriend(search);
 		console.log('users in chan:');
 		console.log(this.state.chan?.users);
-		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id == user.id)});
+		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id === user.id)});
 		this.setState({searchResults: ret}); 
 	}
 
@@ -80,11 +80,17 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 
 		return (
             <>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
+				{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
 					<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
 						<ArrowBackIcon/>
 					</Link>
+				</Stack> */}
+				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
+					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
+						<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
+					</Link>
 				</Stack>
+
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: 2}}>
 					<input className="add_user_bar" placeholder="Invite User" onChange={ async (e) => {this.onSearch(e)}}/>
 					<List style={{overflow: 'auto'}}>
