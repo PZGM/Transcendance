@@ -57,15 +57,15 @@ export class ChatGateway {
     console.log(`difficulty: ${data.difficulty}`)
     if (data.difficulty === 0) {
       const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-EASY', service: true});
-      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-EASY', channelId: data.chanId, date: message.createdDate});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-EASY', channelId: data.chanId, date: message.createdDate, id: message.id});
     }
     else if (data.difficulty === 1) {
       const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-MEDIUM', service: true});
-      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-MEDIUM', channelId: data.chanId, date: message.createdDate});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-MEDIUM', channelId: data.chanId, date: message.createdDate, id: message.id});
     }
     else if (data.difficulty === 2) {
       const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-HARD', service: true});
-      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-HARD', channelId: data.chanId, date: message.createdDate});
+      this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-HARD', channelId: data.chanId, date: message.createdDate, id: message.id});
     }
   }
 
@@ -84,7 +84,7 @@ export class ChatGateway {
     if (!await this.userService.userIsInChannel(data.authorId, data.chanId))
       return;
     let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
-    this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service});
+    this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service, id: message.id});
   }
 
   @SubscribeMessage('joinRoom')

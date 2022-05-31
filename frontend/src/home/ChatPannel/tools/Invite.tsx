@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ChatSocketAPI } from '../../../api/ChatSocket.api';
 import { ChannelDto } from '../../../api/dto/channel.dto';
 import { UserDto } from '../../../api/dto/user.dto';
+import { toast } from 'react-toastify';
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 
@@ -41,9 +42,7 @@ interface InviteProps {
 function Invite(props: InviteProps) {
 	// le temps est en min pour l'instant
 	const [openInvite, setOpenInvite] = React.useState(false);
-    const [dif, setDif] = React.useState<Difficulty>(0)
-
-	console.log(`Startdif: ${dif}`)
+    const [dif, setDif] = React.useState<Difficulty>(0);
 
 	const handleCancelInvite= () =>
 	{
@@ -53,11 +52,12 @@ function Invite(props: InviteProps) {
 
 	const handleInvite = () =>
 	{
-		console.log('handleInvite')
-		console.log(`dif: ${dif}`)
 		if (props.chan && props.user) {
-			console.log(`chanId: ${props.chan.id}`)
-			console.log(`userLogin: ${props.user.login}`)
+			toast.success(`Invitation created successfully on ${props.chan.name}`, {
+				position: toast.POSITION.BOTTOM_CENTER,
+				pauseOnHover: false,
+				closeOnClick: true,
+            })
 			props.chatSocket.sendInvitation(props.chan.id, props.user.id, dif)
 		}
 		setOpenInvite(false);

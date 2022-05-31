@@ -16,7 +16,7 @@ import Invite from "./tools/Invite"
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { InvitationAPI } from "../../api/Invitation.api";
 import { Difficulty } from "../../api/dto/game.dto";
-import { ChannelDto } from "../../api/dto/channel.dto";
+import { toast } from "react-toastify";
 
 interface ChatState {
 	socket: any;
@@ -24,7 +24,7 @@ interface ChatState {
 	input: string;
 	chan: any;
 	users: UserDto[];
-	user: any,
+	user: any
 }
 
 interface ChatProps {
@@ -67,8 +67,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
-			console.log('blocked:');
-			console.log(this.state.user?.blockedUsers);
 			if (!msg.service) {
 				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id == sender?.id})) {
 					if (!blockedNotif && !msg.service) {
@@ -126,8 +124,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 			console.log('msg.content:')
 			console.log(msg.content)
+			console.log(msg)
 
-			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user)
+			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') &&
+				this.state.user.id == msg.authorId)
+					return ;
+
+			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user && this.state.user.id != msg.authorId)
 			return (
 			<Stack direction='column'>
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
@@ -135,16 +138,14 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
 					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 0)}}>
+						onClick={() => {this.handleInvitation(msg.authorId, 0, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
 			</Stack>)
 
-			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user)
+			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user && this.state.user.id != msg.authorId)
 			return (
 			<Stack direction='column'>
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
@@ -152,16 +153,14 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
 					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 1)}}>
+						onClick={() => {this.handleInvitation(msg.authorId, 1, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
 			</Stack>)
 
-			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user)
+			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user && this.state.user.id != msg.authorId)
 			return (
 			<Stack direction='column'>
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
@@ -169,12 +168,10 @@ export class Chat extends Component<ChatProps, ChatState> {
 					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
 				</Stack>
 				<Stack >
-					{this.state.user.id != msg.authorId ?
 					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 2)}}>
+						onClick={() => {this.handleInvitation(msg.authorId, 2, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
 			</Stack>)
 
@@ -194,12 +191,39 @@ export class Chat extends Component<ChatProps, ChatState> {
         return listItems;
     }
 
-	handleInvitation(authorId: number, difficulty: Difficulty) {
+	async handleInvitation(authorId: number, difficulty: Difficulty, messageId: number) {
 		if (this.state.user)
-			InvitationAPI.acceptInvitation(authorId, this.state.user.id, difficulty)
+			if (await this.checkUserIsOnline(authorId))
+			{
+				InvitationAPI.acceptInvitation(authorId, this.state.user.id, difficulty)
+				ChatAPI.deleteMessage(messageId)
+				let newMessages = this.state.messages.filter((message) => {return message.id != messageId})
+				this.setState({
+					messages: newMessages
+				})
+			}
 	}
 
-	onMessage(message: any) {
+	async checkUserIsOnline(id: number): Promise<boolean>
+	{
+		console.log('checkUserIsOnline')
+		const user = await UserAPI.getUserById(id);
+		if (user)
+		{
+			console.log(user)
+			if (user.status === 2 || user.status === 3)
+				return true
+			toast.error(`${user.login} is not available to play`, {
+				position: toast.POSITION.BOTTOM_CENTER,
+				pauseOnHover: false,
+				closeOnClick: true,})
+		}
+		return false
+	}
+
+	onMessage(message: MessageDto) {
+		console.log('onMessage')
+		console.log(message)
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages

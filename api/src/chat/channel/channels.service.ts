@@ -109,7 +109,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     channel.mute = [];
     channel.chats = [];
 
-    if (channel.visibility == "protected"){
+    if (channel.visibility == "protected") {
       const cipher = createCipheriv(process.env.ALGO, process.env.KEY, process.env.IV)
       const encryptedPassword = Buffer.concat([cipher.update(createChannelDto.password), cipher.final(),]);
       channel.password = encryptedPassword.toString();

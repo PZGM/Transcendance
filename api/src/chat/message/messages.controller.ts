@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,7 +16,7 @@ export class MessagesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.messagesService.findOne(id);
   }
 
@@ -42,8 +42,10 @@ export class MessagesController {
     return this.messagesService.update(id, updateMessageDto);
   }
 
+  // ParseIntPipe is necessary to receive a number
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id', ParseIntPipe) id: number) {
+    console.log(`controller id: ${id}`)
     return this.messagesService.remove(id);
   }
 }

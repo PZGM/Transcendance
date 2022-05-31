@@ -99,6 +99,7 @@ export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
+        console.log(`addChannel: ${name}`)
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
         let ret = true;
         await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
@@ -114,12 +115,27 @@ export class ChatAPI {
         return ret;
     }
     
-    public static async addMessage(message: string, authorId: number,channelId: number) {
+    public static async addMessage(message: string, authorId: number, channelId: number) {
         let ret = true;
         await fetch(`${process.env.REACT_APP_MESSAGES}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({content: message, authorId: authorId, channelId}),
+        credentials: "include"})
+        .then(handleErrors)
+        .catch(err => {
+            console.log(err);
+            ret = false;
+        })
+        return ret;
+    }
+
+    public static async deleteMessage(messageId: number) {
+        let ret = true;
+        console.log(`deleteMessage: ${messageId}`)
+        await fetch(`${process.env.REACT_APP_MESSAGES}/${messageId}`, {
+        method: "DELETE",
+        headers: { 'Content-Type': 'application/json' },
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {
