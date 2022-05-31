@@ -1,5 +1,5 @@
 import React from 'react'
-import { Room, roomEnum } from '../../api/dto/game.dto'
+import { Room, roomEnum, Pos } from '../../api/dto/game.dto'
 import { GameSocketAPI } from '../../api/GameSocket.api'
 
 const Sam: number = 1000; 
@@ -24,7 +24,7 @@ interface CanvasProps {
 	room: Room,
 	socket: GameSocketAPI,
 	userId: number,
-	updateDisplay: any
+	updateDisplay: any,
 }
 
 interface CanvasState {
@@ -38,6 +38,7 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	keystate = {};
 	loop: any =  null;
 	ratio: number = 0;
+	oldPos?: Pos;
 
 	constructor(props: CanvasProps) {
 		super(props);
@@ -47,10 +48,9 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.updateCanvas = this.updateCanvas.bind(this)
 		this.draw = this.draw.bind(this)
 		this.stopInterval = this.stopInterval.bind(this)
-
-			this.state = {
-				room: this.props.room
-			}
+		this.state = {
+			room: this.props.room
+		}
 	}
 
 	setupCanvas()
@@ -94,7 +94,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		resizeCanvas(this.canvas)
 		const { devicePixelRatio = 1 } = window
 		this.ratio = (this.canvas.width / Sam) / devicePixelRatio;
-		// console.log(`${this.canvas.width} / ${Sam} = ${this.ratio}`)
 	}
 
 	looping() {
@@ -105,33 +104,31 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	drawBall(ctx: any, room: Room)
 	{
-		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.ballColor
 		ctx.arc((room.ballX * this.ratio), room.ballY * this.ratio,
 				room.ballR * this.ratio, 0, 2 * Math.PI, true);
 		ctx.fill()
-		// ctx.restore()
 	}
 
 	drawPlayerOne(ctx: any, room: Room)
 	{
-		// ctx.save()
 		ctx.beginPath()
 		ctx.fillStyle = room.pOne.color
-		ctx.fillRect(room.pOneX * this.ratio, room.pOneY * this.ratio,
-				15 * this.ratio, room.pOneSize * this.ratio);
-		// ctx.restore()
+		ctx.fillRect(Math.floor(room.pOneX * this.ratio),
+				Math.floor(room.pOneY * this.ratio),
+				Math.floor(15 * this.ratio),
+				Math.floor(room.pOneSize * this.ratio));
 	}
 
 	drawPlayerTwo(ctx: any, room: Room)
 	{
-		// ctx.save()
-		ctx.beginPath()
-		ctx.fillStyle = room.pTwo.color
-		ctx.fillRect(room.pTwoX * this.ratio, room.pTwoY * this.ratio,
-				15 * this.ratio, room.pTwoSize * this.ratio);
-		// ctx.restore()
+		ctx.beginPath();
+		ctx.fillStyle = room.pTwo.color;
+		ctx.fillRect(Math.floor(room.pTwoX * this.ratio),
+				Math.floor(room.pTwoY * this.ratio),
+				Math.floor(15 * this.ratio),
+				Math.floor(room.pTwoSize * this.ratio));
 	}
 
 	stopInterval()
@@ -139,6 +136,39 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		console.log('stop interval')
 		clearInterval(this.loop)
 		this.props.updateDisplay(3)
+	}
+
+	clearDraw(ctx: any) {
+		if (this.oldPos){
+			ctx.clearRect(Math.floor(this.oldPos.pOneX * this.oldPos.ratio),
+					Math.floor(this.oldPos.pOneY * this.oldPos.ratio),
+					Math.floor(17 * this.oldPos.ratio),
+					Math.floor(this.oldPos.pOneSize * this.oldPos.ratio));
+			ctx.clearRect(Math.floor(this.oldPos.pTwoX * this.oldPos.ratio),
+					Math.floor(this.oldPos.pTwoY * this.oldPos.ratio),
+					Math.floor(17 * this.oldPos.ratio),
+					Math.floor(this.oldPos.pTwoSize * this.oldPos.ratio));
+			ctx.clearRect(Math.floor(this.oldPos.ballX * this.oldPos.ratio),
+					Math.floor(this.oldPos.ballY * this.oldPos.ratio),
+					Math.floor(this.oldPos.ballR * this.oldPos.ratio),
+					Math.floor(this.oldPos.ballR * this.oldPos.ratio));
+		}
+
+	}
+
+	setOldPos(room: Room){
+		this.oldPos = {
+			ballR : (room.ballR * 2) + 4,
+			ballX : room.ballX - room.ballR - 2,
+			ballY : room.ballY - room.ballR - 2,
+			pOneSize : room.pOneSize + 2,
+			pOneX : room.pOneX - 1,
+			pOneY : room.pOneY > 0 ? room.pOneY - 1 : room.pOneY,
+			pTwoSize : room.pTwoSize + 2,
+			pTwoX : room.pTwoX - 1,
+			pTwoY : room.pTwoY > 0 ? room.pTwoY - 1 : room.pTwoY,
+			ratio : this.ratio
+		}
 	}
 
 	draw()
@@ -152,11 +182,13 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 			room: this.props.room
 		})
 		const room = this.state.room;
-		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+		if (this.oldPos)
+			this.clearDraw(ctx);
 		this.drawBall(m_ctx, room)
 		this.drawPlayerOne(m_ctx, room);
 		this.drawPlayerTwo(m_ctx, room);
 		ctx.drawImage(m_canvas, 0,0);
+		this.setOldPos(this.state.room);
 		if (room.status === roomEnum.end)
 			this.stopInterval()
 	}
