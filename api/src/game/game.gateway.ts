@@ -69,8 +69,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
     async handleDisconnect(socket: Socket) {
 		const user : User = await this.usersService.getOneBySocket(socket.id);
-		const userDto = new UserDto(user);
         if (user) {
+			const userDto = new UserDto(user);
 			this.rooms.forEach((room: Room) => {
 				if (room.isPlayer(userDto))
 				{

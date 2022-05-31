@@ -66,12 +66,11 @@ export class UsersService {
 
     public async getOneBySocket(socketId: string): Promise<User|null> {
         try {
-            let billy : User;
+            let billy : User = null;
             let users: User[] = await this.userRepository.find({
             });
             users.forEach(user => {
-                
-                if(user.socketIdTab[user.socketIdTab.indexOf(socketId)] === socketId)
+                if(user.socketIdTab && user.socketIdTab[user.socketIdTab.indexOf(socketId)] === socketId)
                     billy = user;
             });
           return billy;
