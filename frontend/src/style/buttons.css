@@ -5,7 +5,8 @@
 .play_button, .spectate_button, .difficulty_button,
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
-.renderrow_button, .add_friend_button, .logout_button, .add_user_button,.send_msg_button
+.renderrow_button, .add_friend_button, .logout_button, .add_user_button,
+.invitation_send_msg_button
 {
 	position: relative;
 	text-align: center;
@@ -125,10 +126,9 @@
 	font-size: 24px;
 }
 
-.send_msg_button{
-	width: 2vw;
-	height: 3.7vh;
-	margin-right: 0.5vw;
+.invitation_send_msg_button{
+	width: 2.5vw;
+	margin-left: 0.2vw;
 }
 
 /* Profile */

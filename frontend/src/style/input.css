@@ -16,14 +16,16 @@
 .chat_bar {
 	color: white;
 	/* 0.1vw for avoid the box-shadow to overlap */
-	width: 70%;
-	font-size: 1rem;
+	width: 80%;
+	font-size: 1.5vw;
 	/* Consider border as part of the content */
 	box-sizing: border-box;
 	border: 0.2vw solid var(--green);
 	box-shadow: 0.25vw 0.25vw 0px -0.05vw rgba(19, 213, 144, 0.5);
 	outline: none;
 	background: transparent;
+	padding: 0.2vw;
+	padding-left: 0.4vw;
 }
 
 

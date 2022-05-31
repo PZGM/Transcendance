@@ -8,6 +8,7 @@ import { ChatSocketAPI } from '../../../api/ChatSocket.api';
 import { ChannelDto } from '../../../api/dto/channel.dto';
 import { UserDto } from '../../../api/dto/user.dto';
 import { toast } from 'react-toastify';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 // TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 
@@ -53,7 +54,7 @@ function Invite(props: InviteProps) {
 	const handleInvite = () =>
 	{
 		if (props.chan && props.user) {
-			toast.success(`Invitation created successfully on ${props.chan.name}`, {
+			toast.success(`${Difficulty[dif]} invitation created successfully on ${props.chan.name}`, {
 				position: toast.POSITION.BOTTOM_CENTER,
 				pauseOnHover: false,
 				closeOnClick: true,
@@ -65,8 +66,8 @@ function Invite(props: InviteProps) {
 
 	return (
 		<>
-			<div className="send_msg_button but_green" onClick={ () => {setOpenInvite(true)}}>
-				<img src={require('../../../asset/images/logo512.png')} style={{width: '100%'}} alt='cross'/>
+			<div className="invitation_send_msg_button but_red" onClick={ () => {setOpenInvite(true)}}>
+				<SportsEsportsIcon sx={{width: "80%", color: 'white'}}/>
 			</div>
 
 			<Dialog open={openInvite} onClose={handleCancelInvite}>
