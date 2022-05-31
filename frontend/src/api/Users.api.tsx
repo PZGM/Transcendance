@@ -14,6 +14,10 @@ export const URL_ME = () => {
     	return response;
 }
 
+function handlelog(response) {
+	return response.ok;
+}
+  
 export class UserRelationsPicker {
     withChannels?: boolean;
     withBlocked?: boolean;
@@ -150,13 +154,16 @@ export class UserAPI {
 		}
 
 		public static async updateLogin(login: string) {
-			let ret = true;
-			await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
-				method: 'PUT',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ login: login }),
-				credentials: 'include'})
-				.then(handleErrors)
+			let ret = await fetch(`${process.env.REACT_APP_UPDATE_LOGIN}`, {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ login: login }),
+			credentials: 'include'})
+			.then(async response => {return response.json()})
+			.then(json => {return json})
+			if (!ret) {
+				return false
+			}
 			return ret;
 		}
 

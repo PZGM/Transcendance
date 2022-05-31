@@ -94,7 +94,7 @@ function CreateChannel(props) {
 		const search = e.target.value;
 		if (!search || search === '')
 			return;
-        setName(search)
+        setName(search.toLowerCase())
 	}
 	const searchPassword = async (e: React.ChangeEvent<HTMLInputElement>) => {
 		e.target.value = e.target.value.replace(/\W/g, "");
