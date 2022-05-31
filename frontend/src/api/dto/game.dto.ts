@@ -42,3 +42,16 @@ export interface Room {
     pTwoSize: number;
     pTwoScore: number;
 }
+
+export interface Pos {
+    ballX: number;
+    ballY: number;
+    ballR: number;
+	pOneX: number;
+    pOneY: number;
+    pOneSize: number;
+    pTwoX: number;
+    pTwoY: number;
+    pTwoSize: number;
+    ratio : number;
+}

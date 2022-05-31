@@ -64,10 +64,10 @@ export class UserInit extends Component<UserInitProps, UserInitState> {
     {
         if (this.state.input !== '')
         {
-            let isValid = await UserAPI.updateLogin(this.state.input);
+            let isValid = await UserAPI.updateLogin(this.state.input.toLowerCase());
             if (isValid) {
-                this.setState({ login: this.state.input });
-                toast.success(`Login set to ${this.state.input}`, {
+                this.setState({ login: this.state.input.toLowerCase() });
+                toast.success(`Login set to ${this.state.input.toLowerCase()}`, {
                     position: toast.POSITION.BOTTOM_CENTER,
                     pauseOnHover: false,
                     closeOnClick: true,})
