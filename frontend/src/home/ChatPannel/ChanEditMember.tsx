@@ -55,6 +55,9 @@ function ChanEditMember(props: ChanEditMemberProps) {
         }
       }, [])
 
+    const deleteUser = () => {
+        return null;
+    }
 
     const toggleAdmin = async () => {
         console.log(`toggle admin in chan ${props.channel.id}`);
@@ -89,7 +92,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
                     {!memberIsAdmin && <Mute member={props.member} channelId={props.channel.id}/>}
-                    {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id}/>}
+                    {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id} deleteUser={deleteUser}/>}
                 </Stack>}
             </Stack>
         </div>
