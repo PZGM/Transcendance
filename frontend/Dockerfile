@@ -1,13 +1,7 @@
-FROM node:16-alpine
-
+FROM node:16-alpine as build
 WORKDIR /app
-
-RUN npm install -g npm
-
+RUN npm i -g npm --silent
 COPY . . 
-
-RUN npm install
-
+RUN npm install --silent
 EXPOSE 3000
-
-CMD npm start
+CMD npm run start

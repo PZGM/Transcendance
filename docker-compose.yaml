@@ -2,55 +2,50 @@ version: "3.3"
 services:
       # database
     db:
-            container_name: ${USER}-db
+            container_name: pzgm-db
             image: postgres
             restart: always
             environment:
                 POSTGRES_PASSWORD: 123456
             ports:
-                - ${db}:5432
+                - 3456:5432
             volumes:
-                - ./init.sql://docker-entrypoint-initdb.d/init.sql
+                - ./init.sql:/var/lib/postgresql/data
 
       # backend
     backend:
-        image: ${USER}back
-        container_name: ${USER}-backend
+        build:
+          context: api
+          dockerfile: Dockerfile
+        container_name: pzgm-backend
         environment:
           - TZ=Europe/Amsterdam
-          - https=${https}
-          - http=${http}
-          - client_id=${client_id}
-          - client_secret=${client_secret}
         env_file:
           - ./api/.env
         links:
           - db
         depends_on:
           - db
-        restart: unless-stopped
         ports:
-            - ${https}:3333
+            - 3333:3333
 
   # frontend
     frontend:
-        image: ${USER}front
-        container_name: ${USER}-frontend
+        build:
+          context: frontend
+          dockerfile: Dockerfile
+        container_name: pzgm-frontend
         environment:
           - TZ=Europe/Amsterdam
-          - https=${https}
-          - http=${http}
-          - client_id=${client_id}
-          - client_secret=${client_secret}
         env_file:
           - ./frontend/.env 
         restart: unless-stopped
         ports:
-          - ${front}:3000
-
+          - 3000:80
+          
     adminer:
-        container_name: ${USER}-adminer
+        container_name: pzgm-adminer
         image: adminer
         restart: always
         ports:
-            - ${adminer}:8080
+            - 8080:8080
