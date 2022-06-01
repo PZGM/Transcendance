@@ -24,6 +24,8 @@ constructor(
             relationsPicker.withChat && relations.push('chats');
             relationsPicker.withMuted && relations.push('mute');
             relationsPicker.withAdmin && relations.push('admin');
+            relationsPicker.withBanned && relations.push('ban');
+
         }
         const chan: Channel = await this.channelsRepository.findOneOrFail({
             relations,
@@ -69,7 +71,7 @@ constructor(
   }
 
   public async addBan(userId: number ,channelId: number, banId: number, date : Date) {
-    const channel: Channel | null = await this.getOne(channelId);
+    const channel: Channel | null = await this.getOne(channelId, {withAdmin: true, withBanned: true});
     if (!channel) {
       throw new NotFoundException(`Channel [${channelId}] not found`);
     }
@@ -77,15 +79,16 @@ constructor(
       throw new NotFoundException(`User not found in the admin data`);
     }
     if (channel.admin.some((admin) => {return admin.id == banId})) {
-      throw new NotFoundException(`Can't mute an admin`);
-    }   
+      throw new NotFoundException(`Can't ban an admin`);
+    } 
     if (!channel.ban.some((ban: Ban) => {return  ban.user.id == banId})) {
       try {
         let banned : Ban = new Ban();
-        banned.endOfBan = date;
+        banned.endOfBan = new Date(date);
         banned.banner = await this.usersService.getOne(userId);
         banned.user = await this.usersService.getOne(banId);
         channel.ban.push(banned);
+        channel.users = channel.users.filter((user) => {return user.id != banId})
       }
       catch (e) {
          return null;

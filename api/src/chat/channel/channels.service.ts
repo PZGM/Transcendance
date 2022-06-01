@@ -50,6 +50,8 @@ export class ChannelsService {
             relationsPicker.withChat && relations.push('chats');
             relationsPicker.withMuted && relations.push('mute');
             relationsPicker.withAdmin && relations.push('admin');
+            relationsPicker.withBanned && relations.push('ban');
+
         }
         const chan: Channel = await this.channelsRepository.findOneOrFail({
             relations,
@@ -107,6 +109,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     channel.admin = [owner];
     channel.users = [owner];
     channel.mute = [];
+    channel.ban = [];
     channel.chats = [];
 
     if (channel.visibility == "protected"){
@@ -162,7 +165,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   }
   
   public async join(userId: number, chanId: number, password?: string) {
-    const chan: Channel | null = await this.getOne(chanId);
+    const chan: Channel | null = await this.getOne(chanId, {withBanned: true});
     if (!chan || chan.visibility === 'private') {
       return false;
     }
@@ -176,6 +179,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if ((chan.users.some((user: User) => {return user.id == userId}))) {
       return false;
     }
+    if (chan.ban.some((ban) => {return ban.user.id == userId && ban.endOfBan.valueOf() - Date.now() > 0}))
+      return false;
     chan.users.push(await this.usersService.getOne(userId));
     this.channelsRepository.save(chan);
     this.chatGateway.broadcastJoinChannel(chanId, userId);

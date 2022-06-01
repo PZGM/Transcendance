@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react';
 interface BanProps {
     member: UserDto;
     channelId: number;
+    deleteUser: any;
 }
 
 function Ban(props: BanProps) {
@@ -27,7 +28,9 @@ function Ban(props: BanProps) {
     {
         setTime(1);
         setOpenBan(false);
-        await ChatAPI.ban(props.member.id, props.channelId, time);
+        const ret = await ChatAPI.ban(props.member.id, props.channelId, time);
+        if (ret)
+            props.deleteUser();
     }
 
     const PlusMinStyle = {
