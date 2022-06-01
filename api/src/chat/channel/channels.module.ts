@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Channel } from 'src/typeorm/entities/channel';
 import { UsersModule } from 'src/users/users.module';
@@ -9,8 +9,7 @@ import { ChannelsService } from './channels.service';
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Channel]),
-            UsersModule, ChatModule],
+  imports: [TypeOrmModule.forFeature([Channel]),UsersModule, ChatModule],
   controllers: [ChannelsController],
   providers: [ChannelsService],
   exports: [ChannelsService]

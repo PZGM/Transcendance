@@ -4,6 +4,8 @@ import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect,
 import { MessagesService } from './message/messages.service';
 import { UsersService } from 'src/users/users.service';
 import { Difficulty } from 'src/game/components/coor';
+import { ChannelsService } from './channel/channels.service';
+import { BanmuteService } from 'src/banmute/banmute.service';
 
 interface MessageBody{
   chanId: number;
@@ -15,7 +17,7 @@ interface MessageBody{
 @WebSocketGateway({cors: {origin : 6200}, namespace: '/chat'})
 export class ChatGateway {
 
-  constructor(private readonly messageService: MessagesService, private readonly userService: UsersService){
+  constructor(private readonly messageService: MessagesService, private readonly userService: UsersService, private readonly banmuteService: BanmuteService){
 
   }
 
@@ -83,6 +85,11 @@ export class ChatGateway {
   ) {
     if (!await this.userService.userIsInChannel(data.authorId, data.chanId))
       return;
+    if (!await this.banmuteService.userCanSend(data.authorId, data.chanId)) {
+      console.log('user is banned');
+      return
+    }
+    console.log('user is not banned');
     let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
     this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service});
   }

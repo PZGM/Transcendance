@@ -13,6 +13,7 @@ import { ChatModule } from './chat/chat.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { GameModule } from './game/game.module';
 import { InvitationModule } from './invitation/invitation.module';
+import { BanmuteModule } from './banmute/banmute.module';
 
 @Module({
   imports: [AuthModule, 
@@ -26,7 +27,8 @@ import { InvitationModule } from './invitation/invitation.module';
             FriendsModule,
             HistoryModule,
             StatsModule,
-            InvitationModule],
+            InvitationModule,
+            BanmuteModule],
   controllers: [],
   providers: []
 })
