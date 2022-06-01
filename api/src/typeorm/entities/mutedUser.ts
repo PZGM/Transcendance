@@ -8,7 +8,7 @@ import { Channel } from "..";
     @PrimaryGeneratedColumn()
     id: number;
 
-    @OneToOne(() => User, {eager: true})
+    @ManyToOne(() => User, {eager: true})
     @JoinColumn()
         user: User;
 
@@ -18,8 +18,8 @@ import { Channel } from "..";
     @ManyToOne(() => Channel , channel => channel.mute, {
       onDelete: "CASCADE"
     })
+    channel: Channel;
 
-    @OneToOne(() => User, {eager: true})
+    @ManyToOne(() => User, {eager: true})
     @JoinColumn()
-        muter: User;}
-
+    muter: User;}
