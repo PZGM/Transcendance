@@ -2,15 +2,15 @@ version: "3.3"
 services:
       # database
     db:
-            container_name: pzgm-db
-            image: postgres
-            restart: always
-            environment:
-                POSTGRES_PASSWORD: 123456
-            ports:
-                - 3456:5432
-            volumes:
-                - ./init.sql:/var/lib/postgresql/data
+      container_name: pzgm-db
+      image: postgres
+      restart: always
+      environment:
+          POSTGRES_PASSWORD: 123456
+      ports:
+          - 3456:5432
+      volumes:
+          - ./init.sql:/var/lib/postgresql/data
 
       # backend
     backend:
@@ -26,6 +26,7 @@ services:
           - db
         depends_on:
           - db
+        restart: unless-stopped
         ports:
             - 3333:3333
 
@@ -41,7 +42,7 @@ services:
           - ./frontend/.env 
         restart: unless-stopped
         ports:
-          - 3000:80
+          - 3000:3000
           
     adminer:
         container_name: pzgm-adminer
