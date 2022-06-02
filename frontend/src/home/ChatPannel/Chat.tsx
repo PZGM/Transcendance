@@ -36,7 +36,8 @@ interface ChatState {
 	input: string;
 	chan: any;
 	users: UserDto[];
-	user: any
+	user: any,
+	userIsMute: boolean
 }
 
 interface ChatProps {
@@ -58,7 +59,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 			input: '',
 			users: [],
 			user: undefined,
-			chan: undefined
+			chan: undefined,
+			userIsMute: false
 		}
 	}
 
@@ -145,47 +147,56 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
+			<Stack direction='column' spacing={1} className='invitation bor_green'>
+				
 				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "4vw", color: 'green'}}/>
-					<div style={{border: '2px solid green'}}>{`${login} invite you to play`}</div>
+					<SportsEsportsIcon className="invitation_icon green"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					<div className="add_user_button but_green"
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 0, msg.id)}}>
 						Accept
 					</div>
 				</Stack>
+			
 			</Stack>)
 
 			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
+			<Stack direction='column' spacing={1} className='invitation bor_yellow'>
+				
 				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "4vw", color: 'yellow'}}/>
-					<div style={{border: '2px solid yellow'}}>{`${login} invite you to play`}</div>
+					<SportsEsportsIcon className="invitation_icon yellow"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					<div className="add_user_button but_green"
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 1, msg.id)}}>
 						Accept
 					</div>
 				</Stack>
+			
 			</Stack>)
 
 			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
+			<Stack direction='column' spacing={1} className='invitation bor_red'>
+				
 				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "4vw", color: 'red'}}/>
-					<div style={{border: '2px solid red'}}>{`${login} invite you to play`}</div>
+					<SportsEsportsIcon className="invitation_icon red"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					<div className="add_user_button but_green"
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
 						onClick={() => {this.handleInvitation(msg.authorId, 2, msg.id)}}>
 						Accept
 					</div>
 				</Stack>
+			
 			</Stack>)
 
 			if (isFirst)
@@ -335,36 +346,66 @@ export class Chat extends Component<ChatProps, ChatState> {
 					{this.renderMsg(this.state.messages)}
 				</ol>
 
-				<Stack direction="row"
+				{this.state.userIsMute &&
+					<Stack direction="row"
 					spacing={1}
 					justifyContent="space_evenly"
 					style={{marginTop: '0.7vw',
 							marginBottom: '0.7vw',
 							marginLeft: '0.3vw',
 							marginRight: '0.4vw'}}
-				>
-					
-					<Invite chatSocket={this.chatSocket}
-							chan={this.state.chan}
-							user={this.state.user}
-					/>
-					
-					<input className="chat_bar"
-						placeholder="Write message"
-						value={this.state.input}
-						onKeyDown={(e) => {this.onKeyDown(e)}}
-						onChange={(e) => {this.onInputChange(e.target.value)}}
-					/>
-					
-					<div className="invitation_send_msg_button but_blue"
-						onClick={() => {this.sendMessage(this.chanName)}}
 					>
-						<img src={require('../../asset/images/white_>.png')}
-							style={{width: '75%'}}
-						/>
-					</div>
+						<div></div>
+						
+						<div className="invitation_send_msg_button but_grey">
+							<SportsEsportsIcon sx={{width: "80%", color: 'white'}}/>
+						</div>
+						
+						<div className="chat_bar_disabled">
+							You are muted
+						</div>
+						
+						<div className="invitation_send_msg_button but_grey">
+							<img src={require('../../asset/images/white_>.png')}
+								style={{width: '75%'}}
+							/>
+						</div>
 
-				</Stack>
+					</Stack>
+				}
+
+				{!this.state.userIsMute &&
+					<Stack direction="row"
+						spacing={1}
+						justifyContent="space_evenly"
+						style={{marginTop: '0.7vw',
+								marginBottom: '0.7vw',
+								marginLeft: '0.3vw',
+								marginRight: '0.4vw'}}
+					>
+						
+						<Invite chatSocket={this.chatSocket}
+								chan={this.state.chan}
+								user={this.state.user}
+						/>
+						
+						<input className="chat_bar"
+							placeholder="Write message"
+							value={this.state.input}
+							onKeyDown={(e) => {this.onKeyDown(e)}}
+							onChange={(e) => {this.onInputChange(e.target.value)}}
+						/>
+						
+						<div className="invitation_send_msg_button but_blue"
+							onClick={() => {this.sendMessage(this.chanName)}}
+						>
+							<img src={require('../../asset/images/white_>.png')}
+								style={{width: '75%'}}
+							/>
+						</div>
+
+					</Stack>
+				}
             </>
 
 		)

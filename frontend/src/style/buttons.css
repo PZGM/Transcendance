@@ -6,7 +6,7 @@
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
 .renderrow_button, .add_friend_button, .logout_button, .add_user_button,
-.invitation_send_msg_button
+.invitation_send_msg_button, .accept_invitation_button
 {
 	position: relative;
 	text-align: center;
@@ -120,10 +120,17 @@
 	font-size: 0.5vw;
 }
 
+.accept_invitation_button{
+	width: 19vw;
+	height: 4.5vh;
+	font-size: 2vw;
+	font-family: bit5x5;
+}
+
 .add_user_button{
 	width: 19vw;
 	height: 4.5vh;
-	font-size: 24px;
+	font-size: 2vw;
 }
 
 .invitation_send_msg_button{
