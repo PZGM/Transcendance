@@ -23,7 +23,6 @@ interface SelecterState {
 	anchorEl: any;
 };
 
-let Hbar = "3.8vh";
 let Hi = 15;
 let Hchan = 25;
 
@@ -107,7 +106,7 @@ function Selecter (){
 
 	return (
 		<>
-			<Box width="19.5vw" height={Hbar} sx={{backgroundColor: "#03C7D8", display: "flex", justifyContent: "center", alignItems: "center"}}>
+			<Box className="selecter">
 				<Stack direction="row" justifyContent="center" alignItems="center"  >
 					<Stack direction="row" justifyContent="center" alignItems="center" spacing={2} >
 						<Link style={{height: Hchan, width: Hi, textDecoration: 'none',fontSize: "large"}} to={{pathname: (location.pathname.search("/home/chat")) ? process.env.REACT_APP_USER + name + "/info" : process.env.REACT_APP_HOME_CHAN + "/" + name + "/info"}}>

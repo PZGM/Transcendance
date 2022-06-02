@@ -35,18 +35,9 @@ export class PlayButton extends Component<PlayButtonProps, PlayButtonState>
 	display() {
 		if (this.state.display === 0) {
 			return (
-					<Stack direction='column'
-						justifyContent='space-evenly'
-						spacing={3}
-						style={{height: '100%',
-								width: '100%'}}>
-						<div className="play_button" onClick={() => {this.setState({display: 1})}}>
-							Play Game
-						</div>
-						<div className="spectate_button">
-							Spectate Game
-						</div>
-					</Stack>
+					<div className="play_button" onClick={() => {this.setState({display: 1})}}>
+						Play Game
+					</div>
 			)
 		}
 		else if (this.state.display === 1) {

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -22,7 +22,7 @@ export class MessagesController {
 
   @Get(':id')
     @UseGuards(FullyAuthentificatedGuard)
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id') id: number) {
         this.logger.log("findOne : :id");
         return this.messagesService.findOne(id);
   }
@@ -55,9 +55,10 @@ export class MessagesController {
         return this.messagesService.update(id, updateMessageDto);
   }
 
+  // ParseIntPipe is necessary to receive a number
   @Delete(':id')
     @UseGuards(FullyAuthentificatedGuard)
-    remove(@Param('id') id: string) {
+    remove(@Param('id', ParseIntPipe) id: numberr) {
         this.logger.log("remove : :id");
         return this.messagesService.remove(id);
   }

@@ -108,7 +108,7 @@ ol, li {
     list-style-type: none;
 }
 
-ol {
+.friends_list {
 	padding-left: 0px;
 	padding-right: 10px;
 	margin-top: 10px;
