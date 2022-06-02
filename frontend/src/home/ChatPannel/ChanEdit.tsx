@@ -67,7 +67,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			if (!this.state.channel || !this.state.user)
 				return <div>An error occured</div>
 			return ( <div key={this.index}>
-						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member}></ChanEditMember>
+						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member} updateMembers={this.updateChannel.bind(this)}></ChanEditMember>
 					</div>);
 		}
 	  );
@@ -80,6 +80,15 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		this.setState({
 			redirect: "/home/chat/general"
 		})
+	}
+
+	async updateChannel() {
+		const name = this.props.params.name;
+		const channel: ChannelDto|null = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		if (channel)
+			this.setState({
+				channel,
+			})
 	}
 
 	render () {

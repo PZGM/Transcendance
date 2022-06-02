@@ -21,9 +21,7 @@ interface HomeState {
 	avatar?: string,
 	login?: string,
 	color?: string,
-	channel: any,
-	display: number,
-	room?: Room
+	channel: any
 }
 
 export const get_env = () : string => {
@@ -35,35 +33,15 @@ export const get_env = () : string => {
 
 export class Home extends Component<HomeProps, HomeState> {
 
-	gameSocket: GameSocketAPI;
-
 	constructor(props: HomeProps) {
 		super(props);
-		
-		this.gameSocket = new GameSocketAPI({
-								receiveGameRoom: this.receiveGameRoom.bind(this),
-								updateRoom: this.updateRoom.bind(this)})
 
 		this.state = {
 			avatar: undefined,
 			login: undefined,
 			color: undefined,
-      		channel: undefined,
-			display: 0,
-			room: undefined
+      		channel: undefined
 		}
-	}
-
-	receiveGameRoom(room: Room) {
-		console.log(room);
-		this.setState({
-			room,
-			display: 2
-		})
-	}
-
-	updateRoom (room: Room) {
-		this.setState({room})
 	}
 
 	async fetchUser() {
@@ -91,12 +69,9 @@ export class Home extends Component<HomeProps, HomeState> {
 			<div className="box">
 				{/* <PrivateGuard/> */}
 				
-				<Game	display={this.state.display}
-						room={this.state.room}
-						gameSocket={this.gameSocket}
-				/>
+				<Game/>
 
-				<Stack direction="column" sx={{backgroundColor: 'black'}} className='right'>
+				<Stack direction="column" className='chat_panel'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
 					<Selecter/>
 					<Outlet/>
