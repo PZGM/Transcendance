@@ -7,5 +7,12 @@ export interface ChannelDto {
     visibility: string
     password: string;
     users: UserDto[];
-    admin: UserDto[]; 
+    admin: UserDto[];
+    ban: BannedDto[];
 } 
+
+export interface BannedDto{
+    user: UserDto;
+    endOfBan: Date;
+    channel: ChannelDto;
+}

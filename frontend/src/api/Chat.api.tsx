@@ -10,6 +10,7 @@ export class RelationsPicker {
     withChat?: boolean;
     withMuted?: boolean;
     withAdmin?: boolean;
+    withBanned?: boolean;
 }
 
 function optionsToQuery(options: RelationsPicker) {
@@ -22,6 +23,8 @@ function optionsToQuery(options: RelationsPicker) {
         tab.push('withChat=true');
     if (options.withMuted)
         tab.push('withMuted=true');
+    if (options.withBanned)
+        tab.push('withBanned=true');
     return tab.join('&');
 }
 
