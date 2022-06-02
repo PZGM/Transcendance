@@ -17,6 +17,7 @@ interface ChanEditMemberProps {
     index: number,
     member : UserDto,
     channel: ChannelDto,
+    updateMembers: any,
 }
 
 interface StatusData {
@@ -89,7 +90,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
                     {!memberIsAdmin && <Mute member={props.member} channelId={props.channel.id}/>}
-                    {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id}/>}
+                    {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id} updateMembers={props.updateMembers}/>}
                 </Stack>}
             </Stack>
         </div>

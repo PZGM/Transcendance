@@ -6,6 +6,10 @@ import { Channel } from "..";
   export class Ban {
 
     @PrimaryGeneratedColumn()
+    id: number 
+
+    @ManyToOne(() => User, {eager: true})
+    @JoinColumn()
     user: User;
 
     @Column({ type: 'timestamptz', nullable: true })

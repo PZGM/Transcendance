@@ -32,7 +32,13 @@ constructor(private readonly banmuteService: BanmuteService) {}
     @Put('ban')
     @UseGuards(FullyAuthentificatedGuard)
     public async ban(@Req() request: CustomRequest, @Body() ban: {userId: number, channelId: number, date: Date}) {
-        const ret =  await this.banmuteService.addBan(request.user.id, ban.channelId, ban.userId, ban.date);
+        try {
+            const ret =  await this.banmuteService.addBan(request.user.id, ban.channelId, ban.userId, ban.date);
+            return true;
+        }
+        catch(err) {
+            return false;
+        }
     }
 
     @Get('mute-remaining/:channelId/:userId')
