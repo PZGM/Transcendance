@@ -11,8 +11,8 @@ export class InvitationController {
 
 	constructor(private readonly invitationService: InvitationService) {}
 
-	@Put('/accept')
-    // @UseGuards(FullyAuthentificatedGuard)
+	@Put('accept')
+    @UseGuards(FullyAuthentificatedGuard)
     public async acceptInvitation(@Req() request: CustomRequest, @Body() acceptInvitationRequest: {senderId: number, receiverId: number, difficulty: Difficulty}) {
         console.log('acceptInvitation')
         const ret =  await this.invitationService.acceptInvitation(acceptInvitationRequest.senderId, acceptInvitationRequest.receiverId, acceptInvitationRequest.difficulty);
