@@ -1,27 +1,36 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards, ParseIntPipe } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { MessageDto } from 'src/dto/chat.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { UsersService } from 'src/users/users.service';
 import { CustomRequest } from 'src/utils/types';
+import { Logger } from '@nestjs/common';
+import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 
 @ApiTags('Messages')
 @Controller('messages')
 export class MessagesController {
   constructor(private readonly messagesService: MessagesService, private readonly userService: UsersService) {}
+	private logger = new Logger("MessagesController")
 
   @Get()
-  findAll() {
+    @UseGuards(FullyAuthentificatedGuard)
+    findAll() {
+    this.logger.log("findAll : ");
     return this.messagesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.messagesService.findOne(id);
+    @UseGuards(FullyAuthentificatedGuard)
+    findOne(@Param('id') id: number) {
+        this.logger.log("findOne : :id");
+        return this.messagesService.findOne(id);
   }
 
   @Get('/channel/:id')
-  async getMessagesByChannel(@Param('id') id: number, @Req() request: CustomRequest) {
+    @UseGuards(FullyAuthentificatedGuard)
+    async getMessagesByChannel(@Param('id') id: number, @Req() request: CustomRequest) {
+    this.logger.log("getMessagesByChannel : /channel/:id");
     if (! await this.userService.userIsInChannel(request.user.id, id))
       return [];
     let messages = await this.messagesService.getByChan(id, 50);
@@ -33,19 +42,24 @@ export class MessagesController {
   }
 
   @Post()
-  create(@Body() messageDto: MessageDto) {
-    return this.messagesService.create(messageDto);
+    @UseGuards(FullyAuthentificatedGuard)
+    create(@Body() messageDto: MessageDto) {
+        this.logger.log("create : ");
+        return this.messagesService.create(messageDto);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMessageDto: MessageDto) {
-    return this.messagesService.update(id, updateMessageDto);
+    @UseGuards(FullyAuthentificatedGuard)
+    update(@Param('id') id: string, @Body() updateMessageDto: MessageDto) {
+        this.logger.log("update : :id");
+        return this.messagesService.update(id, updateMessageDto);
   }
 
   // ParseIntPipe is necessary to receive a number
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
-    console.log(`controller id: ${id}`)
-    return this.messagesService.remove(id);
+    @UseGuards(FullyAuthentificatedGuard)
+    remove(@Param('id', ParseIntPipe) id: numberr) {
+        this.logger.log("remove : :id");
+        return this.messagesService.remove(id);
   }
 }

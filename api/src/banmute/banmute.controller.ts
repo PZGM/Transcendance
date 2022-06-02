@@ -3,16 +3,19 @@ import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 import { CustomRequest } from 'src/utils/types';
 import { ApiTags } from '@nestjs/swagger';
 import { BanmuteService } from './banmute.service';
+import { Logger } from '@nestjs/common';
 
 
 @ApiTags('ban/mute')
 @Controller('banmute')
 export class BanmuteController {
 constructor(private readonly banmuteService: BanmuteService) {}
+private logger = new Logger("BanmuteController")
 
     @Put('mute')
     @UseGuards(FullyAuthentificatedGuard)
     public async mute(@Req() request: CustomRequest, @Body() mute: {userId: number, channelId: number, date: Date}) {
+        this.logger.log("mute : mute");
         try {
             await this.banmuteService.addMute(request.user.id, mute.channelId, mute.userId, mute.date);
             return true;
@@ -25,6 +28,7 @@ constructor(private readonly banmuteService: BanmuteService) {}
     @Delete('mute')
     @UseGuards(FullyAuthentificatedGuard)
     public async unmute(@Req() @Body() mute: {userId: number, channelId: number}) {
+        this.logger.log("unmute : mute");
         await this.banmuteService.deMute(mute.userId, mute.channelId);
         return true;
     }
@@ -32,6 +36,7 @@ constructor(private readonly banmuteService: BanmuteService) {}
     @Put('ban')
     @UseGuards(FullyAuthentificatedGuard)
     public async ban(@Req() request: CustomRequest, @Body() ban: {userId: number, channelId: number, date: Date}) {
+        this.logger.log("ban : ban");
         try {
             const ret =  await this.banmuteService.addBan(request.user.id, ban.channelId, ban.userId, ban.date);
             return true;
@@ -44,6 +49,7 @@ constructor(private readonly banmuteService: BanmuteService) {}
     @Get('mute-remaining/:channelId/:userId')
     @UseGuards(FullyAuthentificatedGuard)
     public async muteRemaining(@Req() request: CustomRequest, @Param('channelId') channelId: number, @Param('userId') userId: number ) {
+        this.logger.log("muteRemaining : mute-remaining/:channelId/:userId");
         return await this.banmuteService.muteRemaining(userId, channelId);
     }
 }
