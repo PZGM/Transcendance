@@ -85,19 +85,6 @@ export class ChannelsController {
     return this.channelsService.update(id, updateChannelDto);
   }
 
-
-  @Put('mute')
-  @UseGuards(FullyAuthentificatedGuard)
-  public async mute(@Req() request: CustomRequest, @Body() mute: {userId: number, channelId: number, date: Date}) {
-      const ret =  await this.channelsService.addMute(request.user.id, mute.channelId, mute.userId, mute.date);
-  }
-
-  @Put('ban')
-  @UseGuards(FullyAuthentificatedGuard)
-  public async ban(@Req() request: CustomRequest, @Body() ban: {id: number}, channelID: number, date: Date) {
-      const ret =  await this.channelsService.addBan(request.user.id, channelID, ban.id, date);
-  }
-
   @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
   public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number, password?: string}) {
@@ -116,6 +103,7 @@ export class ChannelsController {
   @UseGuards(FullyAuthentificatedGuard)
   public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
       const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
+      console.log('user removed!!!')
   }
 
   @Put('promote')

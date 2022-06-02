@@ -36,12 +36,12 @@ import { Ban } from "./BannedUser";
     @JoinTable()
     admin: User[]; 
 
-    @OneToMany(() => Mute, mute => mute.muter, {
+    @OneToMany(() => Mute, mute => mute.channel, {
       cascade: true
     })
     mute: Mute[];
 
-    @OneToMany(() => Ban, ban => ban.banner, {
+    @OneToMany(() => Ban, ban => ban.channel, {
       cascade: true
     })
     ban: Ban[];

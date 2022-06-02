@@ -211,8 +211,8 @@ export class ChatAPI {
     }
 
     //mute
-    public static async mute(userId: number, channelId: number) : Promise<number>{
-        const date: number = Date.now() + 100000;
+    public static async mute(userId: number, channelId: number, hours: number) : Promise<boolean>{
+        const date: number = Date.now() + 3600 * 1000 * hours;
         const resp = await fetch(`${process.env.REACT_APP_MUTE}`, {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
@@ -222,13 +222,36 @@ export class ChatAPI {
             .then(json => {return json});
             return resp;
     }
+
+    public static async unmute(userId: number, channelId: number) : Promise<boolean>{
+        const resp = await fetch(`${process.env.REACT_APP_MUTE}`, {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({userId, channelId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async muteRemaining(userId: number, channelId: number) : Promise<number>{
+        const resp = await fetch(`${process.env.REACT_APP_MUTE_REMAINING}/${channelId}/${userId}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+
     //ban
 
-    public static async ban(userId: number, channelId: number) : Promise<number>{
+    public static async ban(userId: number, channelId: number, days: number) : Promise<boolean>{
+        const date: number = Date.now() + 3600 * 1000 * 24 * days;
         const resp = await fetch(`${process.env.REACT_APP_BAN}`, {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({userId, channelId}),
+            body: JSON.stringify({userId, channelId, date}),
             credentials: "include"})
             .then(response => {return response.json()})
             .then(json => {return json});

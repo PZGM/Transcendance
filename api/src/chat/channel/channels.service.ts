@@ -50,6 +50,8 @@ export class ChannelsService {
             relationsPicker.withChat && relations.push('chats');
             relationsPicker.withMuted && relations.push('mute');
             relationsPicker.withAdmin && relations.push('admin');
+            relationsPicker.withBanned && relations.push('ban');
+
         }
         const chan: Channel = await this.channelsRepository.findOneOrFail({
             relations,
@@ -107,6 +109,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     channel.admin = [owner];
     channel.users = [owner];
     channel.mute = [];
+    channel.ban = [];
     channel.chats = [];
 
     if (channel.visibility == "protected"){
@@ -122,7 +125,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
 
   public async promote(userId: number, adminId : number, chanId: number) {
     console.log(`promote admin ${userId} ${adminId} ${chanId}`)
-    const chan: Channel | null = await this.getOne(chanId, {withAdmin: true, withOwner: true});
+    const chan: Channel | null = await this.getOne(chanId, {withAdmin: true, withOwner: true, withMuted: true});
     if (!chan) {
       throw new NotFoundException(`Channel [${chanId}] not found`);
     }
@@ -137,6 +140,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       throw new NotFoundException(`This user is already admin in this chan`);
     }
     chan.admin.push(await this.usersService.getOne(adminId));
+    chan.mute = chan.mute.filter((mute) => mute.user.id != adminId); //remove any mute on the user
     await this.channelsRepository.save(chan);
     this.chatGateway.broadcastPromoteAdmin(chanId, adminId);
     return;
@@ -161,7 +165,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   }
   
   public async join(userId: number, chanId: number, password?: string) {
-    const chan: Channel | null = await this.getOne(chanId);
+    const chan: Channel | null = await this.getOne(chanId, {withBanned: true});
     if (!chan || chan.visibility === 'private') {
       return false;
     }
@@ -175,6 +179,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
     if ((chan.users.some((user: User) => {return user.id == userId}))) {
       return false;
     }
+    if (chan.ban.some((ban) => {return ban.user.id == userId && ban.endOfBan.valueOf() - Date.now() > 0}))
+      return false;
     chan.users.push(await this.usersService.getOne(userId));
     this.channelsRepository.save(chan);
     this.chatGateway.broadcastJoinChannel(chanId, userId);
@@ -194,21 +200,29 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
 
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {
+      console.log('users before:');
+      console.log(channel.users);
       channel.users = channel.users.filter((user) => { return user.id !== rmId});
-      this.chatGateway.broadcastLeaveChannel(chanId, rmId);
+      console.log('users after:');
+      console.log(channel.users);
+      await this.chatGateway.broadcastLeaveChannel(chanId, rmId);
       if (isAdmin) {
         channel.admin = channel.admin.filter((user) => { return user.id !== rmId});
         if (isOwner) {
           if (channel.admin.length > 0){
             channel.owner = channel.admin[0];
-            this.chatGateway.broadcastNewOwner(chanId, channel.admin[0].id);
+            await this.chatGateway.broadcastNewOwner(chanId, channel.admin[0].id);
           }
           else if (channel.users.length > 0) {
+            channel.admin = [channel.users[0]]
             channel.owner = channel.users[0];
-            this.chatGateway.broadcastNewOwner(chanId, channel.users[0].id);
+            await this.chatGateway.broadcastNewOwner(chanId, channel.users[0].id);
           }
-          else
+          else {
             this.delete(userId, chanId);
+            console.log('channel deleted');
+            return;
+          }
         }
       }
       this.channelsRepository.save(channel);
@@ -248,58 +262,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       throw new NotFoundException(`Just the owner can delete the Channel`);
     }
     return this.channelsRepository.remove(channel);
-  }
-
-  public async addMute(userId: number ,channelId: number, muteId: number, date : Date) {
-    const channel: Channel | null = await this.getOne(channelId, {withAdmin: true, withMuted: true});
-   if (!channel) {
-      throw new NotFoundException(`Channel [${channelId}] not found`);
-    }
-    if (!channel.admin.some((admin) => {return admin.id == userId})) {
-      throw new NotFoundException(`User not found in the admin data`);
-    }
-    if (!channel.mute.some((mute: Mute) => {return  mute.user.id == muteId})) {
-      try {
-        let muted : Mute = new Mute();
-        muted.endOfMute = new Date(date);
-        muted.muter = await this.usersService.getOne(userId);
-        muted.user = await this.usersService.getOne(muteId);
-        channel.mute.push(muted);
-      }
-      catch (e) {
-        console.log(e)
-        return null;
-      }
-      await this.channelsRepository.save(channel);
-
-    }
-  }
-
-  public async addBan(userId: number ,id: number, banId: number, date : Date) {
-    const channel: Channel | null = await this.getOne(id);
-   if (!channel) {
-      throw new NotFoundException(`Channel [${id}] not found`);
-    }
-    if (!channel.admin.some((admin) => {return admin.id == userId})) {
-      throw new NotFoundException(`User not found in the admin data`);
-    }
-    if (channel.admin.some((admin) => {return admin.id == banId})) {
-      throw new NotFoundException(`Can't mute an admin`);
-    }   
-    if (!channel.ban.some((ban: Ban) => {return  ban.user.id == banId})) {
-      try {
-        let banned : Ban = new Ban();
-        banned.endOfBan = date;
-        banned.banner = await this.usersService.getOne(userId);
-        banned.user = await this.usersService.getOne(banId);
-        channel.ban.push(banned);
-      }
-      catch (e) {
-        console.log(e)
-        return null;
-      }
-      return this.channelsRepository.save(channel);
-    }
   }
 
   public async createOrJoinPrivateMessage(userId: number, friendId: number): Promise<number> {

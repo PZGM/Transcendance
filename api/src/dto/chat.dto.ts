@@ -11,6 +11,7 @@ export class RelationsPicker {
   withChat?: boolean;
   withMuted?: boolean;
   withAdmin?: boolean;
+  withBanned?: boolean;
 }
 
 export class MutedUserDto {

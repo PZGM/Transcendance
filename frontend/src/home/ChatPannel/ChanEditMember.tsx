@@ -7,8 +7,10 @@ import { UserDto } from "../../api/dto/user.dto";
 import { ChatAPI } from "../../api/Chat.api";
 import { toast } from "react-toastify";
 import { ChannelDto } from "../../api/dto/channel.dto";
-import MuteBan from "./tools/MuteBan"
 import { useNavigate } from 'react-router-dom';
+import Mute from "./tools/Mute";
+import Ban from "./tools/Ban";
+
 
 interface ChanEditMemberProps {
     user: UserDto,
@@ -53,6 +55,9 @@ function ChanEditMember(props: ChanEditMemberProps) {
         }
       }, [])
 
+    const deleteUser = () => {
+        return null;
+    }
 
     const toggleAdmin = async () => {
         console.log(`toggle admin in chan ${props.channel.id}`);
@@ -86,7 +91,8 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
                     <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
                     </div>}
-                    <MuteBan member={props.member} channelId={props.channel.id}/>
+                    {!memberIsAdmin && <Mute member={props.member} channelId={props.channel.id}/>}
+                    {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id} deleteUser={deleteUser}/>}
                 </Stack>}
             </Stack>
         </div>

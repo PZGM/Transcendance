@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 import { User } from './user'
 import { Channel } from "..";
 
@@ -6,6 +6,10 @@ import { Channel } from "..";
   export class Ban {
 
     @PrimaryGeneratedColumn()
+    id: number 
+
+    @ManyToOne(() => User, {eager: true})
+    @JoinColumn()
     user: User;
 
     @Column({ type: 'timestamptz', nullable: true })
@@ -14,5 +18,9 @@ import { Channel } from "..";
     @ManyToOne(() => Channel , channel => channel.ban, {
       onDelete: "CASCADE"
     })
+    channel: Channel
+
+    @OneToOne(() => User, {eager: true})
+    @JoinColumn()
     banner: User
 }

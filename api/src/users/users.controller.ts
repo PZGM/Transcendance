@@ -90,10 +90,8 @@ export class UsersController {
     @UseGuards(FullyAuthentificatedGuard)
     public async updateLogin(@Req() request: CustomRequest, @Body() updateLoginRequest: {login: string}) {
         const ret =  await this.userService.updateLogin(request.user.id, updateLoginRequest.login);
-        console.log("ret = "+ ret);
         if (ret === 1)
             return false;
-        console.log("je suis pas dans le false")
         return true
     }
 
