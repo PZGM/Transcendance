@@ -1,6 +1,8 @@
 import { io } from "socket.io-client";
 import React from "react";
 import { Difficulty, Room } from './dto/game.dto';
+import { toast } from "react-toastify";
+import { UserAPI } from "./Users.api";
 
 interface GameSocketAPIProps{
     receiveGameRoom: any;
@@ -26,8 +28,18 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
             this.socket.emit('joinRoom', {roomId: room.roomId});
         });
 
-        this.socket.on('inviteGame', (room: Room) => {
+        this.socket.on('inviteGame', async (room: Room) => {
             this.props.receiveGameRoom(room);
+
+            const user = await UserAPI.getMe()
+            if (user) {
+                const opponent = (room.pOne.id == user.id) ? room.pTwo : room.pOne;
+                toast.success(`${opponent.login} accepted the invitation`, {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    pauseOnHover: false,
+                    closeOnClick: true,
+                })
+            }
             this.socket.emit('joinRoom', {roomId: room.roomId})
         })
 

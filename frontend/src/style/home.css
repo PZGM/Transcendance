@@ -1,36 +1,101 @@
+@import "colors.css";
+
 .box {
     display: flex;
     height: 100vh;
-  }
-  
-  .right {
-    flex: 0 0 19.5vw; /* do not grow, do not shrink, start at 500px */
-    border-left: 0.5vw solid red;
-    width: 19.5vw;
-  }
-  
-  .left {
-    width: 70vw;
-    flex: 1;  /* grow */
-  }
-  
-  .game {
-      /* max-width: 100%;
-      height: undefinded;
-      max-height: 100%; */
-      /* width: 100%;
-      max-height: 100%;
-      margin: auto;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      box-sizing: border-box;
-      position: relative; */
-      width: 70vw;
-  }
+}
 
-  .chibre {
-    background-color: black;
-    width: '100%';
-    height: '50px';
-    border-radius: 0;
-  }
+.selecter {
+  background-color: var(--cyan);
+  height: 3.5vw;
+  box-shadow: 0px -4px 0 0 #00ffff82,
+                0px 4px 0 0 #00ffff82;
+  display: flex;
+  justify-content: center;
+}
+
+.chat_panel {
+  flex: 0 0 25vw;
+  background-color: black;
+  border-left: 0.5vw solid red;
+  width: 25vw;
+  box-shadow: -0.3vw 0vw 0px 0vw rgb(229 0 51 / 50%),
+         inset 0.3vw 0vw 0px 0vw rgb(229 0 51 / 50%)
+
+}
+
+.left {
+  width: 70vw;
+  flex: 1;  /* grow */
+}
+
+.game {
+    width: 70vw;
+}
+
+.chat_list {  
+  height: 100%;
+  overflow: auto;
+  margin-block-end: 0;
+  margin-block-start: 0.4vw;
+  padding-left: 0px;
+}
+
+/* .chibre {
+  background-color: black;
+  width: '100%';
+  height: '50px';
+  border-radius: 0;
+} */
+
+.first_message, .message {
+  color: white;
+  font-size: 1.5vw;
+  overflow-wrap: break-word;
+  padding-right: 0.5vw;
+}
+
+.first_message {
+  margin-left: 0.5vw;
+}
+
+.message {
+  margin-left: 4.7vw;
+}
+
+.service_message {
+  color: grey;
+  width: 100%;
+  font-size: 1.5vw;
+  font-style: italic;
+}
+
+.invitation_message {
+  color: grey;
+  width: 100%;
+  font-size: 1.5vw;
+  font-style: italic;
+}
+
+.invitation {
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+  border: 0.3vw solid;
+}
+
+.invitation_icon {
+  width: 3vw;
+  margin: 0.4vw;
+  height: unset;
+}
+
+.banned_message {
+  margin: 0.7vw 0.4vw 0.7vw 0.5vw;
+  padding-top: 0.2vw;
+  padding-bottom: 0.2vw;
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-size: 1.5vw;
+  border: 0.3vw solid var(--red);
+}

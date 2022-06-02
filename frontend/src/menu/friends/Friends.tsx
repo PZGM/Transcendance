@@ -117,7 +117,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 		
 			<Grid item xs={11} className="search_list">
 
-				<ol>
+				<ol className="friends_list">
 					{this.state.searchField && this.renderSearchRows(this.state.searchResults)}
 					{!this.state.searchField && this.renderRows(this.state.friends)}
 				</ol>
