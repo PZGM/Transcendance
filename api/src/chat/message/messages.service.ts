@@ -18,7 +18,7 @@ export class MessagesService {
     });
   }
 
-  async findOne(id: string) {
+  async findOne(id: number) {
     const message =  await this.messagesRepository.findOne(id, {
       relations: ['author', 'channel']
     });
@@ -62,7 +62,8 @@ export class MessagesService {
     return this.messagesRepository.save(message);
   }
 
-  async remove(id: string) { 
+  async remove(id: number) {
+    console.log(`remove: ${id}`)
     const message = await this.findOne(id);
     if (!message) {
       throw new NotFoundException(`Message [${id}] not found`);

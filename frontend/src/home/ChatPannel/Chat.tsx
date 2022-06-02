@@ -11,12 +11,24 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import "../../style/input.css"
 import Invite from "./tools/Invite"
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { InvitationAPI } from "../../api/Invitation.api";
 import { Difficulty } from "../../api/dto/game.dto";
-import { ChannelDto } from "../../api/dto/channel.dto";
+import { toast } from "react-toastify";
+import "../../style/input.css"
+import "../../style/home.css"
+
+
+export enum statusEnum {
+    unknow,
+    disconected,
+    idle,
+    connected,
+    playing,
+    watching,
+    inQueue
+}
 
 interface ChatState {
 	socket: any;
@@ -25,6 +37,7 @@ interface ChatState {
 	chan: any;
 	users: UserDto[];
 	user: any,
+	userIsMute: boolean
 }
 
 interface ChatProps {
@@ -46,7 +59,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 			input: '',
 			users: [],
 			user: undefined,
-			chan: undefined
+			chan: undefined,
+			userIsMute: false
 		}
 	}
 
@@ -67,8 +81,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 			const avatar = (sender) ? sender.avatar : '';
 			const isFirst: boolean = msg.authorId !== lastAuthorId;
 			lastAuthorId = (msg.service) ? - msg.authorId : msg.authorId;
-			console.log('blocked:');
-			console.log(this.state.user?.blockedUsers);
 			if (!msg.service) {
 				if (this.state.user?.blockedUsers?.some((blocked) => {return blocked.id === sender?.id})) {
 					if (!blockedNotif && !msg.service) {
@@ -83,8 +95,8 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (msg.service && msg.content === 'JOIN')
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<KeyboardDoubleArrowRightIcon sx={{width: "68px", color: 'green'}}/>
-					<div style={{color: 'grey', width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} joined the channel`}</div>
+					<KeyboardDoubleArrowRightIcon sx={{width: "4vw", color: 'green'}}/>
+					<div className="service_message" >{`${login} joined the channel`}</div>
 				</Stack> )
 			
 			blockedNotif = false;
@@ -92,114 +104,158 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (msg.service && msg.content === 'LEAVE')
 				return (
 				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
-					<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} left the channel`}</div>
+					<KeyboardDoubleArrowLeftIcon sx={{width: "4vw", color: 'red'}}/>
+					<div className="service_message" >{`${login} left the channel`}</div>
 				</Stack>)
 
 			if (msg.service && msg.content === 'PROFILED')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardDoubleArrowLeftIcon sx={{width: "68px", color: 'red'}}/>
-				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} uptaded his profile`}</div>
+				<KeyboardDoubleArrowLeftIcon sx={{width: "4vw", color: 'red'}}/>
+				<div className="service_message" >{`${login} uptaded his profile`}</div>
 			</Stack>)
 			
 			if (msg.service && msg.content === 'PROMOTE')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardArrowUpIcon sx={{width: "68px", color: 'cyan'}}/>
-				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is now admin`}</div>
+				<KeyboardArrowUpIcon sx={{width: "4vw", color: 'cyan'}}/>
+				<div className="service_message" >{`${login} is now admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'DEMOTE')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardArrowDownIcon sx={{width: "68px", color: 'orange'}}/>
-				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is no longer admin`}</div>
+				<KeyboardArrowDownIcon sx={{width: "4vw", color: 'orange'}}/>
+				<div className="service_message" >{`${login} is no longer admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'OWNERED')
 			return (
 			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-				<StarOutlineIcon sx={{width: "68px", color: 'yellow'}}/>
-				<div style={{color: "grey", width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >{`${login} is the new owner`}</div>
+				<StarOutlineIcon sx={{width: "4vw", color: 'yellow'}}/>
+				<div className="service_message" >{`${login} is the new owner`}</div>
 			</Stack>)
 
 			console.log('msg.content:')
 			console.log(msg.content)
+			console.log(msg)
 
-			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user)
+			// Don't show invitation message if you're the author
+			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') &&
+				this.state.user.id == msg.authorId)
+					return ;
+
+			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
-				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
-					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+			<Stack direction='column' spacing={1} className='invitation bor_green'>
+				
+				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon className="invitation_icon green"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					{this.state.user.id !== msg.authorId ?
-					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 0)}}>
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 0, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
+			
 			</Stack>)
 
-			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user)
+			if (msg.service && msg.content === 'INVITE-MEDIUM' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
-				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
-					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+			<Stack direction='column' spacing={1} className='invitation bor_yellow'>
+				
+				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon className="invitation_icon yellow"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					{this.state.user.id !== msg.authorId ?
-					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 1)}}>
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 1, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
+			
 			</Stack>)
 
-			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user)
+			if (msg.service && msg.content === 'INVITE-HARD' && this.state.user && this.state.user.id != msg.authorId)
 			return (
-			<Stack direction='column'>
-				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon sx={{width: "68px", color: 'red'}}/>
-					<div style={{color: "white", width: '100%', fontSize: '1.5rem', fontStyle: 'italic'}} >{`${login} invite you to play`}</div>
+			<Stack direction='column' spacing={1} className='invitation bor_red'>
+				
+				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+					<SportsEsportsIcon className="invitation_icon red"/>
+					<div>{`${login} invite you to play`}</div>
 				</Stack>
-				<Stack >
-					{this.state.user.id !== msg.authorId ?
-					<div className="add_user_button but_green"
-						onClick={() => {this.handleInvitation(msg.authorId, 2)}}>
+				
+				<Stack style={{alignItems: 'center', paddingBottom: '0.5vw'}}>
+					<div className="accept_invitation_button but_green"
+						onClick={() => {this.handleInvitation(msg.authorId, 2, msg.id)}}>
 						Accept
-					</div> :
-					<div className="add_user_button but_red">Unsend</div>}
+					</div>
 				</Stack>
+			
 			</Stack>)
 
 			if (isFirst)
-            return	<Stack key={msg.date.toString()} direction="row" spacing={1} style={{width: '100%', fontSize: '1.5rem'}}>
-                        <Avatar variant='circular' src={avatar} sx={{margin: "10px"}}/>
-                        <Stack direction="column" justifyContent="space-around" style={{width: '100%'}}>
+            return	<Stack key={msg.date.toString()} direction="row" style={{width: '100%', fontSize: '1.5rem'}}>
+                        <Avatar variant='circular' src={avatar} sx={{margin: "0.4vw", marginLeft: "0.8vw", height: '3vw', width: '3vw'}}/>
+                        <Stack className='first_message' direction="column" justifyContent="space-around">
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
                             <div style={{color: "white"}}> {msg.content} </div>
                         </Stack>
 
                     </Stack>
 			
-
-            return <div key={msg.date.toString()} style={{color: "white", paddingLeft: "68px", fontSize: '1.5rem'}}> {msg.content} </div>;
+            return <div key={msg.date.toString()} className='message'> {msg.content} </div>;
 		});
         return listItems;
     }
 
-	handleInvitation(authorId: number, difficulty: Difficulty) {
+	async handleInvitation(authorId: number, difficulty: Difficulty, messageId: number) {
 		if (this.state.user)
-			InvitationAPI.acceptInvitation(authorId, this.state.user.id, difficulty)
+		{
+			if (this.state.user.status === statusEnum.playing)
+			{
+				toast.error(`You can't accept an invitation while playing`, {
+					position: toast.POSITION.BOTTOM_CENTER,
+					pauseOnHover: false,
+					closeOnClick: true,})
+			}
+			else if (await this.checkUserIsOnline(authorId))
+			{
+				InvitationAPI.acceptInvitation(authorId, this.state.user.id, difficulty)
+				ChatAPI.deleteMessage(messageId)
+				let newMessages = this.state.messages.filter((message) => {return message.id != messageId})
+				this.setState({
+					messages: newMessages
+				})
+			}
+		}
 	}
 
-	onMessage(message: any) {
+	async checkUserIsOnline(id: number): Promise<boolean>
+	{
+		console.log('checkUserIsOnline')
+		const user = await UserAPI.getUserById(id);
+		if (user)
+		{
+			console.log(user)
+			if (user.status === statusEnum.idle || user.status === statusEnum.connected)
+				return true
+			toast.error(`${user.login} is not available to play`, {
+				position: toast.POSITION.BOTTOM_CENTER,
+				pauseOnHover: false,
+				closeOnClick: true,})
+		}
+		return false
+	}
+
+	onMessage(message: MessageDto) {
+		console.log('onMessage')
+		console.log(message)
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages
@@ -286,21 +342,70 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
 		return (
             <>
-                <Box height="87.5%">
-					<ol>
-						{this.renderMsg(this.state.messages)}
-					</ol>
-				</Box>
-				<Box height="50px" sx={{backgroundColor: "black"}}>
-					<Stack direction="row" spacing={1} justifyContent="space_evenly" sx={{backgroundColor: "black"}}>
-						<Invite chatSocket={this.chatSocket} chan={this.state.chan} user={this.state.user}/>
-						<input className="chat_bar" placeholder="Write message" value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/>
-						{/* <InputBase inputProps={{style: { color: "white" }}} placeholder="Send Message" sx={{marginLeft: "5px", width: "80%", height: "3.7vh", border: "2px solid white", padding:"3px", boxShadow: "0.25vw 0.25vw 0px -0.05 rgba(19,213,144,0.5)" }} value={this.state.input} onKeyDown={(e) => {this.onKeyDown(e)}} onChange={(e) => {this.onInputChange(e.target.value)}}/> */}
-						<div className="send_msg_button but_green" onClick={ () => {this.sendMessage(this.chanName)}}>
-							<img src={require('../../asset/images/xwhite.png')} style={{width: '75%'}} alt='cross'/>
+				<ol className="chat_list">
+					{this.renderMsg(this.state.messages)}
+				</ol>
+
+				{this.state.userIsMute &&
+					<Stack direction="row"
+					spacing={1}
+					justifyContent="space_evenly"
+					style={{marginTop: '0.7vw',
+							marginBottom: '0.7vw',
+							marginLeft: '0.3vw',
+							marginRight: '0.4vw'}}
+					>
+						<div></div>
+						
+						<div className="invitation_send_msg_button but_grey">
+							<SportsEsportsIcon sx={{width: "80%", color: 'white'}}/>
 						</div>
+						
+						<div className="chat_bar_disabled">
+							You are muted
+						</div>
+						
+						<div className="invitation_send_msg_button but_grey">
+							<img src={require('../../asset/images/white_>.png')}
+								style={{width: '75%'}}
+							/>
+						</div>
+
 					</Stack>
-				</Box>
+				}
+
+				{!this.state.userIsMute &&
+					<Stack direction="row"
+						spacing={1}
+						justifyContent="space_evenly"
+						style={{marginTop: '0.7vw',
+								marginBottom: '0.7vw',
+								marginLeft: '0.3vw',
+								marginRight: '0.4vw'}}
+					>
+						
+						<Invite chatSocket={this.chatSocket}
+								chan={this.state.chan}
+								user={this.state.user}
+						/>
+						
+						<input className="chat_bar"
+							placeholder="Write message"
+							value={this.state.input}
+							onKeyDown={(e) => {this.onKeyDown(e)}}
+							onChange={(e) => {this.onInputChange(e.target.value)}}
+						/>
+						
+						<div className="invitation_send_msg_button but_blue"
+							onClick={() => {this.sendMessage(this.chanName)}}
+						>
+							<img src={require('../../asset/images/white_>.png')}
+								style={{width: '75%'}}
+							/>
+						</div>
+
+					</Stack>
+				}
             </>
 
 		)

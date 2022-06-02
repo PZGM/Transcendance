@@ -49,13 +49,15 @@ export class MessageDto {
       this.authorId = message.author.id;
       this.service = message.service;
       this.date = message.createdDate;
+      this.id = message.id;
     }
   }
   date: Date;
   service: boolean;
-  channelId: number ;
+  channelId: number;
   content: string;
   authorId: number;
+  id: number;
 }
 
 export class CreateMessageDto {
