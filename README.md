@@ -14,5 +14,5 @@ http://127.0.0.1:8080 for adminer
 ```
 For a live version go on : 
 ```
-https://serv.pizzagami.fr:6200
+https://serv.pizzagami.fr:4000
 ```
