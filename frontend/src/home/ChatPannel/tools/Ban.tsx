@@ -44,7 +44,7 @@ function Ban(props: BanProps) {
     return (
         <>
             <div className={`renderrow_button but_red`} onClick={() => {setOpenBan(true)}}>
-                <div className='bit5x5'>'ban'</div>
+                <div className='bit5x5'>ban</div>
             </div>
             <Dialog open={openBan} onClose={handleCancelBan} >
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
