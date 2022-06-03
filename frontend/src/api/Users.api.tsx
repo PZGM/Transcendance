@@ -177,7 +177,7 @@ export class UserAPI {
 		}
 
 		public static async updateStatus(id: number, status: number) {
-			await fetch((process.env.REACT_APP_UPDATE_STATUS as string) + id, {
+			await fetch(`${process.env.REACT_APP_UPDATE_STATUS}${id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ status: status }),

@@ -8,14 +8,12 @@ interface StatusDetectorProps {
 };
 
 export class StatusDetector extends Component<StatusDetectorProps>{
-	idle: boolean = false;
-	id!: number;
+	id: number = -1;
     activityDetector: any = null;
-	last: string = '';
+	status: number = 0
 
 	constructor(props: StatusDetectorProps) {
 		super(props);
-		this.state = {avatar: undefined, login: undefined, anchorElUser: null, anchorElNav: null};
 		setInterval(this.sendActivity.bind(this), 3000)
 	}
 
@@ -27,13 +25,12 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 		if (!resp)
 			return;
 		this.id = resp.id;
-		if (resp.status < 3)
-			this.idle = true;
 	}
 
 	sendActivity = () => {
-		// if (this.idle === false && this.activityDetector)
-		// 	UserAPI.reportActivity(this.id);
+		if (this.id != -1) {
+			UserAPI.updateStatus(this.id, this.status)
+		}
 	}
 
 	componentDidMount() {
@@ -46,18 +43,18 @@ export class StatusDetector extends Component<StatusDetectorProps>{
     }
 
 	onIdle = () => {
-			// UserAPI.updateStatus(this.id, 2)
-			this.idle = true;
+		if (this.status != 2) {
+			this.status = 2;
+			this.sendActivity()
+		}
+		this.status = 2;
 	}
 
 	onActive = () => {
-			// UserAPI.updateStatus(this.id, 3)
-			this.idle = false;
-	}
-
-	onPlaying = () => {
-		// UserAPI.updateStatus(this.id, 4)
-		this.idle = false;
+		if (this.status < 3 ) {
+			this.status = 3;
+			this.sendActivity()
+		}
 	}
 
 	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus',]
