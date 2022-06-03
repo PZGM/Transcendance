@@ -58,7 +58,7 @@ export class MessagesController {
   // ParseIntPipe is necessary to receive a number
   @Delete(':id')
     @UseGuards(FullyAuthentificatedGuard)
-    remove(@Param('id', ParseIntPipe) id: numberr) {
+    remove(@Param('id', ParseIntPipe) id: number) {
         this.logger.log("remove : :id");
         return this.messagesService.remove(id);
   }
