@@ -8,9 +8,9 @@ services:
       environment:
           POSTGRES_PASSWORD: 123456
       ports:
-          - 3456:5432
+          - 5432:5432
       volumes:
-          - ./init.sql:/var/lib/postgresql/data
+          - ./init.sql://docker-entrypoint-initdb.d/init.sql
 
       # backend
     backend:

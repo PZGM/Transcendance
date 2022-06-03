@@ -1,4 +1,4 @@
-FROM node:16-alpine as build
+FROM node:18-alpine3.15
 WORKDIR /app
 RUN npm i -g npm
 RUN npm i -g serve
