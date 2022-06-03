@@ -1,12 +1,13 @@
-import { Stack } from "@mui/material";
+import { Avatar, Stack } from "@mui/material";
 import { Component} from "react";
 import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ChanEditMember from './ChanEditMember';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { UserDto } from "../../api/dto/user.dto";
-import { ChannelDto } from "../../api/dto/channel.dto";
+import { BannedDto, ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
+import Unban from "./tools/Unban";
 
 interface ChanEditState {
 	channel?: ChannelDto;
@@ -37,7 +38,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	async componentDidMount()  {
 		const name = this.props.params.name;
-		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		const channel = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true, withBanned: true});
 		const admins = channel.admin;
 		const user = await UserAPI.getMe();
 		if (!user || !channel)
@@ -51,7 +52,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		})
 	}
 
-	renderRowsUsers(list) {
+	renderUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
 			if (this.state.channel?.owner?.id === a.id)
 				return -1;
@@ -74,6 +75,25 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 	  return listItems;
 	}
 
+	renderBans(list) {
+		const listItems = list?.map((banned: BannedDto) => {
+			if (!this.state.channel || !this.state.user || !banned.user)
+				return <div>An error occured</div>
+			return (
+			<div className={"chan_element bor_"+ banned.user.color} key={this.index++}>
+				<Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
+					<Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} >
+						<Avatar variant='circular' alt={banned.user.login} src={banned.user.avatar} sx={{height: '1.6vw', width: '1.6vw'}}/>
+						<div style={{color: 'white' }} className='bit9x9'>{banned.user.login}</div>
+					</Stack>
+						<Unban member={banned.user} channelId={this.state.channel.id} updateChannels={this.updateChannel.bind(this)}></Unban>
+				</Stack>
+        	</div>);
+		}
+	  );
+	  return listItems;
+	}
+
 	async leave() {
 		if (this.state.channel)
 			ChatAPI.leaveChannel(this.state.channel.id)
@@ -84,7 +104,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 
 	async updateChannel() {
 		const name = this.props.params.name;
-		const channel: ChannelDto|null = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true});
+		const channel: ChannelDto|null = await ChatAPI.getChannelByName(name, {withAdmin: true, withOwner: true, withBanned: true});
 		if (channel)
 			this.setState({
 				channel,
@@ -113,9 +133,18 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				</Stack>
 				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
 					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'74vh'}>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'34vh'}>
 						<li>
-							{this.renderRowsUsers(this.state.channel.users)}
+							{this.renderUsers(this.state.channel.users)}
+						</li>
+					</Stack>
+				</Stack>
+				<Stack direction="column" justifyContent="center" alignItems="flex-start">
+					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>BANNED USERS :</div>
+					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={'40vh'}>
+						<li>
+							{/* Render banned users */}
+							{this.renderBans(this.state.channel.ban)}
 						</li>
 					</Stack>
 				</Stack>

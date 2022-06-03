@@ -8,7 +8,6 @@ export class InvitationService {
 	constructor(private gameGateway: GameGateway) {}
 
 	public acceptInvitation(senderId: number, receiverId: number, difficulty: Difficulty): boolean {
-		console.log('acceptInvitation')
 		if (this.gameGateway.handleRoomInvite(senderId, receiverId, difficulty))
 			return true;
 

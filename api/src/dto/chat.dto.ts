@@ -82,6 +82,8 @@ export class ChannelDto {
           this.users = channel.users.map((user) => {return new UserDto(user)});
         this.visibility = channel.visibility;
         this.id = channel.id;
+        if (channel.ban)
+          this.ban = channel.ban.map((ban) => { return new BannedUserDto(ban)});
       }
     }
 
@@ -93,6 +95,7 @@ export class ChannelDto {
   readonly visibility: string;
   readonly users: UserDto[];
   mute: Mute[];
+  ban: BannedUserDto[];
   admin: UserDto[];
   readonly messages: MessageDto[];
   readonly id: number;

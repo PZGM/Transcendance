@@ -1,6 +1,8 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { request } from 'http';
+import { ChatGateway } from 'src/chat/chat.gateway';
+import { ChannelDto } from 'src/dto/chat.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { ImagesService } from 'src/images/images.service';
 import { Channel, Game, User } from 'src/typeorm';
@@ -17,7 +19,11 @@ export class UserRelationsPicker {
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>, private imageService: ImagesService){}
+    constructor(@InjectRepository(User)
+    private userRepository: Repository<User>,
+    private imageService: ImagesService,
+    private chatGateway: ChatGateway,
+    ){}
 
     public async getOne(userId: number, relationsPicker?:UserRelationsPicker): Promise<User|null> {
         try {
@@ -206,10 +212,13 @@ export class UsersService {
     }
 
     public async updateImage(userId: number, image: string) {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne(userId, {withChannels: true});
         if (user.avatar.startsWith(process.env.IMAGES_PATH_URL))
             this.imageService.removeImage(user.avatar);
         user.avatar = image;
+        user.joinedChannels.forEach(channel => {
+            this.chatGateway.broadcastProfileUpdated(channel.id, userId)
+        })
         await this.userRepository.save(user);
     }
 
@@ -219,7 +228,7 @@ export class UsersService {
     }
 
     public async updateLogin(userId: number, login: string) : Promise<number> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne(userId, {withChannels: true});
         if (!user.firstLog)
             this.firstLogged(user);
         if (user.login == login)
@@ -228,13 +237,19 @@ export class UsersService {
             return 1;
         user.login = login;
         await this.userRepository.save(user);
+        user.joinedChannels.forEach(channel => {
+            this.chatGateway.broadcastLoginUpdated(channel.id, userId)
+        })
         return 0;
     }
 
     public async updateColor(userId: number, color: string) : Promise<number> {
-        const user: User|null = await this.getOne(userId);
+        const user: User|null = await this.getOne(userId, {withChannels: true});
         user.color = color;
         await this.userRepository.save(user);
+        user.joinedChannels.forEach(channel => {
+            this.chatGateway.broadcastProfileUpdated(channel.id, userId)
+        })
         return 0;
     }
 
