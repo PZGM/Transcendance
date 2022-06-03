@@ -17,9 +17,9 @@ export class HistoryService {
         if (!winner || !loser)
             throw new NotFoundException();
         const game: Game = this.gameRepository.create(details);
-        this.userService.addGame(game.winnerId, game);
-        this.userService.addGame(game.loserId, game);
-        this.statsService.setStats(
+        await this.userService.addGame(game.winnerId, game);
+        await this.userService.addGame(game.loserId, game);
+        await this.statsService.setStats(
             game.winnerId,
             {
                 won: true,
@@ -30,7 +30,7 @@ export class HistoryService {
                 opponentEloScore: loser.stats.eloScore
             }
         );
-        this.statsService.setStats(
+        await this.statsService.setStats(
             game.loserId,
             {
                 won: false,
@@ -41,7 +41,7 @@ export class HistoryService {
                 opponentEloScore: winner.stats.eloScore
             }
         )
-        this.gameRepository.save(game);
+        await this.gameRepository.save(game);
     }
 
     async getHistory(userId: number): Promise<Game[]> {

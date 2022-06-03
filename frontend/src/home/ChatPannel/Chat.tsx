@@ -171,9 +171,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 				<div className="service_message" >{`${login} changed his login`}</div>
 			</Stack>)
 
-			if (msg.service)
-				return;
-
 			// Don't show invitation message if you're the author
 			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') &&
 				this.state.user.id == msg.authorId)
@@ -232,6 +229,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 				</Stack>
 			
 			</Stack>)
+
+			if (msg.service)
+			return;
 
 			if (isFirst)
             return	<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" style={{width: '100%', fontSize: '1.5rem'}}>

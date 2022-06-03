@@ -58,10 +58,8 @@ export class StatsService {
         const score = 0.3 * (lastGame.won ? 1 : 0) + 0.7 * (lastGame.score / (lastGame.score + lastGame.opponentScore));
         stats.eloScore = Math.round(stats.eloScore + K * (score - expectedScore));
         user.stats = stats;
-        this.statsRepo.save(stats);
         stats.rank = 1;
-        user.stats = stats;
-        this.statsRepo.save(stats);
+        await this.statsRepo.save(stats);
     }
 
 }
