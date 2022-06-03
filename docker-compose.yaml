@@ -26,7 +26,6 @@ services:
           - db
         depends_on:
           - db
-        restart: unless-stopped
         ports:
             - 3333:3333
 

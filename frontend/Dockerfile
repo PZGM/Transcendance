@@ -1,12 +1,9 @@
 FROM node:16-alpine as build
 WORKDIR /app
 RUN npm i -g npm
+RUN npm i -g serve
 COPY . . 
 RUN npm install
 EXPOSE 3000
 RUN npm run build
-
-
-FROM nginx:stable-alpine
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
+CMD serve -s build --ssl-cert "secrets/certificate.pem" --ssl-key "secrets/key.key"
