@@ -102,19 +102,17 @@ export class ChatAPI {
     }
 
     // ${process.env.REACT_APP_GET_CHANNELS}
-    public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
+    public static async addChannel(name: string, ownerId: number, visibility: string, password?: any): Promise<boolean> {
         console.log(`addChannel: ${name}`)
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
-        let ret = true;
-        await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
+        const ret = await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body,
         credentials: "include"})
-        .then(handleErrors)
+        .then(response => {return response.json()}).then(json => {return json})
         .catch(err => {
-            console.log(err);
-            ret = false;
+            return false;
         })
         return ret;
     }
