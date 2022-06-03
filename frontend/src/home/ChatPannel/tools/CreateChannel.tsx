@@ -59,13 +59,21 @@ function CreateChannel(props) {
             })
         }
         else{
-            await Sendchannel();
-            setVisibility("public")
-            setPassword("")    
-            setName("");
-            setOpenCreate(false);
-            navigate(`/home/chat/${name}`);
-            props.close();
+            if (await Sendchannel()) {
+                setVisibility("public")
+                setPassword("")    
+                setName("");
+                setOpenCreate(false);
+                navigate(`/home/chat/${name}`);
+                props.close();
+            }
+            else {
+                toast.error("Channel can't be created", {
+                    position: toast.POSITION.BOTTOM_CENTER,
+                    pauseOnHover: false,
+                    closeOnClick: true,
+                })
+            }
         }
     };
 
@@ -85,8 +93,10 @@ function CreateChannel(props) {
 
     const Sendchannel = async () => {
         const resp = await UserAPI.getMe();
+        let ret = false;
         if (resp)
-            await ChatAPI.addChannel(name, resp.id , visibility, password);
+            ret = await ChatAPI.addChannel(name, resp.id , visibility, password);
+        return ret;
     }
 
 	const searchName = async (e: React.ChangeEvent<HTMLInputElement>) => {

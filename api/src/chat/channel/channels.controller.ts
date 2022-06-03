@@ -86,9 +86,13 @@ export class ChannelsController {
 
   @Post()
   @UseGuards(FullyAuthentificatedGuard)
-  create(@Body() createChannelDto: CreateChannelDto) {
+  async create(@Body() createChannelDto: CreateChannelDto): Promise<boolean> {
         this.logger.log("create : ");
-        return this.channelsService.create(createChannelDto);
+        const chan = await this.channelsService.create(createChannelDto);
+        if (!chan) {
+          return false;
+  }
+        return true;
   }
 
   @Patch(':id')
