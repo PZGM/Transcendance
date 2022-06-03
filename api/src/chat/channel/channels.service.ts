@@ -99,9 +99,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       where: {
         name: createChannelDto.name
       }
-    }) != 0 || createChannelDto.name.length < 3 || createChannelDto.name.length > 10)
-      throw new NotFoundException(`Channel name invalide or already taken`);
-    
+    }) != 0 || createChannelDto.name.length < 3 || createChannelDto.name.length > 10) 
+      return null;
     
     let channel: Channel = new Channel();
     const owner: User|null = (createChannelDto.ownerId != -1) ? await this.usersService.getOne(createChannelDto.ownerId) : null;
@@ -119,7 +118,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       const encryptedPassword = Buffer.concat([cipher.update(createChannelDto.password), cipher.final(),]);
       channel.password = encryptedPassword.toString();
     }
-    let ret = await this.channelsRepository.save(channel);
+    const ret = await this.channelsRepository.save(channel);
     if (createChannelDto.ownerId !== -1)
       this.chatGateway.broadcastJoinChannel(ret.id, createChannelDto.ownerId);
     return ret;
