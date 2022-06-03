@@ -76,6 +76,8 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
         relationsPicker.withChat && relations.push('chats');
         relationsPicker.withMuted && relations.push('mute');
         relationsPicker.withAdmin && relations.push('admin');
+        relationsPicker.withBanned && relations.push('ban');
+
       }
       const chan: Channel = await this.channelsRepository.findOne({
           relations,
@@ -124,16 +126,11 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
   }
 
   public async promote(userId: number, adminId : number, chanId: number) {
-    console.log(`promote admin ${userId} ${adminId} ${chanId}`)
     const chan: Channel | null = await this.getOne(chanId, {withAdmin: true, withOwner: true, withMuted: true});
     if (!chan) {
       throw new NotFoundException(`Channel [${chanId}] not found`);
     }
     if (!chan.owner || chan.owner.id !== userId) {
-      if (chan.owner)
-        console.log(chan.owner.id);
-      else
-        console.log()
       throw new NotFoundException(`Only the owner can promote admin`);
     }
     if ((chan.admin.some((admin) => {return admin.id == adminId}))) {

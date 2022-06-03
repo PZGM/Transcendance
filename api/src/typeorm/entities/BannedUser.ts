@@ -20,7 +20,7 @@ import { Channel } from "..";
     })
     channel: Channel
 
-    @OneToOne(() => User, {eager: true})
+    @ManyToOne(() => User, {eager: true})
     @JoinColumn()
     banner: User
 }
