@@ -104,18 +104,6 @@ canvas {
 
 /* Friends */
 
-ol, li {
-    list-style-type: none;
-}
-
-.friends_list {
-	padding-left: 0px;
-	padding-right: 10px;
-	margin-top: 10px;
-	overflow-y: scroll;
-	height: calc(100% - 0.8vw);
-}
-
 .search_element, .friend_element, .chan_element {
 	border: 0.2vw solid;
 	width: 100%;
@@ -129,10 +117,6 @@ ol, li {
 	width: calc(100% - 0.1vw);
 }
 
-.search_list {
-	overflow: hidden;
-	height: 100%;
-}
 
 .friend_element {
 	font-size: 1vw;
@@ -141,13 +125,12 @@ ol, li {
 	/* width: calc(100% - 0.1vw); */
 }
 .chan_element {
-	font-size: 0.6vw;
-	margin-bottom: 0.35vw;
+	font-size: 1vw;
+	/* margin-bottom: 0.35vw; */
 	padding: 0.35vw;
-	width: 18.4vw;
-	margin-left: 0.26vw;
+	width: 100%;
 	margin-right: 0.1vw;
-	margin-bottom: 1vh;
+	margin-bottom: 0.4vw;
 	/* width: calc(100% - 0.1vw); */
 }
 

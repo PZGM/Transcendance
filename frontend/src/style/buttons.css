@@ -107,6 +107,7 @@
 .creachan_button:active {
 	cursor: pointer;
 }
+
 .dropdown_button {
 	width: 7.8vw;
 	height: 75vh;
@@ -116,7 +117,7 @@
 
 .renderrow_button{
 	width: 3.5vw;
-	height: 3.7vh;
+	height: 2.4vw;
 	font-size: 0.5vw;
 }
 
