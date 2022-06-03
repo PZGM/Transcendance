@@ -46,4 +46,17 @@ constructor(private readonly banmuteService: BanmuteService) {}
     public async muteRemaining(@Req() request: CustomRequest, @Param('channelId') channelId: number, @Param('userId') userId: number ) {
         return await this.banmuteService.muteRemaining(userId, channelId);
     }
+
+    @Get('ban-remaining/:channelId/:userId')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async banRemaining(@Req() request: CustomRequest, @Param('channelId') channelId: number, @Param('userId') userId: number ) {
+        return await this.banmuteService.banRemaining(userId, channelId);
+    }
+
+    @Delete('ban')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async unban(@Req() @Body() mute: {userId: number, channelId: number}) {
+        await this.banmuteService.unban(mute.userId, mute.channelId);
+        return true;
+    }
 }

@@ -40,6 +40,7 @@ export class ChannelsController {
       withChat: query?.withChat === 'true',
       withMuted: query?.withMuted === 'true',
       withOwner: query?.withOwner === 'true',
+      withBanned: query.withBanned === 'true',
     }
     const channel = await this.channelsService.getOneByName(name, options);
     if (channel && !channel.users.some((user) => {return user.id == request.user.id })) {
@@ -47,6 +48,7 @@ export class ChannelsController {
       channel.admin = [];
       channel.users = [];
       channel.chats = [];
+      channel.ban = [];
       channel.owner = null;
     }
     if (channel)
@@ -62,6 +64,7 @@ export class ChannelsController {
       withChat: query?.withChat === 'true',
       withMuted: query?.withMuted === 'true',
       withOwner: query?.withOwner === 'true',
+      withBanned: query.withBanned === 'true',
     }
     const channel = await this.channelsService.getOne(id, options);
     if (channel && !channel.users.some((user) => {return user.id == request.user.id })) {
@@ -70,6 +73,7 @@ export class ChannelsController {
       channel.users = [];
       channel.chats = [];
       channel.owner = null;
+      channel.ban = [];
     }    return new ChannelDto(channel);
   }
 

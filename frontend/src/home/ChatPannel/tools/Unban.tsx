@@ -26,9 +26,10 @@ const useInterval = (callback: Function, delay?: number | null) => {
     }, [delay]);
   };
 
-interface MuteProps {
+interface UnbanProps {
     member: UserDto;
     channelId: number;
+    updateChannels: any;
 }
 
 function msToTime(ms) {
@@ -46,52 +47,44 @@ function msToTime(ms) {
     return txt;
   }
 
-function Mute(props: MuteProps) {
-    const [openMute, setOpenMute] = React.useState(false);
-    const [time, setTime] = React.useState(1);
-    const [muteTime, setMuteTime] = React.useState(-1);
+function Unban(props: UnbanProps) {
+    const [openUnban, setOpenUnban] = React.useState(false);
+    const [banTime, setBanTime] = React.useState(-1);
 
-    const getMuteTime = async () => {
-        const t = await ChatAPI.muteRemaining(props.member.id, props.channelId);
-        setMuteTime(t);
+    const getBanTime = async () => {
+        const t = await ChatAPI.banRemaining(props.member.id, props.channelId);
+        setBanTime(t);
     }
 
-    const handleCancelMute = () =>
+    const handleCancelUnban = () =>
     {
-        setTime(1);
-        setOpenMute(false);
+        setOpenUnban(false);
     }
 
-    const handleMute = async () =>
+    const handleUnban = async () =>
     {
-
-        setTime(1);
-        setOpenMute(false);
-        await ChatAPI.mute(props.member.id, props.channelId, time);
-        getMuteTime();
+        setOpenUnban(false);
+        await ChatAPI.unban(props.member.id, props.channelId);
+        getBanTime();
+        props.updateChannels();
     }
 
     const handleClick = async () => {
-        if (muteTime == -1 )
-            setOpenMute(true);
-        else
-            await ChatAPI.unmute(props.member.id, props.channelId);
-            setMuteTime(-1);
-            getMuteTime();
+        setOpenUnban(true);
     }
 
     useInterval(() => {
-        if (muteTime > 0)
-            setMuteTime(muteTime -1000);
+        if (banTime > 0)
+            setBanTime(banTime -1000);
         else
-            setMuteTime(-1);
+            setBanTime(-1);
       }, 1000);
 
     useEffect(() => {
-        getMuteTime();
+        getBanTime();
     }, []);
 
-    const isMuted: boolean = muteTime > 0;
+    const isUnband: boolean = banTime > 0;
 
     const PlusMinStyle = {
         color: 'white',
@@ -106,28 +99,20 @@ function Mute(props: MuteProps) {
 
     return (
         <>
-            <div className={`renderrow_button but_${(isMuted ? 'yellow' : 'red')}`} onClick={handleClick}>
-                <div className='bit5x5'>{isMuted ? `unmute ${msToTime(muteTime)} ` : 'mute'}</div>
+            <div className={`renderrow_button but_${(isUnband ? 'yellow' : 'red')}`} onClick={handleClick}>
+                <div className='bit5x5'>{isUnband ? `ununban ${msToTime(banTime)} ` : 'unban'}</div>
             </div>
-            <Dialog open={openMute} onClose={handleCancelMute} >
+            <Dialog open={openUnban} onClose={handleCancelUnban} >
                 <DialogContent sx={{backgroundColor: "black",border: 5, borderColor: "#8e00ae"}}>
                     <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" sx={{fontSize: "0.7vw"}}>
-                        <div className='bit5x5' style={{color: "white"}}> Chose mute duration </div>
-                        <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-							<div style={PlusMinStyle} onClick={() => {if (time - 1 >= 0) setTime(time-1)}}>
-                                -
-                            </div>
-                            <div className='bit5x5' style={{color:"white", fontSize: 'calc(30px + 1vw)'}}>{`${time}H`}</div>
-							<div style={PlusMinStyle} onClick={() => {setTime(time+1)}}>
-                                +
-                            </div>
-                        </Stack>
+                        <div className='bit5x5' style={{color: "white"}}>{`Unban ${props.member.login} ? `}</div>
+                    
                         <Stack direction="row" spacing={2} justifyContent="center" alignItems="center"sx={{fontSize: "0.7vw"}}>
-                            <div className="home_button but_red" onClick={handleCancelMute}>
+                            <div className="home_button but_red" onClick={handleCancelUnban}>
                                 <div className='bit5x5' > Cancel </div>
                             </div>
-                            <div onClick={handleMute} className="home_button but_red">
-                                <div className='bit5x5'> Mute </div>
+                            <div onClick={handleUnban} className="home_button but_red">
+                                <div className='bit5x5'> Unban </div>
                             </div>
                         </Stack>
                     </Stack>
@@ -137,4 +122,4 @@ function Mute(props: MuteProps) {
     );
 }
 
-export default Mute;
+export default Unban;
