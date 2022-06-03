@@ -53,10 +53,12 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 					roomId = `${Difficulty.Hard}${playerOne.id}${playerTwo.id}${date}`;
 					room  = new Room(roomId, Difficulty.Hard, playerOne, playerTwo);
 				}
+				this.queue.rmToQueue(playerOne);
+				this.queue.rmToQueue(playerTwo);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
 				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				this.server.to(playerOne.socketIdTab[playerOne.socketIdTab.length - 1]).emit("gameRoom", room.toFront());
-				this.server.to(playerTwo.socketIdTab[playerTwo.socketIdTab.length - 1]).emit("gameRoom", room.toFront());
+				this.server.to(playerOne.socketIdTab).emit("gameRoom", room.toFront());
+				this.server.to(playerTwo.socketIdTab).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
 			}
 		}, 3000);
@@ -71,25 +73,34 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		const user : User = await this.usersService.getOneBySocket(socket.id);
         if (user) {
 			const userDto = new UserDto(user);
-			this.rooms.forEach((room: Room) => {
+			this.rooms.forEach(async (room: Room) => {
 				if (room.isPlayer(userDto))
 				{
                     if (room.status < roomEnum.end) {
-                        if(room.isPlayerOne(userDto) && room.playerTwo) {
+                        if(room.isPlayerOne(userDto) && room.playerTwo)
                             room.playerTwo.goal = 10;
-                            room.update();
-                        }
-                        if(room.isPlayerTwo(userDto) && room.playerOne) {
+                        if(room.isPlayerTwo(userDto) && room.playerOne)
                             room.playerOne.goal = 10;
-							room.update();
-						}
+						room.update();
+						const winner = new UserDto(await this.usersService.getOne(room.winner.id));
+						const loser = new UserDto(await this.usersService.getOne(room.loser.id));
+						await this.historyService.createGameHistory({
+							players: [winner, loser],
+							winnerId: winner.id,
+							loserId: loser.id,
+							createdDate: new Date(room.startingTime),
+							duration: room.duration,
+							winnerScore: 10,
+							loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
+							roomId : room.roomId
+						});
 					}
                 }
 			});
 			this.queue.rmToQueue(userDto);
             this.pool.rmToPool(userDto);
 			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
-			this.usersService.setUserStatus(user.id, statusEnum.disconected);
+			this.usersService.setUserStatus(user.id, statusEnum.connected);
       }
 	}
 
@@ -115,8 +126,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			socket.join(data.roomId);
 			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
+				this.queue.rmToQueue(user);
 				this.usersService.setUserStatus(user.id, statusEnum.playing);
-				// this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
@@ -145,6 +156,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const roomId = `${difficulty.toString()}${user.id}${guest.id}${Date.now().toString().substring(8, 13)}`;
 			const room = new Room(roomId, difficulty, user, guest);
 			this.rooms.set(roomId, room);
+
 			this.server.to(user.socketIdTab[user.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
 			this.server.to(guest.socketIdTab[guest.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
 
