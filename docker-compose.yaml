@@ -5,13 +5,11 @@ services:
       container_name: pzgm-db
       image: postgres
       restart: always
-      stop_signal: SIGINT
       environment:
           POSTGRES_PASSWORD: 123456
+          POSTGRES_DB: Transcendance
       ports:
           - 2345:5432
-      volumes:
-          - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
       # backend
     backend:
