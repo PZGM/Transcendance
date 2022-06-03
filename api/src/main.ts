@@ -17,10 +17,18 @@ import { ChannelsService } from './chat/channel/channels.service';
 async function bootstrap() {
   dotenv.config();
 
+  //https
+
+  const httpsOptions = {
+    key: fs.readFileSync('./secrets/key.pem'),
+    cert: fs.readFileSync('./secrets/certificate.pem'),
+  };
+
   const server = express();
   const app = await NestFactory.create(
     AppModule, 
     new ExpressAdapter(server),
+    {httpsOptions },
   );
 
 

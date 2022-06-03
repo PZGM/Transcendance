@@ -7,6 +7,6 @@ EXPOSE 3000
 RUN npm run build
 
 
-FROM nginx:stable
+FROM nginx:stable-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80

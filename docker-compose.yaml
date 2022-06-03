@@ -2,15 +2,15 @@ version: "3.3"
 services:
       # database
     db:
-            container_name: pzgm-db
-            image: postgres
-            restart: always
-            environment:
-                POSTGRES_PASSWORD: 123456
-            ports:
-                - 2345:5432
-            volumes:
-                - ./init.sql://docker-entrypoint-initdb.d/init.sql
+      container_name: pzgm-db
+      image: postgres
+      restart: always
+      environment:
+          POSTGRES_PASSWORD: 123456
+      ports:
+          - 3456:5432
+      volumes:
+          - ./init.sql:/var/lib/postgresql/data
 
       # backend
     backend:
@@ -42,8 +42,7 @@ services:
           - ./frontend/.env 
         restart: unless-stopped
         ports:
-          - 3010:3000
-          - 3000:80
+          - 3000:3000
           
     adminer:
         container_name: pzgm-adminer
