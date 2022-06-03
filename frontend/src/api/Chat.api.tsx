@@ -10,6 +10,7 @@ export class RelationsPicker {
     withChat?: boolean;
     withMuted?: boolean;
     withAdmin?: boolean;
+    withBanned?: boolean;
 }
 
 function optionsToQuery(options: RelationsPicker) {
@@ -22,6 +23,8 @@ function optionsToQuery(options: RelationsPicker) {
         tab.push('withChat=true');
     if (options.withMuted)
         tab.push('withMuted=true');
+    if (options.withBanned)
+        tab.push('withBanned=true');
     return tab.join('&');
 }
 
@@ -87,6 +90,7 @@ export class ChatAPI {
     }
     public static async getChannelByName(name: string, options?: RelationsPicker) {
         const query = (options) ? `?${optionsToQuery(options)}` : '';
+        console.log(options)
         const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
@@ -98,19 +102,17 @@ export class ChatAPI {
     }
 
     // ${process.env.REACT_APP_GET_CHANNELS}
-    public static async addChannel(name: string, ownerId: number, visibility: string, password?: any) {
+    public static async addChannel(name: string, ownerId: number, visibility: string, password?: any): Promise<boolean> {
         console.log(`addChannel: ${name}`)
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
-        let ret = true;
-        await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
+        const ret = await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body,
         credentials: "include"})
-        .then(handleErrors)
+        .then(response => {return response.json()}).then(json => {return json})
         .catch(err => {
-            console.log(err);
-            ret = false;
+            return false;
         })
         return ret;
     }
@@ -273,5 +275,26 @@ export class ChatAPI {
             .then(json => {return json});
             return resp;
     }
+
+    public static async banRemaining(userId: number, channelId: number) : Promise<number>{
+        const resp = await fetch(`${process.env.REACT_APP_BAN_REMAINING}/${channelId}/${userId}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
+    public static async unban(userId: number, channelId: number) : Promise<boolean>{
+        const resp = await fetch(`${process.env.REACT_APP_BAN}`, {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({userId, channelId}),
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+
 
 }

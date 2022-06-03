@@ -111,15 +111,6 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 						</li>
 					</Stack>
 				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start">
-					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>BANNED USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={'80vh'}>
-						<li>
-							{/* Render banned users */}
-							{this.renderRowsUsers(this.state.channel.users)}
-						</li>
-					</Stack>
-				</Stack>
 
 				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
 					{(this.state.channel.name !== "general")?

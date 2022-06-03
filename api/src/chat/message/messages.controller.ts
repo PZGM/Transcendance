@@ -10,7 +10,7 @@ import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
 @ApiTags('Messages')
 @Controller('messages')
 export class MessagesController {
-  constructor(private readonly messagesService: MessagesService, private readonly userService: UsersService) {}
+  constructor(private readonly messagesService: MessagesService) {}
 	private logger = new Logger("MessagesController")
 
   @Get()
@@ -31,8 +31,8 @@ export class MessagesController {
     @UseGuards(FullyAuthentificatedGuard)
     async getMessagesByChannel(@Param('id') id: number, @Req() request: CustomRequest) {
     this.logger.log("getMessagesByChannel : /channel/:id");
-    if (! await this.userService.userIsInChannel(request.user.id, id))
-      return [];
+//     if (! await this.userService.userIsInChannel(request.user.id, id))
+//       return [];
     let messages = await this.messagesService.getByChan(id, 50);
     return messages.map((message) => {
       let ret = new MessageDto(message);

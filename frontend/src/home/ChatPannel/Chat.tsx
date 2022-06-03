@@ -6,11 +6,18 @@ import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
 import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
+
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import PersonOffIcon from '@mui/icons-material/PersonOff';
+import EditIcon from '@mui/icons-material/Edit';
+
 import Invite from "./tools/Invite"
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import { InvitationAPI } from "../../api/Invitation.api";
@@ -94,7 +101,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			}
 			if (msg.service && msg.content === 'JOIN')
 				return (
-				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 					<KeyboardDoubleArrowRightIcon sx={{width: "4vw", color: 'green'}}/>
 					<div className="service_message" >{`${login} joined the channel`}</div>
 				</Stack> )
@@ -103,42 +110,66 @@ export class Chat extends Component<ChatProps, ChatState> {
 			
 			if (msg.service && msg.content === 'LEAVE')
 				return (
-				<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 					<KeyboardDoubleArrowLeftIcon sx={{width: "4vw", color: 'red'}}/>
 					<div className="service_message" >{`${login} left the channel`}</div>
 				</Stack>)
-
-			if (msg.service && msg.content === 'PROFILED')
-			return (
-			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardDoubleArrowLeftIcon sx={{width: "4vw", color: 'red'}}/>
-				<div className="service_message" >{`${login} uptaded his profile`}</div>
-			</Stack>)
 			
 			if (msg.service && msg.content === 'PROMOTE')
 			return (
-			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 				<KeyboardArrowUpIcon sx={{width: "4vw", color: 'cyan'}}/>
 				<div className="service_message" >{`${login} is now admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'DEMOTE')
 			return (
-			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 				<KeyboardArrowDownIcon sx={{width: "4vw", color: 'orange'}}/>
 				<div className="service_message" >{`${login} is no longer admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'OWNERED')
 			return (
-			<Stack key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 				<StarOutlineIcon sx={{width: "4vw", color: 'yellow'}}/>
 				<div className="service_message" >{`${login} is the new owner`}</div>
 			</Stack>)
 
-			console.log('msg.content:')
-			console.log(msg.content)
-			console.log(msg)
+			if (msg.service && msg.content === 'MUTE')
+			return (
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+				<VolumeOffIcon sx={{width: "4vw", color: 'red'}}/>
+				<div className="service_message" >{`${login} has been muted`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'UNMUTE')
+			return (
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+				<VolumeUpIcon sx={{width: "4vw", color: 'green'}}/>
+				<div className="service_message" >{`${login} has been unmuted`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'BANNED')
+			return (
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+				<PersonOffIcon sx={{width: "4vw", color: 'red'}}/>
+				<div className="service_message" >{`${login} has been banned`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'UNBANNED')
+			return (
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+				<HowToRegIcon sx={{width: "4vw", color: 'green'}}/>
+				<div className="service_message" >{`${login} is no longer bannned`}</div>
+			</Stack>)
+
+			if (msg.service && msg.content === 'LOGINED')
+			return (
+			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+				<EditIcon sx={{width: "4vw", color: 'white'}}/>
+				<div className="service_message" >{`${login} changed his login`}</div>
+			</Stack>)
 
 			// Don't show invitation message if you're the author
 			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') &&
@@ -149,7 +180,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			return (
 			<Stack direction='column' spacing={1} className='invitation bor_green'>
 				
-				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 					<SportsEsportsIcon className="invitation_icon green"/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
@@ -167,7 +198,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			return (
 			<Stack direction='column' spacing={1} className='invitation bor_yellow'>
 				
-				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 					<SportsEsportsIcon className="invitation_icon yellow"/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
@@ -185,7 +216,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			return (
 			<Stack direction='column' spacing={1} className='invitation bor_red'>
 				
-				<Stack className='invitation_message' key={msg.date.toString()} direction="row" justifyContent="flex-start" alignItems="center">
+				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 					<SportsEsportsIcon className="invitation_icon red"/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
@@ -199,8 +230,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 			
 			</Stack>)
 
+			if (msg.service)
+			return;
+
 			if (isFirst)
-            return	<Stack key={msg.date.toString()} direction="row" style={{width: '100%', fontSize: '1.5rem'}}>
+            return	<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" style={{width: '100%', fontSize: '1.5rem'}}>
                         <Avatar variant='circular' src={avatar} sx={{margin: "0.4vw", marginLeft: "0.8vw", height: '3vw', width: '3vw'}}/>
                         <Stack className='first_message' direction="column" justifyContent="space-around">
                             <div style={{color, fontWeight: "bold"}}> {login} </div>
@@ -209,7 +243,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
                     </Stack>
 			
-            return <div key={msg.date.toString()} className='message'> {msg.content} </div>;
+            return <div key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} className='message'> {msg.content} </div>;
 		});
         return listItems;
     }
@@ -238,11 +272,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	async checkUserIsOnline(id: number): Promise<boolean>
 	{
-		console.log('checkUserIsOnline')
 		const user = await UserAPI.getUserById(id);
 		if (user)
 		{
-			console.log(user)
 			if (user.status === statusEnum.idle || user.status === statusEnum.connected)
 				return true
 			toast.error(`${user.login} is not available to play`, {
@@ -254,8 +286,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 	}
 
 	onMessage(message: MessageDto) {
-		console.log('onMessage')
-		console.log(message)
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages
@@ -270,6 +300,19 @@ export class Chat extends Component<ChatProps, ChatState> {
 				throw(Error('unknow new user'));
 			}
 			this.state.users.push(user);
+		}
+
+		if (message.content === 'PROFILED' || message.content === 'LOGINED') {
+			const oldUser = this.state.users.find((user) => {return user.id == message.authorId});
+			const user = await UserAPI.getUserById(message.authorId);
+			if (user === null) {
+				throw(Error('unknow new user'));
+			}
+			const users: UserDto[] = this.state.users.filter((user) => {return user.id != message.authorId});
+			users.push(user);
+			this.setState({
+				users
+			})
 		}
 
 		this.state.messages.push(message);
@@ -334,7 +377,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 	render () {
 		if (this.chanName !== this.props.params.name) {
-			console.log(`switch to new channel ${this.props.isPrivateMessage}`)
 			if (!this.switchChannel(this.props.params.name))
 			{
 				return <Navigate to='404' />

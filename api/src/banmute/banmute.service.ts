@@ -6,6 +6,7 @@ import { Ban } from 'src/typeorm/entities/BannedUser';
 import { UsersService } from 'src/users/users.service';
 import { ChannelsService } from 'src/chat/channel/channels.service';
 import { RelationsPicker } from 'src/dto/chat.dto';
+import { ChatGateway } from 'src/chat/chat.gateway';
 
 @Injectable()
 export class BanmuteService {
@@ -13,7 +14,8 @@ export class BanmuteService {
 constructor(
     @InjectRepository(Channel)
     private readonly channelsRepository: Repository<Channel>,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly chatGateway: ChatGateway,
   ) {}
 
   public async getOne(channelId: number, relationsPicker?:RelationsPicker): Promise<Channel|null> {
@@ -58,6 +60,7 @@ constructor(
     catch (e) {
       return null;
     }
+    await this.chatGateway.broadcastMuted(channelId, userId);
     let ret = await this.channelsRepository.save(channel);
   }
 
@@ -67,6 +70,7 @@ constructor(
       throw new NotFoundException(`Channel [${channelId}] not found`);
     }
     channel.mute = channel.mute.filter((mute) => {return mute.user.id != userId})
+    await this.chatGateway.broadcastUnmuted(channelId, userId);
     let ret = await this.channelsRepository.save(channel);
   }
 
@@ -93,19 +97,9 @@ constructor(
       catch (e) {
          return null;
       }
+      await this.chatGateway.broadcastBanned(channelId, banId);
       return this.channelsRepository.save(channel);
     }
-  }
-
-  public async userCanSend(userId: number, channelId: number) {
-    const channel = await this.getOne(channelId, {withMuted: true});
-    if (channel.mute.some((mute) => {
-        if (mute.user.id == userId && mute.endOfMute > new Date(Date.now()))
-          return true;
-        return false;
-      }))
-      return false;
-    return true;
   }
 
   public async muteRemaining(userId: number, channelId: number) {
@@ -122,6 +116,32 @@ constructor(
       }
     });
     return maxMute
+  }
+
+  public async banRemaining(userId: number, channelId: number) {
+    const channel = await this.getOne(channelId, {withBanned: true});
+    let maxBan = -1;
+    channel.ban.forEach(ban => {
+      if (ban.endOfBan.valueOf() - Date.now() < 0) {
+        channel.ban = channel.ban.filter((banned) => {return banned.id != ban.id});
+        this.channelsRepository.save(channel);
+      }
+      if (ban.user.id == userId) {
+        if (ban.endOfBan.valueOf() - Date.now() > maxBan)
+        maxBan = ban.endOfBan.valueOf() - Date.now();
+      }
+    });
+    return maxBan
+  }
+
+  public async unban(userId: number ,channelId: number) {
+    const channel: Channel | null = await this.getOne(channelId, {withAdmin: true, withBanned: true});
+    if (!channel) {
+      throw new NotFoundException(`Channel [${channelId}] not found`);
+    }
+    channel.ban = channel.ban.filter((ban) => {return ban.user.id != userId});
+    await this.chatGateway.broadcastUnbanned(channelId, userId);
+    let ret = await this.channelsRepository.save(channel);
   }
 
 }
