@@ -20,7 +20,7 @@ class MyEditor extends React.Component {
     <div>
       <AvatarEditor
         ref={this.setEditorRef}
-        image={`https://serv.pizzagami.fr:${process.env.https}/api/images/a27cba5e-ed7c-42f9-aaca-fbb69dc0e94f.png`}
+        image={`https://localhost:${process.env.https}/api/images/a27cba5e-ed7c-42f9-aaca-fbb69dc0e94f.png`}
         width={250}
         height={250}
         border={50}
