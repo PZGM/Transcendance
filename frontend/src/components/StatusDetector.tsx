@@ -62,7 +62,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	render () {
 		return (
 		<>
-			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={5*1000} onIdle={this.onIdle} onActive={this.onActive}/>
+			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={10*1000} onIdle={this.onIdle} onActive={this.onActive}/>
 			{this.props.children}
 		</>
 		);
