@@ -115,8 +115,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			socket.join(data.roomId);
 			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
-				this.usersService.setUserStatus(room.playerOne.user.id, statusEnum.playing);
-				this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
+				this.usersService.setUserStatus(user.id, statusEnum.playing);
+				// this.usersService.setUserStatus(room.playerTwo.user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
