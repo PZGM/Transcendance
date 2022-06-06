@@ -16,15 +16,6 @@ enum color {
     'blue'
 }
 
-enum description {
-    'unknow',
-    'offline',
-    'idle',
-    'connected',
-    'playing',
-    'in queue'
-}
-
 interface ChanInfoUserProps {
     member: UserDto,
     index: number,
@@ -97,7 +88,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
                     <div className={`renderrow_button but_${color[status]}`} onClick={watchGame}>
-                        <div className='bit5x5'> {description[status]}  </div>
+                        <div className='bit5x5'> {statusEnum[status]}  </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
                         <div className='bit5x5'> SEND MESSAGE </div>
