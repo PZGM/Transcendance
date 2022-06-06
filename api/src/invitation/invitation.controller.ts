@@ -23,7 +23,6 @@ export class InvitationController {
     @Put('watch/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async watchUser(@Req() request: CustomRequest, @Param('id') id: number) {
-        this.logger.log(`watching a game`)
         this.invitationService.watchUser(request.user.id, id);
     }
 }

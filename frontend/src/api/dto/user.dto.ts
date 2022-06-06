@@ -5,7 +5,6 @@ export interface UserDto {
     login: string;
     avatar: string;
     status: number;
-    rStatus: number;
     friends: UserDto[];
     color: string;
     stats?: StatsDto;

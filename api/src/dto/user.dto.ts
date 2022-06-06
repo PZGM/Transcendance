@@ -20,7 +20,6 @@ export class UserDto {
             this.login = user.login;
             this.avatar = user.avatar;
             this.status = user.status;
-            this.rStatus = user.rStatus;
             if (user.blockedUsers)
                 this.blockedUsers = user.blockedUsers.map((user) => {return new UserDto(user)});
             if (user.adminChannels)
@@ -40,7 +39,6 @@ export class UserDto {
     login: string;
     avatar: string;
     status?: number;
-    rStatus?: number;
     blockedUsers?: UserDto[];
     adminChannels?: ChannelDto[];
     color: string;

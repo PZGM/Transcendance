@@ -43,7 +43,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
     }
 
 	onIdle = () => {
-		if (this.status != 2) {
+		if (this.status != 2 && this.status < 4) {
 			this.status = 2;
 			this.sendActivity()
 		}
@@ -51,7 +51,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	}
 
 	onActive = () => {
-		if (this.status < 3 ) {
+		if (this.status < 3) {
 			this.status = 3;
 			this.sendActivity()
 		}
