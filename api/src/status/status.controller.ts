@@ -41,5 +41,12 @@ export class StatusController {
         this.statusService.reportActivity(id);
     }
 
+    @Get('/users/inactivity/:id')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async reportInactivity(@Param('id') id: number) {
+        this.logger.log("reportInactivity : /users/activity/:id");
+        this.statusService.reportInactivity(id);
+    }
+
 
 }

@@ -208,6 +208,24 @@ export class UserAPI {
 			return ret;
 		}
 
+		public static async reportInactivity(id: number) {
+			let ret = true;
+			try {
+			await fetch((process.env.REACT_APP_REPORT_INACTIVITY as string) + id, {
+				method: 'GET',
+				credentials: 'include'})
+				.then(handleErrors)
+				.catch(err => {
+					console.log(err);
+					ret = false;
+				})
+			}
+			catch {
+				console.log('error')
+			}
+			return ret;
+		}
+
 		//friends
 
 		public static async addFriend(id: number) {
