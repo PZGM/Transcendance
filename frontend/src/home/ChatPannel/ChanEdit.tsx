@@ -8,6 +8,7 @@ import { UserDto } from "../../api/dto/user.dto";
 import { BannedDto, ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
 import Unban from "./tools/Unban";
+import "../../style/home.css";
 
 interface ChanEditState {
 	channel?: ChannelDto;
@@ -67,9 +68,12 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 		const listItems = list?.map((member: UserDto) => {
 			if (!this.state.channel || !this.state.user)
 				return <div>An error occured</div>
-			return ( <div key={this.index}>
-						<ChanEditMember channel={this.state!.channel} user={this.state.user} index={this.index++} member={member} updateMembers={this.updateChannel.bind(this)}></ChanEditMember>
-					</div>);
+			return (<ChanEditMember channel={this.state!.channel}
+									user={this.state.user}
+									index={this.index++}
+									member={member}
+									updateMembers={this.updateChannel.bind(this)}
+					/>);
 		}
 	  );
 	  return listItems;
@@ -82,12 +86,17 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			return (
 			<div className={"chan_element bor_"+ banned.user.color} key={this.index++}>
 				<Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
+					
 					<Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} >
 						<Avatar variant='circular' alt={banned.user.login} src={banned.user.avatar} sx={{height: '1.6vw', width: '1.6vw'}}/>
 						<div style={{color: 'white' }} className='bit9x9'>{banned.user.login}</div>
 					</Stack>
-						<Unban member={banned.user} channelId={this.state.channel.id} updateChannels={this.updateChannel.bind(this)}></Unban>
+					
+					<Unban	member={banned.user}
+							channelId={this.state.channel.id}
+							updateChannels={this.updateChannel.bind(this)}/>
 				</Stack>
+
         	</div>);
 		}
 	  );
@@ -110,51 +119,50 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 				channel,
 			})
 	}
-
 	render () {
 		if (!this.state.channel)
 			return <div style={{color: 'white'}}>Loading...</div>
 		return (
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
-				{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}  sx={{marginTop: "0.07vh", marginLeft: "0.04vw"}}>
-					<Link className="but_red"	style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw'}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-						<ArrowBackIcon sx={{height: '2vh', width: '1vw'}}/>
-					</Link>
-				</Stack> */}
-				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginLeft: "0.2vw", marginRight: "0.4vw"}}>
-					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-						<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
-					</Link>
-				</Stack>
+				<Stack direction="column" justifyContent="space-between" className='channel_stack'>
+					
+					<Stack direction="column" spacing={2} style={{width: '100%'}}>
+						
+						<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginLeft: "0.2vw", marginRight: "0.4vw"}}>
+							<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+								<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
+							</Link>
+						</Stack>
+						
+						<div className="bit9x9 channel_title">{this.state.channel.name}</div>
+						
+						<Stack direction="column" justifyContent="center" alignItems="flex-start">
+							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>USERS :</div>
+								<li className="chan_users_list">
+									{this.renderUsers(this.state.channel.users)}
+								</li>
+						</Stack>
+						
+						<Stack direction="column" justifyContent="center" alignItems="flex-start">
+							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>BANNED USERS :</div>
+								<li className="chan_users_list">
+									{this.renderBans(this.state.channel.ban)}
+								</li>
+						</Stack>
 
-				<Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0}>
-					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" spacing={0} height={'34vh'}>
-						<li>
-							{this.renderUsers(this.state.channel.users)}
-						</li>
 					</Stack>
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start">
-					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>BANNED USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={'40vh'}>
-						<li>
-							{/* Render banned users */}
-							{this.renderBans(this.state.channel.ban)}
-						</li>
+					
+					<Stack direction="column" justifyContent='center' spacing={2} style={{width: '100%'}}>
+						<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" style={{ textDecoration: 'none'}}>
+							<div className='bit5x5'>Invite</div>
+						</Link>
+
+						<div onClick={this.leave} className="add_user_button but_red" >
+							<div className='bit5x5'>Leave</div>
+						</div>
 					</Stack>
-				</Stack>
-				<Stack justifyContent="center" alignItems="center" spacing={2} sx={{marginTop: "0.5vh" }}>
-					<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" style={{ textDecoration: 'none'}}>
-						<div className='bit5x5'>Invite</div>
-					</Link>
-					<div onClick={this.leave} className="add_user_button but_red" >
-						<div className='bit5x5'>Leave</div>
-					</div>
+				
 				</Stack>
 			</>
 
