@@ -34,7 +34,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
             const user = await UserAPI.getMe()
             if (user) {
                 const opponent = (room.pOne.id == user.id) ? room.pTwo : room.pOne;
-                toast.success(`${opponent.login} accepted the invitation`, {
+                toast.success(`invitation accepted`, {
                     position: toast.POSITION.BOTTOM_CENTER,
                     pauseOnHover: false,
                     closeOnClick: true,
