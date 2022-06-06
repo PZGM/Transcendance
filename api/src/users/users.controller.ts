@@ -1,4 +1,4 @@
-import { Controller, Post, Put, Get, NotFoundException, Param, Req, UseGuards, UseInterceptors, UploadedFile, Request, Res, Body, ConflictException, Query, Delete } from '@nestjs/common';
+import { Controller, Put, Get, NotFoundException, Param, Req, UseGuards, Body, ConflictException, Query, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CustomRequest } from '../utils/types'
 import { FullyAuthentificatedGuard } from 'src/auth/controllers/auth/guards';
@@ -7,19 +7,17 @@ import { UserDto, UserRelationsPicker } from 'src/dto/user.dto';
 import { isNumber } from 'class-validator';
 import { Logger } from '@nestjs/common';
 
-
-
 @ApiTags('Users')
 @Controller('users')
 export class UsersController {
-
+    
     constructor(private readonly userService: UsersService) {}
 	private logger = new Logger("UsersController")
 
     @Get('/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async getOne(@Req() request: CustomRequest, @Param('id') id: string, @Query() query?) {
-        this.logger.log("getOne : /:id");
+        //this.logger.log("getOne : /:id");
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
             throw new NotFoundException();
@@ -112,7 +110,6 @@ export class UsersController {
         if (ret)
           throw new ConflictException();
     }
-
 
     @Put('block/:id')
     @UseGuards(FullyAuthentificatedGuard)

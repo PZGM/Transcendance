@@ -353,6 +353,15 @@ export class UserAPI {
 			 return resp
 		}
 
+
+		public static async watchUser(userId: number): Promise<boolean>  {
+			const resp = await fetch(`${process.env.REACT_APP_WATCH}${userId}`, {
+				method: 'PUT',
+				credentials: 'include'})
+				.then(handleErrors)
+			 return resp
+		}
+
 		//block
 
 		public static async blockUser(blockId: number): Promise<boolean>  {

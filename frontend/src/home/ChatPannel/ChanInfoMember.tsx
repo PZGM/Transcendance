@@ -6,6 +6,7 @@ import '../../style/colors.css'
 import '../../style/display.css'
 import { UserDto } from "../../api/dto/user.dto";
 import { UserAPI } from "../../api/Users.api";
+import { statusEnum } from "./Chat";
 
 enum color {
     'white',
@@ -68,6 +69,11 @@ function ChanInfoMember(props: ChanInfoUserProps) {
         setOpenInvite(false);
     }
 
+    const watchGame = async () => {
+        if (props.member.rStatus === statusEnum.playing)
+            await UserAPI.watchUser(props.member.id)
+    }
+
     const toggleFriendship = async () => {
         if (isFriend)
             await UserAPI.removeFriend(props.member.id)
@@ -88,7 +94,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
                 {!props.isMe &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
                     <div className={`renderrow_button but_${color[status]}`}>
-                        <div className='bit5x5' > {description[status]} </div>
+                        <div className='bit5x5' onClick={watchGame}> {description[props.member.rStatus === statusEnum.playing ? props.member.rStatus: status]}  </div>
                     </div>
                     <Link className="renderrow_button but_white" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + props.member.login}}>
                         <div className='bit5x5'> SEND MESSAGE </div>

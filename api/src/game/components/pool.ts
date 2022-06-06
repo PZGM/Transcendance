@@ -12,7 +12,7 @@ export default class Pool {
     }
 
     changeStatus(status : number, user: UserDto) : void {
-        this.pool[this.pool.findIndex(resu => resu.login === user.login)].status = status;
+        this.pool[this.pool.findIndex(resu => resu.login === user.login)].rStatus = status;
     }
 
     size(): number {

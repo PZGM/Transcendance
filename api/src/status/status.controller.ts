@@ -21,14 +21,14 @@ export class StatusController {
     @Sse('users/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public getUserStatus(@Param('id') id: number): Observable<MessageEvent> {
-        this.logger.log("getUserStatus : users/:id");
+        //this.logger.log("getUserStatus : users/:id");
         return this.statusService.getStatusObservable(id);
     }
 
     @Put('/users/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async updateStatus(@Param('id') id: number, @Body() updateStatusRequest: {status: number}) {
-        this.logger.log("updateStatus : /users/:id");
+        //this.logger.log("updateStatus : /users/:id");
         this.statusService.updateStatus(id, updateStatusRequest.status);
         this.statusService.reportActivity(id);
         return true;
