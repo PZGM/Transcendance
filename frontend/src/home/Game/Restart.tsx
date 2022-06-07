@@ -11,12 +11,6 @@ interface RestartProps {
     socket: GameSocketAPI,
     userId: number
 };
-enum roomEnum {
-    waiting,
-    playing,
-    goal,
-    end
-}
 
 function Restart (props: RestartProps)
 {

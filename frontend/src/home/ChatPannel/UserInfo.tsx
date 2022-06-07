@@ -11,6 +11,7 @@ import FaceIcon from '@mui/icons-material/Face';
 import CancelIcon from '@mui/icons-material/Cancel';
 import StarIcon from '@mui/icons-material/Star';
 import "../../style/buttons.css"
+import { Game } from "../Game/Game";
 
 interface UserInfoState {
 	user: UserDto | null;
@@ -143,7 +144,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 				friend: false,
 			})
 		}
-
 	}
 
 	render () {
@@ -177,11 +177,6 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 			return (
 				<>
-					{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
-						<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
-							<ArrowBackIcon/>
-						</Link>
-					</Stack> */}
 					<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
 						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
 							<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
@@ -197,9 +192,12 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 							<div className='arcade' style={{color: colors.get(this.state.status), fontSize: "1.5vw"}}> {description.get(this.state.status)} </div>
 						</Stack>
 						<Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1} sx={{fontSize: "0.6vw"}}>
-							<div className={"home_button but_" + colors.get(this.state.status)} >
-								<div className='bit5x5'> {action.get(this.state.status)} </div>
-							</div >
+							{
+								(this.state.status === 3) && <div className={"home_button but_green"}> <div className='bit5x5'> Invite </div> </div>
+							}
+							{
+								(this.state.status === 4) && <div className={"home_button but_blue"}> <div className='bit5x5'> spectate </div> </div>
+							}
 							<Link className="home_button but_white" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
 								<div className='bit5x5'> Send Message </div>
 							</Link>

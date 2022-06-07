@@ -64,14 +64,16 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[1, 'offline'],
 			[2, 'inactive'],
 			[3, 'connected'],
-			[4, 'playing']]);
+			[4, 'playing'],
+			[5, 'in queue']]);
 
 		let colors = new Map<number, string>([
 			[0, 'white'],
 			[1, 'red'],
 			[2, 'yellow'],
 			[3, 'green'],
-			[4, 'blue']]);
+			[4, 'blue'],
+			[5, 'purple']]);
 
 		return (
 			<li className={"friend_element bor_" + this.props.user.color}
