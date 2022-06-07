@@ -13,6 +13,7 @@ enum color {
     'red',
     'yellow',
     'green',
+    'blue',
     'blue'
 }
 
@@ -38,7 +39,7 @@ function ChanInfoMember(props: ChanInfoUserProps) {
         eventSource.onmessage = (e: { data: string; }) => {
             let jsonObj: any = JSON.parse(e.data);
             let status: StatusData = jsonObj as StatusData;
-            if (status.status < 0 || status.status > 4)
+            if (status.status < 0 || status.status > 5)
                 status.status = 0;
             setStatus(status.status);
         };
