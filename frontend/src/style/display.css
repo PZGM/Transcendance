@@ -104,6 +104,11 @@ canvas {
 
 /* Friends */
 
+.search_list_grid {
+	overflow: hidden;
+	height: 100%;
+}
+
 .search_element, .friend_element, .chan_element {
 	border: 0.2vw solid;
 	width: 100%;
@@ -117,7 +122,6 @@ canvas {
 	width: calc(100% - 0.1vw);
 }
 
-
 .friend_element {
 	font-size: 1vw;
 	margin-bottom: 0.35vw;
@@ -128,22 +132,10 @@ canvas {
 	font-size: 1vw;
 	/* margin-bottom: 0.35vw; */
 	padding: 0.35vw;
-	width: 100%;
+	/* width: 100%; */
 	margin-right: 0.1vw;
 	margin-bottom: 0.4vw;
-	/* width: calc(100% - 0.1vw); */
-}
-
-ol::-webkit-scrollbar {
-	width: 0.4vw;             	/* width of the entire scrollbar */
-}
-
-ol::-webkit-scrollbar-track {
-	background: black;        /* color of the tracking area */
-}
-
-ol::-webkit-scrollbar-thumb {
-	background-color: var(--dark_blue);    /* color of the scroll thumb */
+	width: calc(100% - 0.1vw);
 }
 
 /* Settings */
@@ -173,6 +165,17 @@ ol::-webkit-scrollbar-thumb {
 	width: 13vw;
 	border: solid 0.3vw;
 }
+
+/* History */
+
+.user {
+	border: 0.2vw solid;
+ 	padding-bottom: 0.2vw;
+ 	padding-top: 0.5vw;
+	padding-left: 0.5vw;
+	padding-right: 0.5vw;
+	margin-top: 0.3vw;
+ }
 
 /* Achievements */
 

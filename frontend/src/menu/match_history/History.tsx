@@ -4,31 +4,43 @@ import { GameDisplay } from '../match_history/Game'
 import { UserAPI } from "../../api/Users.api";
 import { GameDto } from "../../api/dto/game.dto";
 import { PrivateGuard } from "../../components/PrivateGuard";
+import { UserDto } from "../../api/dto/user.dto";
 
 interface HistoryProps {
 };
 
 interface HistoryState {
 	history: GameDto[],
+	userId: number
 }
 
 export class History extends Component<HistoryProps,HistoryState> {
 
+	constructor(props: HistoryProps) {
+		super(props);
+		this.state = {
+			history: [],
+			userId: 0
+        }
+		this.getHistory();
+		this.getUserId();
+	}
+
 	renderRows(list) {
 		const listItems = list.map((game: GameDto) =>
 			<div key={game.roomId}>
-				<GameDisplay game={game} index={0}/>
+				<GameDisplay game={game} userId={this.state.userId}/>
 			</div>
 	  );
 	  return listItems;
 	}
 
-	constructor(props: HistoryProps) {
-		super(props);
-		this.getHistory();
-		this.state = {
-			history: [],
-        }
+	async getUserId() {
+		const user: UserDto | null = await UserAPI.getMe();
+		if (user)
+			this.setState({
+				userId: user.id
+			})
 	}
 
 	async getHistory() {
@@ -37,13 +49,14 @@ export class History extends Component<HistoryProps,HistoryState> {
 			history
 		})
 	}
+
 	render (){
 		return (
 			<>
 				<PrivateGuard/>
-				<List style={{overflow: 'auto'}}>
+				<ol className="friends_list" style={{overflow: 'auto'}}>
 						{this.renderRows(this.state.history)}
-				</List>
+				</ol>
 			</>
 		)
     };

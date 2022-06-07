@@ -106,7 +106,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							<div className={"friends_button but_" + colors.get(this.state.status)}>
 								{description.get(this.state.status)}
 							</div>
-							<Link className="friends_button but_white" style={{textDecoration: 'none'}} to={{pathname: process.env.REACT_APP_MP + this.props.user.login}}>
+							<Link className="friends_button but_blue" style={{textDecoration: 'none'}} to={{pathname: process.env.REACT_APP_MP + this.props.user.login}}>
                                 <div className='bit5x5'> Send Message </div>
                             </Link>
 							<div	className="friends_button but_red"
