@@ -4,6 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import ChanEditMember from './ChanEditMember';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import AddIcon from '@mui/icons-material/Add';
 import { UserDto } from "../../api/dto/user.dto";
 import { BannedDto, ChannelDto } from "../../api/dto/channel.dto";
 import { ChatAPI } from "../../api/Chat.api";
@@ -84,7 +85,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 			if (!this.state.channel || !this.state.user || !banned.user)
 				return <div>An error occured</div>
 			return (
-			<div className={"chan_element bor_"+ banned.user.color} key={this.index++}>
+			<li className={"chan_element bor_"+ banned.user.color} key={this.index++}>
 				<Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
 					
 					<Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} >
@@ -97,7 +98,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 							updateChannels={this.updateChannel.bind(this)}/>
 				</Stack>
 
-        	</div>);
+        	</li>);
 		}
 	  );
 	  return listItems;
@@ -129,43 +130,51 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 					
 					<Stack direction="column" spacing={2} style={{width: '100%'}}>
 						
-						<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginLeft: "0.2vw", marginRight: "0.4vw"}}>
-							<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
-								<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
-							</Link>
-						</Stack>
+						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/info" }}>
+							<ArrowBackIcon sx={{height: '1vw', width: '1vw'}}/>
+						</Link>
 						
 						<div className="bit9x9 channel_title">{this.state.channel.name}</div>
 						
-						<Stack direction="column" justifyContent="center" alignItems="flex-start">
-							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>USERS :</div>
-								<li className="chan_users_list">
-									{this.renderUsers(this.state.channel.users)}
-								</li>
-						</Stack>
+						<Stack direction="column" justifyContent="center" alignItems="flex-start" style={{overflow: 'auto'}}>
+							
+							<Stack direction='row' justifyContent='space-between' style={{width: 'calc(100% - 0.2vw)'}}>
+								
+								<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>
+									USERS :
+								</div>
+								<Link className="but_green" style={{ textDecoration: 'none', color: 'white', height: '1.5vw', width: '1.5vw', display: "flex", justifyContent: "center", alignItems: "center"}}
+									to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"}>
+									<AddIcon sx={{height: '1vw', width: '1vw'}}/>
+								</Link>
+							
+							</Stack>
+							
+							<ol className="chan_users_list">
+								{this.renderUsers(this.state.channel.users)}
+							</ol>
 						
-						<Stack direction="column" justifyContent="center" alignItems="flex-start">
-							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>BANNED USERS :</div>
-								<li className="chan_users_list">
-									{this.renderBans(this.state.channel.ban)}
-								</li>
+							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>
+								BANNED USERS :
+							</div>
+
+							<ol className="chan_users_list">
+								{this.renderBans(this.state.channel.ban)}
+							</ol>
+
 						</Stack>
 
 					</Stack>
-					
-					<Stack direction="column" justifyContent='center' spacing={2} style={{width: '100%'}}>
-						<Link to={process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/add"} className="add_user_button but_green" style={{ textDecoration: 'none'}}>
-							<div className='bit5x5'>Invite</div>
-						</Link>
 
-						<div onClick={this.leave} className="add_user_button but_red" >
-							<div className='bit5x5'>Leave</div>
+					<div className="leave_chan_button_wrapper">
+						<div className='leave_chan_button but_red bit5x5'
+							onClick={this.leave}
+						>
+							Leave
 						</div>
-					</Stack>
+					</div>
 				
 				</Stack>
-			</>
-
-		)
+			</>)
 	}
 }

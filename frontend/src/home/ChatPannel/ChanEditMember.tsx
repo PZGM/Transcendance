@@ -74,7 +74,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
     }
 
     return (
-        <div className={"chan_element bor_"+ props.member.color}>
+        <li className={"chan_element bor_"+ props.member.color}>
             
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
                 
@@ -105,7 +105,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
                     {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id} updateMembers={props.updateMembers}/>}
                 </Stack>}
             </Stack>
-        </div>
+        </li>
     );
 }
 

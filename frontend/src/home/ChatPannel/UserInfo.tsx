@@ -1,5 +1,5 @@
 
-import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Stack, Typography } from "@mui/material";
 import { Component} from "react";
 import { Link } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
@@ -31,9 +31,9 @@ interface UserInfoProps {
 function StatElement(props) {
 	return (
 		<Stack direction="row"
-			justifyContent="space-evenly"
-			alignItems="center"
-			sx={{width: '90%', fontSize: '1.5vw'}}
+			justifyContent="space-between"
+			sx={{width: '90%',
+				fontSize: '1.5vw'}}
 			className={"bit9x9 " + props.color} >
 			<div>{props.logo}</div>
 			<div>{props.name}</div>
@@ -41,6 +41,7 @@ function StatElement(props) {
 		</Stack>
 	)
 }
+
 export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 	eventSource: any;
 
@@ -176,13 +177,14 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		else
 			return (
 				<>
-					<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
-						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
-							<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
-						</Link>
-					</Stack>
+					<Stack direction="column" justifyContent="center" alignItems="center" spacing={5} className='channel_stack'>
+						
+						<div style={{width: '100%'}}>
+							<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_MP + this.state.login }}>
+								<ArrowBackIcon sx={{height: '1vw', width: '1vw'}}/>
+							</Link>
+						</div>
 
-					<Stack direction="column" justifyContent="center" alignItems="center" spacing={5}>
 						<Avatar sx={{	width: '10.4vw',
 										height: '10.4vw'}} variant='circular' alt="" src={this.state.user.avatar}/>
 						<div className='backto1982' style={{color: this.state.user.color, fontSize: "2vw"}}>{this.state.login}</div>
@@ -194,26 +196,31 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 							{
 								(this.state.status === 4) && <div className={"home_button but_blue"} onClick={() => {this.watchGame()}}> <div className='bit5x5'> spectate </div> </div>
 							}
-							<Link className="home_button but_white" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
+							<Link className="home_button but_blue" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
 								<div className='bit5x5'> Send Message </div>
 							</Link>
-							<div className={"home_button but_" + ((this.state.friend) ? "red" : "yellow")}  onClick={() => {this.changefriend()}}>
+							<div className={"home_button but_" + ((this.state.friend) ? "red" : "green")}  onClick={() => {this.changefriend()}}>
 								{(this.state.friend) ? <div className='bit5x5'> Remove Friend </div> : <div className='bit5x5'> add Friend </div>}
 							</div>
 							<div className={"home_button but_" + ((this.state.blocked) ? "red" : "yellow")}  onClick={() => {this.toggleBlock()}}>
 								{(this.state.blocked) ? <div className='bit5x5'> Unblock user </div> : <div className='bit5x5'> Block user </div>}
 							</div>
 						</Stack>
-						<Box sx={{ p: 1, border: '3px solid grey' }} width="15vw">
-							<Stack direction="column" justifyContent="space-evenly" alignItems="center" spacing={2} >
-								<StatElement color="red" logo={<GamepadIcon style={IconStyle}/>} name="games" data={this.state.user.stats.games} />
-								<StatElement color="green" logo={<EmojiEventsIcon style={IconStyle}/>} name="wins" data={this.state.user.stats.gameWins} />
-								<StatElement color="blue" logo={<FaceIcon style={IconStyle}/>} name="avg_time" data={this.state.user.stats.durationAverage} />
-								<StatElement color="violet" logo={<CancelIcon style={IconStyle}/>} name="winrate" data={this.state.user.stats.victoryRate} />
-								<StatElement color="cyan" logo={<StarIcon style={IconStyle}/>} name="elo_score" data={this.state.user.stats.eloScore} />
-								<StatElement color="yellow" logo={<StarIcon style={IconStyle}/>} name="rank" data={this.state.user.stats.rank} />
-							</Stack>
-						</Box>
+						<Grid container item  xs={6}
+								justifyContent="space-around"
+								direction="column"
+								style={{display: 'flex',
+										alignItems: 'center',
+										width: '100%',
+										maxWidth: '100%'}}
+						>
+							<StatElement color="red" logo={<GamepadIcon style={IconStyle}/>} name="games" data={this.state.user.stats.games} />
+							<StatElement color="green" logo={<EmojiEventsIcon style={IconStyle}/>} name="wins" data={this.state.user.stats.gameWins} />
+							<StatElement color="blue" logo={<FaceIcon style={IconStyle}/>} name="avg_time" data={this.state.user.stats.durationAverage} />
+							<StatElement color="violet" logo={<CancelIcon style={IconStyle}/>} name="winrate" data={this.state.user.stats.victoryRate} />
+							<StatElement color="cyan" logo={<StarIcon style={IconStyle}/>} name="elo_score" data={this.state.user.stats.eloScore} />
+							<StatElement color="yellow" logo={<StarIcon style={IconStyle}/>} name="rank" data={this.state.user.stats.rank} />
+						</Grid>
 					</Stack>
 					</>
 

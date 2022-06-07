@@ -55,10 +55,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		const listItems = list.map((user: UserDto) => {
 			if (!this.state.chan)
 				return <div></div>;
-			return (
-			<div key={user.id}>
-				<AddUserDisplay user={user} channelId={this.state.chan.id} addUser={this.addUser} />
-			</div>);
+			return (<AddUserDisplay user={user} channelId={this.state.chan.id} addUser={this.addUser} />);
 		}
 	  );
 	  return listItems;
@@ -78,22 +75,19 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 
 		return (
             <>
-				{/* <Stack direction="column" justifyContent="center" alignItems="flex-start" spacing={0} sx={{marginTop: 1, marginLeft: 1}}>
-					<Link className="but_red" style={{ textDecoration: 'none', color: 'white' }} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
-						<ArrowBackIcon/>
-					</Link>
-				</Stack> */}
-				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
-					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/edit"}}>
-						<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
-					</Link>
-				</Stack>
+				<Stack direction="column" spacing={2} className='channel_stack'>
 
-				<Stack justifyContent="center" alignItems="center" sx={{marginTop: 2}}>
-					<input className="add_user_bar" placeholder="Invite User" onChange={ async (e) => {this.onSearch(e)}}/>
-					<List style={{overflow: 'auto'}}>
-						{this.renderSearchRows(this.state.searchResults)}
-					</List>
+					<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.chan?.name + "/info" }}>
+						<ArrowBackIcon sx={{height: '1vw', width: '1vw'}}/>
+					</Link>
+
+					<Stack direction='column' style={{width: '100%'}}>
+						<input className="invite_user_to_chan_bar" placeholder="Invite User" onChange={ async (e) => {this.onSearch(e)}}/>
+						<ol>
+							{this.renderSearchRows(this.state.searchResults)}
+						</ol>
+					</Stack>
+
 				</Stack>
 			</>
 		)

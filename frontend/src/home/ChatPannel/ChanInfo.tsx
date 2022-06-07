@@ -52,7 +52,7 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		})
 	}
 
-	renderRowsUsers(list) {
+	renderUsers(list) {
 		list = list.sort((a: UserDto, b: UserDto) => {
 			if (this.state.channel?.owner?.id === a.id)
 				return -1;
@@ -91,40 +91,56 @@ export class ChanInfo extends Component<ChanInfoProps, ChanInfoState> {
 		return (
 			<>
 			    { this.state.redirect ? (<Navigate to={this.state.redirect} />) : null }
-				<Stack direction="row" justifyContent="space-between" sx={{marginTop: "0.3vh", marginX: "0.2vw"}}>
-						<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name  }}>
-							<ArrowBackIcon sx={{height: '1.5vh', width: '1vw'}}/>
-						</Link>
-					{ (this.state.isAdmin) && 
-									<Link className="but_green"	style={{ textDecoration: 'none', color: 'white',height: '2vh', width: '1vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
-										<EditIcon sx={{height: '1.5vh', width: '1vw'}}/>
-									</Link>}
-				</Stack>
-				<Stack direction="row" justifyContent="center" alignItems="center">
-							<div className="bit9x9" style={{color: "white", fontSize: "2.5vw"}}>{this.state.channel.name}</div>
-				</Stack>
-				<Stack direction="column" justifyContent="center" alignItems="flex-start">
-					<div className="bit5x5" style={{color: "white", fontSize: "0.5vw"}}>USERS :</div>
-					<Stack direction="column" justifyContent="flex-start" alignItems="flex-start" height={'80vh'}>
-						<li>
-							{this.renderRowsUsers(this.state.channel.users)}
-						</li>
+				<Stack direction="column" justifyContent="space-between" className='channel_stack'>
+					
+					<Stack direction="column" spacing={2} style={{width: '100%'}}>
+						
+						<Stack direction="row" justifyContent='space-between' style={{width: 'calc(100% - 0.2vw)'}}>
+							<Link className="but_red" style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name }}>
+								<ArrowBackIcon sx={{height: '1vw', width: '1vw'}}/>
+							</Link>
+
+							{ (this.state.isAdmin) &&
+								<Link className="but_green"	style={{ textDecoration: 'none', color: 'white',height: '2vw', width: '2vw', display: "flex", justifyContent: "center", alignItems: "center"}} to={{pathname: process.env.REACT_APP_HOME_CHAN + "/" + this.state.channel.name + "/edit" }}>
+									<EditIcon sx={{height: '1vw', width: '1vw'}}/>
+								</Link>
+							}
+						</Stack>
+						
+						<div className="bit9x9 channel_title">{this.state.channel.name}</div>
+						
+						<Stack direction="column" justifyContent="center" alignItems="flex-start" style={{overflow: 'auto'}}>
+								
+							<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>
+								USERS :
+							</div>
+							
+							<ol className="chan_users_list">
+								{this.renderUsers(this.state.channel.users)}
+							</ol>
+
+						</Stack>
+
 					</Stack>
-				</Stack>
 
-				<Stack justifyContent="center" alignItems="center" sx={{marginTop: "0.5vh" }}>
 					{(this.state.channel.name !== "general")?
-					<div onClick={this.leave} className="add_user_button but_red" >
-						<div className='bit5x5'>Leave</div>
-					</div>
-					:
-					<div className="add_user_button but_grey" >
-						<div className='bit5x5'>Leave</div>
-					</div>
-					}
-				</Stack>
-			</>
 
-		)
+						<div className="leave_chan_button_wrapper">
+							<div className='leave_chan_button but_red bit5x5'
+								onClick={this.leave}
+							>
+								Leave
+							</div>
+						</div> :
+
+						<div className="leave_chan_button_wrapper">
+							<div className='leave_chan_button but_grey bit5x5'>
+								Leave
+							</div>
+						</div>
+					}
+				
+				</Stack>
+			</>)
 	}
 }
