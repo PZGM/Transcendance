@@ -18,7 +18,7 @@ export class StatusService {
 
     private activeUsers = new Map<number, number>();
     private readonly emitter = new EventEmitter();
-    status = 0;
+    status: number[] = [10000];
 
     constructor(private readonly usersService: UsersService) {
         setInterval(this.checkUsersActivity.bind(this), 1000);
@@ -26,22 +26,23 @@ export class StatusService {
 
     reportActivity(id: number) : void {
         this.activeUsers.set(id, Date.now());
-        if (this.status < 3)
-            this.updateStatus(id, statusEnum.connected)
+        if (this.status[id] < statusEnum.connected) {
+            this.updateStatus(id, statusEnum.connected);
+        }
     }
 
     reportInactivity(id: number) : void {
-        if (this.status == 3)
-            this.updateStatus(id, statusEnum.idle)
+        if (this.status[id] == statusEnum.connected) {
+            this.updateStatus(id, statusEnum.idle);
+        }
     }
 
     checkUsersActivity() : void {
         let now: number = Date.now();
         this.activeUsers.forEach((date: number, id: number) => {
             if (now - date > (+ process.env.TIME_BEFORE_DISC as number)) {
-                console.log(`disdonected by check ${id}`)
                 this.updateStatus(id, statusEnum.disconected);
-                this.status = statusEnum.disconected
+                this.status[id] = statusEnum.disconected
                 this.activeUsers.delete(id);
             }
         })
@@ -54,6 +55,6 @@ export class StatusService {
     async updateStatus(id: number, status: statusEnum) {
         this.emitter.emit(`status_${id}`, {data: {status: status}});
         this.usersService.setUserStatus(id, status);
-        this.status = status;
+        this.status[id] = status;
     }
 }

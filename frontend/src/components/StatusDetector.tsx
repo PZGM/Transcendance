@@ -43,17 +43,21 @@ export class StatusDetector extends Component<StatusDetectorProps>{
     }
 
 	onIdle = () => {
-		this.active = false;
+		console.log('idle');
 		if (this.id != -1 && this.active) {
+			console.log('if idle')
 			UserAPI.reportInactivity(this.id);
-		}	
+		}
+		this.active = false;
 	}
 
 	onActive = () => {
-		this.active = true;
+		console.log('active')
 		if (this.id != -1 && !this.active) {
+			console.log('if active')
 			UserAPI.reportActivity(this.id);
-		}	
+		}
+		this.active = true;
 	}
 
 	customActivityEvents = ['click', 'mousemove', 'keydown', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'focus',]
