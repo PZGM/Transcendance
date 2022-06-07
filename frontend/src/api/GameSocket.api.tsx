@@ -93,4 +93,9 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     key(userId: number, roomId: string, key: string) {
         this.socket.emit('key', {userId: userId, roomId : roomId, key : key});
     }
+
+    cancel() {
+        if (this.socket)
+            this.socket.close();
+    }
 }
