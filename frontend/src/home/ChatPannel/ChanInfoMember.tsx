@@ -14,7 +14,7 @@ enum color {
     'yellow',
     'green',
     'blue',
-    'blue'
+    'purple'
 }
 
 interface ChanInfoUserProps {
