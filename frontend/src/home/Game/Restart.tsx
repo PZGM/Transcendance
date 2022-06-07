@@ -43,7 +43,7 @@ function Restart (props: RestartProps)
                 >
                     { (props.room.pOneScore === 10)?
                         <div className="score bit5x5">
-                            {areYouTheWinner(props.room.pTwo)}won!
+                            {areYouTheWinner(props.room.pOne)}won!
                         </div>
                         :
                         <div className="score bit5x5">

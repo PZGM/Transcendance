@@ -193,7 +193,7 @@ playerId : ${playerId}`);
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
-			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
+			this.logger.log(`socket ${user.login}: ${socket.id} was added to ${data.difficulty} queue !`);
 			this.statusService.updateStatus(data.userId, statusEnum.inQueue);
 		}
 	}

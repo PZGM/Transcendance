@@ -66,11 +66,12 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	render () {
+		console.log('RENDER HOME')
 		return (
 			<div className="box">
 				<PrivateGuard/>
 				
-				<Game/>
+				<Game key={this.state.login}/>
 
 				<Stack direction="column" className='chat_panel'>
 					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>

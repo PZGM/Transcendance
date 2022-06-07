@@ -49,11 +49,12 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 					spacing={1}
 					className='grid_item_style'
 				>
-					<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
+					<div className="bit9x9 green" style={{fontSize: '1.6vw'}}>
 						{this.props.game.winnerScore}
 					</div>
 					
 					<Avatar variant='circular'
+						sx={{height: '2vw', width: '2vw'}}
 						alt={this.props.game.players[w_id].login}
 						src={this.props.game.players[w_id].avatar}
 					/>
@@ -61,8 +62,8 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 					<Stack direction='column' style={{width: '100%'}}>
 						
 						<Stack direction='row'
-							justifyContent="space-evenly"
-							style={{width: '100%', fontSize: 'calc(10px + 1vw)'}}
+							justifyContent="space-between"
+							style={{width: '100%', fontSize: '1.3vw'}}
 						>
 							<div className="bit9x9 red">
 								{this.props.game.players[w_id].login}
@@ -78,7 +79,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 						<Stack direction='row'
 							justifyContent="center"
 							style={{width: '100%'}}>
-							<div className="bit5x5 white" style={{fontSize: 'calc(10px + 0.8vw)'}}>
+							<div className="bit5x5 white" style={{fontSize: '1vw'}}>
 								{date}
 							</div>
 						</Stack>
@@ -86,10 +87,11 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 					</Stack>
 					
 					<Avatar variant='circular'
+						sx={{height: '2vw', width: '2vw'}}
 						alt={this.props.game.players[l_id].login}
 						src={this.props.game.players[l_id].avatar}/>
 					
-					<div className="bit9x9 green" style={{fontSize: 'calc(10px + 1.3vw)'}}>
+					<div className="bit9x9 green" style={{fontSize: '1.6vw'}}>
 						{this.props.game.loserScore}
 					</div>
 				
