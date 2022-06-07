@@ -73,7 +73,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[2, 'yellow'],
 			[3, 'green'],
 			[4, 'blue'],
-			[5, 'blue']]);
+			[5, 'purple']]);
 
 		return (
 			<li className={"friend_element bor_" + this.props.user.color}
