@@ -146,6 +146,10 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			})
 		}
 	}
+    async watchGame() {
+		if (this.state.user)
+		 await UserAPI.watchUser(this.state.user.id)
+    }
 
 	render () {
 		const IconStyle = {
@@ -194,10 +198,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 						</Stack>
 						<Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1} sx={{fontSize: "0.6vw"}}>
 							{
-								(this.state.status === 3) && <div className={"home_button but_green"}> <div className='bit5x5'> Invite </div> </div>
-							}
-							{
-								(this.state.status === 4) && <div className={"home_button but_blue"}> <div className='bit5x5'> spectate </div> </div>
+								(this.state.status === 4) && <div className={"home_button but_blue"} onClick={() => {this.watchGame()}}> <div className='bit5x5'> spectate </div> </div>
 							}
 							<Link className="home_button but_white" style={{textDecoration: 'none',color: 'white' }} to={{pathname: process.env.REACT_APP_MP + this.state.login}}>
 								<div className='bit5x5'> Send Message </div>
