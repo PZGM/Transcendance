@@ -60,7 +60,8 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 		const user = await UserAPI.getUserByLogin(this.props.params.name);
 		if (user)
 			this.setState({
-				user
+				user,
+				status: user.status,
 			})
 	}
 
