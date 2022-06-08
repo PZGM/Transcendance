@@ -7,6 +7,7 @@ import { UserAPI } from "./Users.api";
 interface GameSocketAPIProps{
     receiveGameRoom: any;
     updateRoom: any;
+    updateDisplay: any;
 }
 
 export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
@@ -45,6 +46,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         });
 
         this.socket.on('leftRoom', () => {
+            this.props.updateDisplay(0)
             console.log('Left Room')
         });
 
@@ -73,6 +75,7 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     }
 
     leaveQueue(userId: number) {
+        console.log('leftQueue')
         this.socket.emit('leaveQueue', userId);
     }
 

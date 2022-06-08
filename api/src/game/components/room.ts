@@ -92,6 +92,30 @@ export default class Room implements RoomDto
 		}
 	}
 
+	toFrontEnd(){
+		return {
+				ballX: this.ball.coor.x,
+				ballY: this.ball.coor.y,
+				ballR : this.ball.r,
+				ballColor : this.ball.coor.setting.color,
+				
+				pOne: this.playerOne.user,
+				pOneX : this.playerOne.coor.x,
+				pOneY : this.playerOne.coor.y,
+				pOneSize : this.playerOne.width,
+				pOneScore : this.playerOne.goal,
+
+				pTwo: this.playerTwo.user,
+				pTwoX : this.playerTwo.coor.x,
+				pTwoY : this.playerTwo.coor.y,
+				pTwoSize : this.playerTwo.width,
+				pTwoScore : this.playerTwo.goal,
+				
+				roomId : this.roomId,
+				status : roomEnum.end
+		}
+	}
+
 	update(): number
 	{
 		const now = (Date.now() - this.updateTime) / 1000;

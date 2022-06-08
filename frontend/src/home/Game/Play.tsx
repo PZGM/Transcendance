@@ -19,8 +19,12 @@ interface PlayState {
 
 export class Play extends Component<PlayProps, PlayState>
 {
+	handleQuit() {
+		if (this.props.room)
+			this.props.socket.leaveRoom(this.props.userId, this.props.room.roomId)
+	}
+
 	render () {
-		//console.log('RENDER PLAY')
 		
 		if (!this.props.room)
 			return (
@@ -28,9 +32,14 @@ export class Play extends Component<PlayProps, PlayState>
 			)
 		else
 			return (
-				<Stack direction="column"
+				<Stack direction="column" alignItems="center"
 				>
-					
+					{this.props.userId !== this.props.room.pOne.id &&
+					this.props.userId !== this.props.room.pTwo.id &&
+						<div className={"score bit5x5 white"} style={{fontSize: '2vw', marginTop: '0.1vw'}}>
+							SPECTATE MODE
+						</div>
+					}
 					<Stack direction='row'
 						justifyContent="space-between"
 						alignItems="center"
@@ -39,25 +48,19 @@ export class Play extends Component<PlayProps, PlayState>
 					>
 						<div className="score bit5x3 white">
 							{this.props.room.pOneScore}
-							{/* 2 */}
 						</div>
 							
 						<div className={"score bit5x5 " + this.props.room.pOne.color}>
-						{/* <div className={"score bit5x5 red"}> */}
 							{this.props.room.pOne.login}
-							{/* FMANETTI */}
 						</div>
 						<div className="score arcade white" style={{fontSize: '2vw'}}>
 							vs
 						</div>
 						<div className={"score bit5x5 " + this.props.room.pTwo.color}>
-						{/* <div className={"score bit5x5 green"}> */}
-							{/* AFREIRE- */}
 							{this.props.room.pTwo.login}
 						</div>
 						
 						<div className="score bit5x3 white">
-							{/* 2 */}
 							{this.props.room.pTwoScore}
 						</div>
 					
@@ -69,6 +72,11 @@ export class Play extends Component<PlayProps, PlayState>
 								userId={this.props.userId}
 								updateDisplay={this.props.updateDisplay}
 						/>
+					</div>
+					
+					<div className="leave_game_button but_red"
+						onClick={this.handleQuit.bind(this)}>
+						QUIT
 					</div>
 
 				</Stack>

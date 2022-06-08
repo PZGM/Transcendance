@@ -94,6 +94,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 							loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
 							roomId : room.roomId
 						});
+						this.statusService.updateStatus(winner.id, statusEnum.connected);
+						this.statusService.updateStatus(loser.id, statusEnum.connected);
 					}
                 }
 			});
@@ -179,7 +181,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	@SubscribeMessage('joinQueue')
 	async handleJoinQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number, difficulty: Difficulty }) {
 		const user : UserDto = this.pool.findById(data.userId);
-		if (user && !this.queue.find(user) && user.status !== statusEnum.playing)
+		if (user && this.queue.find(user) === -1 && user.status !== statusEnum.playing)
 		{
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);
@@ -191,14 +193,16 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
 	@SubscribeMessage('leaveQueue')
 	async handleLeaveQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number } ) {
-    const user : UserDto = new UserDto(await this.usersService.getOne(data.userId));
-		if (user && this.queue.find(user))
+    console.log('leaveQueue')
+	const user : UserDto = new UserDto(await this.usersService.getOneBySocket(socket.id));
+		if (user && this.queue.find(user) !== -1)
 		{
 			this.queue.rmToQueue(user);
             this.pool.changeStatus(statusEnum.connected, user);
 			this.server.to(socket.id).emit('leftQueue');
+			this.logger.log(`socket ${user.login}: ${socket.id} left the queue !`);
+			this.statusService.updateStatus(user.id, statusEnum.connected);
 		}
-        this.statusService.updateStatus(data.userId, statusEnum.connected);
 	}
 
     @SubscribeMessage('leaveRoom')
@@ -206,27 +210,40 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		const room: Room = this.rooms.get(data.roomId);
 		const user = this.pool.find(new UserDto(await this.usersService.getOne(data.userId)));
 		if (user && room) {
-			room.removeUser(user);
-			if (room.length() === 0) {
-				this.logger.log("Deleting Room");
-				this.rooms.delete(room.roomId);
+			if (!room.isPlayer(user)) {
+				this.server.to(socket.id).emit("updateRoom", room.toFrontEnd());
+				this.pool.changeStatus(statusEnum.connected, user);
+				this.statusService.updateStatus(data.userId, statusEnum.connected);
+				socket.leave(room.roomId)
 			}
-			if (room.isPlayer(user) && room.status !== roomEnum.end) {
-				if (room.status < roomEnum.end) {
-                    if(room.isPlayerOne(user) && room.playerTwo) {
-                        room.playerTwo.goal == 10;
-                        room.update();
-                    }
-                    if(room.isPlayerTwo(user) && room.playerOne) {
-                        room.playerOne.goal == 10;
-                        room.update();
-                    }
-                }
+			else if (room.isPlayer(user) && room.status !== roomEnum.end) {
+                    if(room.isPlayerOne(user) && room.playerTwo)
+                        room.playerTwo.goal = 10;
+                    if(room.isPlayerTwo(user) && room.playerOne)
+                        room.playerOne.goal = 10;
+					room.update();
+					const winner = new UserDto(await this.usersService.getOne(room.winner.id));
+					const loser = new UserDto(await this.usersService.getOne(room.loser.id));
+					await this.historyService.createGameHistory({
+						players: [winner, loser],
+						winnerId: winner.id,
+						loserId: loser.id,
+						createdDate: new Date(room.startingTime),
+						duration: room.duration,
+						winnerScore: 10,
+						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
+						roomId : room.roomId
+					});
+					this.statusService.updateStatus(winner.id, statusEnum.connected);
+					this.statusService.updateStatus(loser.id, statusEnum.connected);
+					this.pool.changeStatus(statusEnum.connected, winner);
+					this.pool.changeStatus(statusEnum.connected, loser);
+					this.server.to(room.roomId).emit("updateRoom", room.toFront());
+					this.rooms.delete(room.roomId);
+					this.logger.log("Deleting Room");
             }
-			this.pool.changeStatus(statusEnum.connected, user);
-            this.statusService.updateStatus(data.userId, statusEnum.connected);
+			this.server.to(socket.id).emit("leftRoom");
 		}
-		this.server.to(socket.id).emit("leftRoom");
 	}
 
 	@SubscribeMessage('updateRoom')

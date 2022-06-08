@@ -45,27 +45,25 @@ export default class Queue {
 
     }
 
-    find(user: UserDto): Difficulty {
+    find(user: UserDto): number {
         if(this.easy.find(resu => resu.login === user.login) !== undefined)
             return Difficulty.Easy;
         if(this.medium.find(resu => resu.login === user.login) !== undefined)
             return Difficulty.Medium;
         if(this.hard.find(resu => resu.login === user.login) !== undefined)
             return Difficulty.Hard;
-        return 0;
-
-        
+        return -1;
     }
 
     rmToQueue(user: UserDto): UserDto {
-        if(this.find(user) === 0)
+        if(this.find(user) === -1)
             return null;
         if (this.find(user) === Difficulty.Easy)
             this.easy.splice(this.easy.findIndex(resu => resu.login === user.login), 1);
         if (this.find(user) === Difficulty.Medium)
-                this.medium.splice(this.easy.findIndex(resu => resu.login === user.login), 1);
+            this.medium.splice(this.medium.findIndex(resu => resu.login === user.login), 1);
         if (this.find(user) === Difficulty.Hard)
-                this.hard.splice(this.easy.findIndex(resu => resu.login === user.login), 1);
+            this.hard.splice(this.hard.findIndex(resu => resu.login === user.login), 1);
         user.status = statusEnum.connected;
         return user;
     }

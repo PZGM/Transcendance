@@ -14,9 +14,7 @@ interface RestartProps {
 
 function Restart (props: RestartProps)
 {
-    const handleReturn = () =>{
-        // if (props.room)
-        //     props.socket.leaveRoom(props.userId, props.room?.roomId)
+    const handleReturn = () => {
         props.updateDisplay(0);
     }
 
