@@ -41,12 +41,11 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
     // ${process.env.REACT_APP_GET_CHANNELS_NAMES}
-    public static async getChannelsNames(): Promise<string[]|null> {
+    public static async getChannelsNames(): Promise<string[]> {
         const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_NAMES}`, {
             method: "GET",
             credentials: "include"})
@@ -56,7 +55,6 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
@@ -70,7 +68,6 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
@@ -90,7 +87,6 @@ export class ChatAPI {
     }
     public static async getChannelByName(name: string, options?: RelationsPicker) {
         const query = (options) ? `?${optionsToQuery(options)}` : '';
-        console.log(options)
         const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
@@ -134,7 +130,6 @@ export class ChatAPI {
 
     public static async deleteMessage(messageId: number) {
         let ret = true;
-        console.log(`deleteMessage: ${messageId}`)
         await fetch(`${process.env.REACT_APP_MESSAGES}/${messageId}`, {
         method: "DELETE",
         headers: { 'Content-Type': 'application/json' },

@@ -12,8 +12,6 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserDto } from "../../../api/dto/user.dto";
 
-interface SelecterProps {
-};
 
 interface SelecterState {
 	channels: string[];
@@ -26,7 +24,7 @@ interface SelecterState {
 let Hi = 15;
 let Hchan = 25;
 
-function Selecter (){
+function Selecter (props){
 	let navigate = useNavigate();
 	let location = useLocation();
 	const [channels, setChannels] = useState<string[]>([]);
@@ -37,8 +35,7 @@ function Selecter (){
 
     const getChannels = async () => {
         const channels = await ChatAPI.getChannelsNames();
-		if (channels)
-			setChannels(channels);
+		setChannels(channels);
     }
 
     const getFriends = async () => {
@@ -47,11 +44,9 @@ function Selecter (){
     }
 	
 	useEffect(() => {
-		if (channels === [])
-		getChannels();
-		if (friends === [])
-			getFriends();
 		setName(location.pathname.split('/')[3]);
+		if(location.pathname.search("/home/chat") && name === props.login)
+			navigate('404')
 	})
 
 	const handleClick=(event: React.MouseEvent<HTMLElement>)=> {

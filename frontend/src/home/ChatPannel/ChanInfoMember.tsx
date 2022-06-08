@@ -63,7 +63,6 @@ function ChanInfoMember(props: ChanInfoUserProps) {
     }
 
     const watchGame = async () => {
-        console.log(props.member.status);
         if (props.member.status === statusEnum.playing) {
             UserAPI.watchUser(props.member.id)
         }
