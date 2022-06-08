@@ -18,14 +18,12 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         super(props)
         this.socket = io(`${process.env.REACT_APP_GAME_SOCKET}`, {secure: true});
         this.socket.on('connection', () => {
-            console.log("socket connected");
             this.socket.on('disconnect', (reason) => {
                 console.log(reason);
             });
         });
         this.socket.on("gameRoom", (room: Room) => {
             this.props.receiveGameRoom(room);
-            console.log(room);
             this.socket.emit('joinRoom', {roomId: room.roomId});
         });
 

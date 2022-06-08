@@ -9,10 +9,17 @@ export interface ChannelDto {
     users: UserDto[];
     admin: UserDto[];
     ban: BannedDto[];
+    mute: MuttedDto[];
 } 
 
 export interface BannedDto{
     user: UserDto;
     endOfBan: Date;
+    channel: ChannelDto;
+}
+
+export interface MuttedDto{
+    user: UserDto;
+    endOfMute: Date;
     channel: ChannelDto;
 }

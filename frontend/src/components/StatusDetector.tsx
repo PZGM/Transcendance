@@ -43,18 +43,14 @@ export class StatusDetector extends Component<StatusDetectorProps>{
     }
 
 	onIdle = () => {
-		console.log('idle');
 		if (this.id != -1 && this.active) {
-			console.log('if idle')
 			UserAPI.reportInactivity(this.id);
 		}
 		this.active = false;
 	}
 
 	onActive = () => {
-		console.log('active')
 		if (this.id != -1 && !this.active) {
-			console.log('if active')
 			UserAPI.reportActivity(this.id);
 		}
 		this.active = true;

@@ -36,7 +36,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
-					console.log('Easy Room')
 					playerOne = this.queue.getOneUser(Difficulty.Easy);
 					playerTwo  = this.queue.getOneUser(Difficulty.Easy);
 					roomId = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${date}`;	
@@ -102,7 +101,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			});
 			this.queue.rmToQueue(userDto);
             this.pool.rmToPool(userDto);
-			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
+			this.logger.log(`a socket of ${user.login} disconnected: ${socket.id}`);
 			this.statusService.updateStatus(user.id, statusEnum.disconected);
       }
 	}
@@ -110,7 +109,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = new UserDto(await this.usersService.getOne(userId.id));
-		this.logger.log(`${user.login} i'm back`)
+		this.logger.log(`${user.login} connected`)
 		if(!user.socketIdTab)
 			user.socketIdTab = [];
 		user.socketIdTab.push(socket.id);
@@ -139,17 +138,11 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	}
 
 	async handleSpectateRoom( userId : number, playerId : number) {
-		console.log("hey oh");
 		let roomId: string;
 		const user : UserDto = new UserDto(await this.usersService.getOne(playerId));
-		console.log(user.login);
 		this.rooms.forEach((room : Room) => {
 			if ((playerId == room.playerOne.user.id) || (playerId == room.playerTwo.user.id)) {
 				roomId = room.roomId;
-			}
-			else {
-				console.log(`room p1 : ${room.playerOne.user.id}, room p2 : ${room.playerTwo.user.id},
-playerId : ${playerId}`);
 			}
 		});
 		const room: Room = this.rooms.get(roomId);
@@ -161,11 +154,9 @@ playerId : ${playerId}`);
 				this.statusService.updateStatus(userId, statusEnum.watching);
 				this.logger.log(`${user.login} watching room ${room.roomId}!`);
 			}
-			else
-				console.log("you're de player");
         }
 		else
-			console.log("didnt find your room mamene");
+			this.logger.log("didnt find a room to spectate");
 	}
 
 	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {

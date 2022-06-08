@@ -58,7 +58,6 @@ function ChanEditMember(props: ChanEditMemberProps) {
 
 
     const toggleAdmin = async () => {
-        console.log(`toggle admin in chan ${props.channel.id}`);
         let ret;
         if (memberIsAdmin)
             ret = await ChatAPI.demoteAdmin(props.channel.id, props.member.id)
