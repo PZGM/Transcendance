@@ -297,4 +297,16 @@ export class ChatAPI {
     }
 
 
+    //get current mutes
+    public static async currentMute(channelId: number) : Promise<number[]>{
+        const resp = await fetch(`${process.env.REACT_APP_CURRENT_MUTE}/${channelId}`, {
+            method: "GET",
+            credentials: "include"})
+            .then(response => {return response.json()})
+            .then(json => {return json});
+            return resp;
+    }
+    
+
+
 }

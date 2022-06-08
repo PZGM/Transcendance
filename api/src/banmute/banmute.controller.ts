@@ -46,6 +46,13 @@ private logger = new Logger("BanmuteController")
         }
     }
 
+    @Get('current-mute/:channelId')
+    @UseGuards(FullyAuthentificatedGuard)
+    public async currentMute(@Req() request: CustomRequest, @Param('channelId') channelId: number) {
+        this.logger.log("curent mute : current mute/:channelId/:userId");
+        return await this.banmuteService.currentMute(channelId);
+    }
+
     @Get('mute-remaining/:channelId/:userId')
     @UseGuards(FullyAuthentificatedGuard)
     public async muteRemaining(@Req() request: CustomRequest, @Param('channelId') channelId: number, @Param('userId') userId: number ) {

@@ -58,9 +58,10 @@ constructor(
       channel.mute.push(muted);
     }
     catch (e) {
+      console.log('error wgile muting')
       return null;
     }
-    await this.chatGateway.broadcastMuted(channelId, userId);
+    await this.chatGateway.broadcastMuted(channelId, muteId);
     let ret = await this.channelsRepository.save(channel);
   }
 
@@ -116,6 +117,17 @@ constructor(
       }
     });
     return maxMute
+  }
+
+  public async currentMute(channelId: number) {
+    const channel = await this.getOne(channelId, {withMuted: true});
+    const muted = channel.mute.map(mute => {
+      if (mute.endOfMute.valueOf() - Date.now() < 0) {
+        return;
+      }
+      return mute.id 
+    });
+    return muted
   }
 
   public async banRemaining(userId: number, channelId: number) {
