@@ -2,10 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { ConnectedSocket, MessageBody, OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { MessagesService } from './message/messages.service';
-import { UsersService } from 'src/users/users.service';
 import { Difficulty } from 'src/game/components/coor';
-import { ChannelsService } from './channel/channels.service';
-import { BanmuteService } from 'src/banmute/banmute.service';
 import { Channel } from 'src/typeorm/entities/channel';
 import { RelationsPicker } from 'src/dto/chat.dto';
 import { Repository } from 'typeorm';
@@ -20,7 +17,7 @@ interface MessageBody{
   service: boolean;
 }
 
-@WebSocketGateway({cors: {origin : 6200}, namespace: '/chat'})
+@WebSocketGateway({cors: true, namespace: '/chat'})
 export class ChatGateway {
 
   constructor(private readonly messageService: MessagesService,
