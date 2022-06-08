@@ -8,7 +8,7 @@ import {  User } from 'src/typeorm';
 import { UsersService } from 'src/users/users.service';
 import Pool from './components/pool';
 import { roomEnum } from 'src/dto/game.dto';
-import { statusEnum } from 'src/status/status.service';
+import { statusEnum, StatusService } from 'src/status/status.service';
 import { Difficulty } from './components/coor';
 import { HistoryService } from 'src/history/history.service';
 
@@ -23,6 +23,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 	
 	constructor(
 		private readonly usersService: UsersService,
+		private readonly statusService: StatusService,
 		private readonly historyService: HistoryService){}
 
     afterInit(server: Server) {
@@ -35,7 +36,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			if((this.queue.sizeEasy() > 1) || (this.queue.sizeMedium() > 1) || (this.queue.sizeHard() > 1)) {
 				let date = Date.now().toString().substring(8, 13);
 				if (this.queue.sizeEasy() > 1) {
-					console.log('Easy Room')
 					playerOne = this.queue.getOneUser(Difficulty.Easy);
 					playerTwo  = this.queue.getOneUser(Difficulty.Easy);
 					roomId = `${Difficulty.Easy}${playerOne.id}${playerTwo.id}${date}`;	
@@ -55,8 +55,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				}
 				this.queue.rmToQueue(playerOne);
 				this.queue.rmToQueue(playerTwo);
-				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
-				this.usersService.setUserStatus(playerOne.id, statusEnum.playing);
+				this.statusService.updateStatus(playerOne.id, statusEnum.playing);
+				this.statusService.updateStatus(playerTwo.id, statusEnum.playing);
 				this.server.to(playerOne.socketIdTab).emit("gameRoom", room.toFront());
 				this.server.to(playerTwo.socketIdTab).emit("gameRoom", room.toFront());
 				this.rooms.set(roomId, room);
@@ -99,23 +99,24 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			});
 			this.queue.rmToQueue(userDto);
             this.pool.rmToPool(userDto);
-			this.logger.log(`socket ${user.login} disconnected: ${socket.id}`);
-			this.usersService.setUserStatus(user.id, statusEnum.connected);
+			this.logger.log(`a socket of ${user.login} disconnected: ${socket.id}`);
+			this.statusService.updateStatus(user.id, statusEnum.disconected);
       }
 	}
 
     @SubscribeMessage('handleUserConnect')
 	async handleUserConnect(@ConnectedSocket() socket: Socket,  @MessageBody() userId : {id : number}) {
 		const user : UserDto = new UserDto(await this.usersService.getOne(userId.id));
-		this.logger.log(`${user.login} i'm back`)
+		this.logger.log(`${user.login} connected`)
 		if(!user.socketIdTab)
 			user.socketIdTab = [];
 		user.socketIdTab.push(socket.id);
 		user.status = statusEnum.connected;
-		this.pool.addToPool(user);
+		if(!this.pool.find(user))
+			this.pool.addToPool(user);
         this.server.to(socket.id).emit('joinedPool');
         this.usersService.setUserSocket(userId.id, socket.id);
-		this.usersService.setUserStatus(userId.id, statusEnum.connected);
+		this.statusService.updateStatus(userId.id, statusEnum.connected);
 	}
 
 	@SubscribeMessage('joinRoom')
@@ -127,24 +128,33 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.logger.log(`${user.login} joined the socket room ${room.roomId}`)
 			if (room.isPlayer(user)) {
 				this.queue.rmToQueue(user);
-				this.usersService.setUserStatus(user.id, statusEnum.playing);
+				this.statusService.updateStatus(user.id, statusEnum.playing);
 				this.server.to(room.roomId).emit("updateRoom", room.toFront());
 				this.logger.log(`${user.login} joined room ${room.roomId}!`);
 			}
 		}
 	}
 
-	@SubscribeMessage('spectateRoom')
-	async handleSpectateRoom(@ConnectedSocket() socket: Socket,  @MessageBody() data : {  userId: number, roomId: string } ) {
-		const room: Room = this.rooms.get(data.roomId);
+	async handleSpectateRoom( userId : number, playerId : number) {
+		let roomId: string;
+		const user : UserDto = new UserDto(await this.usersService.getOne(playerId));
+		this.rooms.forEach((room : Room) => {
+			if ((playerId == room.playerOne.user.id) || (playerId == room.playerTwo.user.id)) {
+				roomId = room.roomId;
+			}
+		});
+		const room: Room = this.rooms.get(roomId);
 		if (room) {
-			const user = this.pool.find(new UserDto( await this.usersService.getOne(data.userId)));
+			const user = this.pool.find(new UserDto(await this.usersService.getOne(userId)));
 			if (!room.isPlayer(user)) {
-				this.server.to(socket.id).emit("gameRoom", room.toFront());
+				this.server.to(user.socketIdTab).emit("gameRoom", room.toFront());
                 this.pool.changeStatus(statusEnum.watching, user);
-				this.usersService.setUserStatus(data.userId, statusEnum.watching);
+				this.statusService.updateStatus(userId, statusEnum.watching);
+				this.logger.log(`${user.login} watching room ${room.roomId}!`);
 			}
         }
+		else
+			this.logger.log("didnt find a room to spectate");
 	}
 
 	async handleRoomInvite(senderId: number, receiverId : number, difficulty: Difficulty): Promise<boolean> {
@@ -157,8 +167,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			const room = new Room(roomId, difficulty, user, guest);
 			this.rooms.set(roomId, room);
 
-			this.server.to(user.socketIdTab[user.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
-			this.server.to(guest.socketIdTab[guest.socketIdTab.length - 1]).emit("inviteGame", room.toFront());
+			this.server.to(user.socketIdTab).emit("inviteGame", room.toFront());
+			this.server.to(guest.socketIdTab).emit("inviteGame", room.toFront());
 
 			return true;
 		}
@@ -174,8 +184,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			this.pool.changeStatus(statusEnum.inQueue, user);
 			this.queue.addToQueue(user, data.difficulty);
 			this.server.to(socket.id).emit('joinedQueue');
-			this.logger.log(`socket ${user.login}: ${socket.id} was added to queue !`);
-			this.usersService.setUserStatus(data.userId, statusEnum.inQueue);
+			this.logger.log(`socket ${user.login}: ${socket.id} was added to ${data.difficulty} queue !`);
+			this.statusService.updateStatus(data.userId, statusEnum.inQueue);
 		}
 	}
 
@@ -185,10 +195,10 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 		if (user && this.queue.find(user))
 		{
 			this.queue.rmToQueue(user);
-            this.pool.changeStatus(statusEnum.idle, user);
+            this.pool.changeStatus(statusEnum.connected, user);
 			this.server.to(socket.id).emit('leftQueue');
 		}
-        this.usersService.setUserStatus(data.userId, statusEnum.idle);
+        this.statusService.updateStatus(data.userId, statusEnum.connected);
 	}
 
     @SubscribeMessage('leaveRoom')
@@ -214,7 +224,7 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
                 }
             }
 			this.pool.changeStatus(statusEnum.connected, user);
-            this.usersService.setUserStatus(data.userId, statusEnum.connected);
+            this.statusService.updateStatus(data.userId, statusEnum.connected);
 		}
 		this.server.to(socket.id).emit("leftRoom");
 	}
@@ -246,8 +256,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
 						roomId : room.roomId
 					});
-					this.usersService.setUserStatus(winner.id, statusEnum.connected);
-					this.usersService.setUserStatus(loser.id, statusEnum.connected);
+					this.statusService.updateStatus(winner.id, statusEnum.connected);
+					this.statusService.updateStatus(loser.id, statusEnum.connected);
 					this.pool.changeStatus(statusEnum.connected, winner);
 					this.pool.changeStatus(statusEnum.connected, loser);
 				}

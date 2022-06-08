@@ -104,16 +104,9 @@ canvas {
 
 /* Friends */
 
-ol, li {
-    list-style-type: none;
-}
-
-.friends_list {
-	padding-left: 0px;
-	padding-right: 10px;
-	margin-top: 10px;
-	overflow-y: scroll;
-	height: calc(100% - 0.8vw);
+.search_list_grid {
+	overflow: hidden;
+	height: 100%;
 }
 
 .search_element, .friend_element, .chan_element {
@@ -129,11 +122,6 @@ ol, li {
 	width: calc(100% - 0.1vw);
 }
 
-.search_list {
-	overflow: hidden;
-	height: 100%;
-}
-
 .friend_element {
 	font-size: 1vw;
 	margin-bottom: 0.35vw;
@@ -141,26 +129,13 @@ ol, li {
 	/* width: calc(100% - 0.1vw); */
 }
 .chan_element {
-	font-size: 0.6vw;
-	margin-bottom: 0.35vw;
+	font-size: 1vw;
+	/* margin-bottom: 0.35vw; */
 	padding: 0.35vw;
-	width: 18.4vw;
-	margin-left: 0.26vw;
+	/* width: 100%; */
 	margin-right: 0.1vw;
-	margin-bottom: 1vh;
-	/* width: calc(100% - 0.1vw); */
-}
-
-ol::-webkit-scrollbar {
-	width: 0.4vw;             	/* width of the entire scrollbar */
-}
-
-ol::-webkit-scrollbar-track {
-	background: black;        /* color of the tracking area */
-}
-
-ol::-webkit-scrollbar-thumb {
-	background-color: var(--dark_blue);    /* color of the scroll thumb */
+	margin-bottom: 0.4vw;
+	width: calc(100% - 0.1vw);
 }
 
 /* Settings */
@@ -190,6 +165,17 @@ ol::-webkit-scrollbar-thumb {
 	width: 13vw;
 	border: solid 0.3vw;
 }
+
+/* History */
+
+.user {
+	border: 0.2vw solid;
+ 	padding-bottom: 0.2vw;
+ 	padding-top: 0.5vw;
+	padding-left: 0.5vw;
+	padding-right: 0.5vw;
+	margin-top: 0.3vw;
+ }
 
 /* Achievements */
 

@@ -74,26 +74,38 @@ function ChanEditMember(props: ChanEditMemberProps) {
     }
 
     return (
-        <div className={"chan_element bor_"+ props.member.color}>
+        <li className={"chan_element bor_"+ props.member.color}>
+            
             <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={"0.07vw"}>
-            <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} onClick={() => (navigate(process.env.REACT_APP_USER +props.member.login + "/info"))}>
+                
+                <Stack direction='row' justifyContent="flex-start"  alignItems="center" spacing={1} onClick={() => (navigate(process.env.REACT_APP_USER +props.member.login + "/info"))}>
                     <Avatar variant='circular' alt={props.member.login} src={props.member.avatar} sx={{height: '1.6vw', width: '1.6vw'}}/>
-                    <Stack direction='column' justifyContent="space-between"  alignItems="center" spacing={1}>
+                    <Stack direction='column' justifyContent="space-between"  alignItems="left" spacing={1}>
                         <div style={{color: 'white' }} className='bit9x9'>{props.member.login}</div>
-                        {memberIsAdmin && <div style={{color: memberIsOwner ? 'orange' : 'yellow' }} className='bit9x9'>{memberIsOwner ? 'Owner' : 'Admin'}</div>}
+                        {memberIsAdmin &&
+                            <div style={{color: memberIsOwner ? 'orange' : 'yellow' }}
+                                className='bit9x9'
+                            >
+                                {memberIsOwner ? 'Owner' : 'Admin'}
+                            </div>}
                     </Stack>
                 </Stack>
-                {(!userIsMember && (userIsOwner || !memberIsAdmin)) &&
+            
+            {(!userIsMember && (userIsOwner || !memberIsAdmin)) &&
                 <Stack direction='row' justifyContent="flex-end"  alignItems="flex-end" spacing={1}>
+                    
                     {userIsOwner && !memberIsOwner && 
-                    <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
-                    <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
-                    </div>}
+                        <div className={`renderrow_button but_${(memberIsAdmin ? 'red' : 'blue')}`} onClick={toggleAdmin}>
+                            <div className='bit5x5'> {(memberIsAdmin) ? "demote admin" : "promote admin"} </div>
+                        </div>
+                    }
+                    
                     {!memberIsAdmin && <Mute member={props.member} channelId={props.channel.id}/>}
+                    
                     {!memberIsAdmin && <Ban member={props.member} channelId={props.channel.id} updateMembers={props.updateMembers}/>}
                 </Stack>}
             </Stack>
-        </div>
+        </li>
     );
 }
 

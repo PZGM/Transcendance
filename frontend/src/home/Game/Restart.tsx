@@ -11,12 +11,6 @@ interface RestartProps {
     socket: GameSocketAPI,
     userId: number
 };
-enum roomEnum {
-    waiting,
-    playing,
-    goal,
-    end
-}
 
 function Restart (props: RestartProps)
 {
@@ -28,9 +22,9 @@ function Restart (props: RestartProps)
 
     const areYouTheWinner = (p: UserDto) => {
         if (props.userId === p.id)
-            return <div className={p.color}>you</div>
+            return <div className={p.color} style={{marginRight: '1.5vw'}}>you</div>
         else
-            return <div className={p.color}>{p.login}</div>
+            return <div className={p.color} style={{marginRight: '1.5vw'}}>{p.login}</div>
     }
 
     if (!props.room)
@@ -49,11 +43,11 @@ function Restart (props: RestartProps)
                 >
                     { (props.room.pOneScore === 10)?
                         <div className="score bit5x5">
-                            {areYouTheWinner(props.room.pOne)} won!
+                            {areYouTheWinner(props.room.pOne)}won!
                         </div>
                         :
                         <div className="score bit5x5">
-                            {areYouTheWinner(props.room.pTwo)} won!
+                            {areYouTheWinner(props.room.pTwo)}won!
                         </div>
                     }
                     <div className="play_button" onClick={handleReturn}>Leave</div>

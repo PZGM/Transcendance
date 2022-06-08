@@ -11,6 +11,7 @@ import { Stack } from "@mui/material";
 import { GameSocketAPI } from "../api/GameSocket.api";
 import { Room } from "../api/dto/game.dto";
 import Selecter from "./ChatPannel/header/Selecter";
+import { PrivateGuard } from "../components/PrivateGuard";
 
 
 interface HomeProps {
@@ -65,9 +66,10 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	render () {
+		console.log('RENDER HOME')
 		return (
 			<div className="box">
-				{/* <PrivateGuard/> */}
+				<PrivateGuard/>
 				
 				<Game/>
 

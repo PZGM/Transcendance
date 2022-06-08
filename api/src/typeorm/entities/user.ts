@@ -69,9 +69,8 @@ export class User {
     stats: Stats;
 
     @Column({ nullable: true })
-    rStatus: number;
-    @Column({ nullable: true })
     roomId: number;
+    
     @Column('simple-array',{ nullable: true })
     socketIdTab: string[];
 }

@@ -23,7 +23,7 @@ export class MessagesController {
   @Get(':id')
     @UseGuards(FullyAuthentificatedGuard)
     findOne(@Param('id') id: number) {
-        this.logger.log("findOne : :id");
+        //this.logger.log("findOne : :id");
         return this.messagesService.findOne(id);
   }
 

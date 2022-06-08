@@ -7,6 +7,7 @@ import { Room } from '../../api/dto/game.dto';
 import { GameSocketAPI } from "../../api/GameSocket.api";
 import Restart from "./Restart";
 import { UserAPI } from "../../api/Users.api";
+import { Router } from 'react-router'
 
 interface GameProps {}
 
@@ -19,13 +20,15 @@ interface GameState {
 export class Game extends Component<GameProps, GameState>
 {
 	gameSocket: GameSocketAPI
-	
+	CompIsMounted: boolean
+
 	constructor(props: GameProps) {
 		super(props);
-
+		console.log('constructor');
 		this.gameSocket = new GameSocketAPI({
 								receiveGameRoom: this.receiveGameRoom.bind(this),
 								updateRoom: this.updateRoom.bind(this)})
+		this.CompIsMounted = true
 
 		this.updateDisplay = this.updateDisplay.bind(this)
 
@@ -36,6 +39,12 @@ export class Game extends Component<GameProps, GameState>
 		}
 
 		this.fetchUser()
+	}
+
+	componentWillUnmount() {
+		console.log('destructor');
+		this.gameSocket.cancel();
+		this.CompIsMounted = false;
 	}
 
 	async fetchUser() {
@@ -50,18 +59,20 @@ export class Game extends Component<GameProps, GameState>
 
 	receiveGameRoom(room: Room) {
 		console.log(room);
-		this.setState({
-			room,
-			display: 2
-		})
+		console.log(`RoomisMounted: ${this.CompIsMounted}`)
+		if (this.CompIsMounted)
+			this.setState({
+				room,
+				display: 2
+			})
 	}
 
 	updateRoom (room: Room) {
+		if (this.CompIsMounted)
 		this.setState({room})
 	}
 
 	updateDisplay(type: number) {
-		console.log(`UPDATE DISPLAY: ${type}`)
 		this.setState({
 			display: type
 		})
@@ -69,25 +80,28 @@ export class Game extends Component<GameProps, GameState>
 
 	display()
 	{
-		// console.log(`display: ${this.state.display}`)
+		console.log(`isMounted: ${this.CompIsMounted}`)
 		if (this.state.display === 0)
 			return <PlayButton	socket={this.gameSocket}
 								userId={this.state.userId}
 								updateDisplay={this.updateDisplay}
+								key={this.state.display}
 					/>
 		else if (this.state.display === 1)
-			return <Loading/>
+			return <Loading key={this.state.display}/>
 		else if (this.state.display === 2)
 			return <Play room={this.state.room}
 						socket={this.gameSocket}
 						userId={this.state.userId}
 						updateDisplay={this.updateDisplay}
+						key={this.state.display}
 					/>
 		else if (this.state.display === 3)
 			return <Restart room={this.state.room}
 							socket={this.gameSocket}
 							userId={this.state.userId}
 							updateDisplay={this.updateDisplay}
+							key={this.state.display}
 					/>
 	}
 

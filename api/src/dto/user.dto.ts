@@ -38,7 +38,7 @@ export class UserDto {
     socketIdTab? : string[];
     login: string;
     avatar: string;
-    status?: number; 
+    status?: number;
     blockedUsers?: UserDto[];
     adminChannels?: ChannelDto[];
     color: string;

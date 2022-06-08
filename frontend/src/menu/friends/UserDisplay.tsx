@@ -64,14 +64,16 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 			[1, 'offline'],
 			[2, 'inactive'],
 			[3, 'connected'],
-			[4, 'playing']]);
+			[4, 'playing'],
+			[5, 'in queue']]);
 
 		let colors = new Map<number, string>([
 			[0, 'white'],
 			[1, 'red'],
 			[2, 'yellow'],
 			[3, 'green'],
-			[4, 'blue']]);
+			[4, 'blue'],
+			[5, 'purple']]);
 
 		return (
 			<li className={"friend_element bor_" + this.props.user.color}
@@ -104,7 +106,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							<div className={"friends_button but_" + colors.get(this.state.status)}>
 								{description.get(this.state.status)}
 							</div>
-							<Link className="friends_button but_white" style={{textDecoration: 'none'}} to={{pathname: process.env.REACT_APP_MP + this.props.user.login}}>
+							<Link className="friends_button but_blue" style={{textDecoration: 'none'}} to={{pathname: process.env.REACT_APP_MP + this.props.user.login}}>
                                 <div className='bit5x5'> Send Message </div>
                             </Link>
 							<div	className="friends_button but_red"

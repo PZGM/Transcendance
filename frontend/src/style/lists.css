@@ -1,0 +1,44 @@
+@import 'colors.css';
+
+ol, li {
+    list-style-type: none;
+}
+
+ol {
+	padding-left: 0px;
+}
+
+.friends_list {
+	padding-right: 10px;
+	margin-top: 10px;
+	overflow-y: scroll;
+	height: calc(100% - 0.8vw);
+}
+
+.chat_list {  
+	height: 100%;
+	overflow: auto;
+	margin-block-end: 0;
+	margin-block-start: 0.4vw;
+}
+
+/* Chan Info */
+
+.chan_users_list {
+	width: 100%;
+	overflow: auto;
+	margin-block-end: 0;
+	margin-block-start: 0.4vw;
+}
+
+ol::-webkit-scrollbar {
+	width: 0.4vw;             	/* width of the entire scrollbar */
+}
+
+ol::-webkit-scrollbar-track {
+	background: black;        /* color of the tracking area */
+}
+
+ol::-webkit-scrollbar-thumb {
+	background-color: var(--dark_blue);    /* color of the scroll thumb */
+}

@@ -13,4 +13,8 @@ export class InvitationService {
 
 		return false;
 	}
+
+	public async watchUser(watcherId : number, userId: number) {
+        this.gameGateway.handleSpectateRoom(watcherId, userId);
+    }
 }
