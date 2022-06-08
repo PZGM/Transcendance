@@ -108,7 +108,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			this.eventSource.onmessage = (e: { data: string; }) => {
 				let jsonObj: any = JSON.parse(e.data);
 				let status: StatusData = jsonObj as StatusData;
-				if (status.status < 0 || status.status > 5)
+				if (status.status < 0 || status.status > 6)
 					status.status = 0;
 				this.setState({
 					status: status.status,
@@ -157,18 +157,15 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 			width: '2vw',
 			height: '2vh'
 		}
-		let action = new Map<number, string>([
-			[0, 'Unknow'],
-			[1, 'Offline'],
-			[2, 'Inactive'],
-			[3, 'Play match'],
-			[4, 'Watch match']]);
+
 		let colors = new Map<number, string>([
 			[0, 'white'],
 			[1, 'red'],
 			[2, 'yellow'],
 			[3, 'green'],
-			[4, 'blue']]);
+			[4, 'blue'],
+			[5, 'cyan'],
+			[6, 'violet']]);
 	
 		if (!this.state.user || !this.state.user.stats)
 			return (
@@ -190,7 +187,7 @@ export class UserInfo extends Component<UserInfoProps, UserInfoState> {
 						<div className='backto1982' style={{color: this.state.user.color, fontSize: "2vw"}}>{this.state.login}</div>
 						<Stack direction="row" justifyContent="center" alignItems="center">
 							<div className='arcade' style={{color: "white", fontSize: "1.5vw"}}> {"Status > "} </div>
-							<div className='arcade' style={{color: colors.get( this.state.status > 4 ? 4 :  this.state.status), fontSize: "1.5vw"}}> {statusEnum[this.state.status]} </div>
+							<div className='arcade' style={{color: colors.get(this.state.status), fontSize: "1.5vw"}}> {statusEnum[this.state.status]} </div>
 						</Stack>
 						<Stack direction='row' justifyContent="flex-end" alignItems="flex-end" spacing={1} sx={{fontSize: "0.6vw"}}>
 							{

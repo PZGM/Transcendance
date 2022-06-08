@@ -6,6 +6,7 @@ import './../../style/buttons.css'
 import './../../style/display.css'
 import './../../style/colors.css'
 import { Link } from "react-router-dom";
+import { statusEnum } from "../../home/ChatPannel/Chat";
 
 type UserDisplayProps = {
 	user: UserDto;
@@ -59,21 +60,14 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 
 	render ()
 	{	
-		let description = new Map<number, string>([
-			[0, 'unknow'],
-			[1, 'offline'],
-			[2, 'inactive'],
-			[3, 'connected'],
-			[4, 'playing'],
-			[5, 'in queue']]);
-
 		let colors = new Map<number, string>([
 			[0, 'white'],
 			[1, 'red'],
 			[2, 'yellow'],
 			[3, 'green'],
 			[4, 'blue'],
-			[5, 'purple']]);
+			[5, 'cyan'],
+			[6, 'violet']]);
 
 		return (
 			<li className={"friend_element bor_" + this.props.user.color}
@@ -104,7 +98,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 							alignItems="center"
 							style={{width: '16vw'}}>
 							<div className={"friends_button but_" + colors.get(this.state.status)}>
-								{description.get(this.state.status)}
+								{statusEnum[this.state.status]}
 							</div>
 							<Link className="friends_button but_blue" style={{textDecoration: 'none'}} to={{pathname: process.env.REACT_APP_MP + this.props.user.login}}>
                                 <div className='bit5x5'> Send Message </div>
