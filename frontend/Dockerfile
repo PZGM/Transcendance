@@ -10,4 +10,6 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048\
     -keyout secrets/key.key -out secrets/certificate.crt;
 EXPOSE 3000
 RUN npm run build
+
+#cert.pem for serv .crt for localhost 
 CMD serve -s build --ssl-cert "secrets/certificate.crt" --ssl-key "secrets/key.key"
