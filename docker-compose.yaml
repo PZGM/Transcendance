@@ -7,7 +7,7 @@ services:
       restart: always
       environment:
           POSTGRES_PASSWORD: 123456
-          POSTGRES_DB: Transcendance
+          POSTGRES_DB: transcendance
       ports:
           - 2345:5432
 
