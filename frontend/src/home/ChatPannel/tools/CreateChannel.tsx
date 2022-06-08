@@ -9,7 +9,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import JoinChannel from './JoinChannel'
-// TODO Faire une jolie pop up avec un msg d'erreur si le nom du chan est deja use ou si un mdp n'a pas ete donne pour un chan 
 
 function CreateChannel(props) {
     const [openCreate, setOpenCreate] = React.useState(false);
@@ -26,7 +25,6 @@ function CreateChannel(props) {
     const handleClickOpenJoin = () => {
       setOpenJoin(true);
     };
-
     const handleCreate = async () => {
         if (visibility === "protected" && password === "") {
             toast.error("No password for the channel", {

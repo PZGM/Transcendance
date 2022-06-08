@@ -4,8 +4,10 @@ import { Component} from "react";
 import { Navigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
+import { ChannelDto } from "../../api/dto/channel.dto";
 import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
+import { Link } from "react-router-dom";
 
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -44,7 +46,7 @@ interface ChatState {
 	chan: any;
 	users: UserDto[];
 	user: any,
-	userIsMute: boolean
+	isMuted: boolean;
 }
 
 interface ChatProps {
@@ -67,13 +69,21 @@ export class Chat extends Component<ChatProps, ChatState> {
 			users: [],
 			user: undefined,
 			chan: undefined,
-			userIsMute: false
+			isMuted: false,
 		}
 	}
 
 	onInputChange(input){
 		this.setState({
 			input
+		})
+	}
+
+	async updateMuted(channelId: number, userId: number) {
+		const muted: number = await ChatAPI.muteRemaining(userId, channelId);
+		const isMuted = (muted != -1);
+		this.setState({
+			isMuted
 		})
 	}
 
@@ -315,6 +325,16 @@ export class Chat extends Component<ChatProps, ChatState> {
 			})
 		}
 
+		if (message.content === 'MUTE' || message.content === 'UNMUTE') {
+			console.log('====> Mute')
+			if (message.authorId == this.state.user?.id){
+				console.log('update');
+				await this.updateMuted(message.channelId, message.authorId);
+			}
+			else
+				console.log('ELSE')
+		}
+
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages
@@ -347,6 +367,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 	async switchChannel(newChannelName: string){
 		const user = await UserAPI.getMe({withBlocked: true});
 		let channel;
+		let muted: number[] = [];
 		this.chanName = newChannelName;
 		if (this.props.isPrivateMessage) {
 			const friend: UserDto|null = await UserAPI.getUserByLogin(newChannelName);
@@ -363,6 +384,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (!channel || !user) {
 				return;
 			}
+			this.updateMuted(channel.id, user.id);
 		}
 		let messages = await ChatAPI.getByChannelId(channel.id);
 		this.chatSocket.joinRoom(channel.id, user.id);
@@ -370,7 +392,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			users: channel.users,
 			user,
 			chan: channel,
-			messages
+			messages,
 		});
 	}
 
@@ -388,7 +410,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					{this.renderMsg(this.state.messages)}
 				</ol>
 
-				{this.state.userIsMute &&
+				{this.state.isMuted &&
 					<Stack direction="row"
 					spacing={1}
 					justifyContent="space_evenly"
@@ -416,7 +438,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 					</Stack>
 				}
 
-				{!this.state.userIsMute &&
+				{!this.state.isMuted &&
 					<Stack direction="row"
 						spacing={1}
 						justifyContent="space_evenly"

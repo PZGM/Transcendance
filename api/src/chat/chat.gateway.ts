@@ -59,13 +59,13 @@ export class ChatGateway {
   }
 
   async broadcastMuted(chanId: number, userId: number) {
-    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'MUTED', service: true});
-    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'MUTED', channelId: chanId, date: message.createdDate});
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'MUTE', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'MUTE', channelId: chanId, date: message.createdDate});
   }
 
   async broadcastUnmuted(chanId: number, userId: number) {
-    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'UNMUTED', service: true});
-    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'UMUTED', channelId: chanId, date: message.createdDate});
+    const message = await this.messageService.create({channelId: chanId, authorId: userId, content: 'UNMUTE', service: true});
+    this.server.to('' + chanId).emit('service', {authorId: userId, content: 'UNMUTE', channelId: chanId, date: message.createdDate});
   }
 
   async broadcastBanned(chanId: number, userId: number) {
