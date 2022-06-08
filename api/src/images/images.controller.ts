@@ -34,21 +34,21 @@ export class ImagesController {
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', storage))
     uploadImage(@UploadedFile() file): string {
-        this.logger.log("uploadImage : upload");
+        this.logger.log("uploadImage");
         return (process.env.IMAGES_PATH_URL + path.parse(file.path).name + path.parse(file.path).ext);
     }
 
     @UseGuards(FullyAuthentificatedGuard)
     @Get('/:path')
     getImage(@Res() res, @Param('path') path: string){
-        this.logger.log("getImage : /:path");
+        this.logger.log("getImage");
         res.sendFile(path,{ root: './uploads/images' })
     }
 
     @UseGuards(FullyAuthentificatedGuard)
     @Delete('/:path')
     removeImage(@Param('path') path: string){
-        this.logger.log("removeImage : /:path");
+        this.logger.log("removeImage");
         return this.imagesService.removeImage(path)
     }
 }
