@@ -46,7 +46,6 @@ interface ChatState {
 	users: UserDto[];
 	user: any,
 	isMuted: boolean;
-	isredirect: boolean;
 }
 
 interface ChatProps {
@@ -54,20 +53,10 @@ interface ChatProps {
 	params: any
 };
 
-// function Redirban()
-// {
-// 	let navigate = useNavigate();
-
-// 	const handleYolo = () => {
-// 		navigate("/chat/general")
-// 	}
-
-// 	return ()
-// }
-
 export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
 	chanName: string = '';
+	ret:boolean = false;
 
 	constructor(props: ChatProps) {
 		super(props);
@@ -81,7 +70,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 			user: undefined,
 			chan: undefined,
 			isMuted: false,
-			isredirect: false,
 		}
 	}
 
@@ -345,17 +333,13 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
 
 		if (message.content === 'BANNED') {
-			console.log("je ban");
 			if (message.authorId == this.state.user?.id){
-				console.log("je redirige");
-				this.setState({isredirect: true})
+				this.ret = true;
 			}
 		}
 		if (message.content === 'UNBANNED') {
-			console.log("je ban");
 			if (message.authorId == this.state.user?.id){
-				console.log("je redirige");
-				this.setState({isredirect: false})
+				this.ret = false;
 			}
 		}
 
@@ -428,10 +412,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 				return <Navigate to='404' />
 			}
 		}
-		if (this.state.isredirect === true)
+		if (this.ret === true)
 		{
-			this.setState({isredirect: false})
-			console.log("je suis dans le chat et je boucle a l'infini")
+			this.ret = false;
 			return <Navigate to={{pathname: process.env.REACT_APP_HOME}}/>
 		}
 		return (
@@ -439,7 +422,6 @@ export class Chat extends Component<ChatProps, ChatState> {
 				<ol className="chat_list">
 					{this.renderMsg(this.state.messages)}
 				</ol>
-                {/* { this.state.isredirect ? (<Navigate to={{pathname: process.env.REACT_APP_HOME}}/>) : null } */}
 
 				{this.state.isMuted &&
 					<Stack direction="row"
