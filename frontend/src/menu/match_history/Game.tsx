@@ -37,7 +37,6 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 
 		const w_id: number = this.props.game.winnerId === this.props.game.players[0].id ? 0 : 1;
 		const l_id: number = this.props.game.loserId === this.props.game.players[0].id ? 0 : 1;
-		console.log(this.props.game.createdDate)
 		const date: string = moment(this.props.game.createdDate).format("DD.MM.YYYY - HH:MM")
 
 		return (

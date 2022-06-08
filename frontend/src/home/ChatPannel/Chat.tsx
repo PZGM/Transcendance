@@ -7,6 +7,7 @@ import { ChatAPI } from "../../api/Chat.api";
 import { ChannelDto } from "../../api/dto/channel.dto";
 import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
+import { Link } from "react-router-dom";
 
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
