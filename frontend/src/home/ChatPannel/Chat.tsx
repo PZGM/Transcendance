@@ -326,13 +326,9 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
 
 		if (message.content === 'MUTE' || message.content === 'UNMUTE') {
-			console.log('====> Mute')
 			if (message.authorId == this.state.user?.id){
-				console.log('update');
 				await this.updateMuted(message.channelId, message.authorId);
 			}
-			else
-				console.log('ELSE')
 		}
 
 		this.state.messages.push(message);
