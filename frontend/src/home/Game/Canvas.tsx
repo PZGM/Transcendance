@@ -96,9 +96,13 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	}
 
 	looping() {
-		this.updatePosition()
-		this.updateCanvas()
-		this.draw();
+		this.updatePosition();
+		if (this.props.room.status === roomEnum.end)
+			this.stopInterval();
+		else {
+			this.updateCanvas();
+			this.draw();
+		}
 	}
 
 	drawBall(ctx: any, room: Room)
@@ -133,7 +137,9 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 	stopInterval()
 	{
 		clearInterval(this.loop)
-		this.props.updateDisplay(3)
+		if (this.props.userId === this.state.room.pOne.id ||
+			this.props.userId === this.state.room.pTwo.id)
+			this.props.updateDisplay(3);
 	}
 
 	clearDraw(ctx: any) {
@@ -187,8 +193,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		this.drawPlayerTwo(m_ctx, room);
 		ctx.drawImage(m_canvas, 0,0);
 		this.setOldPos(this.state.room);
-		if (room.status === roomEnum.end)
-			this.stopInterval()
 	}
 
 	updatePosition()

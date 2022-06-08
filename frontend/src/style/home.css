@@ -70,13 +70,12 @@
 .invitation {
   margin-left: 0.5vw;
   margin-right: 0.5vw;
-  border: 0.3vw solid;
+  margin-top: 0.4vw;
+  border: 0.2vw solid;
 }
 
 .invitation_icon {
-  width: 3vw;
   margin: 0.4vw;
-  height: unset;
 }
 
 /* ChanEdit */

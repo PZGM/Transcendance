@@ -54,7 +54,7 @@ function Invite(props: InviteProps) {
 	const handleInvite = () =>
 	{
 		if (props.chan && props.user) {
-			toast.success(`${Difficulty[dif]} invitation created successfully on ${props.chan.name}`, {
+			toast.success(`${Difficulty[dif]} invitation created successfully`, {
 				position: toast.POSITION.BOTTOM_CENTER,
 				pauseOnHover: false,
 				closeOnClick: true,

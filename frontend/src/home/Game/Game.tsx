@@ -20,17 +20,15 @@ interface GameState {
 export class Game extends Component<GameProps, GameState>
 {
 	gameSocket: GameSocketAPI
-	CompIsMounted: boolean
 
 	constructor(props: GameProps) {
 		super(props);
 		this.gameSocket = new GameSocketAPI({
 								receiveGameRoom: this.receiveGameRoom.bind(this),
-								updateRoom: this.updateRoom.bind(this)})
-		this.CompIsMounted = true
+								updateRoom: this.updateRoom.bind(this),
+								updateDisplay: this.updateDisplay.bind(this)})
 
-		this.updateDisplay = this.updateDisplay.bind(this)
-
+		this.updateDisplay = this.updateDisplay.bind(this);
 		this.state = {
 			display: 0,
 			room: undefined,
@@ -42,7 +40,6 @@ export class Game extends Component<GameProps, GameState>
 
 	componentWillUnmount() {
 		this.gameSocket.cancel();
-		this.CompIsMounted = false;
 	}
 
 	async fetchUser() {
@@ -56,15 +53,14 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	receiveGameRoom(room: Room) {
-		if (this.CompIsMounted)
-			this.setState({
-				room,
-				display: 2
-			})
+		console.log(room);
+		this.setState({
+			room,
+			display: 2
+		})
 	}
 
 	updateRoom (room: Room) {
-		if (this.CompIsMounted)
 		this.setState({room})
 	}
 
@@ -83,7 +79,10 @@ export class Game extends Component<GameProps, GameState>
 								key={this.state.display}
 					/>
 		else if (this.state.display === 1)
-			return <Loading key={this.state.display}/>
+			return <Loading socket={this.gameSocket}
+							userId={this.state.userId}
+							updateDisplay={this.updateDisplay}
+							key={this.state.display}/>
 		else if (this.state.display === 2)
 			return <Play room={this.state.room}
 						socket={this.gameSocket}
@@ -100,7 +99,6 @@ export class Game extends Component<GameProps, GameState>
 					/>
 	}
 
-    /* render the jsx */
     render()
 	{
 		return (

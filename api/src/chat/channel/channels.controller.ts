@@ -61,7 +61,6 @@ export class ChannelsController {
   @Get(':id')
   @UseGuards(FullyAuthentificatedGuard)
   async findOne(@Req() request: CustomRequest, @Param('id') id: number, @Query() query?) {
-        //this.logger.log("findOne : :id");
         const options: RelationsPicker = {
       withAdmin: query?.withAdmin === 'true',
       withChat: query?.withChat === 'true',

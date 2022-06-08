@@ -12,6 +12,7 @@ import { GameSocketAPI } from "../api/GameSocket.api";
 import { Room } from "../api/dto/game.dto";
 import Selecter from "./ChatPannel/header/Selecter";
 import { PrivateGuard } from "../components/PrivateGuard";
+import { statusEnum } from "./ChatPannel/Chat";
 
 
 interface HomeProps {
@@ -22,6 +23,8 @@ interface HomeState {
 	avatar?: string,
 	login?: string,
 	color?: string,
+	id: number,
+	status: number,
 	channel: any
 }
 
@@ -41,6 +44,8 @@ export class Home extends Component<HomeProps, HomeState> {
 			avatar: undefined,
 			login: undefined,
 			color: undefined,
+			id: 0,
+			status: 0,
       		channel: undefined
 		}
 	}
@@ -51,7 +56,9 @@ export class Home extends Component<HomeProps, HomeState> {
 			this.setState({
 				avatar: resp.avatar,
 				login: resp.login,
-				color: resp.color
+				color: resp.color,
+				id: resp.id,
+				status: resp.status,
 			})
 	}
 
@@ -73,7 +80,7 @@ export class Home extends Component<HomeProps, HomeState> {
 				<Game/>
 
 				<Stack direction="column" className='chat_panel'>
-					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color}/>
+					<MyInfos avatar={this.state.avatar} login={this.state.login} color={this.state.color} id={this.state.id} status={this.state.status}/>
 					<Selecter login={this.state.login}/>
 					<Outlet/>
 				</Stack>

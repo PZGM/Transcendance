@@ -8,13 +8,13 @@ interface StatusDetectorProps {
 };
 
 export class StatusDetector extends Component<StatusDetectorProps>{
-	id: number = -1;
+	id: number = -1;q
     activityDetector: any = null;
 	active: boolean = false;
 
 	constructor(props: StatusDetectorProps) {
 		super(props);
-		setInterval(this.sendActivity.bind(this), 3000)
+		setInterval(this.sendActivity.bind(this), 5000)
 	}
 
 	async fetchUser(){
@@ -61,7 +61,7 @@ export class StatusDetector extends Component<StatusDetectorProps>{
 	render () {
 		return (
 		<>
-			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={10*1000} onIdle={this.onIdle} onActive={this.onActive}/>
+			<ActivityDetector activityEvents={this.customActivityEvents} enabled={true} timeout={10*10000} onIdle={this.onIdle} onActive={this.onActive}/>
 			{this.props.children}
 		</>
 		);

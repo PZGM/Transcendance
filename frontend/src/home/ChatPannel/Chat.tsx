@@ -112,7 +112,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (msg.service && msg.content === 'JOIN')
 				return (
 				<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-					<KeyboardDoubleArrowRightIcon sx={{width: "4vw", color: 'green'}}/>
+					<KeyboardDoubleArrowRightIcon sx={{width: "4.7vw", color: 'green'}}/>
 					<div className="service_message" >{`${login} joined the channel`}</div>
 				</Stack> )
 			
@@ -121,77 +121,94 @@ export class Chat extends Component<ChatProps, ChatState> {
 			if (msg.service && msg.content === 'LEAVE')
 				return (
 				<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-					<KeyboardDoubleArrowLeftIcon sx={{width: "4vw", color: 'red'}}/>
+					<KeyboardDoubleArrowLeftIcon sx={{width: "4.7vw", color: 'red'}}/>
 					<div className="service_message" >{`${login} left the channel`}</div>
 				</Stack>)
 			
 			if (msg.service && msg.content === 'PROMOTE')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardArrowUpIcon sx={{width: "4vw", color: 'cyan'}}/>
+				<KeyboardArrowUpIcon sx={{width: "4.7vw", color: 'cyan'}}/>
 				<div className="service_message" >{`${login} is now admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'DEMOTE')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<KeyboardArrowDownIcon sx={{width: "4vw", color: 'orange'}}/>
+				<KeyboardArrowDownIcon sx={{width: "4.7vw", color: 'orange'}}/>
 				<div className="service_message" >{`${login} is no longer admin`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'OWNERED')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<StarOutlineIcon sx={{width: "4vw", color: 'yellow'}}/>
+				<StarOutlineIcon sx={{width: "4.7vw", color: 'yellow'}}/>
 				<div className="service_message" >{`${login} is the new owner`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'MUTE')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<VolumeOffIcon sx={{width: "4vw", color: 'red'}}/>
+				<VolumeOffIcon sx={{width: "4.7vw", color: 'red'}}/>
 				<div className="service_message" >{`${login} has been muted`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'UNMUTE')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<VolumeUpIcon sx={{width: "4vw", color: 'green'}}/>
+				<VolumeUpIcon sx={{width: "4.7vw", color: 'green'}}/>
 				<div className="service_message" >{`${login} has been unmuted`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'BANNED')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<PersonOffIcon sx={{width: "4vw", color: 'red'}}/>
+				<PersonOffIcon sx={{width: "4.7vw", color: 'red'}}/>
 				<div className="service_message" >{`${login} has been banned`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'UNBANNED')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<HowToRegIcon sx={{width: "4vw", color: 'green'}}/>
+				<HowToRegIcon sx={{width: "4.7vw", color: 'green'}}/>
 				<div className="service_message" >{`${login} is no longer bannned`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'LOGINED')
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-				<EditIcon sx={{width: "4vw", color: 'white'}}/>
+				<EditIcon sx={{width: "4.7vw", color: 'white'}}/>
 				<div className="service_message" >{`${login} changed his login`}</div>
 			</Stack>)
 
 			// Don't show invitation message if you're the author
-			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') &&
-				this.state.user.id == msg.authorId)
-					return ;
+			if (msg.service && (msg.content === 'INVITE-EASY' || msg.content === 'INVITE-MEDIUM' || msg.content === 'INVITE-HARD') && this.state.user.id == msg.authorId) {
+				if (msg.service && msg.content === 'INVITE-EASY')
+				return (
+					<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+						<SportsEsportsIcon sx={{width: "4.7vw"}} className="green"/>
+						<div className="service_message" >{`You've sent a easy inviation`}</div>
+					</Stack>)
+				if (msg.service && msg.content === 'INVITE-MEDIUM')
+				return (
+					<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+						<SportsEsportsIcon sx={{width: "4.7vw"}} className="yellow"/>
+						<div className="service_message" >{`You've sent a medium invitation`}</div>
+					</Stack>)
+				if (msg.service && msg.content === 'INVITE-HARD')
+				return (
+					<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+						<SportsEsportsIcon sx={{width: "4.7vw"}} className="red"/>
+						<div className="service_message" >{`You've sent a hard invitation`}</div>
+					</Stack>)
+			}
 
 			if (msg.service && msg.content === 'INVITE-EASY' && this.state.user && this.state.user.id != msg.authorId)
 			return (
 			<Stack direction='column' spacing={1} className='invitation bor_green'>
 				
 				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon className="invitation_icon green"/>
+					<SportsEsportsIcon className="invitation_icon green" style={{width: '2vw', height: 'unset'}}/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
 				
@@ -209,7 +226,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			<Stack direction='column' spacing={1} className='invitation bor_yellow'>
 				
 				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon className="invitation_icon yellow"/>
+					<SportsEsportsIcon className="invitation_icon yellow" style={{width: '2vw', height: 'unset'}}/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
 				
@@ -227,7 +244,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			<Stack direction='column' spacing={1} className='invitation bor_red'>
 				
 				<Stack className='invitation_message' key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
-					<SportsEsportsIcon className="invitation_icon red"/>
+					<SportsEsportsIcon className="invitation_icon red" style={{width: '2vw', height: 'unset'}}/>
 					<div>{`${login} invite you to play`}</div>
 				</Stack>
 				

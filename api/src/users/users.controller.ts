@@ -17,7 +17,6 @@ export class UsersController {
     @Get('/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async getOne(@Req() request: CustomRequest, @Param('id') id: string, @Query() query?) {
-        //this.logger.log("getOne : /:id");
         const userId: number = (id === 'me') ? request.user.id : parseInt(id, 10);
         if (!isNumber(userId))
             throw new NotFoundException();

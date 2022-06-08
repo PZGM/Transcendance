@@ -6,7 +6,8 @@
 .settings_button, .settings_edit_button, .settings_2fa_input,
 .friends_button, .home_button, .dropdown_button, .creachan_button,
 .renderrow_button, .add_friend_button, .logout_button, .leave_chan_button,
-.invitation_send_msg_button, .accept_invitation_button
+.invitation_send_msg_button, .accept_invitation_button, .leave_queue_button,
+.leave_game_button
 {
 	position: relative;
 	text-align: center;
@@ -79,6 +80,20 @@
 	width: 15vw;
 	aspect-ratio: 20/7;
 	font-size: 2vw;
+	font-family: bit5x5;
+}
+
+.leave_queue_button {
+	width: 40%;
+    height: 10%;
+    font-size: 2vw;
+}
+
+.leave_game_button {
+	width: 50%;
+	height: 2.5vw;
+	font-size: 2vw;
+	margin-top: 1vw;
 	font-family: bit5x5;
 }
 

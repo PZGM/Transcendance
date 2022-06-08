@@ -23,7 +23,6 @@ export class MessagesController {
   @Get(':id')
     @UseGuards(FullyAuthentificatedGuard)
     findOne(@Param('id') id: number) {
-        //this.logger.log("findOne : :id");
         return this.messagesService.findOne(id);
   }
 
@@ -31,8 +30,6 @@ export class MessagesController {
     @UseGuards(FullyAuthentificatedGuard)
     async getMessagesByChannel(@Param('id') id: number, @Req() request: CustomRequest) {
     this.logger.log("getMessagesByChannel : /channel/:id");
-//     if (! await this.userService.userIsInChannel(request.user.id, id))
-//       return [];
     let messages = await this.messagesService.getByChan(id, 50);
     return messages.map((message) => {
       let ret = new MessageDto(message);
