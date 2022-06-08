@@ -32,7 +32,6 @@ function Selecter (props){
 	const [name, setName] = useState<string>("general");
 	const [open, setOpen] = useState(false);
 	const [anchorEl, setAnchorEl] = useState<any>(null);
-
     const getChannels = async () => {
         const channels = await ChatAPI.getChannelsNames();
 		setChannels(channels);
@@ -44,9 +43,13 @@ function Selecter (props){
     }
 	
 	useEffect(() => {
-		setName(location.pathname.split('/')[3]);
-		if(location.pathname.search("/home/chat") && name === props.login)
-			navigate('404')
+		if (location.pathname.split('/')[3] !== name)
+		{
+			console.log("ca boucle ici ?");
+			setName(location.pathname.split('/')[3]);
+			if(location.pathname.search("/home/chat") && name === props.login)
+				navigate('404')
+		}
 	})
 
 	const handleClick=(event: React.MouseEvent<HTMLElement>)=> {

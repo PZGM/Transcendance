@@ -1,7 +1,7 @@
 import { Avatar, Box, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
 import { ChannelDto } from "../../api/dto/channel.dto";
@@ -28,7 +28,6 @@ import { toast } from "react-toastify";
 import "../../style/input.css"
 import "../../style/home.css"
 
-
 export enum statusEnum {
     unknow,
     disconected,
@@ -47,12 +46,24 @@ interface ChatState {
 	users: UserDto[];
 	user: any,
 	isMuted: boolean;
+	isredirect: boolean;
 }
 
 interface ChatProps {
     isPrivateMessage: boolean,
 	params: any
 };
+
+// function Redirban()
+// {
+// 	let navigate = useNavigate();
+
+// 	const handleYolo = () => {
+// 		navigate("/chat/general")
+// 	}
+
+// 	return ()
+// }
 
 export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
@@ -70,6 +81,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			user: undefined,
 			chan: undefined,
 			isMuted: false,
+			isredirect: false,
 		}
 	}
 
@@ -171,7 +183,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			return (
 			<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
 				<HowToRegIcon sx={{width: "4vw", color: 'green'}}/>
-				<div className="service_message" >{`${login} is no longer bannned`}</div>
+				<div className="service_message" >{`${login} is no longer banned`}</div>
 			</Stack>)
 
 			if (msg.service && msg.content === 'LOGINED')
@@ -326,13 +338,25 @@ export class Chat extends Component<ChatProps, ChatState> {
 		}
 
 		if (message.content === 'MUTE' || message.content === 'UNMUTE') {
-			console.log('====> Mute')
 			if (message.authorId == this.state.user?.id){
 				console.log('update');
 				await this.updateMuted(message.channelId, message.authorId);
 			}
-			else
-				console.log('ELSE')
+		}
+
+		if (message.content === 'BANNED') {
+			console.log("je ban");
+			if (message.authorId == this.state.user?.id){
+				console.log("je redirige");
+				this.setState({isredirect: true})
+			}
+		}
+		if (message.content === 'UNBANNED') {
+			console.log("je ban");
+			if (message.authorId == this.state.user?.id){
+				console.log("je redirige");
+				this.setState({isredirect: false})
+			}
 		}
 
 		this.state.messages.push(message);
@@ -404,11 +428,18 @@ export class Chat extends Component<ChatProps, ChatState> {
 				return <Navigate to='404' />
 			}
 		}
+		if (this.state.isredirect === true)
+		{
+			this.setState({isredirect: false})
+			console.log("je suis dans le chat et je boucle a l'infini")
+			return <Navigate to={{pathname: process.env.REACT_APP_HOME}}/>
+		}
 		return (
             <>
 				<ol className="chat_list">
 					{this.renderMsg(this.state.messages)}
 				</ol>
+                {/* { this.state.isredirect ? (<Navigate to={{pathname: process.env.REACT_APP_HOME}}/>) : null } */}
 
 				{this.state.isMuted &&
 					<Stack direction="row"
@@ -470,6 +501,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 					</Stack>
 				}
+				
             </>
 
 		)
