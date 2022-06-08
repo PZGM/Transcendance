@@ -16,7 +16,6 @@ export class ChannelsController {
   @Get()
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannels(@Req() request: CustomRequest) {
-    this.logger.log("getChannels : ");
     let channels: ChannelDto[] = await this.channelsService.getChannels(request.user.id);
     return channels;
   }
@@ -24,7 +23,6 @@ export class ChannelsController {
   @Put('/join/:id')
   @UseGuards(FullyAuthentificatedGuard)
   public async joinChannel(@Req() request: CustomRequest, @Param('id') id: string): Promise<boolean>{
-        this.logger.log("joinChannel : /join/:id");
         const chanId:number = parseInt(id, 10);
     return await this.channelsService.join(request.user.id, chanId)
   }
@@ -32,7 +30,6 @@ export class ChannelsController {
   @Get('allNames')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelsName(@Req() request: CustomRequest): Promise<string[]> {
-        this.logger.log("getChannelsName : allNames");
         let channelsNames: string[] = await this.channelsService.getChannelsNames(request.user.id);
     return channelsNames;
   }
@@ -40,7 +37,6 @@ export class ChannelsController {
   @Get('/name/:name')
   @UseGuards(FullyAuthentificatedGuard)
   public async getChannelByName(@Req() request: CustomRequest, @Param('name') name: string, @Query() query?) {
-        this.logger.log("getChannelByName : /name/:name");
         const options: RelationsPicker = {
       withAdmin: query?.withAdmin === 'true',
       withChat: query?.withChat === 'true',
@@ -87,7 +83,6 @@ export class ChannelsController {
   @Post()
   @UseGuards(FullyAuthentificatedGuard)
   async create(@Body() createChannelDto: CreateChannelDto): Promise<boolean> {
-        this.logger.log("create : ");
         const chan = await this.channelsService.create(createChannelDto);
         if (!chan) {
           return false;
@@ -98,14 +93,12 @@ export class ChannelsController {
   @Patch(':id')
   @UseGuards(FullyAuthentificatedGuard)
   update(@Param('id') id: number, @Body() updateChannelDto: ChannelDto) {
-        this.logger.log("update : :id");
         return this.channelsService.update(id, updateChannelDto);
   }
 
   @Put('join')
   @UseGuards(FullyAuthentificatedGuard)
   public async join(@Req() request: CustomRequest,@Body()  join:{channelId: number, password?: string}) {
-        this.logger.log("join");
       if (join.password)
         return await this.channelsService.join(request.user.id, join.channelId, join.password);
       return await this.channelsService.join(request.user.id, join.channelId);
@@ -114,22 +107,18 @@ export class ChannelsController {
   @Put('leave')
   @UseGuards(FullyAuthentificatedGuard)
   public async leave(@Req() request: CustomRequest,@Body()  leave:{channelId: number}) {
-        this.logger.log("leave");
         return await this.channelsService.removeUser(request.user.id, request.user.id, leave.channelId);
   }
 
   @Put('update/rmUser')
   @UseGuards(FullyAuthentificatedGuard)
   public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
-      this.logger.log("removeUser ");
       const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
-      console.log('user removed!!!')
   }
 
   @Put('promote')
   @UseGuards(FullyAuthentificatedGuard)
   public async promoteAdmin(@Req() request: CustomRequest, @Body() promoteDto: {adminId: number, channelId: number}): Promise<boolean> {
-      this.logger.log("promoteAdmin");
       try {
       await this.channelsService.promote(request.user.id, promoteDto.adminId, promoteDto.channelId);
       return true;
@@ -142,7 +131,6 @@ export class ChannelsController {
   @Put('demote')
   @UseGuards(FullyAuthentificatedGuard)
   public async demoteAdmin(@Req() request: CustomRequest,@Body() demoteDto: {adminId: number, channelId: number}) {
-      this.logger.log("demoteAdmin");
       try {
       await this.channelsService.demote(request.user.id, demoteDto.adminId, demoteDto.channelId);
       return true;
@@ -155,21 +143,18 @@ export class ChannelsController {
   @Put('invite')
   @UseGuards(FullyAuthentificatedGuard)
   public async invite(@Req() request: CustomRequest, @Body() inviteDto: {invitedId: number, channelId: number}): Promise<boolean> {
-      this.logger.log("invite : invite");
       return await this.channelsService.addUser(request.user.id, inviteDto.channelId, inviteDto.invitedId);
   }
 
   @Delete(':id')
   @UseGuards(FullyAuthentificatedGuard)
   delete(@Req() request: CustomRequest, @Param('id') id: number) {
-      this.logger.log("delete");
       return this.channelsService.delete(request.user.id, id);
   }
 
   @Put('/mp_channel/:id')
   @UseGuards(FullyAuthentificatedGuard)
   public async createOrJoinPrivateMessage(@Req() request: CustomRequest, @Param('id') id: string): Promise<number>{
-      this.logger.log("createOrJoinPrivateMessage");
       const friendId: number = parseInt(id, 10);
     const userId: number = request.user.id;
     return await this.channelsService.createOrJoinPrivateMessage(userId, friendId);

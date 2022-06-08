@@ -324,12 +324,6 @@ export class UserAPI {
 				method: 'GET',
 				credentials: 'include'}).then(response => {return response.json()})
 				.then(json => {return json})
-				// .then(handleErrors)
-				// .catch(err => {
-				// 	console.log('error catched')
-				// 	console.log(err)
-				// 	return null;
-				// })
 			 return resp
 		}
 

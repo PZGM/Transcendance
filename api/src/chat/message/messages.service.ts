@@ -63,7 +63,6 @@ export class MessagesService {
   }
 
   async remove(id: number) {
-    console.log(`remove: ${id}`)
     const message = await this.findOne(id);
     if (!message) {
       throw new NotFoundException(`Message [${id}] not found`);

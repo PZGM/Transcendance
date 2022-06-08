@@ -66,7 +66,6 @@ export class Home extends Component<HomeProps, HomeState> {
 	}
 
 	render () {
-		console.log('RENDER HOME')
 		return (
 			<div className="box">
 				<PrivateGuard/>

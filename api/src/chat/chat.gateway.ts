@@ -90,8 +90,6 @@ export class ChatGateway {
 
   @SubscribeMessage('invitation')
   async invitationHandler(@ConnectedSocket() socket: Socket, @MessageBody() data : { chanId: number, userId: number, difficulty: Difficulty }) {
-    console.log('invitation')
-    console.log(`difficulty: ${data.difficulty}`)
     if (data.difficulty === 0) {
       const message = await this.messageService.create({channelId: data.chanId, authorId: data.userId, content: 'INVITE-EASY', service: true});
       this.server.to('' + data.chanId).emit('service', {authorId: data.userId, content: 'INVITE-EASY', channelId: data.chanId, date: message.createdDate, id: message.id});
@@ -107,10 +105,10 @@ export class ChatGateway {
   }
 
   async handleConnection(socket: Socket) {
-    console.log(`Client connected: ${socket.id}`);
+    this.logger.log(`Client connected: ${socket.id}`);
   }
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    this.logger.log(`Client disconnected: ${client.id}`);
   }
 
   @SubscribeMessage('message')
@@ -120,10 +118,9 @@ export class ChatGateway {
   ) {
     if (!await this.userIsInChannel(data.authorId, data.chanId))
       return;
-    if (!await this.userCanSend(data.authorId, data.chanId)) {
-      console.log('user is muted');
+    if (!await this.userCanSend(data.authorId, data.chanId))
       return
-    }
+
     let message = await this.messageService.create({channelId: data.chanId, authorId: data.authorId, content: data.content, service: data.service})
     this.server.to('' + data.chanId).emit('message', {authorId: message.author.id, content: message.content, channelId: message.channel.id, date: message.createdDate, service: message.service, id: message.id});
   }
@@ -135,14 +132,14 @@ export class ChatGateway {
       return;
     }
     socket.join('' + data.id);
-    console.log(`Client [${socket.id}] joined Room ${data.id}`);
+   this.logger.log(`Client [${socket.id}] joined Room ${data.id}`);
     socket.emit('joinedRoom', data.id);
   }
 
   @SubscribeMessage('leaveRoom')
   handleLeftRoom(socket: Socket, data: any) {
     socket.leave('' + data.id);
-    console.log(`Client [${socket.id}] left Room ${data.id}`);
+    this.logger.log(`Client [${socket.id}] left Room ${data.id}`);
     socket.emit('leftRoom', data.id);
   }
 

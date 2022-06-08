@@ -41,7 +41,6 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
@@ -56,7 +55,6 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
@@ -70,7 +68,6 @@ export class ChatAPI {
                 console.log('No channels')
                 return null;
             })
-            console.log(resp)
          return resp
     }
 
@@ -90,7 +87,6 @@ export class ChatAPI {
     }
     public static async getChannelByName(name: string, options?: RelationsPicker) {
         const query = (options) ? `?${optionsToQuery(options)}` : '';
-        console.log(options)
         const resp = await fetch(`${process.env.REACT_APP_GET_CHANNELS_BY_NAME}${name}${query}`, {
             method: "GET",
             credentials: "include"})
@@ -103,7 +99,6 @@ export class ChatAPI {
 
     // ${process.env.REACT_APP_GET_CHANNELS}
     public static async addChannel(name: string, ownerId: number, visibility: string, password?: any): Promise<boolean> {
-        console.log(`addChannel: ${name}`)
         const body = (password && visibility === 'protected') ? JSON.stringify({name, ownerId, visibility, password}) : JSON.stringify({name, ownerId, visibility});
         const ret = await fetch(`${process.env.REACT_APP_GET_CHANNELS}`, {
         method: "POST",
@@ -134,7 +129,6 @@ export class ChatAPI {
 
     public static async deleteMessage(messageId: number) {
         let ret = true;
-        console.log(`deleteMessage: ${messageId}`)
         await fetch(`${process.env.REACT_APP_MESSAGES}/${messageId}`, {
         method: "DELETE",
         headers: { 'Content-Type': 'application/json' },

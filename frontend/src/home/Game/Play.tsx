@@ -20,8 +20,6 @@ interface PlayState {
 export class Play extends Component<PlayProps, PlayState>
 {
 	render () {
-		//console.log('RENDER PLAY')
-		
 		if (!this.props.room)
 			return (
 				<div className="grid_item_style" style={{color: 'white'}}>LOADING...</div>

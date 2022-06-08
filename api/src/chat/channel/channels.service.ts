@@ -196,11 +196,7 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
 
     if (selfLeave || isOwner || (isAdmin && !removeAdmin))
     {
-      console.log('users before:');
-      console.log(channel.users);
       channel.users = channel.users.filter((user) => { return user.id !== rmId});
-      console.log('users after:');
-      console.log(channel.users);
       await this.chatGateway.broadcastLeaveChannel(chanId, rmId);
       if (isAdmin) {
         channel.admin = channel.admin.filter((user) => { return user.id !== rmId});
@@ -216,7 +212,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
           }
           else {
             this.delete(userId, chanId);
-            console.log('channel deleted');
             return;
           }
         }

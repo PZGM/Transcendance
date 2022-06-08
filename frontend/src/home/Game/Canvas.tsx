@@ -74,7 +74,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	startGame()
 	{
-		console.log('START GAME')
 		if (this.loop)
 			return;
 		const kstate = this.keystate
@@ -133,7 +132,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	stopInterval()
 	{
-		console.log('stop interval')
 		clearInterval(this.loop)
 		this.props.updateDisplay(3)
 	}
@@ -210,7 +208,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	render()
 	{
-		// console.log('RENDER CANVAS')
 		return (
 			<canvas id="canvas"/>
 		)

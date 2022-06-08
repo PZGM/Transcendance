@@ -24,7 +24,6 @@ export class Game extends Component<GameProps, GameState>
 
 	constructor(props: GameProps) {
 		super(props);
-		console.log('constructor');
 		this.gameSocket = new GameSocketAPI({
 								receiveGameRoom: this.receiveGameRoom.bind(this),
 								updateRoom: this.updateRoom.bind(this)})
@@ -42,7 +41,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	componentWillUnmount() {
-		console.log('destructor');
 		this.gameSocket.cancel();
 		this.CompIsMounted = false;
 	}
@@ -58,8 +56,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	receiveGameRoom(room: Room) {
-		console.log(room);
-		console.log(`RoomisMounted: ${this.CompIsMounted}`)
 		if (this.CompIsMounted)
 			this.setState({
 				room,
@@ -80,7 +76,6 @@ export class Game extends Component<GameProps, GameState>
 
 	display()
 	{
-		console.log(`isMounted: ${this.CompIsMounted}`)
 		if (this.state.display === 0)
 			return <PlayButton	socket={this.gameSocket}
 								userId={this.state.userId}
@@ -108,7 +103,6 @@ export class Game extends Component<GameProps, GameState>
     /* render the jsx */
     render()
 	{
-		// console.log('RENDER GAME')
 		return (
 			<div className="background">
 				<div className="frame_div">
