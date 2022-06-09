@@ -87,7 +87,7 @@ export class Friends extends Component<FriendsProps, FriendsState>
 			})
 		}
 		catch (e) {
-			console.log(e);
+			;
 		}
 
 	}

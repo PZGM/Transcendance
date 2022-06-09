@@ -10,10 +10,6 @@ export interface StatsDto {
     actualWinRow: number;
     under3min: number;
     golden: number;
-    // greaterAvantage: number;
-    // greaterDisavantage: number;
-    // averageScore: number;
-    // averageOponnentScore: number;
     eloScore: number;
     rank: number;
 }

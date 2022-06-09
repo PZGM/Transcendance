@@ -38,7 +38,6 @@ export class ChatAPI {
             .then(response => {return response.json()})
             .then(json => {return json})
             .catch(err => {
-                console.log('No channels')
                 return null;
             })
          return resp
@@ -52,7 +51,6 @@ export class ChatAPI {
             .then(response => {return response.json()})
             .then(json => {return json})
             .catch(err => {
-                console.log('No channels')
                 return null;
             })
          return resp
@@ -65,7 +63,6 @@ export class ChatAPI {
             .then(response => {return response.json()})
             .then(json => {return json})
             .catch(err => {
-                console.log('No channels')
                 return null;
             })
          return resp
@@ -80,7 +77,6 @@ export class ChatAPI {
             credentials: "include"})
             .then(response => {return response.json()}).then(json => {return json})
             .catch(err => {
-                console.log("Id name not found")
                 return null;
             })
         return resp
@@ -121,7 +117,6 @@ export class ChatAPI {
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {
-            console.log(err);
             ret = false;
         })
         return ret;
@@ -135,7 +130,6 @@ export class ChatAPI {
         credentials: "include"})
         .then(handleErrors)
         .catch(err => {
-            console.log(err);
             ret = false;
         })
         return ret;
@@ -148,7 +142,6 @@ export class ChatAPI {
             .then(response => {return response.json()})
             .then(json => {return json})
             .catch(err => {
-                console.log('No channels')
                 return null;
             })
          return resp
@@ -174,7 +167,6 @@ export class ChatAPI {
             .then(response => {return response.json()})
             .then(json => {return json})
             .catch(err => {
-                console.log('No channels')
                 return null;
             })
          return resp

@@ -46,7 +46,7 @@ export class StatsService {
             stats.durationMin = lastGame.duration;
         if (lastGame.duration > stats.durationMax)
             stats.durationMax = lastGame.duration
-        stats.durationAverage = (stats.durationAverage * (stats.games - 1) + lastGame.duration) / stats.games;
+        stats.durationAverage = (stats.durationAverage * (stats.games - 1) + lastGame.duration) / stats.games / 1000;
         stats.actualWinRow = (lastGame.won) ? stats.actualWinRow + 1 : 0;
         stats.winRow = (stats.actualWinRow > stats.winRow) ? stats.actualWinRow : stats.winRow;
         stats.under3min = (lastGame.won && lastGame.duration <= 3) ? stats.under3min + 1 : stats.under3min;

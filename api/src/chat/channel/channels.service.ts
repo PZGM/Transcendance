@@ -62,7 +62,6 @@ export class ChannelsService {
         return chan;
     }
     catch (e) {
-        console.log(e)
         return null;
     }
 }
@@ -88,7 +87,6 @@ public async getOneByName(channelName: string, relationsPicker?: RelationsPicker
       return chan;
   }
   catch (e) {
-      console.log(e)
       throw new NotFoundException(`Channel name not found`);
   }
 }

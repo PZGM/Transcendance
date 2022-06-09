@@ -44,7 +44,6 @@ export class UsersService {
             return user;
         }
         catch (e) {
-            console.log(e)
             return null;
         }
     }
@@ -65,7 +64,6 @@ export class UsersService {
             return user;
         }
         catch (e) {
-            console.log(e)
             return null;
         }
     }
@@ -82,7 +80,6 @@ export class UsersService {
           return billy;
         }
         catch (e) {
-            console.log(e)
             return null;
         }
     }

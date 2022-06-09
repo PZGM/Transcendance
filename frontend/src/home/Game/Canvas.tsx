@@ -60,11 +60,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 		resizeCanvas(this.canvas)
 		const { devicePixelRatio = 1 } = window
 		this.ratio = (this.canvas.width / Sam) / devicePixelRatio;
-		if (this.canvas) {
+		if (this.canvas)
 			this.context = this.canvas.getContext("2d")
-		}
-		else
-			console.log("Canvas isn't defined.");
 	}
 
 	componentDidMount() {

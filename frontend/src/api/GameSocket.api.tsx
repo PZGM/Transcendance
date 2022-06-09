@@ -42,8 +42,6 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         })
 
         this.socket.on('updateRoom', (room: Room) => {
-            console.log(room.pOneScore)
-		    console.log(room.pTwoScore)
             this.props.updateRoom(room);
         });
 

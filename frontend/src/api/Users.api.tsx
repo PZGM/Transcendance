@@ -57,7 +57,6 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched 1')
 					return false;
 				})
 				return ret;
@@ -88,7 +87,6 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched 2')
 					return null;
 				})
 				return ret;
@@ -109,7 +107,6 @@ export class UserAPI {
 				})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched 2')
 					return null;
 				})
 				return ret;
@@ -132,7 +129,6 @@ export class UserAPI {
 				credentials: 'include'}).then(response => {return response.json()})
 				.then(json => {return json})
 				.catch(err => {
-					console.log('error catched 5')
 					return null;
 				})
 			 return resp
@@ -181,8 +177,6 @@ export class UserAPI {
 				body: JSON.stringify({ status: status }),
 				credentials: 'include'})
 				.catch(err => {
-					console.log('error catched in status:');
-					console.log(err);
 					return null;
 				})
 		}
@@ -196,12 +190,11 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log(err);
 					ret = false;
 				})
 			}
 			catch {
-				console.log('error')
+				;
 			}
 			return ret;
 		}
@@ -214,12 +207,11 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log(err);
 					ret = false;
 				})
 			}
 			catch {
-				console.log('error')
+				;
 			}
 			return ret;
 		}
@@ -235,7 +227,6 @@ export class UserAPI {
 			credentials: 'include'})
 			.then(handleErrors)
 			.catch(err => {
-				console.log(err);
 				ret = false;
 			})
 			return ret;
@@ -250,7 +241,6 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log(err);
 					ret = false;
 				})
 				return ret;
@@ -289,7 +279,6 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log('error A catched')
 					ret = false;
 				})
 			 return ret;
@@ -304,7 +293,6 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log('error A catched')
 					ret = false;
 				})
 			 return ret;
@@ -348,7 +336,6 @@ export class UserAPI {
 				credentials: 'include'})
 				.then(handleErrors)
 				.catch(err => {
-					console.log('error P1 catched')
 					ret = false;
 				})
 			 return ret;

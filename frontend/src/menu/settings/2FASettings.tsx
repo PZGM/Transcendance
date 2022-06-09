@@ -58,7 +58,7 @@ export class TwofaSettings extends Component<TwofaSettingsProps, TwofaSettingsSt
             })
         }
         catch (e) {
-            console.log(e);
+            ;
         }
     }
     
