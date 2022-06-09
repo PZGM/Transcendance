@@ -284,8 +284,10 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 				room.updateTime = now;
 			}
 			this.server.to(room.roomId).emit("updateRoom", room.toFront());
-			if (room.status === roomEnum.end)
+			if (room.status === roomEnum.end) {
 				this.rooms.delete(room.roomId);
+				this.logger.log("Deleting Room");
+			}
 		}
 	}
 

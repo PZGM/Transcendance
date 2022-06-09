@@ -1,7 +1,7 @@
 import { Avatar, Box, Stack } from "@mui/material";
 import { ChatSocketAPI } from '../../api/ChatSocket.api'
 import { Component} from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import { UserAPI } from "../../api/Users.api";
 import { ChatAPI } from "../../api/Chat.api";
 import { ChannelDto } from "../../api/dto/channel.dto";
@@ -27,7 +27,6 @@ import { Difficulty } from "../../api/dto/game.dto";
 import { toast } from "react-toastify";
 import "../../style/input.css"
 import "../../style/home.css"
-
 
 export enum statusEnum {
     unknow,
@@ -57,6 +56,7 @@ interface ChatProps {
 export class Chat extends Component<ChatProps, ChatState> {
 	chatSocket: ChatSocketAPI;
 	chanName: string = '';
+	ret:boolean = false;
 
 	constructor(props: ChatProps) {
 		super(props);
@@ -348,6 +348,17 @@ export class Chat extends Component<ChatProps, ChatState> {
 			}
 		}
 
+		if (message.content === 'BANNED') {
+			if (message.authorId == this.state.user?.id){
+				this.ret = true;
+			}
+		}
+		if (message.content === 'UNBANNED') {
+			if (message.authorId == this.state.user?.id){
+				this.ret = false;
+			}
+		}
+
 		this.state.messages.push(message);
 		this.setState({
 			messages: this.state.messages
@@ -417,6 +428,11 @@ export class Chat extends Component<ChatProps, ChatState> {
 				return <Navigate to='404' />
 			}
 		}
+		if (this.ret === true)
+		{
+			this.ret = false;
+			return <Navigate to={{pathname: process.env.REACT_APP_HOME}}/>
+		}
 		return (
             <>
 				<ol className="chat_list">
@@ -483,6 +499,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 
 					</Stack>
 				}
+				
             </>
 
 		)
