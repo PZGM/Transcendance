@@ -174,7 +174,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
 			return true;
 		}
-
 		return false;
 	}
 
@@ -217,9 +216,9 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 			}
 			else if (room.isPlayer(user) && room.status !== roomEnum.end) {
                     if(room.isPlayerOne(user) && room.playerTwo)
-                        room.playerTwo.goal = 10;
+                        room.playerTwo.goal = room.maxGoal;
                     if(room.isPlayerTwo(user) && room.playerOne)
-                        room.playerOne.goal = 10;
+                        room.playerOne.goal = room.maxGoal;
 					room.update();
 					const winner = new UserDto(await this.usersService.getOne(room.winner.id));
 					const loser = new UserDto(await this.usersService.getOne(room.loser.id));
@@ -229,8 +228,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 						loserId: loser.id,
 						createdDate: new Date(room.startingTime),
 						duration: room.duration,
-						winnerScore: 10,
-						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
+						winnerScore: room.maxGoal,
+						loserScore: room.playerOne.goal === room.maxGoal ? room.playerTwo.goal : room.playerOne.goal,
 						roomId : room.roomId
 					});
 					this.statusService.updateStatus(winner.id, statusEnum.connected);
@@ -268,8 +267,8 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 						loserId: loser.id,
 						createdDate: new Date(room.startingTime),
 						duration: room.duration,
-						winnerScore: 10,
-						loserScore: room.playerOne.goal === 10 ? room.playerTwo.goal : room.playerOne.goal,
+						winnerScore: room.maxGoal,
+						loserScore: room.playerOne.goal === room.maxGoal ? room.playerTwo.goal : room.playerOne.goal,
 						roomId : room.roomId
 					});
 					this.statusService.updateStatus(winner.id, statusEnum.connected);

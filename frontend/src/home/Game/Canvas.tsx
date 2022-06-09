@@ -136,9 +136,8 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	stopInterval()
 	{
-		clearInterval(this.loop)
-		if (this.props.userId === this.state.room.pOne.id ||
-			this.props.userId === this.state.room.pTwo.id)
+		clearInterval(this.loop);
+		if (this.props.room.pOneScore == 10 || this.props.room.pTwoScore == 10)
 			this.props.updateDisplay(3);
 	}
 

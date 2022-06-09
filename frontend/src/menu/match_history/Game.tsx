@@ -37,7 +37,7 @@ export class GameDisplay extends Component<GameDisplayProps, GameDisplayState>{
 
 		const w_id: number = this.props.game.winnerId === this.props.game.players[0].id ? 0 : 1;
 		const l_id: number = this.props.game.loserId === this.props.game.players[0].id ? 0 : 1;
-		const date: string = moment(this.props.game.createdDate).format("DD.MM.YYYY - HH:MM")
+		const date: string = moment(this.props.game.createdDate).format("DD.MM.YYYY - HH:mm")
 
 		return (
 			<li className={"user bor_" + this.getColor()}
