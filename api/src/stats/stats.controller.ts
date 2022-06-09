@@ -16,14 +16,14 @@ export class StatsController {
     @Get()
     @UseGuards(FullyAuthentificatedGuard)
     public async getStats(@Req() request: CustomRequest) {
-        this.logger.log("getStats : ");
+        this.logger.log("getStats");
         return this.statsService.getStats(request.user.id);
     }
 
     @Get('with-user')
     @UseGuards(FullyAuthentificatedGuard)
     public async getUserWithStats(@Req() request: CustomRequest) {
-        this.logger.log("getUsersWithStats : with-user");
+        this.logger.log("getUsersWithStats");
         return this.statsService.getUserWithStats(request.user.id);
     }
 

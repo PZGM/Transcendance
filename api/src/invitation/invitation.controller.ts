@@ -16,13 +16,14 @@ export class InvitationController {
 	@Put('accept')
     @UseGuards(FullyAuthentificatedGuard)
     public async acceptInvitation(@Req() request: CustomRequest, @Body() acceptInvitationRequest: {senderId: number, receiverId: number, difficulty: Difficulty}) {
-        this.logger.log("acceptInvitation : accept");
+        this.logger.log("acceptInvitation");
         this.invitationService.acceptInvitation(acceptInvitationRequest.senderId, acceptInvitationRequest.receiverId, acceptInvitationRequest.difficulty);
     }
 
     @Put('watch/:id')
     @UseGuards(FullyAuthentificatedGuard)
     public async watchUser(@Req() request: CustomRequest, @Param('id') id: number) {
+        this.logger.log("watchUser");
         this.invitationService.watchUser(request.user.id, id);
     }
 }

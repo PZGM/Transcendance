@@ -17,7 +17,7 @@ export class HistoryController {
     @Get()
     @UseGuards(FullyAuthentificatedGuard)
     public async getHistory(@Req() request: CustomRequest) {
-        this.logger.log("getHistory : ");
+        this.logger.log("getHistory");
         const hist = await this.historyService.getHistory(request.user.id);
         let ret: GameDto[] = [];
         hist.forEach((game) => {
@@ -25,11 +25,4 @@ export class HistoryController {
         })
         return ret;
     }
-    /*
-    @Put('/new')
-    @UseGuards(FullyAuthentificatedGuard)
-    public async newGame(@Body() newGameRequest: GameDto) {
-        this.logger.log("newGame : /new ");
-        await this.historyService.createGameHistory(newGameRequest);
-    }*/
 }
