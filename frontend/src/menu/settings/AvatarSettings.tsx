@@ -19,6 +19,7 @@ interface AvatarSettingsState {
 	fileSelected?: File
 	scale: number
     editing: boolean
+	isIntra: boolean
 }
 
 export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSettingsState> {
@@ -28,11 +29,24 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 		super(props);
         this.handleImageChange = this.handleImageChange.bind(this);
 		this.componentDidMount = this.componentDidMount.bind(this);
+		this.checkAvatar = this.checkAvatar.bind(this);
 		this.state = {
             fileSelected: undefined,
             scale: 1,
-            editing: this.props.editing
+            editing: this.props.editing,
+			isIntra: false
         }
+	}
+
+	checkAvatar()
+	{
+		if (this.props.avatar.startsWith('https://cdn.intra.42.fr/users/')) {
+				this.setState ({
+					isIntra: true
+			})
+			return true;
+		}
+		return false;
 	}
 
 	async getImage(u: string): Promise<File> {
@@ -45,7 +59,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 	}
 
 	async componentDidMount() {
-		this.setState({fileSelected: await this.getImage(this.props.avatar)})
+		if (!this.checkAvatar())
+			this.setState({fileSelected: await this.getImage(this.props.avatar)})
 	}
 
     handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +69,8 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 		if (!fileList) return;
 
 		this.setState({
-			fileSelected: fileList[0]
+			fileSelected: fileList[0],
+			isIntra: false
 		})
 	}
 
@@ -104,8 +120,6 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 			cursor: 'pointer'
 		};
 
-		// TO ADD: loading screen
-
         return (
 
 			<Fragment>
@@ -142,59 +156,73 @@ export class AvatarSettings extends Component<AvatarSettingsProps, AvatarSetting
 				flexWrap='nowrap'
 				>
 					<Grid item xs={2} className="grid_item_style"> AVATAR </Grid>
-					<Grid item xs={6} className="grid_item_style">
-						<Stack
-						direction="row"
-						justifyContent="space-between"
-						alignItems="center"
-						style={{width: "100%"}}>
-							<div style={PlusMinStyle}
-								onClick={() => {this.zoomOut()}}
-							>-</div>
-								<AvatarEditor
-									ref={this.setEditorRef}
-									image={(this.state.fileSelected) ? this.state.fileSelected : 'null'}
-									width={225}
-									height={225}
-									border={50}
-									borderRadius={1000}
-									color={[0, 0, 0]} // RGBA
-									scale={this.state.scale}
-									rotate={0}
-								/>
-							<div style={PlusMinStyle}
-								onClick={() => {this.zoomIn()}}
-							>+</div>
-						</Stack>
-					</Grid>
-					<Grid item xs={2} className="grid_item_style">
-						<Stack
-						direction="row"
-						justifyContent="space-evenly"
-						alignItems="center"
-						style={{width: "100%"}}>
-							<div className="settings_edit_button but_green"
-								onClick={this.updateImage}>
-								SAVE
-							</div>
-							<div className="settings_edit_button but_red"
-								onClick={() => {this.props.updateDisplay(0)}}>
-								CANCEL
-							</div>
-						</Stack>
-					</Grid>
-					<Grid item xs={2} className="grid_item_style">
-						<ButtonUnstyled className="settings_edit_button but_blue"
-							component="label">
-							CHOOSE FILE
-							<input type="file" hidden	accept="image/*"
-														style={{display: 'none'}}
-														onChange={this.handleImageChange}/>
-						</ButtonUnstyled>
-					</Grid>
+					{this.state.isIntra &&
+						<Grid item xs={10} className="grid_item_style">
+							<ButtonUnstyled className="settings_edit_button but_blue"
+								component="label">
+								CHOOSE FILE
+								<input type="file" hidden	accept="image/*"
+															style={{display: 'none'}}
+															onChange={this.handleImageChange}/>
+							</ButtonUnstyled>
+						</Grid>
+					}
+					{!this.state.isIntra &&
+						<>
+							<Grid item xs={6} className="grid_item_style">
+								<Stack
+								direction="row"
+								justifyContent="space-between"
+								alignItems="center"
+								style={{width: "100%"}}>
+									<div style={PlusMinStyle}
+										onClick={() => {this.zoomOut()}}
+									>-</div>
+										<AvatarEditor
+											ref={this.setEditorRef}
+											image={(this.state.fileSelected) ? this.state.fileSelected : 'null'}
+											width={225}
+											height={225}
+											border={50}
+											borderRadius={1000}
+											color={[0, 0, 0]} // RGBA
+											scale={this.state.scale}
+											rotate={0}
+										/>
+									<div style={PlusMinStyle}
+										onClick={() => {this.zoomIn()}}
+									>+</div>
+								</Stack>
+							</Grid>
+							<Grid item xs={2} className="grid_item_style">
+								<Stack
+								direction="row"
+								justifyContent="space-evenly"
+								alignItems="center"
+								style={{width: "100%"}}>
+									<div className="settings_edit_button but_green"
+										onClick={this.updateImage}>
+										SAVE
+									</div>
+									<div className="settings_edit_button but_red"
+										onClick={() => {this.props.updateDisplay(0)}}>
+										CANCEL
+									</div>
+								</Stack>
+							</Grid>
+							<Grid item xs={2} className="grid_item_style">
+								<ButtonUnstyled className="settings_edit_button but_blue"
+									component="label">
+									CHOOSE FILE
+									<input type="file" hidden	accept="image/*"
+																style={{display: 'none'}}
+																onChange={this.handleImageChange}/>
+								</ButtonUnstyled>
+							</Grid>
+						</>
+					}
 				</Grid>
 			}
-
 			</Fragment>
         )
     }
