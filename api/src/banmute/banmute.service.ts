@@ -58,7 +58,7 @@ constructor(
       channel.mute.push(muted);
     }
     catch (e) {
-      console.log('error wgile muting')
+      console.log('error while muting')
       return null;
     }
     await this.chatGateway.broadcastMuted(channelId, muteId);

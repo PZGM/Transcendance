@@ -193,7 +193,6 @@ export class GameGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
 
 	@SubscribeMessage('leaveQueue')
 	async handleLeaveQueue(@ConnectedSocket() socket: Socket,  @MessageBody() data : { userId : number } ) {
-    console.log('leaveQueue')
 	const user : UserDto = new UserDto(await this.usersService.getOneBySocket(socket.id));
 		if (user && this.queue.find(user) !== -1)
 		{

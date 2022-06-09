@@ -23,7 +23,6 @@ export class Game extends Component<GameProps, GameState>
 
 	constructor(props: GameProps) {
 		super(props);
-		console.log('constructor');
 		this.gameSocket = new GameSocketAPI({
 								receiveGameRoom: this.receiveGameRoom.bind(this),
 								updateRoom: this.updateRoom.bind(this),
@@ -40,7 +39,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	componentWillUnmount() {
-		console.log('destructor');
 		this.gameSocket.cancel();
 	}
 
@@ -55,7 +53,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	receiveGameRoom(room: Room) {
-		console.log(room);
 		this.setState({
 			room,
 			display: 2

@@ -41,7 +41,7 @@ export class UsersController {
         const user = await this.userService.getUserByLogin(id, {withStats: true});
         if (user)
             return new UserDto(user);  
-        throw new NotFoundException();
+        return false;
     }
 
     @Get('/:id/login')

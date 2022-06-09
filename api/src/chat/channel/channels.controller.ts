@@ -123,7 +123,6 @@ export class ChannelsController {
   public async removeUser(@Req() request: CustomRequest, @Body() rmUser: {id: number}, channelID: number) {
       this.logger.log("removeUser ");
       const ret =  await this.channelsService.removeUser(request.user.id, rmUser.id, channelID);
-      console.log('user removed!!!')
   }
 
   @Put('promote')

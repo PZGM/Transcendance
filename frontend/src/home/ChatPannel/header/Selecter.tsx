@@ -45,7 +45,6 @@ function Selecter (props){
 	useEffect(() => {
 		if (location.pathname.split('/')[3] !== name)
 		{
-			console.log("ca boucle ici ?");
 			setName(location.pathname.split('/')[3]);
 			if(location.pathname.search("/home/chat") && name === props.login)
 				navigate('404')

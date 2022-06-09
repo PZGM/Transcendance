@@ -74,7 +74,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	startGame()
 	{
-		console.log('START GAME')
 		if (this.loop)
 			return;
 		const kstate = this.keystate
@@ -137,7 +136,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	stopInterval()
 	{
-		console.log('stop interval')
 		clearInterval(this.loop)
 		if (this.props.userId === this.state.room.pOne.id ||
 			this.props.userId === this.state.room.pTwo.id)
@@ -188,7 +186,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 			room: this.props.room
 		})
 		const room = this.state.room;
-		// console.log(`roomStatus: ${room.status}`)
 		if (this.oldPos)
 			this.clearDraw(ctx);
 		this.drawBall(m_ctx, room)
@@ -215,7 +212,6 @@ export class Canvas extends React.Component<CanvasProps, CanvasState>
 
 	render()
 	{
-		// console.log('RENDER CANVAS')
 		return (
 			<canvas id="canvas"/>
 		)
