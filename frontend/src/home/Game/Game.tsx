@@ -53,7 +53,6 @@ export class Game extends Component<GameProps, GameState>
 	}
 
 	receiveGameRoom(room: Room) {
-		console.log(room);
 		this.setState({
 			room,
 			display: 2

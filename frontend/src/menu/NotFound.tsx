@@ -1,4 +1,4 @@
-import { Box, Typography, ButtonBase, Stack } from "@mui/material";
+import { Box, Typography, ButtonBase, Stack, Divider } from "@mui/material";
 import { Link } from "react-router-dom";
 import { Component } from "react";
 import { Helmet } from "react-helmet";
@@ -20,14 +20,14 @@ export class NotFound extends Component<NotFoundProps> {
                     <Box height='60vh' width='50vw' p="10px" bgcolor="lightsteelblue" sx={{border: '3px solid grey' }}>
                     <Stack direction='column' alignItems='center' height='100%' minWidth='undefined' className='stack' >
                             <img src={require('../asset/images/richard.png')} className='fit' alt="Richard"/>
-                            <Typography color='white'>
+                            <div style={{color:'white'}}>
                                     <div className='title'>Fait attention a l'URL</div>
                                     <div className='title'>Tu risques de te faire pincer tres fort</div>
-                            </Typography>
+                            </div>
                             <ButtonBase component={Link} to={{pathname: process.env.REACT_APP_HOME}} centerRipple style={{minWidth: '140px', minHeight: '50px', borderRadius: 0, backgroundColor:'red'}} >
-                                    <Typography color='white'>
+                                    <div style={{color:'white'}}>
                                         <div className='bit5x5'>Go Home</div>
-                                    </Typography>
+                                    </div>
 						    </ButtonBase>
                         </Stack>
                     </Box>

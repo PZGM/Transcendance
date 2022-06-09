@@ -18,8 +18,8 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
         super(props)
         this.socket = io(`${process.env.REACT_APP_GAME_SOCKET}`, {secure: true});
         this.socket.on('connection', () => {
-            this.socket.on('disconnect', (reason) => {
-                console.log(reason);
+            this.socket.on('disconnect', (err) => {
+                console.log(err);
             });
         });
         this.socket.on("gameRoom", (room: Room) => {
@@ -49,19 +49,15 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
 
         this.socket.on('leftRoom', () => {
             this.props.updateDisplay(0)
-            console.log('Left Room')
         });
 
         this.socket.on('joinedPool', () => {
-            console.log('Joined Pool')
         });
 
         this.socket.on('joinedQueue', () => {
-            console.log('Joined Queue')
         });
 
         this.socket.on('leftQueue', () => {
-            console.log('Left Queue')
         });
                
     }
@@ -77,7 +73,6 @@ export class GameSocketAPI extends React.Component<GameSocketAPIProps> {
     }
 
     leaveQueue(userId: number) {
-        console.log('leftQueue')
         this.socket.emit('leaveQueue', userId);
     }
 

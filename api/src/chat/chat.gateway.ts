@@ -102,10 +102,9 @@ export class ChatGateway {
   }
 
   async handleConnection(socket: Socket) {
-    this.logger.log(`Client connected: ${socket.id}`);
   }
+  
   handleDisconnect(client: Socket) {
-    this.logger.log(`Client disconnected: ${client.id}`);
   }
 
   @SubscribeMessage('message')
@@ -129,14 +128,12 @@ export class ChatGateway {
       return;
     }
     socket.join('' + data.id);
-   this.logger.log(`Client [${socket.id}] joined Room ${data.id}`);
     socket.emit('joinedRoom', data.id);
   }
 
   @SubscribeMessage('leaveRoom')
   handleLeftRoom(socket: Socket, data: any) {
     socket.leave('' + data.id);
-    this.logger.log(`Client [${socket.id}] left Room ${data.id}`);
     socket.emit('leftRoom', data.id);
   }
 

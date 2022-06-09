@@ -46,6 +46,7 @@ interface ChatState {
 	users: UserDto[];
 	user: any,
 	isMuted: boolean;
+	redirect: boolean;
 }
 
 interface ChatProps {
@@ -70,6 +71,7 @@ export class Chat extends Component<ChatProps, ChatState> {
 			user: undefined,
 			chan: undefined,
 			isMuted: false,
+			redirect: false
 		}
 	}
 
@@ -391,21 +393,31 @@ export class Chat extends Component<ChatProps, ChatState> {
 	async switchChannel(newChannelName: string){
 		const user = await UserAPI.getMe({withBlocked: true});
 		let channel;
-		let muted: number[] = [];
 		this.chanName = newChannelName;
 		if (this.props.isPrivateMessage) {
 			const friend: UserDto|null = await UserAPI.getUserByLogin(newChannelName);
-			if (!friend)
+			if (!friend) {
+				this.setState({
+					redirect: true,
+				});
 				return;
+			}
 			const chanId: number = await ChatAPI.createOrJoinPrivateMessage(friend.id)
 			channel = await ChatAPI.getChannelById(chanId, {withAdmin: true, withOwner: true})
 			if (!channel || !user) {
+
+				this.setState({
+					redirect: true,
+				});
 				return;
 			}
 		}
 		else {
 			channel = await ChatAPI.getChannelByName(this.chanName, {withAdmin: true, withOwner: true});
 			if (!channel || !user) {
+				this.setState({
+					redirect: true,
+				});
 				return;
 			}
 			this.updateMuted(channel.id, user.id);
@@ -417,21 +429,19 @@ export class Chat extends Component<ChatProps, ChatState> {
 			user,
 			chan: channel,
 			messages,
+			redirect: false,
 		});
 	}
 
 
 	render () {
 		if (this.chanName !== this.props.params.name) {
-			if (!this.switchChannel(this.props.params.name))
-			{
-				return <Navigate to='404' />
-			}
+			this.switchChannel(this.props.params.name);
 		}
-		if (this.ret === true)
+		if (this.ret === true || this.state.redirect === true)
 		{
 			this.ret = false;
-			return <Navigate to={{pathname: process.env.REACT_APP_HOME}}/>
+			return <Navigate to={{pathname: '/404'}}/>
 		}
 		return (
             <>

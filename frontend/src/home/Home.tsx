@@ -88,9 +88,3 @@ export class Home extends Component<HomeProps, HomeState> {
 		)
 	}
 }
-
-// chat (chan + mp) (chat ID / User ID)
-// channel info (chan ID)
-// user info (user ID)
-// edit channel [to protect admin only] (chan ID)
-// add user in channel [to protect admin only] (chan ID)

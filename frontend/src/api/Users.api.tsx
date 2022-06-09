@@ -120,11 +120,9 @@ export class UserAPI {
 			const resp = await fetch(`${process.env.REACT_APP_URL_USER}${login}/user/login`, {
 				method: 'GET',
 				credentials: 'include'})
-				.then(response => {return response.json()}).then(json => {return json})
-				.catch(err => {
-					console.log('error catched 4')
-					return null;
-				})
+				.then(response => {return response.json()})
+			if (resp == false)
+				return null;
 			return resp
 		}
 
