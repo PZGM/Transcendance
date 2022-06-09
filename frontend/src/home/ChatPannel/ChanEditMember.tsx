@@ -42,7 +42,7 @@ function ChanEditMember(props: ChanEditMemberProps) {
         eventSource.onmessage = (e: { data: string; }) => {
             let jsonObj: any = JSON.parse(e.data);
             let status: StatusData = jsonObj as StatusData;
-            if (status.status < 0 || status.status > 4)
+            if (status.status < 0 || status.status > 6)
                 status.status = 0;
             setStatus(status.status);
         };

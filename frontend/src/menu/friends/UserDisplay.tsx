@@ -41,7 +41,7 @@ export class UserDisplay extends Component<UserDisplayProps, UserDisplayState>{
 		this.eventSource.onmessage = (e: { data: string; }) => {
 			let jsonObj: any = JSON.parse(e.data);
 			let status: StatusData = jsonObj as StatusData;
-			if (status.status < 0 || status.status > 4)
+			if (status.status < 0 || status.status > 6)
 				status.status = 0;
 			this.setState({
 				status: status.status,
