@@ -66,7 +66,7 @@ export class ChanAddUser extends Component<ChanAddUserProps, ChanAddUserState> {
 		this.setState({searchField: search});
 		if (!search || search === '')
 			return;
-		let ret = await UserAPI.searchFriend(search);
+		let ret = await UserAPI.searchUsers(search);
 		ret = ret.filter((user) => {return !this.state.chan?.users.some((usr) => usr.id === user.id)});
 		this.setState({searchResults: ret}); 
 	}

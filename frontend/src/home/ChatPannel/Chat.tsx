@@ -9,6 +9,7 @@ import { UserDto } from "../../api/dto/user.dto";
 import { MessageDto } from '../../api/dto/chat.dto';
 import { Link } from "react-router-dom";
 
+import BlockIcon from '@mui/icons-material/Block';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -105,7 +106,10 @@ export class Chat extends Component<ChatProps, ChatState> {
 					if (!blockedNotif && !msg.service) {
 						blockedNotif = true;
 						return (
-							<div style={{paddingLeft: "68px", color: 'grey', width: '100%', fontSize: '1.2rem', fontStyle: 'italic'}} >messages(s) sent by blocked user(s)</div>
+							<Stack key={msg.date.toString() + sender?.color + sender?.login + sender?.avatar} direction="row" justifyContent="flex-start" alignItems="center">
+								<BlockIcon sx={{width: "4.7vw", color: 'purple'}}/>
+								<div className="service_message" >messages(s) sent by blocked user(s)</div>
+							</Stack>
 						)
 					}
 					return;

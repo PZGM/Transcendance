@@ -138,7 +138,7 @@ export class ChanEdit extends Component<ChanEditProps, ChanEditState> {
 						
 						<Stack direction="column" justifyContent="center" alignItems="flex-start" style={{overflow: 'auto'}}>
 							
-							<Stack direction='row' justifyContent='space-between' style={{width: 'calc(100% - 0.2vw)'}}>
+							<Stack direction='row' justifyContent='space-between' style={{width: 'calc(100% - 0.3vw)'}}>
 								
 								<div className="bit5x5" style={{color: "white", fontSize: "1.8vw"}}>
 									USERS :
